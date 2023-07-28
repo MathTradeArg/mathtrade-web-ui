@@ -2,7 +2,7 @@ import { create } from "apisauce";
 import Qs from "qs";
 import storage from "utils/storage";
 
-const apiHost = "https://api.mathtrade.com.ar/";
+const apiHost = "https://api.mathtrade.com.ar";
 const apiHostTest = "https://api.mathtrade.com.ar:8000/";
 
 export const api = create({

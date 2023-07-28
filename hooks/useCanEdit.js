@@ -25,13 +25,13 @@ const useCanEdit = (type) => {
         case "results":
           // isAfter;
           dateToCompare = mathtrade.data?.show_results_date;
-          newCanEdit = true;//today.isAfter(dateToCompare);
+          newCanEdit = true; //today.isAfter(dateToCompare);
           break;
         default:
         //
       }
 
-      setCantEdit(newCanEdit);
+      setCantEdit(true);
     }
   }, [type]);
 
