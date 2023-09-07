@@ -97,12 +97,13 @@ const LoginView = ({
                           validations={validations}
                           validationStatus={validationStatus}
                           setValidationStatus={setValidationStatus}
-                          label="form.Username"
-                          name="username"
+                          label="form.Email"
+                          name="email"
                           noSpaces
-                          placeholder="form.Username"
+                          placeholder="form.Email"
                           size="lg"
-                          icon="user"
+                          icon="envelope"
+                          type="email"
                         />
                         <Input
                           data={dataInitial}

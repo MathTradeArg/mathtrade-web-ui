@@ -2,7 +2,7 @@ import { create } from "apisauce";
 import Qs from "qs";
 import storage from "utils/storage";
 
-const apiHost = "https://api.mathtrade.com.ar/";
+const apiHost = "https://api.mathtrade.com.ar:8000/";
 const apiHostTest = "https://api.mathtrade.com.ar:8000/";
 
 export const api = create({
@@ -41,7 +41,7 @@ export const setLogoutAPI = () => {
 };
 export const getMathtradeId = () => {
   const mathtrade = storage.getFromStore("mathtrade");
-  return mathtrade ? mathtrade.data.id : "";
+  return mathtrade ? mathtrade.id : "";
 };
 
 export const apiBGG = create({

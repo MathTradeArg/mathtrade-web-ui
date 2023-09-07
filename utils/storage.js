@@ -94,6 +94,14 @@ storage.setToStorage = (opts) => {
           }
 
           break;
+        case "membership":
+          if (value) {
+            store.membership = value;
+          } else {
+            store.membership = null;
+          }
+
+          break;
         case "passwordTemporal":
           store.passwordTemporal = value;
           break;
@@ -156,7 +164,7 @@ storage.setToOptions = (opts) => {
 storage.setMathtradeIamIn = (status) => {
   const store = storage.get() || { ...defaultModel };
   if (store.mathtrade) {
-    store.mathtrade.IamIn = status;
+    store.mathtrade.IamIn = true;
     storage.set(store);
   }
 };

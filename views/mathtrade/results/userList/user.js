@@ -29,7 +29,7 @@ const User = ({ data, canEditList }) => {
       } else {
         const mathtrade = storage.getFromStore("mathtrade");
 
-        const dateToCompare = mathtrade.data?.frezze_geek_date;
+        const dateToCompare = mathtrade?.frezze_geek_date;
 
         const frezze_geek_date = moment(dateToCompare);
 

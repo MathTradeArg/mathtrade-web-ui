@@ -22,7 +22,7 @@ const TimelineHeader = () => {
   useEffect(() => {
     let timer = setInterval(() => {
       const mathtrade = storage.getFromStore("mathtrade");
-      if (mathtrade && mathtrade.data && mathtrade.data.active) {
+      if (mathtrade) {
         setShow(true);
       }
       if (mathtrade) {

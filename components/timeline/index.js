@@ -22,13 +22,13 @@ const Timeline = ({ className }) => {
   useEffect(() => {
     let timer = setInterval(() => {
       const mathtrade = storage.getFromStore("mathtrade");
-      if (mathtrade && mathtrade.data && mathtrade.data.active) {
+      if (mathtrade) {
         setDates({
-          start: dateToString(mathtrade.data?.start_date),
-          geek: dateToString(mathtrade.data?.frezze_geek_date),
-          want: dateToString(mathtrade.data?.frezze_wants_date),
-          res: dateToString(mathtrade.data?.show_results_date),
-          meet: dateToString(mathtrade.data?.meeting_date),
+          start: dateToString(mathtrade?.start_date),
+          geek: dateToString(mathtrade?.frezze_geek_date),
+          want: dateToString(mathtrade?.frezze_wants_date),
+          res: dateToString(mathtrade?.show_results_date),
+          meet: dateToString(mathtrade?.meeting_date),
         });
       }
       if (mathtrade) {

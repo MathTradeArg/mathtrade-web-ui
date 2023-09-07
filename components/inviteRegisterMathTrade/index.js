@@ -16,7 +16,7 @@ const InviteRegisterMT = ({ className }) => {
   useEffect(() => {
     const storeData = storage.get();
     if (storeData && storeData.mathtrade && !storeData.mathtrade.IamIn) {
-      set_mathtradeName(storeData?.mathtrade?.data.name || "");
+      set_mathtradeName(storeData?.mathtrade?.name || "");
 
       const cancelInviteMT = storage.getFromOptions("cancelInviteMT");
 

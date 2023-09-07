@@ -9,8 +9,8 @@ const NotResultsYet = () => {
 
   useEffect(() => {
     const mathtrade = storage.getFromStore("mathtrade");
-    if (mathtrade && mathtrade.data && mathtrade.data.active) {
-      setDateResult(dateToString(mathtrade.data?.show_results_date));
+    if (mathtrade) {
+      setDateResult(dateToString(mathtrade?.show_results_date));
     }
   }, []);
 

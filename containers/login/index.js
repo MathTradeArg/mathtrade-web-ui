@@ -19,12 +19,15 @@ const LoginContainer = ({ verifingAuth, onGetCaptcha }) => {
       // };
       // end temp
 
-      storage.setToStorage(data);
+      const dataTest = { ...data };
+      dataTest.mathtrade.IamIn = true;
+
+      storage.setToStorage(dataTest);
       storage.setToOptions({
         hideNotificationsAdvice: false,
       });
-      if (data.user) {
-        if (!data.user.terms_acceptance) {
+      if (dataTest.user) {
+        if (!dataTest.user.terms_acceptance) {
           setAcceptView(true);
         } else {
           Router.push("/");

@@ -60,13 +60,8 @@ const MyDataView = ({
   useEffect(() => {
     const mathtrade = storage.getFromStore("mathtrade");
 
-    if (
-      mathtrade &&
-      mathtrade.data &&
-      mathtrade.data.active &&
-      mathtrade.data.meeting_date
-    ) {
-      const newMeetingDay = formatDateString(mathtrade.data.meeting_date);
+    if (mathtrade && mathtrade.meeting_date) {
+      const newMeetingDay = formatDateString(mathtrade.meeting_date);
       setMeetingDay(newMeetingDay);
     }
   }, []);
