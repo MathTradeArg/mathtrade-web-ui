@@ -104,13 +104,12 @@ const Game = ({
               <Col xs="auto">
                 <Pill
                   label="element.BGG.rank"
-                  text={<b className="bgg-rank-num">{game?.rank || "-"}</b>}
                   question="element.BGG.rank.help"
+                  text={<b className="bgg-rank-num">{game?.rank || "-"}</b>}
                 />
               </Col>
               <Col xs="auto">
                 <Pill
-                  label="element.BGG.rating"
                   text={
                     <b
                       className={`bgg-rating-num bgg-rating-num-${stats.rateClass}`}
@@ -118,6 +117,7 @@ const Game = ({
                       {stats.rate}
                     </b>
                   }
+                  label="element.BGG.rating"
                   question={`${stats.rateVotes} ${getI18Ntext(
                     "element.BGG.votes"
                   )}`}
@@ -126,12 +126,12 @@ const Game = ({
               </Col>
               <Col xs="auto">
                 <Pill
-                  label="element.BGG.weight"
                   text={
                     <>
                       <b>{stats.weight}</b>/5
                     </>
                   }
+                  label="element.BGG.weight"
                   question={`${stats.weightVotes} ${getI18Ntext(
                     "element.BGG.votes"
                   )}`}

@@ -27,11 +27,11 @@ const LoginContainer = ({ verifingAuth, onGetCaptcha }) => {
         hideNotificationsAdvice: false,
       });
       if (dataTest.user) {
-        if (!dataTest.user.terms_acceptance) {
+        /*   if (!dataTest.user.terms_acceptance) {
           setAcceptView(true);
-        } else {
-          Router.push("/");
-        }
+        } else { */
+        Router.push("/");
+        //}
         //
       } else {
         storage.setToStorage(props);
