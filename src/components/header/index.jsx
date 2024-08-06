@@ -14,6 +14,8 @@ import TimelineButton from "./timeline";
 import HelpButton from "./helpButton";
 import AdvCompromise from "./advCompromise";
 
+const mockMode = process.env.API_MOCK_MODE === "yes";
+
 const Header = () => {
   /* PAGE CONTEXT **********************************************/
   const { mathtrade, membership, pageType, canI } = useContext(PageContext);
@@ -35,9 +37,14 @@ const Header = () => {
             <div className="flex items-center">
               <Link
                 href={PRIVATE_ROUTES.HOME.path}
-                className="block h-11 w-11 p-1"
+                className="relativeblock h-11 w-11 p-1"
               >
                 <LogoSVG />
+                {mockMode ? (
+                  <div className="absolute bottom-0 left-3 bg-red-600 text-white text-[10px] font-bold px-1  rounded">
+                    DEMO
+                  </div>
+                ) : null}
               </Link>
               <div className="main-header_col">
                 <MainMenu />

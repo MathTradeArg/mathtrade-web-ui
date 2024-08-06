@@ -14,6 +14,13 @@ import { Suspense } from "react";
 
 const pausedSite = process.env.PAUSED_SITE;
 
+const mockMode = process.env.API_MOCK_MODE === "yes";
+
+const mockData = {
+  email: "demo@demo.dev",
+  password: "demo123456",
+};
+
 const SignInContent = () => {
   const {
     validations,
@@ -48,17 +55,20 @@ const SignInContent = () => {
               <InputContainer validate="email">
                 <Label text="form.Email" name="email" required />
                 <Input
+                  data={mockMode ? mockData : null}
                   name="email"
                   type="email"
                   placeholder="form.Email.placeholder"
                   autocomplete="username"
                   ariaLabel="form.Email"
                   icon="email"
+                  disabled={mockMode}
                 />
               </InputContainer>
               <InputContainer validate="password" className="mb-0">
                 <Label text="form.Password" name="password" required />
                 <Input
+                  data={mockMode ? mockData : null}
                   name="password"
                   type="password"
                   placeholder="********"
@@ -66,6 +76,7 @@ const SignInContent = () => {
                   autocomplete="password"
                   ariaLabel="form.Password"
                   icon="password"
+                  disabled={mockMode}
                 />
               </InputContainer>
             </fieldset>

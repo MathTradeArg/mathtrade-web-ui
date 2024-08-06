@@ -1,6 +1,8 @@
 const baseURL =
   process.env.API_TEST_MODE === "yes"
     ? process.env.BASE_URL_TEST
+    : process.env.API_MOCK_MODE === "yes"
+    ? process.env.BASE_URL_MOCK
     : process.env.BASE_URL;
 
 const apiConfig = {

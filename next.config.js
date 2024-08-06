@@ -5,7 +5,9 @@ const nextConfig = {
     CAN_I_TEST_MODE: "no",
     //
     API_TEST_MODE: "no",
+    API_MOCK_MODE: "yes",
     BASE_URL_TEST: "https://mathtrade-backend.fly.dev/",
+    BASE_URL_MOCK: "/",
     BASE_URL: "https://api.mathtrade.com.ar/",
     //
     GOOGLE_RECAPTCHA_CLIENT_KEY: "6LeWcz8gAAAAAGgpOiINIJZSwsmKH-eMjtbQbFbF",
