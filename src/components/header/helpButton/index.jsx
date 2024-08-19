@@ -6,7 +6,10 @@ import Link from "next/link";
 import { PRIVATE_ROUTES, PUBLIC_ROUTES } from "@/config/routes";
 import { rulebookPDFurl, instructPDFurl } from "@/config/rulebook";
 
-const baseURL = process.env.BASE_URL;
+const baseURL =
+  process.env.API_MOCK_MODE === "yes"
+    ? process.env.BASE_URL_MOCK
+    : process.env.BASE_URL;
 
 const HelpButton = () => {
   const [visibleMobile, setVisibleMobile] = useState(false);

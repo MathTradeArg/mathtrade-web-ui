@@ -36,7 +36,6 @@ const useItems = () => {
     (newGames) => {
       setIsLoaded(true);
       const { results: list, count } = newGames;
-      console.log(list.length);
       setGames({ list, count });
     },
     [setGames]

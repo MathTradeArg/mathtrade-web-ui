@@ -6,7 +6,11 @@ const usePhotoGallery = ({ images, setImages, extended }) => {
   useEffect(() => {
     let newList = [];
     if (images) {
-      newList = images.split(",");
+      if (images.indexOf("data:image") >= 0) {
+        newList = images.split("|||||");
+      } else {
+        newList = images.split(",");
+      }
     }
     setList(newList);
   }, [images]);
@@ -39,7 +43,13 @@ const usePhotoGallery = ({ images, setImages, extended }) => {
       if (setImages) {
         const newList = [...list];
         newList.push(url);
-        setImages(newList.join(","));
+
+        let newImages = newList.join(",");
+        if (newImages.indexOf("data:image") >= 0) {
+          newImages = newList.join("|||||");
+        }
+
+        setImages(newImages);
       }
     },
     [list, setImages]

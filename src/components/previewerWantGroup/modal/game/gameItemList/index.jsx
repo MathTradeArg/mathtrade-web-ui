@@ -20,7 +20,7 @@ const GameItemList = ({
           :
         </h4>
         <div className="flex flex-col gap-2">
-          {items.map((item) => {
+          {(items || []).map((item) => {
             return (
               <ItemOfGame
                 key={item.id}

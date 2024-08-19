@@ -80817,6 +80817,11 @@ const filtersExample = {
 };
 */
 
+export const getById = (id) => {
+  const a = list.find((item) => `${item.bgg_id}` === `${id}`);
+  return a ||list[0];
+};
+
 const getData = (filters = {}) => {
   const page_size = parseInt(filters?.page_size || 20, 10);
   const page = parseInt(filters?.page || 1, 10);

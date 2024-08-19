@@ -16,9 +16,9 @@ const WantGroup = ({ wantGroup }) => {
           <I18N id={`cart.wantGroup.type.${type}`} />
         </span>
         {type !== "item"
-          ? ` (${wants.length} ${getI18Ntext(
+          ? ` (${wants?.length} ${getI18Ntext(
               `cart.wantGroup.item.${
-                wants.length === 1 ? "singular" : "plural"
+                wants?.length === 1 ? "singular" : "plural"
               }`
             )})`
           : null}

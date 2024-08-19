@@ -1,4 +1,6 @@
-//export const dynamic = "force-dynamic"; // defaults to auto
+import getDateMathtrade from "../utils/getDateMathtrade";
+
+export const dynamic = "force-dynamic"; // defaults to auto
 
 export async function POST(request) {
   const data = {
@@ -14,13 +16,14 @@ export async function POST(request) {
     },
     mathtrade: {
       id: 5,
-      name: "Math Trade 2024",
+      /*    name: "Math Trade 2024",
       status: "final",
       start_date: "2024-05-01T00:00:00-03:00",
       frezze_geek_date: "2024-05-08T11:59:00-03:00",
       frezze_wants_date: "2024-05-21T12:30:00-03:00",
       show_results_date: "2024-05-21T14:00:00-03:00",
-      meeting_date: "2024-06-15T11:00:00-03:00",
+      meeting_date: "2024-06-15T11:00:00-03:00", */
+      ...getDateMathtrade(),
       location: {
         id: 1,
         name: "AMBA",

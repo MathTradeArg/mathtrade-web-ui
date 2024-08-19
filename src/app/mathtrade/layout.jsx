@@ -1,10 +1,10 @@
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import PageContextProvider from "@/context/page";
-//import PrivateEnvironment from "@/environments/private";
+// import PrivateEnvironment from "@/environments/private";
 import ModalPreviewer from "@/components/previewer/modal";
 import ModalPreviewerWantGroup from "@/components/previewerWantGroup/modal";
-import ChatBoxButton from "@/components/chatbox";
+// import ChatBoxButton from "@/components/chatbox";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
@@ -29,7 +29,7 @@ export default function MathTradeLayout({ children }) {
           </div>
           <ModalPreviewerWantGroup />
           <ModalPreviewer />
-          <ChatBoxButton />
+          {/* <ChatBoxButton /> */}
         </PageContextProvider>
       </PrivateEnvironmentNoSSR>
     </>
