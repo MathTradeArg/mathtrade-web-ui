@@ -1,148 +1,36 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-# Personal
+## Getting Started
 
-## My Collection
+First, install the project dependencies with `npm install` (or your preferred package manager's equivalent). Then, run the development server:
 
-**GET**
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-<code>api/items/</code>
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-**DELETE**
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-<code>api/items/{id}</code>
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
----
+## Learn More
 
-# Mathtrade
+To learn more about Next.js, take a look at the following resources:
 
-### Get Mathtrades
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-> GET
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-<code>api/mathtrades/</code>
+## Deploy on Vercel
 
----
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-# 1. MIS ITEMS
-
-## My Item list
-
-> GET
-
-<code>api/mathtrades/{id}/user-items/</code>
-
-> POST (publish item)
-
-<code>api/mathtrades/{id}/user-items/</code>
-
-<pre>
-{
-  item_id: "",
-}
-</pre>
-
-> DELETE (unpublish item)
-
-<code>api/mathtrades/{id}/user-items/{id}/</code>
-
-## My Groups
-
-> GET
-
-<code>api/item-groups/</code>
-
-> POST (create)
-
-<code>api/item-groups/</code>
-
-<pre>
-{
-    "name": "",
-    "color": null,
-    "item_ids": []
-}
-</pre>
-
-> PUT (edit)
-
-<code>api/item-groups/{id}/</code>
-
-<pre>
-{
-    "name": "",
-    "thumbnail": "",
-    "item_ids": []
-}
-</pre>
-
-> DELETE
-
-<code>api/item-groups/{id}/</code>
-
----
-
-## 2. LIST
-
-## Item List
-
-> GET
-
-<code>api/mathtrades/{id}/items/</code>
-
-## Game List
-
-> GET
-
-<code>api/mathtrades/{id}/games/</code>
-
-## Post Items Values
-
-> POST
-
-<code>api/mathtrades/{id}/items/item-values/</code>
-
-<pre>
-{
-  "value": "",
-  "item_ids": []
-}
-</pre>
-
-## Item Groups
-
-> GET
-
-<code>api/mathtrades/{id}/user-item-groups/</code>
-
-> POST (create)
-
-<code>api/mathtrades/{id}/user-item-groups/</code>
-
-<pre>
-{
-    "name": "",
-    "thumbnail": "",
-    "item_ids": []
-}
-</pre>
-
-> PUT (edit)
-
-<code>api/mathtrades/{id}/user-item-groups/{id}/</code>
-
-<pre>
-{
-    "name": "",
-    "thumbnail": "",
-    "item_ids": []
-}
-</pre>
-
-> DELETE
-
-<code>api/mathtrades/{id}/user-item-groups/{id}/</code>
-
----
-
-## 3. WANT LIST
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

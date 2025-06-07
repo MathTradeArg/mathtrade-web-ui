@@ -1,31 +1,37 @@
 {
+  "name": "mt-2_1",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.8.6",
-    "@splidejs/react-splide": "^0.7.6",
-    "apisauce": "^2.1.5",
-    "autoprefixer": "^10.4.7",
-    "classnames": "^2.3.1",
-    "lodash": "^4.17.21",
-    "moment": "^2.29.3",
-    "next": "latest",
-    "next-redux-wrapper": "^8.0.0",
-    "qs": "^6.10.3",
-    "react": "^18.0.0",
-    "react-dnd": "^16.0.1",
-    "react-dnd-html5-backend": "^16.0.1",
-    "react-dom": "^18.0.0",
-    "react-google-recaptcha-v3": "^1.9.8",
-    "react-hook-form": "^7.31.2",
-    "react-redux": "^8.0.4",
-    "react-svg": "^16.1.1",
-    "reactstrap": "^9.0.2",
-    "redux": "^4.2.0",
-    "sass": "^1.52.1"
+    "@egjs/flicking": "^4.13.1",
+    "@floating-ui/react": "^0.26.9",
+    "@react-pdf/renderer": "^3.4.2",
+    "apisauce": "3.0.1",
+    "clsx": "2.0.0",
+    "copy-text-to-clipboard": "^3.2.0",
+    "cytoscape": "^3.32.0",
+    "cytoscape-fcose": "^2.2.0",
+    "next": "^14.0.3",
+    "qs": "6.11.2",
+    "react": "18",
+    "react-cytoscapejs": "^2.0.0",
+    "react-dom": "18",
+    "react-google-recaptcha-v3": "^1.10.1",
+    "react-markdown": "^9.0.1",
+    "sass": "^1.69.3",
+    "zustand": "4.4.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "10",
+    "eslint": "8",
+    "eslint-config-next": "13.5.4",
+    "postcss": "8",
+    "tailwindcss": "3"
   }
 }
