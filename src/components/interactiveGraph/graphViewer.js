@@ -9,7 +9,7 @@ import GraphCanvas from "./graphCanvas";
 import MobileWarning from "./mobileWarning";
 
 const INITIAL_CHAINS = {
-  2025: 4,
+  2025: 5,
   2024: 4,
   2023: 7,
 };

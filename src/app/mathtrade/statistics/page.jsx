@@ -46,7 +46,7 @@ export default function Statistics() {
           ) : (
             <div className="min-h-96 relative">
               <Dynamic>
-                <GraphViewer years={["2024", "2023"]} />
+                <GraphViewer years={["2025","2024", "2023"]} />
               </Dynamic>
             </div>
           )}
