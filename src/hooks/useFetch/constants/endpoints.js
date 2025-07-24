@@ -45,6 +45,7 @@ const endpoints = {
   // ITEMS
   GET_ITEMS_LIST: "api/mathtrades/$[mathtradeId]/items/",
   GET_ITEM: "api/mathtrades/$[mathtradeId]/items/$[1]/",
+  GET_ITEM_FROM_HISTORIAL: "api/mathtrades/$[1]/items/$[2]/",
 
   POST_VALUE_ITEMS: "api/mathtrades/$[mathtradeId]/item-values/",
 
@@ -102,6 +103,7 @@ const endpoints = {
 
   AUTOCOMPLETE_WANTS: "api/mathtrades/$[mathtradeId]/user-want-groups-match/",
   GET_MT_RESULTS: "api/mathtrades/$[mathtradeId]/results/",
+  GET_MT_RESULTS_HISTORIAL: "api/mathtrades/$[1]/results/",
 
   // IMAGES
   POST_IMAGE: "api/users/images/",

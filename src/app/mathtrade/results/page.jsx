@@ -12,10 +12,12 @@ import Image from "next/image";
 import tenor from "@/img/tenor.gif";
 
 const ResultsUI = lazy(() => import("./ui"));
-const UserTable = lazy(() => import("@/components/results/userTable"));
+//const UserTable = lazy(() => import("@/components/results/userTable"));
 const GraphViewer = lazy(() =>
   import("@/components/interactiveGraph/graphViewer")
 );
+
+const ResultsHistorial = lazy(() => import("@/components/results/historial"));
 
 export default function Results() {
   /* PAGE CONTEXT **********************************************/
@@ -33,6 +35,9 @@ export default function Results() {
     if (canI.results) {
       list.push("results.tab.chains");
     }
+
+    list.push("results.tab.historial");
+
     return list;
   }, [canI.results]);
 
@@ -55,7 +60,12 @@ export default function Results() {
       />
       <Wrapper className="mb-1">
         <div className="bg-colorMain rounded-t-main shadow-main">
-          <Tabs list={tablist} value={tabView} onChange={setTabView} />
+          <Tabs
+            list={tablist}
+            value={tabView}
+            onChange={setTabView}
+            highlighted={2}
+          />
         </div>
       </Wrapper>
       <SectionCommon topNotRounded>
@@ -81,15 +91,20 @@ export default function Results() {
             )}
           </div>
         ) : tabView === 1 ? (
-          <div className="md:px-8 px-3 py-8">
-            <Dynamic>
-              <UserTable />
-            </Dynamic>
-          </div>
-        ) : (
           <div className="min-h-96 relative p-6">
             <Dynamic>
               <GraphViewer years={["2025"]} />
+            </Dynamic>
+          </div>
+        ) : (
+          // <div className="md:px-8 px-3 py-8">
+          //   <Dynamic>
+          //     <UserTable />
+          //   </Dynamic>
+          // </div>
+          <div className="min-h-96 relative p-6">
+            <Dynamic>
+              <ResultsHistorial />
             </Dynamic>
           </div>
         )}

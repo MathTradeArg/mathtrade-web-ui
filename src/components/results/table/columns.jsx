@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import I18N from "@/i18n";
+import { ResultsContext } from "@/context/results";
 import { ItemContext, ItemContextProvider } from "@/context/item";
 import Thumbnail from "@/components/thumbnail";
 import Previewer from "@/components/previewer";
@@ -8,6 +9,8 @@ import Avatar from "@/components/avatar";
 const ItemChangeUI = ({ delivered, received }) => {
   const { item } = useContext(ItemContext);
   const { title, elements } = item;
+
+  const { customMathtradeId } = useContext(ResultsContext);
 
   return (
     <div className="flex items-center gap-2">
@@ -31,7 +34,10 @@ const ItemChangeUI = ({ delivered, received }) => {
           <I18N id="received.already" />
         </div>
       ) : null}
-      <Previewer className="w-6 h-6 rounded-full" />
+      <Previewer
+        className="w-6 h-6 rounded-full"
+        customMathtradeId={customMathtradeId}
+      />
     </div>
   );
 };
