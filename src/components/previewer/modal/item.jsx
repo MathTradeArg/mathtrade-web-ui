@@ -5,18 +5,24 @@ import useFetch from "@/hooks/useFetch";
 import { useMemo } from "react";
 import ItemUI from "./ui";
 
-const ItemPreview = ({ id }) => {
+const ItemPreview = ({ id, customMathtradeId }) => {
   /* LOAD ITEM ***************************/
 
   const urlParamsItem = useMemo(() => {
+    const list = [];
     if (!id) {
-      return [];
+      return list;
     }
-    return [id || 0];
-  }, [id]);
+    if (customMathtradeId) {
+      list.push(customMathtradeId);
+    }
+    list.push(id || 0);
+
+    return list;
+  }, [customMathtradeId, id]);
 
   const [, itemRaw, loading, error] = useFetch({
-    endpoint: "GET_ITEM",
+    endpoint: customMathtradeId ? "GET_ITEM_FROM_HISTORIAL" : "GET_ITEM",
     initialState: null,
     urlParams: urlParamsItem,
     autoLoad: true,

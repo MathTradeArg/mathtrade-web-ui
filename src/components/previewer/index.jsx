@@ -5,9 +5,15 @@ import { ItemContext } from "@/context/item";
 import { PageContext } from "@/context/page";
 import clsx from "clsx";
 
-const Previewer = ({ itemId, notooltip, className = "w-7 h-7" }) => {
+const Previewer = ({
+  itemId,
+  notooltip,
+  className = "w-7 h-7",
+  customMathtradeId,
+}) => {
   const { item } = useContext(ItemContext);
-  const { setItemPreviewId, setShowModalPreview } = useContext(PageContext);
+  const { setItemPreviewId, setShowModalPreview, setCustomMathtradeId } =
+    useContext(PageContext);
 
   return (
     <>
@@ -17,6 +23,7 @@ const Previewer = ({ itemId, notooltip, className = "w-7 h-7" }) => {
           const id = itemId || item?.id;
           if (id) {
             setItemPreviewId(id);
+            setCustomMathtradeId(customMathtradeId || null);
             setShowModalPreview(true);
           }
         }}

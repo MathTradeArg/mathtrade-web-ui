@@ -659,6 +659,7 @@
   "results.tab.results": "Resultados",
   "results.tab.users": "Usuarios participantes",
   "results.tab.chains": "Cadenas",
+  "results.tab.historial": "Historial",
   "results.screen.grid": "Tabla",
   "results.screen.visual": "Visual",
   "results.screen.printTags": "Etiquetas <span class=\"md:inline hidden\">para imprimir</span>",
@@ -1067,5 +1068,8 @@
   "boxesReceived.items.title": "Título",
   "boxesReceived.items.originName": "Ciudad de origen",
   "boxesReceived.items.viaMeeting": "Sólo si viene del encuentro",
-  "media.Title": "Contenido para medios"
+  "media.Title": "Contenido para medios",
+  "results.historial.notFound": "No hay un historial que mostrar.",
+  "results.historial.labelSelector": "Math Trade",
+  "results.historial.notResults": "No hay intercambios para este Math Trade."
 }
