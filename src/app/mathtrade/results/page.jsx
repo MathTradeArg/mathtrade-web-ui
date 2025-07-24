@@ -29,7 +29,7 @@ export default function Results() {
   const [tabView, setTabView] = useState(0);
 
   const tablist = useMemo(() => {
-    const list = ["results.tab.results", "results.tab.users"];
+    const list = ["results.tab.results" /*, "results.tab.users"*/];
     if (canI.results) {
       list.push("results.tab.chains");
     }

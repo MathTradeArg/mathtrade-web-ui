@@ -34,10 +34,10 @@ export default function ResultsUI() {
             list={[
               "results.screen.visual",
               "results.screen.grid",
-              "results.screen.received",
-              "results.screen.printTags",
-              "results.screen.TutBoxes",
-              "results.screen.payment",
+              // "results.screen.received",
+              // "results.screen.printTags",
+              // "results.screen.TutBoxes",
+              // "results.screen.payment",
             ]}
             highlighted={2}
             value={screenViewResults}
