@@ -20,8 +20,13 @@ export const PUBLIC_ROUTES = {
     enabled: "always",
   },
   TERMS_CONDITIONS: {
-    title: "termsConditions",
+    title: "link.termsConditions",
     path: "/terms-conditions",
+    enabled: "always",
+  },
+  MEDIA: {
+    title: "link.Media",
+    path: "/media",
     enabled: "always",
   },
 };
@@ -47,17 +52,17 @@ export const PRIVATE_ROUTES = {
   MY_OFFER: {
     title: "myOffer",
     path: privateRoot + "/my-offer",
-    enabled: "onlyForMembers",
+    // enabled: "onlyForMembers",
   },
   OFFER: {
     title: "offerGames",
     path: privateRoot + "/offer",
-    enabled: "onlyForMembers",
+    // enabled: "onlyForMembers",
   },
   WANTS: {
     title: "wants",
     path: privateRoot + "/my-wants",
-    enabled: "onlyForMembers",
+    //enabled: "onlyForMembers",
   },
   RESULTS: {
     title: "results",
@@ -67,7 +72,7 @@ export const PRIVATE_ROUTES = {
   STATS: {
     title: "statistics",
     path: privateRoot + "/statistics",
-    enabled: "onlyForMembers",
+    enabled: "always",
   },
   REFERRALS_AREA: {
     title: "referrals-area",
@@ -77,7 +82,7 @@ export const PRIVATE_ROUTES = {
   MY_DATA: {
     title: "myData",
     path: privateRoot + "/my-data",
-    enabled: "always",
+    //  enabled: "always",
   },
   SIGN_TO_MATHTRADE: {
     title: "SignToMathTrade",
@@ -104,5 +109,12 @@ export const PRIVATE_ROUTES = {
     title: "memardiums",
     path: privateRoot + "/memardiums",
     enabled: "always",
+  },
+};
+
+export const EXTERNAL_ROUTES = {
+  MEDIA: {
+    title: "link.Media",
+    path: "/media",
   },
 };

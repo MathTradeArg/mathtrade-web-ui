@@ -6,16 +6,22 @@ import { PageContext } from "@/context/page";
 import ItemPreview from "./item";
 
 const ModalPreviewer = () => {
-  const { itemPreviewId, showModalPreview, setShowModalPreview } =
-    useContext(PageContext);
+  const {
+    itemPreviewId,
+    customMathtradeId,
+    setCustomMathtradeId,
+    showModalPreview,
+    setShowModalPreview,
+  } = useContext(PageContext);
 
   const onClose = useCallback(() => {
+    setCustomMathtradeId(null);
     setShowModalPreview(false);
-  }, [setShowModalPreview]);
+  }, [setCustomMathtradeId, setShowModalPreview]);
 
   return (
     <Modal isOpen={showModalPreview} onClose={onClose} size="md2">
-      <ItemPreview id={itemPreviewId} />
+      <ItemPreview id={itemPreviewId} customMathtradeId={customMathtradeId} />
       <div className="text-center pt-8">
         <button
           className="border border-gray-400 py-2 px-7 rounded-full hover:bg-gray-400 hover:text-white shadow"

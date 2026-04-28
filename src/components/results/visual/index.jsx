@@ -3,16 +3,16 @@ import { ResultsContext } from "@/context/results";
 import I18N from "@/i18n";
 import ChangeSection from "./changeSection";
 
-const ResultsVisual = () => {
+const ResultsVisual = ({ forced }) => {
   /* RESULTS CONTEXT *****************************************/
   const { currentUser, MathTradeResults } = useContext(ResultsContext);
   /* end RESULTS CONTEXT *****************************************/
 
-  if (!currentUser) {
+  if (!currentUser && !forced) {
     return null;
   }
 
-  if (!currentUser.commitment) {
+  if (!currentUser?.commitment && !forced) {
     return (
       <div className="text-center py-6 max-w-xl mx-auto">
         <h3 className="text-2xl  text-gray-700 text-balance">
@@ -22,7 +22,7 @@ const ResultsVisual = () => {
     );
   }
 
-  if (!currentUser.trades) {
+  if (!currentUser?.trades && !forced) {
     return (
       <div className="text-center py-6 max-w-xl mx-auto">
         <h3 className="text-2xl  text-gray-700 text-balance">

@@ -7,7 +7,9 @@ export const ResultsContext = createContext({
   currentUser: null,
   currentUserId: null,
   setCurrentUserId: () => {},
-
+  //
+  customMathtradeId: null,
+  setCustomMathtradeId: () => {},
   //
   MathTradeResults: null,
   setMathTradeResults: () => {},
@@ -17,6 +19,8 @@ export const ResultsContextProvider = ({ children }) => {
   /* PAGE CONTEXT *****************************************/
   const { userId } = useContext(PageContext);
   /* end PAGE CONTEXT *****************************************/
+
+  const [customMathtradeId, setCustomMathtradeId] = useState(null);
 
   const [userList, setUserList] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(userId);
@@ -38,7 +42,9 @@ export const ResultsContextProvider = ({ children }) => {
         currentUser,
         currentUserId,
         setCurrentUserId,
-
+        //
+        customMathtradeId,
+        setCustomMathtradeId,
         //
         MathTradeResults,
         setMathTradeResults,

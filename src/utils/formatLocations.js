@@ -53,3 +53,33 @@ export const formatLocations = (locationsFromAPI, filterLocationsRaw) => {
     return st;
   });
 };
+
+export const formatLocationsOptionsFiltered = (
+  locationsFromAPI,
+  locationIdFilter
+) => {
+  const list = [];
+
+  let currentProvince = "none";
+
+  if (locationsFromAPI) {
+    locationsFromAPI.forEach(({ id, name, province }) => {
+      if (locationIdFilter[id]) {
+        if (province !== currentProvince) {
+          currentProvince = province;
+          list.push({
+            type: "group",
+            value: province,
+            text: province,
+          });
+        }
+
+        list.push({
+          value: `${id}`,
+          text: name,
+        });
+      }
+    });
+  }
+  return list;
+};

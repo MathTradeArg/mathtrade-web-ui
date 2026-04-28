@@ -10,13 +10,15 @@ import Iconshelp from "./iconshelp";
 //import { instructPDFurl } from "@/config/rulebook";
 import Pills from "./pills";
 import Referral from "@/components/referral";
-import CountdownMathtrade from "./coundown";
+//import CountdownMathtrade from "./coundown";
 //import ReferralInvite from "./referralInvite";
-import Dynamic from "@/components/dynamic";
+//import Dynamic from "@/components/dynamic";
+// import AllMessage from "@/components/allMessage";
 
 //const baseURL = process.env.BASE_URL;
 
-const UserQR = lazy(() => import("@/components/userQr"));
+//const PaymentInfo = lazy(() => import("@/components/results/paymentInfo"));
+//const UserQR = lazy(() => import("@/components/userQr"));
 
 const HomeContent = () => {
   /* PAGE CONTEXT **********************************************/
@@ -41,21 +43,29 @@ const HomeContent = () => {
           </p>
         </div>
       </div> */}
-
-      {mathtrade && Object.keys(mathtrade).length > 0 ? (
-        <>
-          <Dynamic>
-            <UserQR />
-          </Dynamic>
-          <div className="mb-8">
-            <Referral />
-          </div>
-          <Pills />
-          <Timeline />
-        </>
-      ) : (
-        <CountdownMathtrade />
-      )}
+      {/* <AllMessage /> */}
+      {
+        mathtrade && Object.keys(mathtrade).length > 0 ? (
+          <>
+            {/* <div className="mb-5">
+              <Dynamic>
+                <PaymentInfo />
+              </Dynamic>
+            </div> */}
+            {/* <Dynamic>
+              <UserQR />
+            </Dynamic> */}
+            <div className="mb-8">
+              <Referral />
+            </div>
+            <Pills />
+            <Timeline />
+          </>
+        ) : null
+        // (
+        //   <CountdownMathtrade />
+        // )
+      }
       <Videohelp />
       <h2 className="text-center font-bold text-2xl py-5">
         <I18N id="quickhelp.title" />

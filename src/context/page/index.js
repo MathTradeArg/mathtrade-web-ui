@@ -56,6 +56,8 @@ export const PageContext = createContext({
   //
   itemPreviewId: null,
   setItemPreviewId: () => {},
+  customMathtradeId: null,
+  setCustomMathtradeId: () => {},
   showModalPreview: false,
   setShowModalPreview: () => {},
   //
@@ -84,6 +86,7 @@ export const PageContext = createContext({
   setMustConfirmDate: () => {},
   isNewUser: false,
   isUserEarlyPay: false,
+  mathtrade_history: [],
   //
   referrer: null,
   isReferrer: false,
@@ -121,6 +124,7 @@ const PageContextProvider = ({ children }) => {
   const [showBanUsers, setShowBanUsers] = useState(false);
 
   const [itemPreviewId, setItemPreviewId] = useState(null);
+  const [customMathtradeId, setCustomMathtradeId] = useState(null);
   const [showModalPreview, setShowModalPreview] = useState(false);
 
   const [reloadValue, setReload] = useState(1);
@@ -311,6 +315,8 @@ const PageContextProvider = ({ children }) => {
         //
         itemPreviewId,
         setItemPreviewId,
+        customMathtradeId,
+        setCustomMathtradeId,
         showModalPreview,
         setShowModalPreview,
         //
@@ -339,6 +345,7 @@ const PageContextProvider = ({ children }) => {
         //
         isNewUser,
         isUserEarlyPay,
+        mathtrade_history,
         //
         referrer,
         isReferrer,

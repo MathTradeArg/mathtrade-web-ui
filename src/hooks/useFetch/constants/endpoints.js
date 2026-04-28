@@ -45,6 +45,7 @@ const endpoints = {
   // ITEMS
   GET_ITEMS_LIST: "api/mathtrades/$[mathtradeId]/items/",
   GET_ITEM: "api/mathtrades/$[mathtradeId]/items/$[1]/",
+  GET_ITEM_FROM_HISTORIAL: "api/mathtrades/$[1]/items/$[2]/",
 
   POST_VALUE_ITEMS: "api/mathtrades/$[mathtradeId]/item-values/",
 
@@ -102,6 +103,7 @@ const endpoints = {
 
   AUTOCOMPLETE_WANTS: "api/mathtrades/$[mathtradeId]/user-want-groups-match/",
   GET_MT_RESULTS: "api/mathtrades/$[mathtradeId]/results/",
+  GET_MT_RESULTS_HISTORIAL: "api/mathtrades/$[1]/results/",
 
   // IMAGES
   POST_IMAGE: "api/users/images/",
@@ -148,6 +150,18 @@ const endpoints = {
   GET_VOTACION: "api/surveys/",
   POST_VOTACION: "api/surveys/answers/",
   GET_VOTACION_RESULTS: "api/surveys/results/",
+
+  // LOGISTICS
+  LOGISTICS_GET_ITEMS: "api/logistics/items/",
+  LOGISTICS_GET_BOXES: "api/logistics/boxes/",
+  LOGISTICS_POST_BOX: "api/logistics/boxes/",
+  LOGISTICS_PUT_BOX: "api/logistics/boxes/$[1]/",
+  LOGISTICS_DELETE_BOX: "api/logistics/boxes/$[1]/",
+  //
+  LOGISTICS_GET_TRACKINGS: "api/logistics/trackings/",
+  LOGISTICS_POST_TRACKING: "api/logistics/trackings/",
+  LOGISTICS_PUT_TRACKING: "api/logistics/trackings/$[1]/",
+  LOGISTICS_DELETE_TRACKING: "api/logistics/trackings/$[1]/",
 };
 
 export default endpoints;

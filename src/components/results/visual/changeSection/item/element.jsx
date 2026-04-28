@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { ResultsContext } from "@/context/results";
 import { ElementContext, ElementContextProvider } from "@/context/element";
 import Thumbnail from "@/components/thumbnail";
 import Previewer from "@/components/previewer";
@@ -6,6 +7,8 @@ import Previewer from "@/components/previewer";
 const ELementUI = () => {
   const { element } = useContext(ElementContext);
   const { title } = element;
+
+  const { customMathtradeId } = useContext(ResultsContext);
 
   return (
     <div className="bg-white border border-gray-300 rounded-lg">
@@ -16,7 +19,7 @@ const ELementUI = () => {
         />
 
         <div className="absolute bg-primary text-white sm:bottom-1 bottom-0 sm:right-1 right-0 rounded-full">
-          <Previewer />
+          <Previewer customMathtradeId={customMathtradeId} />
         </div>
       </div>
       <div className="text-center p-1 sm:w-32 w-16">
