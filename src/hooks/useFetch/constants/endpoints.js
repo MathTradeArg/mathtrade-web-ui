@@ -162,6 +162,9 @@ const endpoints = {
   LOGISTICS_POST_TRACKING: "api/logistics/trackings/",
   LOGISTICS_PUT_TRACKING: "api/logistics/trackings/$[1]/",
   LOGISTICS_DELETE_TRACKING: "api/logistics/trackings/$[1]/",
+
+  BGG_GET_GAMES: "api/bgg/games/",
+  BGG_GET_GAME: "api/bgg/games/$[1]/",
 };
 
 export default endpoints;

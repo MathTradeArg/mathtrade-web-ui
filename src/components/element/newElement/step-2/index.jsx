@@ -5,30 +5,11 @@ import Icon from "@/components/icon";
 import I18N from "@/i18n";
 import clsx from "clsx";
 import SearchBGG from "./searchBGG";
-import SearchMyCollectionBGG from "./searchMyCollectionBGG";
 import useStepSearchBGG from "./useStepSearchBGG";
-import LinkExternal from "@/components/link-external";
 import { LoadingBox } from "@/components/loading";
 import BGGlink from "@/components/bggInfo/bggLink";
 import BadgeType from "@/components/badgeType";
-
-const LabelNav = ({ selected, children, onClick }) => {
-  return (
-    <label
-      className={clsx(
-        "inline-block rounded-tl-md rounded-tr-md font-bold text-sm px-3 py-1",
-        {
-          "border text-sky-700 border-gray-300 border-b-transparent": selected,
-          "text-sky-700/50 border-b border-b-gray-300 cursor-pointer":
-            !selected,
-        }
-      )}
-      onClick={onClick}
-    >
-      {children}
-    </label>
-  );
-};
+import { Checkbox } from "@/components/form";
 
 const NewElementStep2 = ({ setStep, newBGGinfo, setnewBGGinfo }) => {
   const {
@@ -58,31 +39,35 @@ const NewElementStep2 = ({ setStep, newBGGinfo, setnewBGGinfo }) => {
           </span>
         </InnerButton>
       </button>
-      <div className="max-w-lg mx-auto">
-        <nav className="flex mb-3">
-          <LabelNav
-            selected={!searchType}
-            onClick={() => {
-              setSearchType(0);
-            }}
-          >
+      <div className="max-w-xl mx-auto">
+        <div className="flex justify-between gap-3 pr-0">
+          <h2 className="font-bold text-sky-700 text-sm relative top-2">
             <I18N id="BGGsearch.Label" />
-          </LabelNav>
-          <LabelNav
-            selected={searchType}
-            onClick={() => {
-              setSearchType(1);
-            }}
-          >
-            <I18N id="BGGsearch.inMyCollection" />
-          </LabelNav>
-        </nav>
+          </h2>
+          <div className="border-t border-x border-gray-300 pt-1 pb-3 relative top-2 px-6 rounded-t-md">
+            <Checkbox
+              name="in_collection"
+              ariaLabel="BGGsearch.inMyCollection"
+              onChange={(v) => {
+                setSearchType(v ? 1 : 0);
+              }}
+            >
+              <div className="text-gray-500 italic cursor-pointer font-bold text-xs pt-0.5">
+                <I18N id="BGGsearch.inMyCollection" />
+              </div>
+            </Checkbox>
+          </div>
+        </div>
 
-        {!searchType ? (
-          <SearchBGG setSearchResultBGG={setSearchResultBGG} />
-        ) : (
-          <SearchMyCollectionBGG setSearchResultBGG={setSearchResultBGG} />
-        )}
+        <SearchBGG
+          setSearchResultBGG={setSearchResultBGG}
+          inCollection={searchType === 1}
+        />
+        <p className="text-xs text-gray-500 pt-1">
+          <I18N id="BGGsearch.Instruction" />
+        </p>
+        <div className="pt-1 px-1"></div>
+
         {alreadyHaveThisBGGid && elementToShow ? (
           <div className="text-center text-secondary text-xs font-bold pt-2">
             <I18N id="ElementAlreadyLoaded" />

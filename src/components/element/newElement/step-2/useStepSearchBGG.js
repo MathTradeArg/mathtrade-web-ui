@@ -1,6 +1,6 @@
 import { useState, useContext, useMemo, useEffect, useCallback } from "react";
 import { noBGGgame } from "@/config/no-bgggame";
-import useFetchBGG from "@/hooks/useFetchBGG";
+import useFetch from "@/hooks/useFetch";
 import { extractBGGdataFromElement } from "@/utils/bgg";
 import { getI18Ntext } from "@/i18n";
 import { PageContext } from "@/context/page";
@@ -59,11 +59,11 @@ const useStepSearchBGG = ({ newBGGinfo, setnewBGGinfo }) => {
       });
       setnewBGGinfo(o);
     },
-    [searchResultBGG, setnewBGGinfo]
+    [searchResultBGG, setnewBGGinfo],
   );
 
-  const [getBGGelements, , loading] = useFetchBGG({
-    endpoint: "ELEMENT",
+  const [getBGGelement, , loading] = useFetch({
+    endpoint: "BGG_GET_GAME",
     initialState: {
       game: null,
       thumbnail: "",
@@ -75,11 +75,12 @@ const useStepSearchBGG = ({ newBGGinfo, setnewBGGinfo }) => {
 
   useEffect(() => {
     if (searchResultBGG) {
-      getBGGelements({ id: searchResultBGG.bgg_id, versions: 1, stats: 1 });
+      //
+      getBGGelement({ urlParams: [searchResultBGG.bgg_id] });
     } else {
       setElementToShow(null);
     }
-  }, [getBGGelements, searchResultBGG]);
+  }, [getBGGelement, searchResultBGG]);
 
   return {
     searchType,
