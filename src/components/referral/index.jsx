@@ -25,7 +25,7 @@ const Referral = () => {
     return null;
   }, [membership, locations]);
 
-  return currentLocation && currentLocation.referral ? (
+  return currentLocation ? (
     <div className="text-center mb-4">
       {currentLocation.mandatory_attendance ? (
         <p className="mb-4 description">
@@ -47,12 +47,7 @@ const Referral = () => {
           </a>
           <br />
           <br />
-          <I18N
-            id="myData.help.AMBA2"
-            values={[
-              `${currentLocation?.referral?.first_name} ${currentLocation?.referral?.last_name}`,
-            ]}
-          />
+          <I18N id="myData.help.AMBA2" />
         </p>
       ) : (
         <p className="mb-4">
