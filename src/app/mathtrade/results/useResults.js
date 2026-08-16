@@ -65,8 +65,8 @@ const useResults = () => {
 
   /* GET USERS *************************************************/
   const afterLoadMTresults = useCallback(
-    (newMTresults) => {
-      setMathTradeResults(newMTresults);
+    ({ results }) => {
+      setMathTradeResults(results);
     },
     [setMathTradeResults]
   );
@@ -78,7 +78,9 @@ const useResults = () => {
 
   useEffect(() => {
     if (currentUser && currentUser.trades && currentUser.commitment) {
-      getMathTradeResults({ params: { user: currentUserId } });
+      getMathTradeResults({
+        params: { user: currentUserId, page_size: 200 },
+      });
     } else {
       setMathTradeResults(null);
     }

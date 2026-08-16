@@ -28,8 +28,8 @@ const useTagEditor = (tag, onClose) => {
 
   /* ITEM TAGS *********************************************/
   const afterLoadItemTags = useCallback(
-    (list) => {
-      const tags = list.map((tag, i) => {
+    ({ results }) => {
+      const tags = results.map((tag, i) => {
         return {
           ...tag,
           id: `${tag?.id || i}`,
@@ -45,14 +45,16 @@ const useTagEditor = (tag, onClose) => {
 
   const [loadMyTags, , loadingMyTags] = useFetch({
     endpoint: "MYTAGS",
-    initialState: [],
+    initialState: { results: [] },
     afterLoad: afterLoadItemTags,
   });
   /* end ITEM TAGS *********************************************/
 
   /* PUT TAG ************************************************/
   const afterLoadPutMyItemTag = useCallback(() => {
-    loadMyTags();
+    // My own tags are inherently bounded to one user's own entries - request
+    // the max page size so they aren't silently truncated at the default (50).
+    loadMyTags({ params: { page_size: 200 } });
   }, [loadMyTags]);
 
   const [putMyItemTag, , loadingPut, errorPut] = useFetch({
@@ -64,7 +66,7 @@ const useTagEditor = (tag, onClose) => {
 
   /* POST TAG ************************************************/
   const afterLoadPostMyItemTag = useCallback(() => {
-    loadMyTags();
+    loadMyTags({ params: { page_size: 200 } });
   }, [loadMyTags]);
 
   const [postMyItemTag, , loadingPost, errorPost] = useFetch({
@@ -77,7 +79,7 @@ const useTagEditor = (tag, onClose) => {
   /* DELETE TAG ************************************************/
   const afterDeletePostMyItemTag = useCallback(() => {
     updateFilters({ tag: undefined }, "item");
-    loadMyTags();
+    loadMyTags({ params: { page_size: 200 } });
   }, [loadMyTags, updateFilters]);
 
   const [deleteMyItemTag, , loadingDelete] = useFetch({
