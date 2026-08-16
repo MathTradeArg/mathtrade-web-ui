@@ -3,6 +3,11 @@ import { useCallback, useState, useContext, useEffect } from "react";
 import { useOptions } from "@/store";
 import { PageContext } from "@/context/page";
 
+// My own want-list is inherently bounded to one user's own entries, unlike
+// a browsable list of everyone's items - request the max page size so it
+// isn't silently truncated at the default page size (50).
+const MY_OWN_DATA_PARAMS = { page_size: 200 };
+
 const useItems = () => {
   /* PAGE CONTEXT **********************************************/
   const {
@@ -107,16 +112,17 @@ const useItems = () => {
     setLoadingMyWants(true);
   }, [setLoadingMyWants]);
   const afterLoadMyWants = useCallback(
-    (wantList) => {
+    ({ results }) => {
       setLoadingMyWants(false);
-      setMyWants(wantList);
+      setMyWants(results);
     },
     [setLoadingMyWants, setMyWants]
   );
   useFetch({
     endpoint: "MYWANTS",
     autoLoad: true,
-    initialState: [],
+    initialState: { results: [] },
+    params: MY_OWN_DATA_PARAMS,
     beforeLoad: beforeLoadMyWants,
     afterLoad: afterLoadMyWants,
   });
