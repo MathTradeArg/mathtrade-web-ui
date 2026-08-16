@@ -41,18 +41,23 @@ const useWants = () => {
 
   /* GET MY WANTS *************************************************/
   const afterLoadMyWants = useCallback(
-    (wantList) => {
-      setMyWants(wantList);
+    ({ results }) => {
+      setMyWants(results);
       setIsLoadedWants(true);
       setChanges({});
       setDeletedWantgroupIds({});
     },
     [setIsLoadedWants, setMyWants, setChanges, setDeletedWantgroupIds]
   );
+  // My own want-list is inherently bounded to one user's own entries, unlike
+  // a browsable list of everyone's items - request the max page size so it
+  // isn't silently truncated at the default page size (50).
+  const myWantsParams = useMemo(() => ({ page_size: 200 }), []);
   const [, , loadingMyWants, errorMyWants] = useFetch({
     endpoint: "MYWANTS",
     autoLoad: true,
-    initialState: [],
+    initialState: { results: [] },
+    params: myWantsParams,
     afterLoad: afterLoadMyWants,
   });
 
