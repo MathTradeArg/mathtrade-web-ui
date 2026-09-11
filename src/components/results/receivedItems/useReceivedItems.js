@@ -24,18 +24,22 @@ const useReceivedItems = () => {
   // GET RESULTS ********************************************
   const [getMathTradeResults, resultsRaw, loading, error] = useFetch({
     endpoint: "GET_MT_RESULTS",
-    initialState: [],
+    initialState: { results: [] },
   });
 
   useEffect(() => {
     if (membership && membership.user_id) {
-      getMathTradeResults({ params: { user: membership.user_id } });
+      // Own trades are inherently bounded to one user's own entries - request
+      // the max page size so they aren't silently truncated at the default (50).
+      getMathTradeResults({
+        params: { user: membership.user_id, page_size: 200 },
+      });
     }
   }, [getMathTradeResults, membership, reloadData]);
   // end GET RESULTS ********************************************
 
   const results = useMemo(() => {
-    return resultsRaw.map((result) => {
+    return resultsRaw.results.map((result) => {
       const { received, item_from, id: idResult } = result;
 
       return {
