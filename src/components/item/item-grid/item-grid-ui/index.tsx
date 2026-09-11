@@ -2,6 +2,7 @@ import clsx from "clsx";
 import useItemGrid from "./useItemGrid";
 import ItemMD from "./md";
 import ItemXL from "./xl";
+import { resolveCardKind, cardKindBorderClass } from "@/components/badgeType/cardKind";
 
 type ItemGridUIProps = {
   expanded: string | number | null;
@@ -12,12 +13,11 @@ const ItemGridUI = ({ expanded, setExpanded }: ItemGridUIProps) => {
   const { itemNode, isExpanded, isCombo, typeNum, onToggleExpanse } =
     useItemGrid(expanded, setExpanded);
 
-  const isExpansion = !isCombo && typeNum === 2;
-  const cardKindClass = isCombo
-    ? "border-gameCombo bg-gameCombo/5"
-    : isExpansion
-    ? "border-gameExpansion bg-gameExpansion/5"
-    : "border-gameBase bg-gameBase/5";
+  const cardKind = resolveCardKind({
+    isCombo,
+    isTrueNotGame: !isCombo && typeNum === 3,
+    isExpansion: !isCombo && typeNum === 2,
+  });
 
   return (
     <article
@@ -28,8 +28,8 @@ const ItemGridUI = ({ expanded, setExpanded }: ItemGridUIProps) => {
     >
       <div
         className={clsx(
-          "transition-all relative mx-auto border-2 rounded-lg",
-          cardKindClass,
+          "transition-all relative mx-auto rounded-lg bg-white",
+          cardKindBorderClass(cardKind),
           {
             "w-full h-full shadow-md hover:shadow-[0_3px_16px_rgba(0,0,0,0.25)]":
               !isExpanded,

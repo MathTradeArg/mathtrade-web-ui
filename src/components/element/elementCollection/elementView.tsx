@@ -12,6 +12,7 @@ import { ElementContext } from "@/context/element";
 import { PageContext } from "@/context/page";
 import { useContext, useMemo, type ReactNode } from "react";
 import BadgeType from "@/components/badgeType";
+import { resolveCardKind, cardKindBorderClass } from "@/components/badgeType/cardKind";
 import useBGGdata from "@/components/bggInfo/useBGGdata";
 import { getI18Ntext } from "@/i18n";
 import { NO_RANK_VALUE } from "@/config/no-bgggame";
@@ -69,14 +70,15 @@ const ElementView = ({
   };
   const showBGGstats = !notGame && game && isInBGG;
 
-  const isExpansion = typeNum === 2;
-  // "Mi ludoteca" lists individual copies, never bundles - combo can't happen
-  // here, but the color system (tailwind.config.js, BadgeType) supports it
+  // "Mi ludoteca" lists individual copies, never bundles - combo can't
+  // happen here, but the color system (cardKind.ts, BadgeType) supports it
   // for the views that do have that data (e.g. offer/items).
-  const cardKindClass = isExpansion
-    ? "border-gameExpansion bg-gameExpansion/5"
-    : "border-gameBase bg-gameBase/5";
-  const titleColorClass = isExpansion ? "text-gameExpansion" : "";
+  const cardKind = resolveCardKind({
+    isCombo: false,
+    isTrueNotGame: !!notGame,
+    isExpansion: typeNum === 2,
+  });
+  const titleColorClass = cardKind === "expansion" ? "text-gameExpansion" : "";
 
   const filledDots = Math.min(5, Math.max(0, Math.round(weight || 0)));
   const boxSize = boxSizesValues[box_size ?? boxSizeIdToReview];
@@ -94,8 +96,8 @@ const ElementView = ({
   return (
     <div
       className={clsx(
-        "relative -m-4 flex-1 flex rounded-lg overflow-hidden border-2",
-        cardKindClass
+        "relative -m-4 flex-1 flex rounded-lg overflow-hidden bg-white",
+        cardKindBorderClass(cardKind)
       )}
     >
       <div className="relative w-[130px] shrink-0">

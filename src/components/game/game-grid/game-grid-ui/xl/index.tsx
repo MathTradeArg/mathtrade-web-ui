@@ -10,6 +10,7 @@ import clsx from "clsx";
 import ItemNoBGG from "../itemNoBgg";
 import Dynamic from "@/components/dynamic";
 import BadgeType from "@/components/badgeType";
+import { resolveCardKind, cardKindBorderClass } from "@/components/badgeType/cardKind";
 
 const WantButtonGame = lazy(() => import("../wantButtonGame"));
 
@@ -51,21 +52,18 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
   // out-of-BGG item — tell them apart by element count.
   const isComboItem = !!notGame && (items?.[0]?.elements?.length || 0) > 1;
   const isTrueNotGame = !!notGame && !isComboItem;
-  const isExpansion = !isComboItem && typeNum === 2;
-  const cardKindClass = isComboItem
-    ? "border-gameCombo"
-    : isTrueNotGame
-    ? "border-yellow-600"
-    : isExpansion
-    ? "border-gameExpansion"
-    : "border-gray-700";
+  const cardKind = resolveCardKind({
+    isCombo: isComboItem,
+    isTrueNotGame,
+    isExpansion: !isComboItem && typeNum === 2,
+  });
 
   return (
     <div className="relative">
       <div
         className={clsx(
-          "bg-gray-900 w-full mx-auto p-2 pr-9 relative transition-opacity rounded-t-lg border-2",
-          cardKindClass,
+          "bg-gray-900 w-full mx-auto p-2 pr-9 relative transition-opacity rounded-t-lg",
+          cardKindBorderClass(cardKind, "dark"),
           {
             "opacity-30  pointer-events-none": showAsIgnored,
             "shadow-[0_0_0_7px_rgba(255,0,0,1)]": ban_id,

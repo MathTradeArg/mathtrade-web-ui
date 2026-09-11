@@ -10,6 +10,7 @@ import clsx from "clsx";
 import WantButtonGame from "./wantButtonGame";
 import ItemNoBGG from "./itemNoBgg";
 import BadgeType from "@/components/badgeType";
+import { resolveCardKind, cardKindBorderClass } from "@/components/badgeType/cardKind";
 
 type GameCardData = {
   ban_id?: number | string | null;
@@ -52,20 +53,17 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
   // count so combos get the combo badge/color, not "fuera de la BGG".
   const isComboItem = !!notGame && (items?.[0]?.elements?.length || 0) > 1;
   const isTrueNotGame = !!notGame && !isComboItem;
-  const isExpansion = !isComboItem && typeNum === 2;
-  const cardKindClass = isComboItem
-    ? "border-gameCombo"
-    : isTrueNotGame
-    ? "border-yellow-600"
-    : isExpansion
-    ? "border-gameExpansion"
-    : "border-gray-700";
+  const cardKind = resolveCardKind({
+    isCombo: isComboItem,
+    isTrueNotGame,
+    isExpansion: !isComboItem && typeNum === 2,
+  });
 
   return (
     <div
       className={clsx(
-        "bg-gray-900 h-full rounded-lg mx-auto lg:p-3 p-2 transition-opacity relative border-2",
-        cardKindClass,
+        "bg-gray-900 h-full rounded-lg mx-auto lg:p-3 p-2 transition-opacity relative",
+        cardKindBorderClass(cardKind, "dark"),
         {
           "opacity-30 pointer-events-none": showAsIgnored,
           "shadow-[0_0_0_7px_rgba(255,0,0,1)]": ban_id,
