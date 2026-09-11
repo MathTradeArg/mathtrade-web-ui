@@ -15,7 +15,13 @@ import {
   FloatingFocusManager,
 } from "@floating-ui/react";
 
-const Value = ({ type, onChange, itemIds, currentValue, groupId }) => {
+const Value = ({
+  type,
+  onChange = undefined,
+  itemIds = undefined,
+  currentValue = undefined,
+  groupId = undefined,
+}) => {
   const {
     isOpen,
     setIsOpen,

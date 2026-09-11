@@ -7,7 +7,11 @@ import { ElementContext } from "@/context/element";
 import { useContext } from "react";
 import BadgeType from "@/components/badgeType";
 
-const ElementComplete = ({ onToggleExpanse }) => {
+type ElementCompleteProps = {
+  onToggleExpanse: () => void;
+};
+
+const ElementComplete = ({ onToggleExpanse }: ElementCompleteProps) => {
   const { element } = useContext(ElementContext);
 
   const {
@@ -18,7 +22,15 @@ const ElementComplete = ({ onToggleExpanse }) => {
     publisherLink,
     language,
     extraData,
-  } = element;
+  } = element as {
+    typeNum?: number;
+    title: string;
+    titleLink?: string | null;
+    publisher?: string | null;
+    publisherLink?: string | null;
+    language?: string;
+    extraData: { box_status?: string; component_status?: string };
+  };
 
   const { box_status, component_status } = extraData;
 
