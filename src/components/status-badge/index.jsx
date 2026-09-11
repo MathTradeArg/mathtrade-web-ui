@@ -14,6 +14,7 @@ const StatusBadge = ({
   min,
   noTooltip = false,
   type = "components",
+  label = "",
 }) => {
   const statusTypes = useMemo(() => {
     if (type === "box") {
@@ -46,14 +47,20 @@ const StatusBadge = ({
             )
       }
     >
-      <div
-        className={clsx("rounded-l-sm px-1 border-r border-white/30", {
-          "bg-item-900": type === "box",
-          "bg-black": type !== "box",
-        })}
-      >
-        <Icon type={`status-${type === "box" ? "box" : "components"}`} />
-      </div>
+      {label ? (
+        <div className="px-1.5 border-r border-white/30 normal-case font-normal opacity-90">
+          {label}
+        </div>
+      ) : (
+        <div
+          className={clsx("rounded-l-sm px-1 border-r border-white/30", {
+            "bg-item-900": type === "box",
+            "bg-black": type !== "box",
+          })}
+        >
+          <Icon type={`status-${type === "box" ? "box" : "components"}`} />
+        </div>
+      )}
 
       <div className="px-1">
         {min

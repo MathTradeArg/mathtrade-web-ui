@@ -41,8 +41,17 @@ const ElementInCombo = ({ onToggleExpanse }: ElementInComboProps) => {
           {title}
         </h3>
         <div className="flex flex-wrap gap-1 items-center mt-1">
-          <StatusBadge status={box_status} type="box" min />
-          <StatusBadge status={component_status} min />
+          <StatusBadge
+            status={box_status}
+            type="box"
+            min
+            label={getI18Ntext("status.label.box")}
+          />
+          <StatusBadge
+            status={component_status}
+            min
+            label={getI18Ntext("status.label.components")}
+          />
         </div>
         {language ? (
           <div className="text-caption text-gray-500 truncate mt-0.5">

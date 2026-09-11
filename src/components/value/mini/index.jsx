@@ -9,11 +9,11 @@ const ValueMini = ({ currentValue }) => {
 
   return (
     <div
-      className="text-white font-bold text-[11px] w-5 h-5 rounded-full cursor-default text-center leading-5 tracking-tighter"
-      style={{ backgroundColor }}
-      title={value}
+      className="bg-white font-bold text-[10px] px-1.5 h-5 min-w-5 rounded-full cursor-default text-center leading-5 tracking-tighter border-[1.5px] shadow-sm"
+      style={{ borderColor: backgroundColor, color: backgroundColor }}
+      title={String(value)}
     >
-      <span className="relative top-[1px]">{value}</span>
+      {value}
     </div>
   );
 };

@@ -58,27 +58,23 @@ const Value = ({
     <div className={clsx("w-fit relative")}>
       <button
         className={clsx(
-          "text-white font-normal flex items-center gap-1 py-1 px-2 focus:outline-none transition-colors rounded-xl",
+          "bg-white font-bold flex items-center gap-1 py-1 px-2.5 text-[13px] leading-none focus:outline-none transition-opacity rounded-full border-[1.5px] shadow-sm",
           {
-            "cursor-default": !canIEdit,
+            "cursor-default opacity-60": !canIEdit,
+            "hover:opacity-80": canIEdit,
           }
         )}
-        style={{ backgroundColor }}
-        /* onClick={() => {
-          setIsOpen((v) => !v);
-        }} */
+        style={{ borderColor: backgroundColor, color: backgroundColor }}
         ref={refs.setReference}
         {...getReferenceProps()}
         onClick={(e) => {
           e.preventDefault();
         }}
       >
-        <div className="text-[13px] leading-[13px] h-[13px] font-bold">
-          {value}
-        </div>
-        <div className="h-[13px]">
-          <Icon type="star-o" className="block relative top-[-7px]" />
-        </div>
+        <span>{value}</span>
+        {canIEdit ? (
+          <Icon type="edit" className="text-[11px] opacity-70" />
+        ) : null}
       </button>
 
       {isOpen && canIEdit ? (

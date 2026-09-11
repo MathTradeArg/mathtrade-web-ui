@@ -51,16 +51,14 @@ const BtnQuickRemove = () => {
       <div className="text-center">
         <div
           className={clsx(
-            "rounded-full outline-none inline-block w-auto border border-gray-400 border-dashed text-gray-500 px-7 py-3 shadow-md cursor-not-allowed",
+            "inline-flex items-center gap-1.5 text-sm font-semibold text-gray-400 cursor-not-allowed",
             {
-              "bg-white": contextType === "tag",
+              "bg-white px-3 py-1 rounded-full": contextType === "tag",
             }
           )}
         >
-          <InnerButton>
-            <Icon type="heart" />
-            <I18N id="btn.Want.Wanted" />
-          </InnerButton>
+          <Icon type="heart" className="text-base" />
+          <I18N id="btn.Want.Wanted" />
         </div>
       </div>
     );
@@ -70,23 +68,20 @@ const BtnQuickRemove = () => {
     <div className="text-center">
       <div
         className={clsx(
-          "rounded-full outline-none inline-block w-auto border border-want border-dashed text-want px-7 py-1 text-lg shadow-md",
+          "inline-flex items-center gap-2 text-sm font-semibold text-want",
           {
-            "bg-white": contextType === "tag",
+            "bg-white px-3 py-1 rounded-full": contextType === "tag",
           }
         )}
       >
-        <div className="text-xs mb-1">
-          <InnerButton>
-            <Icon type="heart" />
-            <I18N id="btn.Want.Wanted" />
-          </InnerButton>
-        </div>
+        <Icon type="heart" className="text-base" />
+        <I18N id="btn.Want.Wanted" />
+        <span className="text-gray-300 font-normal">·</span>
         <button
           className={clsx(
-            "text-xs uppercase bg-red-600 text-white px-3 py-1 rounded-full",
+            "font-normal text-red-600 underline decoration-red-300 underline-offset-2",
             {
-              "hover:opacity-80": !loading,
+              "hover:decoration-red-600": !loading,
               "opacity-40": loading,
             }
           )}
