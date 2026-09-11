@@ -96,7 +96,7 @@ const ElementView = ({
 
         <div className="p-4 sm:p-5">
           <div className="flex justify-between items-start gap-3">
-            <div className="min-w-0">
+            <div className="min-w-0 flex-1">
               <BadgeType
                 className="text-[10px] mb-1.5"
                 type="item"
