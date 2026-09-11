@@ -71,8 +71,7 @@ const ElementView = ({
   const showBGGstats = !notGame && game && isInBGG;
 
   const isExpansion = typeNum === 2;
-  const accentClass = isExpansion ? "bg-gameExpansion" : "bg-gameBase";
-  const titleColorClass = isExpansion ? "text-gameExpansion" : "text-gameBase";
+  const titleColorClass = isExpansion ? "text-gameExpansion" : "";
 
   const showEdition = useMemo(() => {
     if (insideItem) {
@@ -85,14 +84,12 @@ const ElementView = ({
   }, [insideItem, canI, offered]);
 
   return (
-    <div className="relative -m-4 flex-1 rounded-lg overflow-hidden flex">
-      <div
-        className={clsx(
-          "self-stretch shrink-0 w-2 shadow-[inset_-1px_0_0_rgba(255,255,255,0.5)]",
-          accentClass
-        )}
-      />
-      <div className="grow min-w-0 flex flex-col">
+    <div
+      className={clsx(
+        "relative -m-4 flex-1 flex flex-col rounded-lg overflow-hidden border-2",
+        isExpansion ? "border-gameExpansion bg-gameExpansion/5" : "border-transparent"
+      )}
+    >
         <div className="relative w-full aspect-square">
           <Thumbnail elements={[element]} className="w-full h-full" />
         </div>
@@ -213,7 +210,6 @@ const ElementView = ({
           <ErrorAlert error={error} className="mt-3 mb-0" />
           {extraContent || null}
         </div>
-      </div>
       <LoadingBox loading={loading} min />
     </div>
   );
