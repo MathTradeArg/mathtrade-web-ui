@@ -29,6 +29,10 @@ module.exports = {
     "block",
     "md:inline",
     "text-orange-700",
+    "bg-gameBase",
+    "bg-gameExpansion",
+    "text-gameBase",
+    "text-gameExpansion",
   ],
   theme: {
     colors: {
@@ -46,6 +50,8 @@ module.exports = {
       logo: "#28a1bc",
       cancel: "#999",
       colorMain: "#ebebeb",
+      gameBase: "#1C1F26", // content classification: base game (also expansion vs. base, not a status color)
+      gameExpansion: "#B45309", // content classification: expansion
       item: {
         50: "#faf7f2",
         100: "#f2eee2",
@@ -77,6 +83,13 @@ module.exports = {
     },
 
     extend: {
+      fontSize: {
+        // Semantic type scale, additive to Tailwind's default text-xs..text-9xl.
+        caption: ["11px", { lineHeight: "14px", fontWeight: "500" }],
+        body: ["13px", { lineHeight: "18px", fontWeight: "400" }],
+        "body-lg": ["15px", { lineHeight: "20px", fontWeight: "600" }],
+        heading: ["19px", { lineHeight: "24px", fontWeight: "700" }],
+      },
       borderRadius: {
         main: "16px",
       },

@@ -23,6 +23,15 @@ const mainFont = localFont({
       style: "normal",
     },
   ],
+  // Without this, Next's automatic fallback while sfprodisplay loads (or if it fails)
+  // adjusts metrics against Arial — that's the "Arial feo" flash, not a real second font.
+  fallback: [
+    "-apple-system",
+    "BlinkMacSystemFont",
+    "Segoe UI",
+    "Roboto",
+    "sans-serif",
+  ],
 });
 
 export const metadata = {

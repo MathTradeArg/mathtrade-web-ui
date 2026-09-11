@@ -244,6 +244,7 @@ const listIcons = {
       d="M18 12.998h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5v-5a1 1 0 0 1 2 0v5h5a1 1 0 0 1 0 2z"
     />
   ),
+  square: <rect x="5" y="5" width="14" height="14" rx="2" fill="currentColor" />,
   edit: (
     <path
       fill="currentColor"
