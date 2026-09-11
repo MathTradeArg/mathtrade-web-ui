@@ -3,7 +3,7 @@ import { ItemContext } from "@/context/item";
 
 const useItemGrid = (expanded, setExpanded) => {
   const { item } = useContext(ItemContext);
-  const { id: itemId, isCombo, ban_id } = item;
+  const { id: itemId, isCombo, typeNum, ban_id } = item;
 
   const itemNode = useRef(null);
 
@@ -33,6 +33,7 @@ const useItemGrid = (expanded, setExpanded) => {
 
   return {
     isCombo,
+    typeNum,
     ban_id,
     itemNode,
     isExpanded,
