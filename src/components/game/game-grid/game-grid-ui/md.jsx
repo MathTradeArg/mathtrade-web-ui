@@ -80,6 +80,7 @@ const GameGridMD = ({ onToggleExpanse }) => {
               className="text-[9px]"
               type="game"
               subtype={typeNum || 1}
+              dark
             />
             <div
               data-tooltip={getI18Ntext("Enlarge")}
