@@ -35,7 +35,7 @@ export const Sidebar = ({ children, topNotRounded }) => {
       </button>
       <div
         className={clsx(
-          "bg-white lg:sticky lg:top-11 lg:h-[calc(100vh-44px)] lg:shadow-lg lg:overflow-y-auto overflow-x-hidden sidebar-aside-inner z-[999]",
+          "bg-white lg:sticky lg:top-0 lg:h-screen lg:shadow-lg lg:overflow-y-auto overflow-x-hidden sidebar-aside-inner z-[999]",
           {
             "lg:rounded-tl-main": !topNotRounded,
           }
