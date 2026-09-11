@@ -22,7 +22,7 @@ const GridUI = () => {
   }
 
   return (
-    <div className="sticky top-16">
+    <div className="sticky top-5">
       <div
         className="border-spacing-0 bg-white w-full h-mygrid overflow-scroll pb-8 select-none"
         style={{ contain: "paint" }}
