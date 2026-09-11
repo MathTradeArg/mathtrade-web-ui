@@ -15,8 +15,8 @@ const useItemTagList = () => {
   /* end ITEM CONTEXT */
 
   const afterLoadItemTags = useCallback(
-    (list) => {
-      const tags = list.map((tag, i) => {
+    ({ results }) => {
+      const tags = results.map((tag, i) => {
         return {
           ...tag,
           id: `${tag?.id || i}`,
@@ -31,12 +31,14 @@ const useItemTagList = () => {
 
   const [getTagList, , loadingTags] = useFetch({
     endpoint: "MYTAGS",
-    initialState: [],
+    initialState: { results: [] },
     afterLoad: afterLoadItemTags,
   });
 
   const afterLoad = useCallback(() => {
-    getTagList();
+    // My own tags are inherently bounded to one user's own entries - request
+    // the max page size so they aren't silently truncated at the default (50).
+    getTagList({ params: { page_size: 200 } });
   }, [getTagList]);
 
   const [putTag, , loadingUpdateTag] = useFetch({
