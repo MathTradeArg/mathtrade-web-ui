@@ -47,12 +47,11 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
   } = game as GameCardData;
   /* end GAME CONTEXT */
 
-  const { isInBGG, rate, rateColor, rateVotes, rank, weight } = useBGGdata({
+  const { isInBGG, rate, rateVotes, rank, weight } = useBGGdata({
     game: gameRaw,
   }) as {
     isInBGG?: boolean;
     rate: number;
-    rateColor: string;
     rateVotes: number;
     rank?: number;
     weight: number;
@@ -75,7 +74,7 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
   return (
     <div
       className={clsx(
-        "bg-white h-full rounded-lg transition-opacity relative flex flex-col",
+        "bg-white h-full rounded-lg transition-opacity relative flex flex-col overflow-hidden",
         cardKindBorderClass(cardKind),
         {
           "opacity-30 pointer-events-none": showAsIgnored,
@@ -83,27 +82,27 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
         }
       )}
     >
-      <div className="flex items-center justify-end gap-2 px-2 pt-2">
+      <div className="flex items-center justify-end gap-2 px-3 pt-2 pb-1">
         <BanButton size="md" type="game" />
         <div className="w-[1px] h-4 bg-gray-200"></div>
         {ban_id ? null : <Value type="game" />}
       </div>
 
-      <div className="flex gap-3 p-3 pt-1.5 grow">
+      <div className="flex gap-3 grow">
         <div className="relative w-[110px] shrink-0">
           <Thumbnail
             elements={[{ thumbnail }]}
-            className="rounded-lg w-full h-full"
+            className="w-full h-full"
           />
           <div
-            className="absolute top-0 left-0 w-full h-full bg-black/40 rounded-lg grid place-content-center backdrop-blur-sm cursor-pointer opacity-0 hover:opacity-100 transition-opacity"
+            className="absolute top-0 left-0 w-full h-full bg-black/40 grid place-content-center backdrop-blur-sm cursor-pointer opacity-0 hover:opacity-100 transition-opacity"
             onClick={onToggleExpanse}
           >
             <Icon type="plus" className="text-2xl text-white" />
           </div>
         </div>
 
-        <div className="flex-1 min-w-0 flex flex-col gap-1.5">
+        <div className="flex-1 min-w-0 py-1 pr-3 flex flex-col gap-1.5 items-start">
           <BadgeType
             className="text-[9px]"
             type="game"
@@ -113,7 +112,7 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
 
           <div
             data-tooltip={getI18Ntext("Enlarge")}
-            className="cursor-pointer"
+            className="cursor-pointer w-full"
             onClick={onToggleExpanse}
           >
             <h3 className="text-body-lg hover:opacity-70 leading-tight line-clamp-2">
@@ -124,10 +123,9 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
           {notGame ? (
             <ItemNoBGG itemRaw={items?.[0] || null} />
           ) : showBGGstats ? (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 w-full">
               <div
-                className="text-[13px] font-bold text-center w-7 h-7 leading-7 rounded-full text-white shrink-0"
-                style={{ backgroundColor: rateColor }}
+                className="text-[13px] font-bold text-center w-7 h-7 leading-7 rounded-full text-white shrink-0 bg-primary"
                 title={`${rateVotes} ${getI18Ntext("element.BGG.votes")}`}
               >
                 {rate}
@@ -151,13 +149,13 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
                   className="ml-auto shrink-0 w-6 h-6 rounded-md bg-bgg/10 text-bgg flex items-center justify-center hover:bg-bgg/20 transition-colors"
                   title={getI18Ntext("element.BGG.OpenGameInBGG")}
                 >
-                  <Icon type="bgg" className="text-xs" />
+                  <Icon type="external-link" className="text-xs" />
                 </a>
               ) : null}
             </div>
           ) : null}
 
-          <div className="mt-auto text-caption text-gray-400 truncate">
+          <div className="mt-auto w-full text-caption text-gray-400 truncate">
             {itemCount} <I18N id={itemCount === 1 ? "game.item-num.1" : "game.item-num.more"} />
             {showBGGstats ? (
               <>
@@ -170,7 +168,7 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
         </div>
       </div>
 
-      <div className="px-3 pb-3">
+      <div className="px-3 pb-3 pt-2">
         <WantButtonGame
           ban_id={ban_id}
           contextSize="md"
