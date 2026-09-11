@@ -3,7 +3,7 @@ import StatusBadge from "@/components/status-badge";
 import { ElementContext } from "@/context/element";
 import { useContext } from "react";
 import clsx from "clsx";
-import I18N from "@/i18n";
+import I18N, { getI18Ntext } from "@/i18n";
 
 const ElementXSUI = ({ isCombo }) => {
   const { element } = useContext(ElementContext);
@@ -42,8 +42,17 @@ const ElementXSUI = ({ isCombo }) => {
             </h5>
           </div>
           <div className="flex flex-wrap gap-2 items-center">
-            <StatusBadge status={box_status} type="box" min />
-            <StatusBadge status={component_status} min />
+            <StatusBadge
+              status={box_status}
+              type="box"
+              min
+              label={getI18Ntext("status.label.box")}
+            />
+            <StatusBadge
+              status={component_status}
+              min
+              label={getI18Ntext("status.label.components")}
+            />
             <div
               className={clsx("text-purple-800 font-bold cropped_1", {
                 "text-xs max-w-40": !isCombo,

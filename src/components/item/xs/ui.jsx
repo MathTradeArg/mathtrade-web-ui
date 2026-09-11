@@ -17,7 +17,7 @@ const ItemXSUI = ({ className, extraContent, dark, hideUser, hideValue }) => {
   return (
     <div
       className={clsx(
-        "flex lg:items-center gap-3 border border-item-700/60 min-h-[30px] shadow text-black",
+        "flex lg:items-center gap-3 rounded-lg border border-item-700/40 min-h-[30px] shadow-sm text-black",
         {
           "bg-item-200": !isCombo,
           "bg-item-300": isCombo,
@@ -25,9 +25,9 @@ const ItemXSUI = ({ className, extraContent, dark, hideUser, hideValue }) => {
         className
       )}
     >
-      {extraContent ? <div className="pl-2">{extraContent}</div> : null}
+      {extraContent ? <div className="pl-3">{extraContent}</div> : null}
       <div className="grow">
-        <div className="flex items-center py-1 justify-between gap-3">
+        <div className="flex items-center py-1.5 justify-between gap-3">
           <div className="grow flex flex-wrap items-center gap-1">
             {isCombo ? (
               <h3 className="uppercase text-[9px] font-bold text-gray-900 leading-none">

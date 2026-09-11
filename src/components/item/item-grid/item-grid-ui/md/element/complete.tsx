@@ -79,8 +79,17 @@ const ElementComplete = ({ onToggleExpanse }: ElementCompleteProps) => {
         </div>
 
         <div className="flex flex-wrap gap-1 items-center mt-1.5">
-          <StatusBadge status={box_status} type="box" min />
-          <StatusBadge status={component_status} min />
+          <StatusBadge
+            status={box_status}
+            type="box"
+            min
+            label={getI18Ntext("status.label.box")}
+          />
+          <StatusBadge
+            status={component_status}
+            min
+            label={getI18Ntext("status.label.components")}
+          />
         </div>
 
         {language ? (
