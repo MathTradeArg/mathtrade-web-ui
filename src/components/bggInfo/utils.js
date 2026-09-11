@@ -60,7 +60,7 @@ const dependencyToData = (dependency) => {
 
   if (totalVotes === 0) {
     return {
-      dependency: getI18Ntext("NoData"),
+      dependency: getI18Ntext("dependencyType.noData"),
       dependencyVotes: 0,
     };
   }
