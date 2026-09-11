@@ -6,7 +6,11 @@ const widthImage = 260;
 
 const excluded = ["none", ""];
 
-const Thumbnail = ({ className, src, elements = [{ thumbnail: "" }] }) => {
+const Thumbnail = ({
+  className = "",
+  src = "",
+  elements = [{ thumbnail: "" }],
+}) => {
   return (
     <div className={clsx("relative overflow-hidden", className)}>
       <picture className="block bg-gray-400 w-full aspect-square">

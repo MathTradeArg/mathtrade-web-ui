@@ -1,4 +1,6 @@
-const listIcons = {
+import type { JSX } from "react";
+
+const listIcons: Record<string, JSX.Element> = {
   menu: (
     <path
       fill="currentColor"

@@ -2,9 +2,21 @@ import clsx from "clsx";
 import I18N, { getI18Ntext } from "@/i18n";
 import Icon from "@/components/icon";
 
+type BadgeTypeProps = {
+  type: "game" | "item" | "tag";
+  subtype?: number;
+  isCombo?: boolean;
+  className?: string;
+};
+
 // subtype 1 = base game, 2 = expansion — same two colors/icons everywhere,
 // regardless of "type" (game-grid vs. item context used to diverge here).
-const BadgeType = ({ type, subtype = 1, isCombo, className }) => {
+const BadgeType = ({
+  type,
+  subtype = 1,
+  isCombo,
+  className,
+}: BadgeTypeProps) => {
   const isGameOrItem = type === "game" || type === "item";
   const isBase = isGameOrItem && subtype === 1;
   const isExpansion = isGameOrItem && subtype === 2;

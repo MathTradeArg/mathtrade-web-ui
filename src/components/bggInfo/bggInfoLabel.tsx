@@ -1,9 +1,16 @@
 import I18N from "@/i18n";
-
 import Question from "../question";
 import clsx from "clsx";
+import type { ReactNode } from "react";
 
-const BGGinfoLabel = ({ label, question, children, contextFor }) => {
+type BGGinfoLabelProps = {
+  label: string;
+  question?: string;
+  children?: ReactNode;
+  contextFor?: string;
+};
+
+const BGGinfoLabel = ({ label, question, children }: BGGinfoLabelProps) => {
   return (
     <div>
       <div className="whitespace-nowrap leading-none">

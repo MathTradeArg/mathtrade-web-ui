@@ -4,7 +4,20 @@ import { boxSizesValues, boxSizeIdToReview } from "@/config/boxSizes";
 import { useMemo } from "react";
 import clsx from "clsx";
 
-const BoxSizeComp = ({ boxSize, toReview }) => {
+type BoxSizeValue = {
+  text: string;
+  description: string;
+  valueA?: string | number;
+  valueB?: string | number;
+};
+
+const BoxSizeComp = ({
+  boxSize,
+  toReview,
+}: {
+  boxSize: BoxSizeValue;
+  toReview: boolean;
+}) => {
   return (
     <>
       <div
@@ -29,7 +42,12 @@ const BoxSizeComp = ({ boxSize, toReview }) => {
   );
 };
 
-const BoxSize = ({ value, isComplete }) => {
+type BoxSizeProps = {
+  value?: string | number | null;
+  isComplete?: boolean;
+};
+
+const BoxSize = ({ value, isComplete = false }: BoxSizeProps) => {
   const { val, boxSize } = useMemo(() => {
     const val =
       typeof value === "undefined" || value === null

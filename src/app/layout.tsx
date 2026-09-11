@@ -1,6 +1,8 @@
 import "./globals.css";
 import "@/styles/index.scss";
 import localFont from "next/font/local";
+import type { Metadata, Viewport } from "next";
+import type { ReactNode } from "react";
 import { DOCUMENT_TITLE, DOCUMENT_DESCRIPTION } from "@/config";
 
 //const mainFont = Montserrat({ subsets: ["latin"], weight: ["500", "700"] });
@@ -34,7 +36,7 @@ const mainFont = localFont({
   ],
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: DOCUMENT_TITLE,
   description: DOCUMENT_DESCRIPTION,
   icons: {
@@ -99,14 +101,14 @@ export const metadata = {
   },
 };
 
-export const viewport = {
+export const viewport: Viewport = {
   themeColor: "#FFFFFF",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="es">
       <body className={mainFont.className}>{children}</body>
