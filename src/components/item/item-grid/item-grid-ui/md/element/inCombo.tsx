@@ -5,10 +5,18 @@ import StatusBadge from "@/components/status-badge";
 import { ElementContext } from "@/context/element";
 import { useContext } from "react";
 
-const ElementInCombo = ({ onToggleExpanse }) => {
+type ElementInComboProps = {
+  onToggleExpanse: () => void;
+};
+
+const ElementInCombo = ({ onToggleExpanse }: ElementInComboProps) => {
   const { element } = useContext(ElementContext);
 
-  const { title, language, extraData } = element;
+  const { title, language, extraData } = element as {
+    title: string;
+    language?: string;
+    extraData: { box_status?: string; component_status?: string };
+  };
 
   const { box_status, component_status } = extraData;
 

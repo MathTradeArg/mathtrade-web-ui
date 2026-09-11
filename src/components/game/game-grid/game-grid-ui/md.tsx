@@ -1,19 +1,34 @@
 import Thumbnail from "@/components/thumbnail";
-import LinkExternal from "@/components/link-external";
 import BGGinfo from "@/components/bggInfo";
 import { GameContext } from "@/context/game";
 import { useContext } from "react";
 import I18N, { getI18Ntext } from "@/i18n";
 import Icon from "@/components/icon";
 import Value from "@/components/value";
-import WantButton from "@/components/want-button";
 import BanButton from "@/components/ban/button";
 import clsx from "clsx";
 import WantButtonGame from "./wantButtonGame";
 import ItemNoBGG from "./itemNoBgg";
 import BadgeType from "@/components/badgeType";
 
-const GameGridMD = ({ onToggleExpanse }) => {
+type GameCardData = {
+  ban_id?: number | string | null;
+  bgg_id?: number | null;
+  title: string;
+  titleLink?: string | null;
+  typeNum?: number;
+  thumbnail?: string;
+  year?: number | string | null;
+  items?: { elements?: unknown[] }[];
+  itemCount?: number;
+  notGame?: boolean;
+};
+
+type GameGridMDProps = {
+  onToggleExpanse: () => void;
+};
+
+const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
   /* GAME CONTEXT **********************************************/
   const { game, gameRaw, showAsIgnored } = useContext(GameContext);
 
@@ -28,13 +43,29 @@ const GameGridMD = ({ onToggleExpanse }) => {
     items,
     itemCount,
     notGame,
-  } = game;
+  } = game as GameCardData;
   /* end GAME CONTEXT */
+
+  // The backend buckets combo items (several different games bundled as
+  // one item) under the same "no BGG match" placeholder as genuine
+  // out-of-BGG items — tell them apart by the underlying item's element
+  // count so combos get the combo badge/color, not "fuera de la BGG".
+  const isComboItem = !!notGame && (items?.[0]?.elements?.length || 0) > 1;
+  const isTrueNotGame = !!notGame && !isComboItem;
+  const isExpansion = !isComboItem && typeNum === 2;
+  const cardKindClass = isComboItem
+    ? "border-gameCombo"
+    : isTrueNotGame
+    ? "border-yellow-600"
+    : isExpansion
+    ? "border-gameExpansion"
+    : "border-gray-700";
 
   return (
     <div
       className={clsx(
-        "bg-gray-900 h-full  rounded-lg mx-auto lg:p-3 p-2 transition-opacity relative",
+        "bg-gray-900 h-full rounded-lg mx-auto lg:p-3 p-2 transition-opacity relative border-2",
+        cardKindClass,
         {
           "opacity-30 pointer-events-none": showAsIgnored,
           "shadow-[0_0_0_7px_rgba(255,0,0,1)]": ban_id,
@@ -71,7 +102,7 @@ const GameGridMD = ({ onToggleExpanse }) => {
           <div className="bg-black rounded-b-lg flex items-center justify-end gap-3 p-2">
             <BanButton size="md" type="game" />
             <div className="w-[1px] h-4 bg-gray-400"></div>
-            {ban_id ? null : <Value size="md" type="game" />}
+            {ban_id ? null : <Value type="game" />}
           </div>
         </div>
         <div className="text-white flex flex-col h-full justify-between">
@@ -79,7 +110,8 @@ const GameGridMD = ({ onToggleExpanse }) => {
             <BadgeType
               className="text-[9px]"
               type="game"
-              subtype={typeNum || 1}
+              subtype={isTrueNotGame ? 3 : typeNum || 1}
+              isCombo={isComboItem}
               dark
             />
             <div
@@ -93,11 +125,7 @@ const GameGridMD = ({ onToggleExpanse }) => {
             </div>
 
             {notGame ? (
-              <ItemNoBGG
-                itemRaw={items[0] || null}
-                bgg_id={bgg_id}
-                title={title}
-              />
+              <ItemNoBGG itemRaw={items?.[0] || null} />
             ) : (
               <div className="py-3">
                 <div className="py-3 border-b border-t border-gray-700">
@@ -127,7 +155,7 @@ const GameGridMD = ({ onToggleExpanse }) => {
               ban_id={ban_id}
               contextSize="md"
               notGame={notGame}
-              itemRaw={items[0] || null}
+              itemRaw={items?.[0] || null}
             />
           </div>
         </div>

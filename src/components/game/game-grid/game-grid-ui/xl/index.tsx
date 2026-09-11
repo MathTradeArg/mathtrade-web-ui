@@ -9,31 +9,63 @@ import BanButton from "@/components/ban/button";
 import clsx from "clsx";
 import ItemNoBGG from "../itemNoBgg";
 import Dynamic from "@/components/dynamic";
+import BadgeType from "@/components/badgeType";
 
 const WantButtonGame = lazy(() => import("../wantButtonGame"));
 
-const GameGridXL = ({ onToggleExpanse }) => {
+type GameCardData = {
+  ban_id?: number | string | null;
+  bgg_id?: number | null;
+  title: string;
+  titleLink?: string | null;
+  typeNum?: number;
+  thumbnail?: string;
+  year?: number | string | null;
+  items?: { elements?: unknown[] }[];
+  notGame?: boolean;
+};
+
+type GameGridXLProps = {
+  onToggleExpanse: () => void;
+};
+
+const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
   /* GAME CONTEXT **********************************************/
   const { game, gameRaw, showAsIgnored } = useContext(GameContext);
 
   const {
     ban_id,
-    bgg_id,
     title,
     year,
     titleLink,
-    type,
+    typeNum,
     thumbnail,
     items,
     notGame,
-  } = game;
+  } = game as GameCardData;
   /* end GAME CONTEXT */
+
+  // Same combo-vs-notGame disambiguation as game-grid-ui/md.tsx: a combo
+  // item (several different games bundled together) has no single BGG
+  // match either, so the backend buckets it the same as a genuine
+  // out-of-BGG item — tell them apart by element count.
+  const isComboItem = !!notGame && (items?.[0]?.elements?.length || 0) > 1;
+  const isTrueNotGame = !!notGame && !isComboItem;
+  const isExpansion = !isComboItem && typeNum === 2;
+  const cardKindClass = isComboItem
+    ? "border-gameCombo"
+    : isTrueNotGame
+    ? "border-yellow-600"
+    : isExpansion
+    ? "border-gameExpansion"
+    : "border-gray-700";
 
   return (
     <div className="relative">
       <div
         className={clsx(
-          "bg-gray-900 w-full mx-auto p-2 pr-9 relative transition-opacity rounded-t-lg",
+          "bg-gray-900 w-full mx-auto p-2 pr-9 relative transition-opacity rounded-t-lg border-2",
+          cardKindClass,
           {
             "opacity-30  pointer-events-none": showAsIgnored,
             "shadow-[0_0_0_7px_rgba(255,0,0,1)]": ban_id,
@@ -57,14 +89,17 @@ const GameGridXL = ({ onToggleExpanse }) => {
             <div className="bg-black rounded-b-lg flex items-center justify-end gap-3 p-2">
               <BanButton size="md" type="game" />
               <div className="w-[1px] h-4 bg-gray-400"></div>
-              {ban_id ? null : <Value size="md" type="game" />}
+              {ban_id ? null : <Value type="game" />}
             </div>
           </div>
           <div className="text-white grow">
             <div>
-              <div className="uppercase text-[10px] font-bold opacity-70">
-                {type}
-              </div>
+              <BadgeType
+                type="game"
+                subtype={isTrueNotGame ? 3 : typeNum || 1}
+                isCombo={isComboItem}
+                dark
+              />
 
               <div>
                 <h3 className="text-lg font-bold mb-2">{`${title}${
@@ -73,7 +108,7 @@ const GameGridXL = ({ onToggleExpanse }) => {
               </div>
 
               {notGame ? (
-                <ItemNoBGG itemRaw={items[0]} bgg_id={bgg_id} />
+                <ItemNoBGG itemRaw={items?.[0] || null} />
               ) : (
                 <div className="py-3">
                   <div className="py-3 border-b border-t border-gray-700">
@@ -99,7 +134,7 @@ const GameGridXL = ({ onToggleExpanse }) => {
           ban_id={ban_id}
           contextSize="xl"
           notGame={notGame}
-          itemRaw={items[0]}
+          itemRaw={items?.[0] || null}
         />
       </Dynamic>
       <button
