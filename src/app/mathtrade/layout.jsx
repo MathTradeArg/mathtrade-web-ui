@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import Header from "@/components/header";
 import Sidebar from "@/components/sidebar";
+import TabBar from "@/components/sidebar/mobile/TabBar";
 import Footer from "@/components/footer";
 import PageContextProvider from "@/context/page";
 import ModalPreviewer from "@/components/previewer/modal";
@@ -59,8 +59,8 @@ export default function MathTradeLayout({ children }) {
         <PageContextProvider>
           <div className="lg:flex">
             <Sidebar />
-            <Header />
-            <div className="relative w-full min-h-screen pt-11 pb-20 lg:pt-0 lg:min-w-0 lg:flex-1">
+            <TabBar />
+            <div className="relative w-full min-h-screen pb-24 lg:pb-20 lg:min-w-0 lg:flex-1">
               <a id="a-top" />
               <AdvCompromise />
               <main className="relative py-main">{children}</main>
