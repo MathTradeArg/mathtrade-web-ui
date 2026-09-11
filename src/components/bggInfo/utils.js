@@ -49,7 +49,16 @@ const listDependencyTexts = (function () {
   };
 }; */
 const dependencyToData = (dependency) => {
-  if (dependency.votes === "0|0|0|0|0") {
+  // dependency.votes is the backend's Game.dependency_votes JSONField, a
+  // {level: voteCount} object (e.g. {"1": 12, "2": 3}), not a delimited string.
+  const totalVotes = Object.values(dependency.votes || {}).reduce(
+    (accumulator, currentValue) => {
+      return accumulator + (parseInt(currentValue, 10) || 0);
+    },
+    0
+  );
+
+  if (totalVotes === 0) {
     return {
       dependency: getI18Ntext("NoData"),
       dependencyVotes: 0,
@@ -58,14 +67,7 @@ const dependencyToData = (dependency) => {
 
   return {
     dependency: listDependencyTexts[parseInt(dependency?.value || 0, 10)].min,
-    dependencyVotes: dependency.votes
-      .split("|")
-      .map((vote) => {
-        return parseInt(vote, 10);
-      })
-      .reduce((accumulator, currentValue) => {
-        return accumulator + currentValue;
-      }, 0),
+    dependencyVotes: totalVotes,
   };
 };
 //
@@ -105,7 +107,7 @@ export const getStatsOfElement = (element) => {
     weightVotes: parseInt(weight_votes || 0, 10),
     ...dependencyToData({
       value: dependency || 0,
-      votes: dependency_votes || "",
+      votes: dependency_votes || {},
     }),
   };
 };
