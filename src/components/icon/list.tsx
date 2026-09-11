@@ -247,6 +247,20 @@ const listIcons: Record<string, JSX.Element> = {
     />
   ),
   square: <rect x="5" y="5" width="14" height="14" rx="2" fill="currentColor" />,
+  combo: (
+    <>
+      <rect
+        x="3"
+        y="3"
+        width="12"
+        height="12"
+        rx="2"
+        fill="currentColor"
+        opacity="0.55"
+      />
+      <rect x="9" y="9" width="12" height="12" rx="2" fill="currentColor" />
+    </>
+  ),
   edit: (
     <path
       fill="currentColor"

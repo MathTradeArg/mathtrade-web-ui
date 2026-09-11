@@ -31,8 +31,13 @@ module.exports = {
     "text-orange-700",
     "bg-gameBase",
     "bg-gameExpansion",
+    "bg-gameCombo",
     "text-gameBase",
     "text-gameExpansion",
+    "text-gameCombo",
+    "border-gameBase",
+    "border-gameExpansion",
+    "border-gameCombo",
   ],
   theme: {
     colors: {
@@ -52,6 +57,7 @@ module.exports = {
       colorMain: "#ebebeb",
       gameBase: "#1C1F26", // content classification: base game (also expansion vs. base, not a status color)
       gameExpansion: "#B45309", // content classification: expansion
+      gameCombo: "#5B21B6", // content classification: combo (bundle of several elements) — deep violet, clear of the BGG rating scale's gray/red/blue/green range
       item: {
         50: "#faf7f2",
         100: "#f2eee2",
