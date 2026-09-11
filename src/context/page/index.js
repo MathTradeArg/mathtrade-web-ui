@@ -37,7 +37,7 @@ export const PageContext = createContext({
   newMyWantsNum: 0,
   setNewMyWantsNum: () => {},
   wantsNumPosition: null,
-  setWantsNumPosition: () => {},
+  setWantsNumPosition: (_position) => {},
   //
   itemTags: [],
   setItemTags: () => {},
@@ -46,6 +46,7 @@ export const PageContext = createContext({
   loadingUsers: [],
   setLoadingUsers: () => {},
   //
+  mathtrade: null,
   mathTradeId: null,
   membership: null,
   userId: "",

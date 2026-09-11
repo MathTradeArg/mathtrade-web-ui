@@ -9,25 +9,61 @@ import useHeaderAccount from "./useHeaderAccount";
 import HeadContent from "../head-content";
 import { useContext } from "react";
 import { PageContext } from "@/context/page";
+import clsx from "clsx";
 
-const AccountMenuButton = () => {
+type AccountMenuButtonProps = {
+  // "row" renders name + "Ver cuenta" next to the avatar, for the sidebar's account row.
+  variant?: "header" | "row";
+  placement?: "below" | "right";
+};
+
+const AccountMenuButton = ({
+  variant = "header",
+  placement = "below",
+}: AccountMenuButtonProps = {}) => {
   const { user } = useStore((state) => state.data);
   const { show, visibleMobile, toggleMobile, signOut } = useHeaderAccount();
 
   const { canI, isReferrer } = useContext(PageContext);
 
+  const isRow = variant === "row";
+
   return show ? (
     <div className="relative">
-      <div className="cursor-pointer peer">
+      <div
+        className={clsx("cursor-pointer peer flex items-center gap-2", {
+          "w-full": isRow,
+        })}
+        onClick={toggleMobile}
+      >
         <Avatar
-          className="pointer"
           avatar={user?.avatar}
           first_name={user?.first_name || ""}
-          onClick={toggleMobile}
+          width={32}
         />
+        {isRow ? (
+          <>
+            <div className="min-w-0 flex-1 text-left">
+              <div className="text-white text-sm font-semibold truncate">
+                {`${user?.first_name || ""} ${user?.last_name || ""}`}
+              </div>
+              <div className="text-white/50 text-xs">
+                <I18N id="title.MyAccount" />
+              </div>
+            </div>
+            <Icon
+              type="chevron-down"
+              className="text-white/40 text-xs shrink-0"
+            />
+          </>
+        ) : null}
       </div>
 
-      <HeadContent visibleMobile={visibleMobile} toggleMobile={toggleMobile}>
+      <HeadContent
+        visibleMobile={visibleMobile}
+        toggleMobile={toggleMobile}
+        placement={placement}
+      >
         <div className="text-center pt-6 pb-1">
           <div className="w-[80px] mx-auto mb-2">
             <Avatar
@@ -66,7 +102,6 @@ const AccountMenuButton = () => {
               </Link>
             )}
             <button
-              href="/"
               className="block leading-10 hover:bg-danger hover:text-white w-full text-danger"
               onClick={() => {
                 toggleMobile();

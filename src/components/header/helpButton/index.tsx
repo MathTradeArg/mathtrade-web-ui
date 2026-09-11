@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useState } from "react";
 import HeadContent from "../head-content";
+import Icon from "@/components/icon";
 import I18N from "@/i18n";
 import Link from "next/link";
 import { PRIVATE_ROUTES, PUBLIC_ROUTES } from "@/config/routes";
@@ -8,7 +9,16 @@ import { rulebookPDFurl, instructPDFurl } from "@/config/rulebook";
 
 const baseURL = process.env.BASE_URL;
 
-const HelpButton = () => {
+type HelpButtonProps = {
+  // "row" renders an icon + label row, for the sidebar's utility row.
+  variant?: "header" | "row";
+  placement?: "below" | "right";
+};
+
+const HelpButton = ({
+  variant = "header",
+  placement = "below",
+}: HelpButtonProps = {}) => {
   const [visibleMobile, setVisibleMobile] = useState(false);
 
   const toggleMobile = useCallback(() => {
@@ -17,17 +27,31 @@ const HelpButton = () => {
 
   return (
     <div className="relative">
-      <button
-        className="relative cursor-pointer block peer  text-sm text-white hover:bg-primary/30 h-11 px-2"
-        onClick={toggleMobile}
-      >
-        <span className="xl:inline-block hidden">
+      {variant === "row" ? (
+        <button
+          className="flex items-center gap-3 w-full text-left cursor-pointer peer text-sm text-white/80 hover:text-white px-2 py-2 rounded-lg hover:bg-white/5"
+          onClick={toggleMobile}
+        >
+          <Icon type="help2" className="text-lg" />
           <I18N id="help.menu" />
-        </span>
-        <span className="xl:hidden">❔</span>
-      </button>
+        </button>
+      ) : (
+        <button
+          className="relative cursor-pointer block peer  text-sm text-white hover:bg-primary/30 h-11 px-2"
+          onClick={toggleMobile}
+        >
+          <span className="xl:inline-block hidden">
+            <I18N id="help.menu" />
+          </span>
+          <span className="xl:hidden">❔</span>
+        </button>
+      )}
 
-      <HeadContent visibleMobile={visibleMobile} toggleMobile={toggleMobile}>
+      <HeadContent
+        visibleMobile={visibleMobile}
+        toggleMobile={toggleMobile}
+        placement={placement}
+      >
         <div className="py-1">
           <Link
             href={PRIVATE_ROUTES.FAQS.path}

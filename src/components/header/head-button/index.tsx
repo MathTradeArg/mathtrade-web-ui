@@ -1,6 +1,17 @@
 import Link from "next/link";
 import Icon from "@/components/icon";
 import clsx from "clsx";
+import type { RefObject } from "react";
+
+type HeadButtonProps = {
+  onClick?: () => void;
+  icon?: string;
+  num?: number;
+  href?: string;
+  forWants?: boolean;
+  buttonRef?: RefObject<HTMLButtonElement>;
+  onMouseEnter?: () => void;
+};
 
 const HeadButton = ({
   onClick,
@@ -10,7 +21,7 @@ const HeadButton = ({
   forWants,
   buttonRef,
   onMouseEnter,
-}) => {
+}: HeadButtonProps) => {
   return href ? (
     <Link
       href={href}
