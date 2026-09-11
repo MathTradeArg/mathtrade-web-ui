@@ -2,7 +2,14 @@ import { LoadingBox } from "@/components/loading";
 import Wrapper from "@/components/wrapper";
 import clsx from "clsx";
 
-const SectionCommon = ({ loading, children, topNotRounded }) => {
+const SectionCommon = ({
+  loading = false,
+  children,
+  topNotRounded = false,
+  size = "",
+  title = "",
+  description = null,
+}) => {
   return (
     <Wrapper>
       <section

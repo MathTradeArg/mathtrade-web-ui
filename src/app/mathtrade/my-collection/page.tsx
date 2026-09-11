@@ -41,7 +41,7 @@ const MyCollectionPage = () => {
             <I18N id="MyCollection.page.explanation" />
           </p>
         }
-        bgImg="4"
+        bgImg={4}
       />
       <SectionCommon
         loading={loading}

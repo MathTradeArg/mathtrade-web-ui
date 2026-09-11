@@ -6,7 +6,11 @@ import Dynamic from "@/components/dynamic";
 
 const ElementEditor = lazy(() => import("./editor"));
 
-const ElementCollection = ({ element, insideItem, extraContent }) => {
+const ElementCollection = ({
+  element,
+  insideItem = false,
+  extraContent = null,
+}) => {
   // EDITING MODE *************************************/
   const [editingMode, setEditingMode] = useState(false);
   const toggleEditingMode = useCallback(() => {
