@@ -44,9 +44,9 @@ const useWantGroup = (wantGroup, itemId) => {
     if (bgg_id) {
       game_thumbnail = games?.filter(({ bgg_id: bggId }) => {
         return `${bggId}` === `${bgg_id}`;
-      })?.[0]?.game_thumbnail;
+      })?.[0]?.thumbnail;
     } else {
-      game_thumbnail = games?.[0]?.game_thumbnail;
+      game_thumbnail = games?.[0]?.thumbnail;
     }
 
     return [{ thumbnail: game_thumbnail || "" }]; //[elementThumb];
