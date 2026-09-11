@@ -61,7 +61,6 @@ const SignInContent = () => {
                   autocomplete="username"
                   ariaLabel="form.Email"
                   icon="email"
-                  disabled={pausedSite === "yes"}
                 />
               </InputContainer>
               <InputContainer validate="password" className="mb-0">
@@ -74,7 +73,6 @@ const SignInContent = () => {
                   autocomplete="password"
                   ariaLabel="form.Password"
                   icon="password"
-                  disabled={pausedSite === "yes"}
                 />
               </InputContainer>
             </fieldset>
@@ -90,7 +88,7 @@ const SignInContent = () => {
             <ErrorAlert error={error} />
 
             <div className="text-center mb-5">
-              <Button ariaLabel="btn.Enter" disabled={pausedSite === "yes"}>
+              <Button ariaLabel="btn.Enter">
                 <I18N id="btn.Enter" />
               </Button>
             </div>
