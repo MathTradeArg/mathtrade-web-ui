@@ -1,3 +1,4 @@
+"use client";
 import { useContext, useCallback, useMemo, useState } from "react";
 import { PageContext } from "@/context/page";
 import useFetch from "@/hooks/useFetch";
@@ -43,7 +44,7 @@ const AdvCompromise = () => {
 
   return showAdvice && mustConfirm && !canI.offer && canI.commit ? (
     <Wrapper className="mt-main">
-      <div className="bg-red-600 relative top-11 left-0 w-full z-[998] text-white text-center p-2 shadow-main rounded-main">
+      <div className="bg-red-600 w-full z-[998] text-white text-center p-2 shadow-main rounded-main">
         <I18N id="AdvCompromise" />
         <Link
           href={PRIVATE_ROUTES.WANTS.path}

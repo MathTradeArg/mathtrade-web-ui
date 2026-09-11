@@ -27,7 +27,7 @@ export const PRIMARY_NAV: NavEntry[] = [
   {
     key: "OFFER",
     path: PRIVATE_ROUTES.OFFER.path,
-    titleI18nKey: "menu.offerGames",
+    titleI18nKey: "menu.OfferGames", // real i18n key, verified against es_AR.json — not a typo despite the inconsistent casing
     icon: "collection",
     mobilePrimary: true,
   },

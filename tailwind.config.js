@@ -4,9 +4,9 @@ const colors = require("tailwindcss/colors");
 
 module.exports = {
   content: [
-    "./src/app/**/*.{js,jsx}",
-    "./src/components/**/*.{js,jsx}",
-    "./src/environments/**/*.{js,jsx}",
+    "./src/app/**/*.{js,jsx,ts,tsx}",
+    "./src/components/**/*.{js,jsx,ts,tsx}",
+    "./src/environments/**/*.{js,jsx,ts,tsx}",
   ],
   safelist: [
     "bg-primary",

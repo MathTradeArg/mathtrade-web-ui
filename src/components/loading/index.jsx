@@ -32,11 +32,11 @@ const LoadingGraph = ({ min }) => {
 
 export const LoadingBox = ({
   loading,
-  className,
-  transparent,
-  min,
-  center,
-  zIndex,
+  className = "",
+  transparent = false,
+  min = false,
+  center = false,
+  zIndex = null,
 }) => {
   return loading ? (
     <div
