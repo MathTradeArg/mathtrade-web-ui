@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Sistema de diseño — Math Trade Argentina</title>
+<style>
+  :root {
+    /* ---- Tokens EXISTENTES en tailwind.config.js (reutilizados, no inventados) ---- */
+    --primary: #009ddb;
+    --secondary: #d0637c;
+    --danger: #d9512f;
+    --want: #00b86b;
+    --success: #06d6a0;
+    --warning: #ffd166;
+    --cancel: #999999;
+    --bgg: #ff5100;
+    --bggback: #59518b;
+    --logo: #28a1bc;
+    --stroke: #bbc6ce;
+    --colorMain: #ebebeb;
+    --gameBase: #1C1F26;
+    --gameExpansion: #B45309;
+    --purple-600: #9333ea; /* del set Tailwind YA habilitado (purple), no violet/fuchsia */
+    --purple-100: #f3e8ff;
+
+    /* ---- Neutros de página ---- */
+    --bg-page: #eef1f2;
+    --bg-card: #ffffff;
+    --text-primary: #16181c;
+    --text-muted: #5b6570;
+    --border-soft: #dfe4e7;
+
+    /* ---- Tipografía: escala semántica existente + nivel display (nuevo) ---- */
+    --fs-caption: 11px; --lh-caption: 14px; --fw-caption: 500;
+    --fs-body: 13px; --lh-body: 18px; --fw-body: 400;
+    --fs-body-lg: 15px; --lh-body-lg: 20px; --fw-body-lg: 600;
+    --fs-heading: 19px; --lh-heading: 24px; --fw-heading: 700;
+    /* NUEVO — nivel que faltaba para títulos de página (hoy resuelto ad-hoc con text-4xl/text-6xl) */
+    --fs-display: clamp(1.75rem, 1.3rem + 2vw, 2.5rem);
+    --lh-display: 1.15;
+    --fw-display: 700;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 40px 24px 120px;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+
+  .doc-header { margin-bottom: 56px; }
+  .doc-header h1 {
+    font-size: var(--fs-display);
+    line-height: var(--lh-display);
+    font-weight: var(--fw-display);
+    margin: 0 0 10px;
+  }
+  .doc-header p {
+    font-size: var(--fs-body-lg);
+    line-height: var(--lh-body-lg);
+    font-weight: 400;
+    color: var(--text-muted);
+    max-width: 640px;
+    margin: 0;
+  }
+
+  section { margin-bottom: 64px; }
+  .section-label {
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-caption);
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  h2.section-title {
+    font-size: var(--fs-heading);
+    font-weight: var(--fw-heading);
+    margin: 0 0 8px;
+  }
+  .section-desc {
+    font-size: var(--fs-body-lg);
+    line-height: var(--lh-body-lg);
+    color: var(--text-muted);
+    font-weight: 400;
+    max-width: 720px;
+    margin: 0 0 28px;
+  }
+
+  /* ---- Swatches de color existentes ---- */
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+  .swatch {
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .swatch-color { height: 56px; }
+  .swatch-meta { padding: 8px 10px; }
+  .swatch-name {
+    font-size: var(--fs-body);
+    font-weight: 600;
+    display: block;
+  }
+  .swatch-hex {
+    font-size: var(--fs-caption);
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- Tabla de tipografía ---- */
+  .type-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 200px;
+    align-items: baseline;
+    gap: 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-token {
+    font-size: var(--fs-body);
+    font-weight: 600;
+    color: var(--text-muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .type-token.is-new::after {
+    content: "nuevo";
+    display: inline-block;
+    margin-left: 8px;
+    font-family: -apple-system, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 12%, white);
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.02em;
+  }
+  .type-spec {
+    font-size: var(--fs-caption);
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  /* ---- Badges de estado (componente central) ---- */
+  .badge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .badge-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: var(--fs-body);
+    font-weight: 600;
+  }
+  .status-badge svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  .status-abierta {
+    background: color-mix(in srgb, var(--cancel) 14%, white);
+    color: #6b7280;
+  }
+  .status-comprometida {
+    background: color-mix(in srgb, var(--warning) 30%, white);
+    color: #92710a;
+  }
+  .status-transito {
+    background: color-mix(in srgb, var(--primary) 14%, white);
+    color: var(--primary);
+  }
+  .status-disputa {
+    background: var(--purple-100);
+    color: var(--purple-600);
+  }
+  /* Confirmada/crítica: única con relleno SÓLIDO — tratamiento deliberadamente distinto, no solo otro hue */
+  .status-confirmada {
+    background: var(--danger);
+    color: white;
+    font-weight: 700;
+    padding: 7px 14px;
+  }
+
+  .badge-caption {
+    display: block;
+    margin-top: 10px;
+    font-size: var(--fs-caption);
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* ---- Timeline de ejemplo ---- */
+  .timeline {
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    padding: 8px;
+  }
+  .timeline-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 12px;
+    border-radius: 8px;
+  }
+  .timeline-row + .timeline-row { border-top: 1px solid var(--border-soft); }
+  .timeline-row.is-critical {
+    background: color-mix(in srgb, var(--danger) 6%, white);
+  }
+  .timeline-item { font-size: var(--fs-body-lg); font-weight: 600; }
+  .timeline-sub { font-size: var(--fs-caption); color: var(--text-muted); margin-top: 2px; }
+
+  /* ---- Comparación Mi Ludoteca: antes / después ---- */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 760px) { .compare { grid-template-columns: 1fr; } }
+  .compare-col {
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .compare-tag {
+    font-size: var(--fs-caption);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 10px 16px;
+  }
+  .compare-tag.before { background: color-mix(in srgb, var(--danger) 10%, white); color: var(--danger); }
+  .compare-tag.after { background: color-mix(in srgb, var(--want) 12%, white); color: #0a7a4d; }
+
+  /* antes: banner gigante recreado a escala */
+  .before-banner {
+    height: 190px;
+    background: linear-gradient(135deg, #4a3560, #7a4a2e);
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+  }
+  .before-banner h3 { margin: 0; font-size: 22px; font-weight: 800; }
+  .before-banner p { margin: 0; font-size: 11px; line-height: 1.5; opacity: 0.9; max-width: 90%; }
+  .before-list { padding: 16px; font-size: var(--fs-body); color: var(--text-muted); }
+
+  /* después: header liviano */
+  .after-header {
+    padding: 18px 16px 14px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .after-header h3 {
+    font-size: var(--fs-heading);
+    font-weight: var(--fw-heading);
+    margin: 0 0 4px;
+  }
+  .after-meta { font-size: var(--fs-caption); color: var(--text-muted); }
+  .after-help {
+    margin: 12px 0 0;
+    font-size: var(--fs-body);
+    color: var(--primary);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: default;
+  }
+  .after-list { padding: 16px; font-size: var(--fs-body); color: var(--text-muted); }
+
+  .note {
+    margin-top: 28px;
+    padding: 14px 16px;
+    background: color-mix(in srgb, var(--primary) 6%, white);
+    border-left: 3px solid var(--primary);
+    border-radius: 6px;
+    font-size: var(--fs-body);
+    line-height: 1.6;
+    color: var(--text-primary);
+  }
+  .note b { font-weight: 700; }
+
+  /* ---- Estados pendientes de instrumentación (sin campo de datos aún) ---- */
+  .pending-note {
+    margin-bottom: 28px;
+    padding: 14px 16px;
+    background: color-mix(in srgb, var(--cancel) 10%, white);
+    border-left: 3px solid var(--cancel);
+    border-radius: 6px;
+    font-size: var(--fs-body);
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+  .pending-note b { color: var(--text-primary); }
+
+  /* ---- Card de juego rediseñada: horizontal, 2 por fila ---- */
+  .card-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .game-card {
+    display: flex;
+    width: calc(50% - 10px);
+    min-width: 400px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .game-card.is-base { border-left: 4px solid var(--gameBase); }
+  .game-card.is-expansion { border-left: 4px solid var(--gameExpansion); }
+
+  .gc-cover {
+    width: 130px;
+    flex-shrink: 0;
+    background-size: cover;
+    background-position: center;
+  }
+  .gc-content {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .gc-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .gc-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: var(--fs-caption);
+    font-weight: 700;
+  }
+  .gc-tag.base { color: var(--gameBase); }
+  .gc-tag.expansion { color: var(--gameExpansion); }
+  .gc-tag svg { width: 9px; height: 9px; }
+
+  .gc-offered {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    background: #d9c199;
+    color: #5c4a24;
+    padding: 3px 9px;
+    border-radius: 999px;
+  }
+
+  .gc-title {
+    font-size: var(--fs-heading);
+    font-weight: var(--fw-heading);
+    line-height: 1.25;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .gc-hero {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .gc-rating {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    font-weight: 700;
+    font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .gc-complexity { display: flex; flex-direction: column; gap: 3px; }
+  .gc-complexity-label { font-size: 10px; color: var(--text-muted); }
+  .gc-dots { display: flex; gap: 3px; }
+  .gc-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-soft); }
+  .gc-dot.filled { background: var(--text-primary); }
+  .gc-bgg-link {
+    margin-left: auto;
+    width: 26px; height: 26px;
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--bgg) 12%, white);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .gc-bgg-link svg { width: 13px; height: 13px; color: var(--bgg); }
+
+  .gc-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .gc-chip {
+    font-size: var(--fs-caption);
+    font-weight: 500;
+    color: var(--text-muted);
+    background: var(--colorMain);
+    padding: 4px 9px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .gc-boxsize-icon { display: flex; align-items: flex-end; gap: 2px; }
+  .gc-boxsize-icon span {
+    display: block;
+    width: 5px;
+    background: var(--border-soft);
+    border-radius: 1px;
+  }
+  .gc-boxsize-icon span.on { background: var(--text-muted); }
+
+  .gc-footer {
+    margin-top: auto;
+    font-size: var(--fs-caption);
+    color: var(--text-muted);
+  }
+
+  /* ---- Score pill: control editable, no badge estático ---- */
+  .score-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    background: white;
+    border: 1.5px solid currentColor;
+    cursor: pointer;
+  }
+  .score-pill svg { width: 11px; height: 11px; opacity: 0.7; }
+  .score-pill.low { color: var(--danger); }
+  .score-pill.mid { color: #b8860b; }
+  .score-pill.high { color: var(--want); }
+  .score-pill.sm { padding: 3px 8px; font-size: 11px; }
+
+  /* ---- Toggle de deseo: un componente, tres estados ---- */
+  .want-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--fs-body);
+    font-weight: 600;
+  }
+  .want-toggle .heart { width: 20px; height: 20px; flex-shrink: 0; }
+  .want-toggle.is-off { color: var(--text-muted); }
+  .want-toggle.is-off .heart { fill: none; stroke: var(--text-muted); stroke-width: 2; }
+  .want-toggle.is-on { color: var(--want); }
+  .want-toggle.is-on .heart { fill: var(--want); stroke: var(--want); }
+  .want-toggle.is-disabled { color: var(--text-muted); }
+  .want-toggle.is-disabled .heart { fill: var(--border-soft); stroke: var(--border-soft); }
+  .want-toggle .why-link {
+    font-size: var(--fs-caption);
+    font-weight: 500;
+    color: var(--primary);
+    text-decoration: underline;
+    margin-left: 4px;
+  }
+
+  /* ---- Filas de ejemplar (vista expandida): 3 líneas internas fijas ---- */
+  .ejemplar-list { display: flex; flex-direction: column; gap: 6px; }
+  .ejemplar-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+  }
+  .ejemplar-row.is-excluded { opacity: 0.45; background: var(--colorMain); }
+  .ejemplar-row input[type=checkbox] { width: 16px; height: 16px; flex-shrink: 0; margin-top: 8px; }
+  .ejemplar-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+
+  /* línea 1: thumbnail + título */
+  .ejemplar-line-title { display: flex; align-items: center; gap: 10px; }
+  .ejemplar-thumb { width: 32px; height: 32px; border-radius: 4px; background: var(--border-soft); flex-shrink: 0; }
+  .ejemplar-name { font-size: var(--fs-body); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* línea 2: pills de estado + idioma */
+  .ejemplar-line-chips { display: flex; gap: 5px; flex-wrap: wrap; }
+
+  /* línea 3: oferente, puntaje, descripción */
+  .ejemplar-line-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .ejemplar-owner { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .ejemplar-owner .avatar { width: 20px; height: 20px; border-radius: 50%; background: var(--secondary); flex-shrink: 0; }
+  .ejemplar-owner-text { font-size: var(--fs-caption); line-height: 1.3; white-space: nowrap; }
+  .ejemplar-owner-text b { font-weight: 600; }
+  .ejemplar-owner-text .sep { color: var(--border-soft); margin: 0 2px; }
+  .ejemplar-desc-link { font-size: var(--fs-caption); color: var(--primary); text-decoration: underline; white-space: nowrap; }
+  .ejemplar-line-meta-right { display: flex; align-items: center; gap: 10px; margin-left: auto; flex-shrink: 0; }
+  .ejemplar-eye { width: 16px; height: 16px; color: var(--text-muted); flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="doc-header">
+    <h1>Sistema de diseño — Math Trade Argentina</h1>
+    <p>v1 · Estados de confianza, tipografía y paleta reutilizada. Cada decisión de color parte de lo que ya existe en tailwind.config.js — nada se inventa donde ya hay un token cumpliendo ese rol.</p>
+  </div>
+
+  <section>
+    <div class="section-label">01 · Paleta existente</div>
+    <h2 class="section-title">Tokens de marca (sin cambios)</h2>
+    <p class="section-desc">Estos ya están en el sistema y no se tocan. El sistema de estados nuevo se construye alrededor de ellos, no encima.</p>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch-color" style="background:var(--primary)"></div><div class="swatch-meta"><span class="swatch-name">primary</span><span class="swatch-hex">#009ddb</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--secondary)"></div><div class="swatch-meta"><span class="swatch-name">secondary</span><span class="swatch-hex">#d0637c</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--danger)"></div><div class="swatch-meta"><span class="swatch-name">danger</span><span class="swatch-hex">#d9512f</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--want)"></div><div class="swatch-meta"><span class="swatch-name">want</span><span class="swatch-hex">#00b86b</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--success)"></div><div class="swatch-meta"><span class="swatch-name">success</span><span class="swatch-hex">#06d6a0</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--warning)"></div><div class="swatch-meta"><span class="swatch-name">warning</span><span class="swatch-hex">#ffd166</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--cancel)"></div><div class="swatch-meta"><span class="swatch-name">cancel</span><span class="swatch-hex">#999999</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--bgg)"></div><div class="swatch-meta"><span class="swatch-name">bgg</span><span class="swatch-hex">#ff5100</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--gameExpansion)"></div><div class="swatch-meta"><span class="swatch-name">gameExpansion</span><span class="swatch-hex">#B45309</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--gameBase)"></div><div class="swatch-meta"><span class="swatch-name">gameBase</span><span class="swatch-hex">#1C1F26</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--purple-600)"></div><div class="swatch-meta"><span class="swatch-name">purple-600</span><span class="swatch-hex">#9333ea</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--stroke)"></div><div class="swatch-meta"><span class="swatch-name">stroke</span><span class="swatch-hex">#bbc6ce</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">02 · Tipografía</div>
+    <h2 class="section-title">Escala semántica + nivel display</h2>
+    <p class="section-desc">La escala de las cards (caption→heading) se extiende hacia arriba con <code>display</code>, fluido con clamp(), para que los títulos de página dejen de resolverse ad-hoc con text-4xl/text-6xl.</p>
+
+    <div class="type-row">
+      <span class="type-token is-new">display</span>
+      <span style="font-size:var(--fs-display); line-height:var(--lh-display); font-weight:var(--fw-display);">Mi ludoteca</span>
+      <span class="type-spec">clamp(28→40px) / 700</span>
+    </div>
+    <div class="type-row">
+      <span class="type-token">heading</span>
+      <span style="font-size:var(--fs-heading); line-height:var(--lh-heading); font-weight:var(--fw-heading);">40 artículos en tu ludoteca</span>
+      <span class="type-spec">19/24 / 700</span>
+    </div>
+    <div class="type-row">
+      <span class="type-token">body-lg</span>
+      <span style="font-size:var(--fs-body-lg); line-height:var(--lh-body-lg); font-weight:var(--fw-body-lg);">Cargar un artículo no implica ofertarlo en el trade.</span>
+      <span class="type-spec">15/20 / 600</span>
+    </div>
+    <div class="type-row">
+      <span class="type-token">body</span>
+      <span style="font-size:var(--fs-body); line-height:var(--lh-body); font-weight:var(--fw-body);">Patchwork · Lookout Games (2018) · Idioma: inglés</span>
+      <span class="type-spec">13/18 / 400</span>
+    </div>
+    <div class="type-row">
+      <span class="type-token">caption</span>
+      <span style="font-size:var(--fs-caption); line-height:var(--lh-caption); font-weight:var(--fw-caption); color:var(--text-muted);">Actualizado hace 3 días</span>
+      <span class="type-spec">11/14 / 500</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">03 · Componente central</div>
+    <h2 class="section-title">Badge de estado de confianza</h2>
+    <p class="section-desc">Cinco estados. Cuatro reutilizan un token existente cuyo significado ya calzaba. Uno —confirmada— no suma un color nuevo a una familia cálida ya saturada: cambia de <i>tratamiento</i> (relleno sólido + candado + mayor peso), no de hue.</p>
+
+    <div class="badge-grid">
+      <div class="badge-card">
+        <span class="status-badge status-abierta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
+          Oferta abierta
+        </span>
+        <span class="badge-caption">Token reutilizado: <b>cancel</b> (#999). Sin costo de salida — retirarla no afecta a nadie.</span>
+      </div>
+
+      <div class="badge-card">
+        <span class="status-badge status-comprometida">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v9l6 3"/><circle cx="12" cy="12" r="9"/></svg>
+          Match tentativo
+        </span>
+        <span class="badge-caption">Token reutilizado: <b>warning</b> (#ffd166). Hay una contraparte, pero el algoritmo puede recalcular.</span>
+      </div>
+
+      <div class="badge-card">
+        <span class="status-badge status-confirmada">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          Confirmado
+        </span>
+        <span class="badge-caption"><b>Único relleno sólido del sistema.</b> Mismo hue que danger, tratamiento exclusivo — bajarte de acá rompe una cadena de terceros.</span>
+      </div>
+
+      <div class="badge-card">
+        <span class="status-badge status-transito">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h13M13 6l6 6-6 6"/></svg>
+          En tránsito
+        </span>
+        <span class="badge-caption">Token reutilizado: <b>primary</b> (#009ddb). El juego ya salió de manos del oferente — logística en curso.</span>
+      </div>
+
+      <div class="badge-card">
+        <span class="status-badge status-disputa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+          En disputa
+        </span>
+        <span class="badge-caption">Token nuevo: <b>purple-600</b> del set Tailwind ya habilitado (no violet/fuchsia, que no están activos). Reservado para intervención del equipo.</span>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top:8px;">Ejemplo aplicado — ciclo de vida de un trade</div>
+    <div class="timeline">
+      <div class="timeline-row">
+        <div><div class="timeline-item">Patchwork → ofrecido por vos</div><div class="timeline-sub">Cargado el 3/9</div></div>
+        <span class="status-badge status-abierta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>Oferta abierta</span>
+      </div>
+      <div class="timeline-row">
+        <div><div class="timeline-item">Patchwork ↔ Black Sonata</div><div class="timeline-sub">Match generado por el algoritmo</div></div>
+        <span class="status-badge status-comprometida"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v9l6 3"/><circle cx="12" cy="12" r="9"/></svg>Match tentativo</span>
+      </div>
+      <div class="timeline-row is-critical">
+        <div><div class="timeline-item">Patchwork ↔ Black Sonata</div><div class="timeline-sub">Cadena de 4 trades depende de este intercambio</div></div>
+        <span class="status-badge status-confirmada"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Confirmado</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">04 · Aplicación</div>
+    <h2 class="section-title">Mi ludoteca — antes / después</h2>
+    <p class="section-desc">Esta pantalla no tiene ninguna carga de irreversibilidad (según el audit: cargar un artículo no implica ofertarlo). Por eso el "después" no usa ningún badge de estado — es la prueba de que el sistema no es "poner colores en todos lados", es reservarlos para donde pesan.</p>
+
+    <div class="compare">
+      <div class="compare-col">
+        <div class="compare-tag before">ANTES</div>
+        <div class="before-banner">
+          <h3>Mi ludoteca</h3>
+          <p>Desde acá vas a poder cargar tus artículos (tus juegos), detallando su estado, su idioma y el resto de las características. ATENCIÓN: cargar los artículos a tu ludoteca no implica que los pongas a disposición en el Math Trade.</p>
+        </div>
+        <div class="before-list">40 artículos · banner ocupa ~190px antes de mostrar un solo juego</div>
+      </div>
+
+      <div class="compare-col">
+        <div class="compare-tag after">DESPUÉS</div>
+        <div class="after-header">
+          <h3>Mi ludoteca</h3>
+          <div class="after-meta">40 artículos</div>
+          <div class="after-help">▸ ¿Qué es "Mi ludoteca"? ¿En qué se diferencia de "Yo ofrezco"?</div>
+        </div>
+        <div class="after-list">Grilla de juegos empieza acá — sin scroll previo</div>
+      </div>
+    </div>
+
+    <div class="note">
+      <b>Sobre "ATENCIÓN" en mayúsculas:</b> desaparece del header. La aclaración de bajo riesgo ("cargar ≠ ofertar") pasa a un tooltip o al ítem de ayuda colapsado — que este mismo screenshot ya tenía funcionando bien más abajo. Reservamos el lenguaje de alarma (mayúsculas, color crítico) para el momento en que de verdad hay algo irreversible en juego, como el badge "Confirmado" de arriba.
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">05 · Pendiente de instrumentación</div>
+    <h2 class="section-title">"En tránsito" y "en disputa" — no son badges todavía</h2>
+    <div class="pending-note">
+      Sin campo de datos que los represente (envío al interior y disputas se coordinan hoy por Telegram, fuera de cualquier modelo), no entran al sistema de badges. Quedan documentados acá como estados reales del negocio a la espera de que el backend los instrumente — no como componentes activos del sitio.
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">06 · Componente</div>
+    <h2 class="section-title">Card de juego — rediseño</h2>
+    <p class="section-desc">2 por fila en vez de 4, horizontal en vez de apilada. Rating + complejidad quedan como protagonistas (ya validado como lo más escaneado). Idioma/dependencia/tamaño pasan a chips en una sola línea. BGG se degrada a ícono — es un link de referencia, no un dato de decisión. Tooltips fuera: el público ya conoce estos términos de BGG.</p>
+
+    <div class="card-row">
+      <div class="game-card is-base">
+        <div class="gc-cover" style="background:linear-gradient(160deg,#1a2a3a,#2d4a5a);"></div>
+        <div class="gc-content">
+          <div class="gc-top">
+            <span class="gc-tag base"><svg viewBox="0 0 10 10" fill="currentColor"><rect width="10" height="10"/></svg>JUEGO</span>
+            <span class="gc-offered">OFRECIDO</span>
+          </div>
+          <h3 class="gc-title">Palm Laboratory (2024)</h3>
+          <div class="gc-hero">
+            <div class="gc-rating">7</div>
+            <div class="gc-complexity">
+              <span class="gc-complexity-label">Complejidad</span>
+              <div class="gc-dots">
+                <span class="gc-dot filled"></span><span class="gc-dot filled"></span><span class="gc-dot"></span><span class="gc-dot"></span><span class="gc-dot"></span>
+              </div>
+            </div>
+            <a class="gc-bgg-link" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"/></svg></a>
+          </div>
+          <div class="gc-chips">
+            <span class="gc-chip">🇫🇷 Francés</span>
+            <span class="gc-chip">Poco texto</span>
+            <span class="gc-chip"><span class="gc-boxsize-icon"><span style="height:4px" class="on"></span><span style="height:7px"></span><span style="height:10px"></span></span>Pequeña</span>
+          </div>
+          <div class="gc-footer">Ranking 6836 · Portal Dragon (2024)</div>
+        </div>
+      </div>
+
+      <div class="game-card is-expansion">
+        <div class="gc-cover" style="background:linear-gradient(160deg,#f5f0e8,#d9c199);"></div>
+        <div class="gc-content">
+          <div class="gc-top">
+            <span class="gc-tag expansion"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 1v8M1 5h8"/></svg>EXPANSIÓN</span>
+            <span class="gc-offered">OFRECIDO</span>
+          </div>
+          <h3 class="gc-title">Lunes: Recorte de Personal (2019)</h3>
+          <div class="gc-hero">
+            <div class="gc-rating">7.1</div>
+            <div class="gc-complexity">
+              <span class="gc-complexity-label">Complejidad</span>
+              <div class="gc-dots">
+                <span class="gc-dot filled"></span><span class="gc-dot filled"></span><span class="gc-dot"></span><span class="gc-dot"></span><span class="gc-dot"></span>
+              </div>
+            </div>
+            <a class="gc-bgg-link" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"/></svg></a>
+          </div>
+          <div class="gc-chips">
+            <span class="gc-chip">🇦🇷 Español</span>
+            <span class="gc-chip">Sin datos de idioma</span>
+            <span class="gc-chip">Viene en la caja de Lunes</span>
+          </div>
+          <div class="gc-footer">Sin ranking · Super Noob Games (2019)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <b>Sobre los chips de idioma/dependencia:</b> "Sin datos de idioma" reemplaza el par tooltip + tres campos ("Ranking -", "Dependencia: Sin datos") con una sola frase legible. <b>Sobre el tamaño:</b> el ícono de tres barras reemplaza el tooltip + la cursiva repetida en las 40 cards — la escala se lee de un vistazo, sin texto que parsear. <b>Pendiente de decidir con vos:</b> si "Ranking" merece estar en el footer o si, al ser un dato que muchos usuarios de BGG sí miran para decidir, debería subir de jerarquía — no lo bajé por convicción, lo bajé porque no tengo datos de qué tan seguido se usa para decidir un trade.
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">07 · Componente</div>
+    <h2 class="section-title">Card de oferta (Mis Deseos) — rediseño</h2>
+    <p class="section-desc">Mismos recortes que en la card de juego: sin tooltips (el público ya conoce estos términos de BGG), BGG degradado a ícono. Dos cosas nuevas: el puntaje pasa de badge estático a control editable (borde + lápiz, mantiene el semáforo rojo→verde que ya usa la grilla avanzada — no lo toco, ya es un lenguaje establecido en el resto del sitio). Y "querer/no querer" se unifica en un solo toggle de corazón con tres estados en vez de tres construcciones visuales distintas.</p>
+
+    <div class="card-row">
+      <div class="game-card is-base">
+        <div class="gc-cover" style="background:linear-gradient(160deg,#2a1f3d,#6b3a55);"></div>
+        <div class="gc-content">
+          <div class="gc-top">
+            <span class="gc-tag base"><svg viewBox="0 0 10 10" fill="currentColor"><rect width="10" height="10"/></svg>JUEGO</span>
+          </div>
+          <h3 class="gc-title">1923 Cotton Club</h3>
+          <div class="gc-hero">
+            <div class="gc-rating">7.4</div>
+            <div class="gc-complexity">
+              <span class="gc-complexity-label">Complejidad</span>
+              <div class="gc-dots">
+                <span class="gc-dot filled"></span><span class="gc-dot filled"></span><span class="gc-dot"></span><span class="gc-dot"></span><span class="gc-dot"></span>
+              </div>
+            </div>
+            <a class="gc-bgg-link" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"/></svg></a>
+          </div>
+          <div class="gc-chips"><span class="gc-chip">Sin dependencia de idioma</span></div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;">
+            <span class="want-toggle is-on">
+              <svg class="heart" viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.5-8.8C.6 8.6 2 5 5.3 5c2 0 3.4 1.2 4.2 2.4C10.3 6.2 11.7 5 13.7 5 17 5 18.4 8.6 21.5 12.2 19 16.65 12 21 12 21Z"/></svg>
+              En tus deseos
+            </span>
+            <button class="score-pill high"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>7.5</button>
+          </div>
+          <div class="gc-footer">3 ejemplares ofrecidos · Ranking 3146</div>
+        </div>
+      </div>
+
+      <div class="game-card is-expansion">
+        <div class="gc-cover" style="background:linear-gradient(160deg,#3a2a5a,#8a3a2a);"></div>
+        <div class="gc-content">
+          <div class="gc-top">
+            <span class="gc-tag expansion"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 1v8M1 5h8"/></svg>EXPANSIÓN</span>
+          </div>
+          <h3 class="gc-title">5-Minute Dungeon: Curses! Foiled Again!</h3>
+          <div class="gc-hero">
+            <div class="gc-rating">7.3</div>
+            <div class="gc-complexity">
+              <span class="gc-complexity-label">Complejidad</span>
+              <div class="gc-dots">
+                <span class="gc-dot filled"></span><span class="gc-dot"></span><span class="gc-dot"></span><span class="gc-dot"></span><span class="gc-dot"></span>
+              </div>
+            </div>
+            <a class="gc-bgg-link" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"/></svg></a>
+          </div>
+          <div class="gc-chips"><span class="gc-chip">Poco texto</span></div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:4px;">
+            <span class="want-toggle is-disabled">
+              <svg class="heart" viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.5-8.8C.6 8.6 2 5 5.3 5c2 0 3.4 1.2 4.2 2.4C10.3 6.2 11.7 5 13.7 5 17 5 18.4 8.6 21.5 12.2 19 16.65 12 21 12 21Z"/></svg>
+              Ya lo tenés
+              <span class="why-link">¿por qué?</span>
+            </span>
+          </div>
+          <div class="gc-footer">2 ejemplares ofrecidos · Sin ranking</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">08 · Componente</div>
+    <h2 class="section-title">Fila de ejemplar — vista expandida</h2>
+    <p class="section-desc">"Piezas: MB" y "Caja: MB" en vez de dos chips idénticos distinguibles solo por un ícono chico. Fila destildada se atenúa — hoy nada distingue una exclusión a simple vista salvo el propio checkbox.</p>
+
+    <div class="ejemplar-list">
+      <div class="ejemplar-row">
+        <input type="checkbox" checked>
+        <div class="ejemplar-body">
+          <div class="ejemplar-line-title">
+            <div class="ejemplar-thumb"></div>
+            <span class="ejemplar-name">1923 Cotton Club (2021)</span>
+          </div>
+          <div class="ejemplar-line-chips">
+            <span class="gc-chip">Piezas: MB</span>
+            <span class="gc-chip">Caja: MB</span>
+            <span class="gc-chip">Inglés, Español</span>
+          </div>
+          <div class="ejemplar-line-meta">
+            <div class="ejemplar-owner">
+              <div class="avatar"></div>
+              <div class="ejemplar-owner-text"><b>Emiliano Palazzo</b><span class="sep">·</span>Mendoza</div>
+            </div>
+            <div class="ejemplar-line-meta-right">
+              <button class="score-pill sm mid">0</button>
+              <svg class="ejemplar-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ejemplar-row">
+        <input type="checkbox" checked>
+        <div class="ejemplar-body">
+          <div class="ejemplar-line-title">
+            <div class="ejemplar-thumb"></div>
+            <span class="ejemplar-name">1923 Cotton Club (2021)</span>
+          </div>
+          <div class="ejemplar-line-chips">
+            <span class="gc-chip">Piezas: MB</span>
+            <span class="gc-chip">Caja: MB</span>
+            <span class="gc-chip">Francés</span>
+          </div>
+          <div class="ejemplar-line-meta">
+            <div class="ejemplar-owner">
+              <div class="avatar"></div>
+              <div class="ejemplar-owner-text"><b>Matias Quenan</b><span class="sep">·</span>Mar del Plata</div>
+            </div>
+            <a class="ejemplar-desc-link" href="#">Descripción</a>
+            <div class="ejemplar-line-meta-right">
+              <button class="score-pill sm low">0</button>
+              <svg class="ejemplar-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ejemplar-row is-excluded">
+        <input type="checkbox">
+        <div class="ejemplar-body">
+          <div class="ejemplar-line-title">
+            <div class="ejemplar-thumb"></div>
+            <span class="ejemplar-name">1923 Cotton Club (2021)</span>
+          </div>
+          <div class="ejemplar-line-chips">
+            <span class="gc-chip">Piezas: B</span>
+            <span class="gc-chip">Caja: R</span>
+            <span class="gc-chip">Inglés, Español</span>
+          </div>
+          <div class="ejemplar-line-meta">
+            <div class="ejemplar-owner">
+              <div class="avatar"></div>
+              <div class="ejemplar-owner-text"><b>Federico Joandet</b><span class="sep">·</span>AMBA</div>
+            </div>
+            <div class="ejemplar-line-meta-right">
+              <button class="score-pill sm high">2</button>
+              <svg class="ejemplar-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <b>Confirmado:</b> el puntaje por ejemplar usa la misma escala/semáforo que el puntaje por juego — mismo componente, sin ajuste de rango.
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
