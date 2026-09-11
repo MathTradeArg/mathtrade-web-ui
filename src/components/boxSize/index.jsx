@@ -8,14 +8,14 @@ const BoxSizeComp = ({ boxSize, toReview }) => {
   return (
     <>
       <div
-        className={clsx("font-bold text-sm", {
+        className={clsx("text-body-lg", {
           "text-red-700": toReview,
         })}
       >
         <I18N id={boxSize.text} />
       </div>
       <div
-        className={clsx("text-[12px] text-balance", {
+        className={clsx("text-caption text-balance", {
           "italic text-gray-500": !toReview,
           "text-red-700": toReview,
         })}

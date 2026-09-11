@@ -91,11 +91,11 @@ const MyCollectionPage = () => {
           </StickyHeader>
 
           <div className="md:px-7 px-3 py-7">
-            <div className="max-w-[860px] mx-auto">
-              <Faq data={collectionFaq} translate />
-              <ElementWrapperOuter>
-                <NewElement />
-              </ElementWrapperOuter>
+            <Faq data={collectionFaq} translate />
+            <ElementWrapperOuter>
+              <NewElement />
+            </ElementWrapperOuter>
+            <div className="collection-grid">
               {elementList.map((element) => {
                 return (
                   <ElementWrapperOuter key={element.id}>
@@ -103,9 +103,9 @@ const MyCollectionPage = () => {
                   </ElementWrapperOuter>
                 );
               })}
-
-              <ErrorAlert error={error} />
             </div>
+
+            <ErrorAlert error={error} />
           </div>
         </GotoTopContextProvider>
       </SectionCommon>

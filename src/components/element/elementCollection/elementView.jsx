@@ -1,4 +1,3 @@
-import BGGinfo from "@/components/bggInfo";
 import Thumbnail from "@/components/thumbnail";
 import LinkExternal from "@/components/link-external";
 import Icon from "@/components/icon";
@@ -13,6 +12,12 @@ import { ElementContext } from "@/context/element";
 import { PageContext } from "@/context/page";
 import { useContext, useMemo } from "react";
 import BadgeType from "@/components/badgeType";
+import BGGinfoLabel from "@/components/bggInfo/bggInfoLabel";
+import BGGlink from "@/components/bggInfo/bggLink";
+import useBGGdata from "@/components/bggInfo/useBGGdata";
+import { getI18Ntext } from "@/i18n";
+import { NO_RANK_VALUE } from "@/config/no-bgggame";
+import clsx from "clsx";
 
 const ElementView = ({ toggleEditingMode, insideItem, extraContent }) => {
   const { canI } = useContext(PageContext);
@@ -34,6 +39,22 @@ const ElementView = ({ toggleEditingMode, insideItem, extraContent }) => {
     box_size,
   } = element;
 
+  const {
+    isInBGG,
+    rate,
+    rateColor,
+    rateVotes,
+    rank,
+    weight,
+    weightVotes,
+    dependency,
+  } = useBGGdata({ game });
+  const showBGGstats = !notGame && game && isInBGG;
+
+  const isExpansion = typeNum === 2;
+  const accentClass = isExpansion ? "bg-gameExpansion" : "bg-gameBase";
+  const titleColorClass = isExpansion ? "text-gameExpansion" : "text-gameBase";
+
   const showEdition = useMemo(() => {
     if (insideItem) {
       return false;
@@ -45,61 +66,106 @@ const ElementView = ({ toggleEditingMode, insideItem, extraContent }) => {
   }, [insideItem, canI, offered]);
 
   return (
-    <div className="relative flex sm:flex-row flex-col  md:gap-6 gap-3">
-      {offered ? (
-        <div className="absolute  -right-4 uppercase font-bold bg-item-500 text-white text-[10px] px-3 py-[2px] rounded-l-full shadow-[0_1px_3px_rgba(0,0,0,0.3)]">
-          <I18N id="element.Offered" />
+    <div className="relative -m-4 flex-1 rounded-lg overflow-hidden flex">
+      <div
+        className={clsx(
+          "self-stretch shrink-0 w-2 shadow-[inset_-1px_0_0_rgba(255,255,255,0.5)]",
+          accentClass
+        )}
+      />
+      <div className="grow min-w-0 flex flex-col">
+        <div className="relative w-full aspect-square">
+          <Thumbnail elements={[element]} className="w-full h-full" />
         </div>
-      ) : null}
-      <div className="relative lg:w-52 w-24 lg:h-52 h-24 rounded-lg shadow-[0_0_2px_1px_rgba(0,0,0,0.2)]">
-        <Thumbnail elements={[element]} className="rounded-lg lg:w-52 w-24" />
-      </div>
-      <div className="grow">
-        <div className="border-b border-gray-300 pb-2 pr-16 mb-3">
-          <div>
+
+        <div className="p-4 sm:p-5">
+        <div className="flex justify-between items-start gap-3">
+          <div className="min-w-0">
             <BadgeType
-              className="text-[9px]"
+              className="text-[10px] mb-1.5"
               type="item"
               subtype={typeNum || 1}
             />
-            <h3 className="text-lg font-bold">{title}</h3>
+            <h3 className={clsx("text-heading", titleColorClass)}>{title}</h3>
           </div>
+          {offered ? (
+            <div className="shrink-0 mt-0.5 uppercase font-bold bg-item-500 text-white text-[10px] px-3 py-[3px] rounded-full whitespace-nowrap">
+              <I18N id="element.Offered" />
+            </div>
+          ) : null}
         </div>
+
         {titleLink ? null : (
-          <div className="italic text-gray-500 font-bold text-xs mb-3">
+          <div className="italic text-gray-500 font-bold text-caption mt-2">
             <I18N id="element-type-badge-3" />
           </div>
         )}
-        {notGame ? null : (
-          <BGGinfo
-            game={game}
-            contextFor="element"
-            className=" mb-3"
-            bggLink={titleLink}
-          />
-        )}
-        <div className="pt-1 flex flex-wrap gap-4 items-start mb-3">
-          <div>
-            <div className="text-sm italic text-gray-500">
-              <LinkExternal
-                href={publisherLink}
-                tooltip="element.BGG.OpenEditionInBGG"
+
+        {showBGGstats ? (
+          <div className="flex items-center gap-4 mt-3">
+            <BGGinfoLabel
+              label="element.BGG.rating"
+              question={`${rateVotes} ${getI18Ntext("element.BGG.votes")}`}
+            >
+              <div
+                className="mt-1 text-body-lg text-center w-9 h-9 leading-9 rounded-full text-white"
+                style={{ backgroundColor: rateColor }}
               >
-                {publisher}
-              </LinkExternal>
-            </div>
-            <div className="text-sm text-purple-950 font-bold ">{language}</div>
+                {rate}
+              </div>
+            </BGGinfoLabel>
+            <BGGinfoLabel
+              label="element.BGG.weight"
+              question={`${weightVotes} ${getI18Ntext("element.BGG.votes")}`}
+            >
+              <div className="text-body-lg text-[#2c2e33]">{weight} / 5</div>
+            </BGGinfoLabel>
+            {titleLink ? <BGGlink href={titleLink} /> : null}
           </div>
-          <div className="flex gap-3 items-center">
+        ) : null}
+
+        <div className="h-px bg-gray-200 my-3" />
+
+        <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-caption">
+          {showBGGstats ? (
+            <>
+              <div>
+                <span className="text-gray-400">
+                  <I18N id="element.BGG.rank" />{" "}
+                </span>
+                <span className="font-semibold text-[#2c2e33]">
+                  {rank === NO_RANK_VALUE ? "-" : rank}
+                </span>
+              </div>
+              <div>
+                <span className="text-gray-400">
+                  <I18N id="element.BGG.dependency" />{" "}
+                </span>
+                <span className="font-semibold text-[#2c2e33]">
+                  {dependency}
+                </span>
+              </div>
+            </>
+          ) : null}
+          <div>
+            <span className="text-gray-400">{language}</span>
+          </div>
+          <div className="flex items-center gap-2">
             <BoxSize value={box_size} isComplete />
+          </div>
+          <div className="col-span-2">
+            <LinkExternal
+              href={publisherLink}
+              tooltip="element.BGG.OpenEditionInBGG"
+              className="text-gray-400 italic"
+            >
+              {publisher}
+            </LinkExternal>
           </div>
         </div>
 
-        {/* <div className="border-t text-gray-500 pt-4 flex justify-between items-center">
-       
-        </div> */}
         {showEdition ? (
-          <div className="flex items-center gap-1 border-t text-gray-500 pt-3">
+          <div className="flex items-center gap-1 border-t text-gray-500 pt-3 mt-3">
             <button
               className="bg-primary text-white px-5 py-1 rounded-full font-bold text-sm hover:bg-sky-800  transition-colors"
               onClick={toggleEditingMode}
@@ -123,6 +189,7 @@ const ElementView = ({ toggleEditingMode, insideItem, extraContent }) => {
         ) : null}
         <ErrorAlert error={error} className="mt-3 mb-0" />
         {extraContent || null}
+        </div>
       </div>
       <LoadingBox loading={loading} min />
     </div>
