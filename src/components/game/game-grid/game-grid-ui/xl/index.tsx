@@ -1,5 +1,4 @@
 import Thumbnail from "@/components/thumbnail";
-import BGGinfo from "@/components/bggInfo";
 import { GameContext } from "@/context/game";
 import { useContext, lazy } from "react";
 import I18N, { getI18Ntext } from "@/i18n";
@@ -11,6 +10,8 @@ import ItemNoBGG from "../itemNoBgg";
 import Dynamic from "@/components/dynamic";
 import BadgeType from "@/components/badgeType";
 import { resolveCardKind, cardKindBorderClass } from "@/components/badgeType/cardKind";
+import useBGGdata from "@/components/bggInfo/useBGGdata";
+import { NO_RANK_VALUE } from "@/config/no-bgggame";
 
 const WantButtonGame = lazy(() => import("../wantButtonGame"));
 
@@ -46,6 +47,19 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
   } = game as GameCardData;
   /* end GAME CONTEXT */
 
+  const { isInBGG, rate, rateColor, rateVotes, rank, weight } = useBGGdata({
+    game: gameRaw,
+  }) as {
+    isInBGG?: boolean;
+    rate: number;
+    rateColor: string;
+    rateVotes: number;
+    rank?: number;
+    weight: number;
+  };
+  const showBGGstats = !notGame && isInBGG;
+  const filledDots = Math.min(5, Math.max(0, Math.round(weight || 0)));
+
   // Same combo-vs-notGame disambiguation as game-grid-ui/md.tsx: a combo
   // item (several different games bundled together) has no single BGG
   // match either, so the backend buckets it the same as a genuine
@@ -62,63 +76,86 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
     <div className="relative">
       <div
         className={clsx(
-          "bg-gray-900 w-full mx-auto p-2 pr-9 relative transition-opacity rounded-t-lg",
-          cardKindBorderClass(cardKind, "dark"),
+          "bg-white w-full mx-auto relative transition-opacity rounded-t-lg",
+          cardKindBorderClass(cardKind),
           {
             "opacity-30  pointer-events-none": showAsIgnored,
             "shadow-[0_0_0_7px_rgba(255,0,0,1)]": ban_id,
           }
         )}
       >
-        <picture className="absolute top-0 left-0 w-full h-full rounded-lg overflow-hidden opacity-30">
-          <img
-            src={thumbnail}
-            alt=""
-            className="w-full h-full object-cover blur-[3px] scale-110"
-          />
-          <div className="absolute bg-gradient-to-b from-gray-900/0 from-10% via-gray-900 to-gray-900  top-0 left-0 w-full h-full"></div>
-        </picture>
-        <div className="flex gap-6 h-full relative">
-          <div className="lg:w-52 w-24">
+        <div className="flex items-center justify-end gap-2 px-3 pt-3">
+          <BanButton size="md" type="game" />
+          <div className="w-[1px] h-4 bg-gray-200"></div>
+          {ban_id ? null : <Value type="game" />}
+        </div>
+
+        <div className="flex gap-4 p-3 pt-1.5">
+          <div className="lg:w-52 w-24 shrink-0">
             <Thumbnail
               elements={[{ thumbnail }]}
-              className="rounded-t-lg lg:w-52 w-24 shadow-[0_1px_5px_rgba(0,0,0,0.5)]"
+              className="rounded-lg lg:w-52 w-24"
             />
-            <div className="bg-black rounded-b-lg flex items-center justify-end gap-3 p-2">
-              <BanButton size="md" type="game" />
-              <div className="w-[1px] h-4 bg-gray-400"></div>
-              {ban_id ? null : <Value type="game" />}
-            </div>
           </div>
-          <div className="text-white grow">
-            <div>
-              <BadgeType
-                type="game"
-                subtype={isTrueNotGame ? 3 : typeNum || 1}
-                isCombo={isComboItem}
-                dark
-              />
+          <div className="grow min-w-0 flex flex-col gap-2">
+            <BadgeType
+              type="game"
+              subtype={isTrueNotGame ? 3 : typeNum || 1}
+              isCombo={isComboItem}
+            />
 
-              <div>
-                <h3 className="text-lg font-bold mb-2">{`${title}${
-                  year ? ` (${year})` : ""
-                }`}</h3>
-              </div>
+            <h3 className="text-heading leading-tight">{`${title}${
+              year ? ` (${year})` : ""
+            }`}</h3>
 
-              {notGame ? (
-                <ItemNoBGG itemRaw={items?.[0] || null} />
-              ) : (
-                <div className="py-3">
-                  <div className="py-3 border-b border-t border-gray-700">
-                    <BGGinfo game={gameRaw} bggLink={titleLink} />
+            {notGame ? (
+              <ItemNoBGG itemRaw={items?.[0] || null} />
+            ) : showBGGstats ? (
+              <div className="flex items-center gap-4">
+                <div
+                  className="text-body-lg text-center w-10 h-10 leading-10 rounded-full text-white shrink-0"
+                  style={{ backgroundColor: rateColor }}
+                  title={`${rateVotes} ${getI18Ntext("element.BGG.votes")}`}
+                >
+                  {rate}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-caption text-gray-400">
+                    <I18N id="element.BGG.weight" />
+                  </span>
+                  <div className="flex gap-1" title={`${weight} / 5`}>
+                    {[1, 2, 3, 4, 5].map((dot) => (
+                      <span
+                        key={dot}
+                        className={clsx(
+                          "w-2 h-2 rounded-full",
+                          dot <= filledDots ? "bg-[#2c2e33]" : "bg-gray-200"
+                        )}
+                      />
+                    ))}
                   </div>
                 </div>
-              )}
-            </div>
+                {titleLink ? (
+                  <a
+                    href={titleLink}
+                    target="_blank"
+                    rel="nofollow noopener"
+                    className="ml-auto shrink-0 w-7 h-7 rounded-md bg-bgg/10 text-bgg flex items-center justify-center hover:bg-bgg/20 transition-colors"
+                    title={getI18Ntext("element.BGG.OpenGameInBGG")}
+                  >
+                    <Icon type="bgg" className="text-sm" />
+                  </a>
+                ) : null}
+                <div className="text-caption text-gray-400 ml-auto shrink-0">
+                  <I18N id="element.BGG.rank" />{" "}
+                  {rank === NO_RANK_VALUE || rank == null ? "-" : rank}
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
         <button
-          className="absolute top-1 right-1 aspect-square w-7 opacity-80 hover:opacity-100 text-white"
+          className="absolute top-1 right-1 aspect-square w-7 opacity-60 hover:opacity-100 text-gray-500"
           onClick={onToggleExpanse}
         >
           <div data-tooltip={getI18Ntext("minimize")}>

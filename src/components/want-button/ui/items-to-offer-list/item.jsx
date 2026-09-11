@@ -24,15 +24,18 @@ const Item = ({ itemRaw }) => {
     [itemRaw, setItemsOfferList]
   );
 
+  const checked = itemsOfferList[itemRaw?.id] || false;
+
   return (
     <ItemXS
       itemRaw={itemRaw}
       hideUser
+      className={checked ? "" : "opacity-45"}
       extraContent={
         <input
           type="checkbox"
           name={`item-${itemRaw?.id}`}
-          checked={itemsOfferList[itemRaw?.id] || false}
+          checked={checked}
           onChange={onChange}
           disabled={!canI.want}
           className={!canI.want ? "cursor-not-allowed" : "cursor-pointer"}
