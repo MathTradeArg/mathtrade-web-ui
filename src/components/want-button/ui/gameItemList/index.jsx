@@ -7,8 +7,8 @@ const GameItemList = () => {
 
   return (
     <>
-      <div className="bg-gray-900 text-white lg:p-4 py-4 px-2 border-t border-white/20">
-        <h4 className="mb-3">
+      <div className="bg-gray-50 text-gray-900 lg:p-4 py-4 px-2 border-t border-gray-200">
+        <h4 className="mb-3 font-bold text-body">
           {`${itemCount} `}
           <I18N
             id={itemCount === 1 ? "game.item-num.1" : "game.item-num.more"}
