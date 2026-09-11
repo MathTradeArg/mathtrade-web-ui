@@ -50,20 +50,16 @@ const ElementComplete = ({ onToggleExpanse }: ElementCompleteProps) => {
   const {
     isInBGG,
     rate,
-    rateColor,
     rateVotes,
     rank,
     weight,
-    weightVotes,
     dependency,
   } = useBGGdata({ game }) as {
     isInBGG?: boolean;
     rate: number;
-    rateColor: string;
     rateVotes: number;
     rank?: number;
     weight: number;
-    weightVotes: number;
     dependency: string;
   };
   const showBGGstats = !notGame && game && isInBGG;
@@ -113,8 +109,7 @@ const ElementComplete = ({ onToggleExpanse }: ElementCompleteProps) => {
         {showBGGstats ? (
           <div className="flex items-center gap-3">
             <div
-              className="text-[13px] font-bold text-center w-7 h-7 leading-7 rounded-full text-white shrink-0"
-              style={{ backgroundColor: rateColor }}
+              className="text-[13px] font-bold text-center w-7 h-7 leading-7 rounded-full text-white shrink-0 bg-primary"
               title={`${rateVotes} ${getI18Ntext("element.BGG.votes")}`}
             >
               {rate}
@@ -138,7 +133,7 @@ const ElementComplete = ({ onToggleExpanse }: ElementCompleteProps) => {
                 className="ml-auto shrink-0 w-6 h-6 rounded-md bg-bgg/10 text-bgg flex items-center justify-center hover:bg-bgg/20 transition-colors"
                 title={getI18Ntext("element.BGG.OpenGameInBGG")}
               >
-                <Icon type="bgg" className="text-xs" />
+                <Icon type="external-link" className="text-xs" />
               </a>
             ) : null}
           </div>
@@ -188,7 +183,7 @@ const ElementComplete = ({ onToggleExpanse }: ElementCompleteProps) => {
           {showBGGstats ? (
             <>
               <I18N id="element.BGG.rank" />{" "}
-              {rank === NO_RANK_VALUE ? "-" : rank}
+              {rank === NO_RANK_VALUE || rank == null ? "-" : rank}
               {" · "}
             </>
           ) : null}
