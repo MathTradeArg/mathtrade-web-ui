@@ -47,12 +47,11 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
   } = game as GameCardData;
   /* end GAME CONTEXT */
 
-  const { isInBGG, rate, rateColor, rateVotes, rank, weight } = useBGGdata({
+  const { isInBGG, rate, rateVotes, rank, weight } = useBGGdata({
     game: gameRaw,
   }) as {
     isInBGG?: boolean;
     rate: number;
-    rateColor: string;
     rateVotes: number;
     rank?: number;
     weight: number;
@@ -76,7 +75,7 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
     <div className="relative">
       <div
         className={clsx(
-          "bg-white w-full mx-auto relative transition-opacity rounded-t-lg",
+          "bg-white w-full mx-auto relative transition-opacity rounded-t-lg overflow-hidden",
           cardKindBorderClass(cardKind),
           {
             "opacity-30  pointer-events-none": showAsIgnored,
@@ -90,31 +89,30 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
           {ban_id ? null : <Value type="game" />}
         </div>
 
-        <div className="flex gap-4 p-3 pt-1.5">
+        <div className="flex gap-4">
           <div className="lg:w-52 w-24 shrink-0">
             <Thumbnail
               elements={[{ thumbnail }]}
-              className="rounded-lg lg:w-52 w-24"
+              className="lg:w-52 w-24"
             />
           </div>
-          <div className="grow min-w-0 flex flex-col gap-2">
+          <div className="grow min-w-0 flex flex-col gap-2 items-start py-2 pr-3">
             <BadgeType
               type="game"
               subtype={isTrueNotGame ? 3 : typeNum || 1}
               isCombo={isComboItem}
             />
 
-            <h3 className="text-heading leading-tight">{`${title}${
+            <h3 className="text-heading leading-tight w-full">{`${title}${
               year ? ` (${year})` : ""
             }`}</h3>
 
             {notGame ? (
               <ItemNoBGG itemRaw={items?.[0] || null} />
             ) : showBGGstats ? (
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 w-full">
                 <div
-                  className="text-body-lg text-center w-10 h-10 leading-10 rounded-full text-white shrink-0"
-                  style={{ backgroundColor: rateColor }}
+                  className="text-body-lg text-center w-10 h-10 leading-10 rounded-full text-white shrink-0 bg-primary"
                   title={`${rateVotes} ${getI18Ntext("element.BGG.votes")}`}
                 >
                   {rate}
@@ -143,10 +141,10 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
                     className="ml-auto shrink-0 w-7 h-7 rounded-md bg-bgg/10 text-bgg flex items-center justify-center hover:bg-bgg/20 transition-colors"
                     title={getI18Ntext("element.BGG.OpenGameInBGG")}
                   >
-                    <Icon type="bgg" className="text-sm" />
+                    <Icon type="external-link" className="text-sm" />
                   </a>
                 ) : null}
-                <div className="text-caption text-gray-400 ml-auto shrink-0">
+                <div className="text-caption text-gray-400 shrink-0">
                   <I18N id="element.BGG.rank" />{" "}
                   {rank === NO_RANK_VALUE || rank == null ? "-" : rank}
                 </div>

@@ -52,20 +52,16 @@ const ElementView = ({
   const {
     isInBGG,
     rate,
-    rateColor,
     rateVotes,
     rank,
     weight,
-    weightVotes,
     dependency,
   } = useBGGdata({ game }) as {
     isInBGG?: boolean;
     rate: number;
-    rateColor: string;
     rateVotes: number;
     rank?: number;
     weight: number;
-    weightVotes: number;
     dependency: string;
   };
   const showBGGstats = !notGame && game && isInBGG;
@@ -132,8 +128,7 @@ const ElementView = ({
         {showBGGstats ? (
           <div className="flex items-center gap-4">
             <div
-              className="text-body-lg text-center w-10 h-10 leading-10 rounded-full text-white shrink-0"
-              style={{ backgroundColor: rateColor }}
+              className="text-body-lg text-center w-10 h-10 leading-10 rounded-full text-white shrink-0 bg-primary"
               title={`${rateVotes} ${getI18Ntext("element.BGG.votes")}`}
             >
               {rate}
@@ -162,7 +157,7 @@ const ElementView = ({
                 className="ml-auto shrink-0 w-7 h-7 rounded-md bg-bgg/10 text-bgg flex items-center justify-center hover:bg-bgg/20 transition-colors"
                 title={getI18Ntext("element.BGG.OpenGameInBGG")}
               >
-                <Icon type="bgg" className="text-sm" />
+                <Icon type="external-link" className="text-sm" />
               </a>
             ) : null}
           </div>
