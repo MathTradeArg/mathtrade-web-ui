@@ -15,11 +15,14 @@ type AccountMenuButtonProps = {
   // "row" renders name + "Ver cuenta" next to the avatar, for the sidebar's account row.
   variant?: "header" | "row";
   placement?: "below" | "right";
+  // "dark" for the black sidebar, "light" for the white mobile sheet.
+  tone?: "dark" | "light";
 };
 
 const AccountMenuButton = ({
   variant = "header",
   placement = "below",
+  tone = "dark",
 }: AccountMenuButtonProps = {}) => {
   const { user } = useStore((state) => state.data);
   const { show, visibleMobile, toggleMobile, signOut } = useHeaderAccount();
@@ -27,6 +30,7 @@ const AccountMenuButton = ({
   const { canI, isReferrer } = useContext(PageContext);
 
   const isRow = variant === "row";
+  const isLight = tone === "light";
 
   return show ? (
     <div className="relative">
@@ -44,16 +48,29 @@ const AccountMenuButton = ({
         {isRow ? (
           <>
             <div className="min-w-0 flex-1 text-left">
-              <div className="text-white text-sm font-semibold truncate">
+              <div
+                className={clsx(
+                  "text-sm font-semibold truncate",
+                  isLight ? "text-gray-900" : "text-white"
+                )}
+              >
                 {`${user?.first_name || ""} ${user?.last_name || ""}`}
               </div>
-              <div className="text-white/50 text-xs">
+              <div
+                className={clsx(
+                  "text-xs",
+                  isLight ? "text-gray-500" : "text-white/50"
+                )}
+              >
                 <I18N id="title.MyAccount" />
               </div>
             </div>
             <Icon
               type="chevron-down"
-              className="text-white/40 text-xs shrink-0"
+              className={clsx(
+                "text-xs shrink-0",
+                isLight ? "text-gray-400" : "text-white/40"
+              )}
             />
           </>
         ) : null}
