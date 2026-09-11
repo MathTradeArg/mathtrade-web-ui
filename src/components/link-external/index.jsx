@@ -1,6 +1,6 @@
 import { getI18Ntext } from "@/i18n";
 
-const LinkExternal = ({ href, children, tooltip, className }) => {
+const LinkExternal = ({ href, children, tooltip = "", className = "" }) => {
   return href ? (
     <a
       href={href}
