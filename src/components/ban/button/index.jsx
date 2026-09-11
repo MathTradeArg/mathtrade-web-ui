@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { ItemContext } from "@/context/item";
 import BanButtonUI from "./ui";
 
-const BanButton = ({ className, type = "item", size = "xl" }) => {
+const BanButton = ({ className = "", type = "item", size = "xl" }) => {
   /* ITEM CONTEXT **********************************************/
   const { item } = useContext(ItemContext);
   /* end ITEM CONTEXT */

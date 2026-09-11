@@ -3,7 +3,12 @@ import useItemGrid from "./useItemGrid";
 import ItemMD from "./md";
 import ItemXL from "./xl";
 
-const ItemGridUI = ({ expanded, setExpanded }) => {
+type ItemGridUIProps = {
+  expanded: string | number | null;
+  setExpanded: (id: string | number | null) => void;
+};
+
+const ItemGridUI = ({ expanded, setExpanded }: ItemGridUIProps) => {
   const { itemNode, isExpanded, isCombo, typeNum, onToggleExpanse } =
     useItemGrid(expanded, setExpanded);
 
@@ -19,7 +24,7 @@ const ItemGridUI = ({ expanded, setExpanded }) => {
       className={clsx("transition-[padding_0.2s]", {
         "col-span-full  pt-[100px]": isExpanded,
       })}
-      ref={itemNode}
+      ref={itemNode as React.RefObject<HTMLElement>}
     >
       <div
         className={clsx(

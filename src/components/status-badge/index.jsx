@@ -8,7 +8,13 @@ import clsx from "clsx";
 import Icon from "@/components/icon";
 import { useMemo } from "react";
 
-const StatusBadge = ({ status, block, min, noTooltip, type }) => {
+const StatusBadge = ({
+  status,
+  block = false,
+  min,
+  noTooltip = false,
+  type = "components",
+}) => {
   const statusTypes = useMemo(() => {
     if (type === "box") {
       return boxStatusTypes;
