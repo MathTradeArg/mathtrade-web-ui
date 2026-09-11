@@ -4,9 +4,9 @@ import I18N from "@/i18n";
 import { useState } from "react";
 
 const ButtonAlert = ({
-  className,
-  ariaLabel,
-  disabled,
+  className = "",
+  ariaLabel = undefined,
+  disabled = false,
   children,
   onClick,
   title,

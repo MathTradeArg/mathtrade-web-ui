@@ -74,11 +74,11 @@ const imgs = {
 };
 
 const PageHeader = ({
-  title,
-  subtitle,
-  description,
+  title = "",
+  subtitle = "",
+  description = null,
   name = "home",
-  noHideDescription,
+  noHideDescription = false,
   bgImg = 1,
 }) => {
   return title || description ? (
