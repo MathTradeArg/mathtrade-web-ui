@@ -36,7 +36,7 @@ const PrivateEnvironment = ({ children }) => {
     if (!user) {
       signOut();
     } else {
-      if (pausedSite !== "yes") {
+      if (pausedSite !== "yes" || user.math_admin) {
         signInApi();
         setEnableRenderPrivateEnvironment(true);
       } else {
