@@ -6,6 +6,7 @@ type BadgeTypeProps = {
   type: "game" | "item" | "tag";
   subtype?: number;
   isCombo?: boolean;
+  dark?: boolean;
   className?: string;
 };
 
@@ -13,10 +14,13 @@ type BadgeTypeProps = {
 // (game-grid vs. item context used to diverge here): base game, expansion,
 // combo (a bundle of several elements — takes priority over base/expansion
 // since a combo card is never "just" a base game or expansion visually).
+// `dark` swaps the base-game tint for one legible on a dark card
+// (near-black gameBase text is invisible on game-grid's dark hero card).
 const BadgeType = ({
   type,
   subtype = 1,
   isCombo,
+  dark,
   className,
 }: BadgeTypeProps) => {
   const isGameOrItem = type === "game" || type === "item";
@@ -29,9 +33,12 @@ const BadgeType = ({
       className={clsx(
         "inline-flex items-center gap-1 uppercase leading-[1.7] px-2 font-bold rounded-[3px]",
         {
-          "bg-gameBase/10 text-gameBase": isBase,
-          "bg-gameExpansion/10 text-gameExpansion": isExpansion,
-          "bg-gameCombo/10 text-gameCombo": isComboBadge,
+          "bg-gameBase/10 text-gameBase": isBase && !dark,
+          "bg-white/15 text-gray-100": isBase && dark,
+          "bg-gameExpansion/10 text-gameExpansion": isExpansion && !dark,
+          "bg-gameExpansion/20 text-orange-300": isExpansion && dark,
+          "bg-gameCombo/10 text-gameCombo": isComboBadge && !dark,
+          "bg-gameCombo/25 text-violet-300": isComboBadge && dark,
           "bg-yellow-300 text-black border border-yellow-600": subtype === 3,
           "bg-gray-300 text-gray-900 border border-gray-500": type === "tag",
         },
