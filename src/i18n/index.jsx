@@ -35,7 +35,7 @@ export const getI18Ntext = (str, values = []) => {
   return text;
 };
 
-const I18N = ({ id = "", values }) => {
+const I18N = ({ id = "", values = [] }) => {
   let text = getI18Ntext(id, values);
 
   return text.indexOf("<") >= 0 ? (

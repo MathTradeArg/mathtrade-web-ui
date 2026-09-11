@@ -37,7 +37,16 @@ const Tab = ({ name, id, tabSelected, setTabSelected, num }) => {
   );
 };
 
-const NotificationsButton = () => {
+type NotificationsButtonProps = {
+  // "row" renders an icon + badge + label row, for the sidebar's utility row.
+  variant?: "header" | "row";
+  placement?: "below" | "right";
+};
+
+const NotificationsButton = ({
+  variant = "header",
+  placement = "below",
+}: NotificationsButtonProps = {}) => {
   const [tabSelected, setTabSelected] = useState(0);
 
   /* CONTEXT *************************************************/
@@ -90,14 +99,30 @@ const NotificationsButton = () => {
 
   return (
     <div className="relative">
-      <HeadButton
-        onClick={toggleMobile}
-        icon="notifications"
-        //num={num > 9 ? "+9" : num}
-        num={num}
-      />
+      {variant === "row" ? (
+        <button
+          className="flex items-center gap-3 w-full text-left cursor-pointer peer text-sm text-white/80 hover:text-white px-2 py-2 rounded-lg hover:bg-white/5"
+          onClick={toggleMobile}
+        >
+          <span className="relative text-lg">
+            <Icon type="notifications" />
+            {num ? (
+              <span className="absolute -top-1 -right-1.5 bg-danger text-white text-[9px] font-bold min-w-[15px] h-[15px] rounded-full flex items-center justify-center px-0.5">
+                {num > 9 ? "9+" : num}
+              </span>
+            ) : null}
+          </span>
+          <I18N id="title.Notifications" />
+        </button>
+      ) : (
+        <HeadButton onClick={toggleMobile} icon="notifications" num={num} />
+      )}
 
-      <HeadContent visibleMobile={visibleMobile} toggleMobile={toggleMobile}>
+      <HeadContent
+        visibleMobile={visibleMobile}
+        toggleMobile={toggleMobile}
+        placement={placement}
+      >
         <div
           className={clsx("relative", {
             "min-h-40": loading,
