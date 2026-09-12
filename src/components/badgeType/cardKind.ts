@@ -15,17 +15,27 @@ export const resolveCardKind = ({
   return "base";
 };
 
-// Left-border accent + a faint background tint of the same color, one pair
-// per content category — the border alone (matching docs/design-system.html's
-// literal .game-card.is-base/.is-expansion CSS) read as too subtle once built:
-// a page full of white cards only differed by a thin 4px edge. The tint makes
-// each category recognizable at a glance while scrolling, which was the
-// original ask this color system was built for.
+// Left-border accent + a background tint of the same color, one pair per
+// content category — the border alone (matching docs/design-system.html's
+// literal .game-card.is-base/.is-expansion CSS) read as too subtle once
+// built: a page full of white cards only differed by a thin 4px edge.
+//
+// The tint is a pre-mixed SOLID color, not a Tailwind alpha utility
+// (bg-gameExpansion/8) — these cards sit on the page's off-white/gray
+// background, not pure white, so a translucent tint blends with whatever
+// is actually behind it and comes out muddier/grayer than intended. Each
+// value below is the real result of mixing the category's token at 8%
+// into #ffffff, computed once so it renders identically regardless of
+// what's behind the card:
+//   base       #1C1F26 @ 8% -> #ededee
+//   expansion  #B45309 @ 8% -> #f9f1eb
+//   combo      #5B21B6 @ 8% -> #f2edf9
+//   other      #ca8a04 @ 8% -> #fbf6eb
 const CARD_KIND_CLASSES: Record<CardKind, string> = {
-  base: "border-l-4 border-l-gameBase bg-gameBase/5",
-  expansion: "border-l-4 border-l-gameExpansion bg-gameExpansion/5",
-  combo: "border-l-4 border-l-gameCombo bg-gameCombo/5",
-  other: "border-l-4 border-l-yellow-600 bg-yellow-600/5",
+  base: "border-l-4 border-l-gameBase bg-[#ededee]",
+  expansion: "border-l-4 border-l-gameExpansion bg-[#f9f1eb]",
+  combo: "border-l-4 border-l-gameCombo bg-[#f2edf9]",
+  other: "border-l-4 border-l-yellow-600 bg-[#fbf6eb]",
 };
 
 export const cardKindBorderClass = (kind: CardKind) => CARD_KIND_CLASSES[kind];
