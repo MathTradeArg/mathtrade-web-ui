@@ -179,7 +179,7 @@ const ElementComplete = ({ onToggleExpanse }: ElementCompleteProps) => {
           ) : null}
         </div>
 
-        <div className="mt-auto text-caption text-gray-400 truncate">
+        <div className="text-caption text-gray-400 truncate">
           {showBGGstats ? (
             <>
               <I18N id="element.BGG.rank" />{" "}

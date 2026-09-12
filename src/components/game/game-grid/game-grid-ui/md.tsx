@@ -155,7 +155,7 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
             </div>
           ) : null}
 
-          <div className="mt-auto w-full text-caption text-gray-400 truncate">
+          <div className="w-full text-caption text-gray-400 truncate">
             {itemCount} <I18N id={itemCount === 1 ? "game.item-num.1" : "game.item-num.more"} />
             {showBGGstats ? (
               <>
