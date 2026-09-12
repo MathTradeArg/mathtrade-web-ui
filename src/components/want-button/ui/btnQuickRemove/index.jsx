@@ -57,7 +57,7 @@ const BtnQuickRemove = () => {
             }
           )}
         >
-          <Icon type="heart" className="text-base" />
+          <Icon type="heart-filled" className="text-base" />
           <I18N id="btn.Want.Wanted" />
         </div>
       </div>
@@ -74,7 +74,7 @@ const BtnQuickRemove = () => {
           }
         )}
       >
-        <Icon type="heart" className="text-base" />
+        <Icon type="heart-filled" className="text-base" />
         <I18N id="btn.Want.Wanted" />
         <span className="text-gray-300 font-normal">·</span>
         <button
