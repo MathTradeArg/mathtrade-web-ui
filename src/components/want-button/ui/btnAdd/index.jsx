@@ -164,11 +164,11 @@ const BtnAdd = () => {
     return (
       <div className="text-center p-5 pb-9">
         <button
-          className="rounded-full outline-none transition-colors inline-block w-auto px-7 py-3 text-xl shadow-md bg-gray-500 text-white opacity-30 cursor-not-allowed"
+          className="rounded-full outline-none transition-colors inline-block w-auto px-5 py-2 text-sm font-semibold bg-gray-400 text-white opacity-60 cursor-not-allowed"
           disabled
         >
           <InnerButton>
-            <Icon type="heart" />
+            <Icon type="heart" className="text-base" />
             <I18N id="btn.Want.Iwant" />
           </InnerButton>
         </button>
@@ -191,11 +191,11 @@ const BtnAdd = () => {
       ) : null}
       <button
         className={clsx(
-          "rounded-full outline-none transition-colors inline-block w-auto px-7 py-3 text-xl shadow-md",
+          "rounded-full outline-none transition-colors inline-block w-auto px-5 py-2 text-sm font-semibold",
           {
             "bg-want text-white": !loadingMyWants,
-            "bg-gray-500 text-white": loadingMyWants,
-            "hover:opacity-75": !loadingMyWants && !loading,
+            "bg-gray-400 text-white": loadingMyWants,
+            "hover:opacity-90": !loadingMyWants && !loading,
             "opacity-50": loadingMyWants || loading,
           }
         )}
@@ -204,7 +204,10 @@ const BtnAdd = () => {
         ref={buttonRef}
       >
         <InnerButton>
-          <Icon type={loadingMyWants || loading ? "loading" : "heart"} />
+          <Icon
+            type={loadingMyWants || loading ? "loading" : "heart"}
+            className="text-base"
+          />
           <I18N id={`btn.Want.${loadingMyWants ? "Loading" : "Iwant"}`} />
         </InnerButton>
       </button>
