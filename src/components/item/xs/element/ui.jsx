@@ -45,7 +45,7 @@ const ElementXSUI = ({ isCombo }) => {
         {language ? (
           <div
             className={clsx(
-              "text-caption text-gray-500 bg-colorMain px-1.5 py-0.5 rounded cropped_1",
+              "text-caption text-gray-500 bg-colorMain px-2.5 py-1 rounded-md cropped_1",
               {
                 "max-w-40": !isCombo,
                 "text-[9px] leading-none max-w-20": isCombo,

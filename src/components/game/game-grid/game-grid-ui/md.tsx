@@ -88,8 +88,8 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
         {ban_id ? null : <Value type="game" />}
       </div>
 
-      <div className="flex gap-3 grow">
-        <div className="relative w-[110px] shrink-0">
+      <div className="flex gap-0 grow">
+        <div className="relative w-[130px] shrink-0">
           <Thumbnail
             elements={[{ thumbnail }]}
             className="w-full h-full"
@@ -102,7 +102,7 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
           </div>
         </div>
 
-        <div className="flex-1 min-w-0 py-1 pr-3 flex flex-col gap-1.5 items-start">
+        <div className="flex-1 min-w-0 py-3.5 px-4 flex flex-col gap-2.5 items-start">
           <BadgeType
             className="text-[9px]"
             type="game"
@@ -115,7 +115,7 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
             className="cursor-pointer w-full"
             onClick={onToggleExpanse}
           >
-            <h3 className="text-body-lg hover:opacity-70 leading-tight line-clamp-2">
+            <h3 className="text-heading hover:opacity-70 leading-tight line-clamp-2">
               {`${title}${year ? ` (${year})` : ""}`}
             </h3>
           </div>
@@ -123,9 +123,9 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
           {notGame ? (
             <ItemNoBGG itemRaw={items?.[0] || null} />
           ) : showBGGstats ? (
-            <div className="flex items-center gap-3 w-full">
+            <div className="flex items-center gap-4 w-full">
               <div
-                className="text-[13px] font-bold text-center w-7 h-7 leading-7 rounded-full text-white shrink-0 bg-primary"
+                className="text-body-lg text-center w-10 h-10 leading-10 rounded-full text-white shrink-0 bg-primary"
                 title={`${rateVotes} ${getI18Ntext("element.BGG.votes")}`}
               >
                 {rate}
@@ -135,7 +135,7 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
                   <span
                     key={dot}
                     className={clsx(
-                      "w-[5px] h-[5px] rounded-full",
+                      "w-2 h-2 rounded-full",
                       dot <= filledDots ? "bg-[#2c2e33]" : "bg-gray-200"
                     )}
                   />
@@ -146,10 +146,10 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
                   href={titleLink}
                   target="_blank"
                   rel="nofollow noopener"
-                  className="ml-auto shrink-0 w-6 h-6 rounded-md bg-bgg/10 text-bgg flex items-center justify-center hover:bg-bgg/20 transition-colors"
+                  className="ml-auto shrink-0 w-7 h-7 rounded-md bg-bgg/10 text-bgg flex items-center justify-center hover:bg-bgg/20 transition-colors"
                   title={getI18Ntext("element.BGG.OpenGameInBGG")}
                 >
-                  <Icon type="external-link" className="text-xs" />
+                  <Icon type="external-link" className="text-sm" />
                 </a>
               ) : null}
             </div>
