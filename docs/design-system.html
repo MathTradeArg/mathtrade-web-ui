@@ -20,6 +20,8 @@
     --colorMain: #ebebeb;
     --gameBase: #1C1F26;
     --gameExpansion: #B45309;
+    --gameCombo: #5B21B6; /* contenido: combo (varios elementos en un ítem) — distinto de purple-600, que es un estado de trade (en disputa), no una categoría de contenido */
+    --gameOther: #ca8a04; /* contenido: fuera de la BGG (item.type=3) — mismo yellow-600 que ya usa el badge "Fuera de la BGG" */
     --purple-600: #9333ea; /* del set Tailwind YA habilitado (purple), no violet/fuchsia */
     --purple-100: #f3e8ff;
 
@@ -327,8 +329,15 @@
     border-radius: 10px;
     overflow: hidden;
   }
-  .game-card.is-base { border-left: 4px solid var(--gameBase); }
-  .game-card.is-expansion { border-left: 4px solid var(--gameExpansion); }
+  /* Border + a faint tint of the same color, one pair per content
+     category. Border alone read as too subtle once built — a page full
+     of white cards only differed by a thin 4px edge — so the category
+     also colors the card's own background, faintly, to stay
+     recognizable while scrolling. */
+  .game-card.is-base { border-left: 4px solid var(--gameBase); background: color-mix(in srgb, var(--gameBase) 5%, var(--bg-card)); }
+  .game-card.is-expansion { border-left: 4px solid var(--gameExpansion); background: color-mix(in srgb, var(--gameExpansion) 5%, var(--bg-card)); }
+  .game-card.is-combo { border-left: 4px solid var(--gameCombo); background: color-mix(in srgb, var(--gameCombo) 5%, var(--bg-card)); }
+  .game-card.is-other { border-left: 4px solid var(--gameOther); background: color-mix(in srgb, var(--gameOther) 5%, var(--bg-card)); }
 
   .gc-cover {
     width: 130px;
@@ -359,6 +368,8 @@
   }
   .gc-tag.base { color: var(--gameBase); }
   .gc-tag.expansion { color: var(--gameExpansion); }
+  .gc-tag.combo { color: var(--gameCombo); }
+  .gc-tag.other { color: var(--gameOther); }
   .gc-tag svg { width: 9px; height: 9px; }
 
   .gc-offered {
@@ -544,6 +555,8 @@
       <div class="swatch"><div class="swatch-color" style="background:var(--bgg)"></div><div class="swatch-meta"><span class="swatch-name">bgg</span><span class="swatch-hex">#ff5100</span></div></div>
       <div class="swatch"><div class="swatch-color" style="background:var(--gameExpansion)"></div><div class="swatch-meta"><span class="swatch-name">gameExpansion</span><span class="swatch-hex">#B45309</span></div></div>
       <div class="swatch"><div class="swatch-color" style="background:var(--gameBase)"></div><div class="swatch-meta"><span class="swatch-name">gameBase</span><span class="swatch-hex">#1C1F26</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--gameCombo)"></div><div class="swatch-meta"><span class="swatch-name">gameCombo</span><span class="swatch-hex">#5B21B6</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--gameOther)"></div><div class="swatch-meta"><span class="swatch-name">gameOther</span><span class="swatch-hex">#ca8a04</span></div></div>
       <div class="swatch"><div class="swatch-color" style="background:var(--purple-600)"></div><div class="swatch-meta"><span class="swatch-name">purple-600</span><span class="swatch-hex">#9333ea</span></div></div>
       <div class="swatch"><div class="swatch-color" style="background:var(--stroke)"></div><div class="swatch-meta"><span class="swatch-name">stroke</span><span class="swatch-hex">#bbc6ce</span></div></div>
     </div>
@@ -687,7 +700,7 @@
   <section>
     <div class="section-label">06 · Componente</div>
     <h2 class="section-title">Card de juego — rediseño</h2>
-    <p class="section-desc">2 por fila en vez de 4, horizontal en vez de apilada. Rating + complejidad quedan como protagonistas (ya validado como lo más escaneado). Idioma/dependencia/tamaño pasan a chips en una sola línea. BGG se degrada a ícono — es un link de referencia, no un dato de decisión. Tooltips fuera: el público ya conoce estos términos de BGG.</p>
+    <p class="section-desc">2 por fila en vez de 4, horizontal en vez de apilada. Rating + complejidad quedan como protagonistas (ya validado como lo más escaneado). Idioma/dependencia/tamaño pasan a chips en una sola línea. BGG se degrada a ícono — es un link de referencia, no un dato de decisión. Tooltips fuera: el público ya conoce estos términos de BGG. Las cuatro categorías de contenido (juego base, expansión, combo y fuera de la BGG) se distinguen a simple vista en un scroll: borde izquierdo + un tinte muy sutil (5%) del mismo color de fondo en toda la card, no solo el borde.</p>
 
     <div class="card-row">
       <div class="game-card is-base">
@@ -741,6 +754,35 @@
             <span class="gc-chip">Viene en la caja de Lunes</span>
           </div>
           <div class="gc-footer">Sin ranking · Super Noob Games (2019)</div>
+        </div>
+      </div>
+
+      <div class="game-card is-combo">
+        <div class="gc-cover" style="background:linear-gradient(160deg,#3a2a5a,#1a2a3a);"></div>
+        <div class="gc-content">
+          <div class="gc-top">
+            <span class="gc-tag combo"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="12" height="12" rx="2" opacity="0.55"/><rect x="9" y="9" width="12" height="12" rx="2"/></svg>COMBO</span>
+          </div>
+          <h3 class="gc-title">Bla Bla Bla</h3>
+          <div class="gc-chips">
+            <span class="gc-chip">Diccionario Lateral</span>
+            <span class="gc-chip">¿Sentiende?</span>
+          </div>
+          <div class="gc-footer">3 juegos en este ítem</div>
+        </div>
+      </div>
+
+      <div class="game-card is-other">
+        <div class="gc-cover" style="background:linear-gradient(160deg,#4a4a4a,#242424);"></div>
+        <div class="gc-content">
+          <div class="gc-top">
+            <span class="gc-tag other"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>FUERA DE LA BGG</span>
+          </div>
+          <h3 class="gc-title">Blade Runner: El Juego de Rol</h3>
+          <div class="gc-chips">
+            <span class="gc-chip">Español</span>
+          </div>
+          <div class="gc-footer">1 ejemplar ofrecido</div>
         </div>
       </div>
     </div>

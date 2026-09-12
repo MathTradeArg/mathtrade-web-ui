@@ -74,7 +74,7 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
   return (
     <div
       className={clsx(
-        "bg-white h-full rounded-lg transition-opacity relative flex flex-col overflow-hidden",
+        "h-full rounded-lg transition-opacity relative flex flex-col overflow-hidden",
         cardKindBorderClass(cardKind),
         {
           "opacity-30 pointer-events-none": showAsIgnored,

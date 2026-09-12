@@ -15,26 +15,17 @@ export const resolveCardKind = ({
   return "base";
 };
 
-// Left-border accent, one color per content category. "base" swaps to a
-// neutral gray on dark cards (game-grid's hero card) since gameBase
-// (#1C1F26, near-black) is invisible against bg-gray-900 there — same
-// adaptation already applied to BadgeType's `dark` variant.
-const LEFT_BORDER: Record<"light" | "dark", Record<CardKind, string>> = {
-  light: {
-    base: "border-l-4 border-l-gameBase",
-    expansion: "border-l-4 border-l-gameExpansion",
-    combo: "border-l-4 border-l-gameCombo",
-    other: "border-l-4 border-l-yellow-600",
-  },
-  dark: {
-    base: "border-l-4 border-l-gray-600",
-    expansion: "border-l-4 border-l-gameExpansion",
-    combo: "border-l-4 border-l-gameCombo",
-    other: "border-l-4 border-l-yellow-600",
-  },
+// Left-border accent + a faint background tint of the same color, one pair
+// per content category — the border alone (matching docs/design-system.html's
+// literal .game-card.is-base/.is-expansion CSS) read as too subtle once built:
+// a page full of white cards only differed by a thin 4px edge. The tint makes
+// each category recognizable at a glance while scrolling, which was the
+// original ask this color system was built for.
+const CARD_KIND_CLASSES: Record<CardKind, string> = {
+  base: "border-l-4 border-l-gameBase bg-gameBase/5",
+  expansion: "border-l-4 border-l-gameExpansion bg-gameExpansion/5",
+  combo: "border-l-4 border-l-gameCombo bg-gameCombo/5",
+  other: "border-l-4 border-l-yellow-600 bg-yellow-600/5",
 };
 
-export const cardKindBorderClass = (
-  kind: CardKind,
-  variant: "light" | "dark" = "light"
-) => LEFT_BORDER[variant][kind];
+export const cardKindBorderClass = (kind: CardKind) => CARD_KIND_CLASSES[kind];

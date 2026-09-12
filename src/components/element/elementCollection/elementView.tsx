@@ -92,7 +92,7 @@ const ElementView = ({
   return (
     <div
       className={clsx(
-        "relative -m-4 flex-1 flex rounded-lg overflow-hidden bg-white",
+        "relative -m-4 flex-1 flex rounded-lg overflow-hidden",
         cardKindBorderClass(cardKind)
       )}
     >

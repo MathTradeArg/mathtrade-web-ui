@@ -28,7 +28,7 @@ const ItemGridUI = ({ expanded, setExpanded }: ItemGridUIProps) => {
     >
       <div
         className={clsx(
-          "transition-all relative mx-auto rounded-lg bg-white",
+          "transition-all relative mx-auto rounded-lg",
           cardKindBorderClass(cardKind),
           {
             "w-full h-full shadow-md hover:shadow-[0_3px_16px_rgba(0,0,0,0.25)]":
