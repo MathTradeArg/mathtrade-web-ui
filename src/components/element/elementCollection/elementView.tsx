@@ -165,17 +165,17 @@ const ElementView = ({
 
         <div className="flex flex-wrap gap-1.5">
           {language ? (
-            <span className="text-caption text-gray-500 bg-colorMain px-2 py-1 rounded">
+            <span className="text-caption text-gray-500 bg-colorMain px-2.5 py-1 rounded-md">
               {language}
             </span>
           ) : null}
           {showBGGstats ? (
-            <span className="text-caption text-gray-500 bg-colorMain px-2 py-1 rounded">
+            <span className="text-caption text-gray-500 bg-colorMain px-2.5 py-1 rounded-md">
               {dependency}
             </span>
           ) : null}
           {boxSize ? (
-            <span className="text-caption text-gray-500 bg-colorMain px-2 py-1 rounded inline-flex items-center gap-1">
+            <span className="text-caption text-gray-500 bg-colorMain px-2.5 py-1 rounded-md inline-flex items-center gap-1">
               <I18N id={boxSize.text} />
               <Question
                 text={getI18Ntext(boxSize.description, [

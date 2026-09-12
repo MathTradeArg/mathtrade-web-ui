@@ -82,7 +82,7 @@ const ElementComplete = ({ onToggleExpanse }: ElementCompleteProps) => {
         </div>
       </div>
 
-      <div className="flex-1 min-w-0 flex flex-col gap-1.5">
+      <div className="flex-1 min-w-0 flex flex-col gap-2.5">
         <div className="flex items-center justify-between gap-2">
           <BadgeType
             className="text-[9px]"
@@ -101,15 +101,15 @@ const ElementComplete = ({ onToggleExpanse }: ElementCompleteProps) => {
           className="cursor-pointer"
           onClick={onToggleExpanse}
         >
-          <h3 className="text-body-lg hover:opacity-70 leading-tight line-clamp-2">
+          <h3 className="text-heading hover:opacity-70 leading-tight line-clamp-2">
             {title}
           </h3>
         </div>
 
         {showBGGstats ? (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <div
-              className="text-[13px] font-bold text-center w-7 h-7 leading-7 rounded-full text-white shrink-0 bg-primary"
+              className="text-body-lg text-center w-10 h-10 leading-10 rounded-full text-white shrink-0 bg-primary"
               title={`${rateVotes} ${getI18Ntext("element.BGG.votes")}`}
             >
               {rate}
@@ -119,7 +119,7 @@ const ElementComplete = ({ onToggleExpanse }: ElementCompleteProps) => {
                 <span
                   key={dot}
                   className={clsx(
-                    "w-[5px] h-[5px] rounded-full",
+                    "w-2 h-2 rounded-full",
                     dot <= filledDots ? "bg-[#2c2e33]" : "bg-gray-200"
                   )}
                 />
@@ -130,10 +130,10 @@ const ElementComplete = ({ onToggleExpanse }: ElementCompleteProps) => {
                 href={titleLink}
                 target="_blank"
                 rel="nofollow noopener"
-                className="ml-auto shrink-0 w-6 h-6 rounded-md bg-bgg/10 text-bgg flex items-center justify-center hover:bg-bgg/20 transition-colors"
+                className="ml-auto shrink-0 w-7 h-7 rounded-md bg-bgg/10 text-bgg flex items-center justify-center hover:bg-bgg/20 transition-colors"
                 title={getI18Ntext("element.BGG.OpenGameInBGG")}
               >
-                <Icon type="external-link" className="text-xs" />
+                <Icon type="external-link" className="text-sm" />
               </a>
             ) : null}
           </div>
@@ -155,17 +155,17 @@ const ElementComplete = ({ onToggleExpanse }: ElementCompleteProps) => {
 
         <div className="flex flex-wrap gap-1.5">
           {language ? (
-            <span className="text-caption text-gray-500 bg-colorMain px-2 py-0.5 rounded">
+            <span className="text-caption text-gray-500 bg-colorMain px-2.5 py-1 rounded-md">
               {language}
             </span>
           ) : null}
           {showBGGstats ? (
-            <span className="text-caption text-gray-500 bg-colorMain px-2 py-0.5 rounded">
+            <span className="text-caption text-gray-500 bg-colorMain px-2.5 py-1 rounded-md">
               {dependency}
             </span>
           ) : null}
           {boxSize ? (
-            <span className="text-caption text-gray-500 bg-colorMain px-2 py-0.5 rounded inline-flex items-center gap-1">
+            <span className="text-caption text-gray-500 bg-colorMain px-2.5 py-1 rounded-md inline-flex items-center gap-1">
               <I18N id={boxSize.text} />
               <Question
                 text={getI18Ntext(boxSize.description, [
