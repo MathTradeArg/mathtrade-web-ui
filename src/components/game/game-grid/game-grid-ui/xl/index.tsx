@@ -75,7 +75,7 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
     <div className="relative">
       <div
         className={clsx(
-          "bg-white w-full mx-auto relative transition-opacity rounded-t-lg overflow-hidden",
+          "w-full mx-auto relative transition-opacity rounded-t-lg overflow-hidden",
           cardKindBorderClass(cardKind),
           {
             "opacity-30  pointer-events-none": showAsIgnored,
