@@ -334,10 +334,10 @@
      of white cards only differed by a thin 4px edge — so the category
      also colors the card's own background, faintly, to stay
      recognizable while scrolling. */
-  .game-card.is-base { border-left: 4px solid var(--gameBase); background: color-mix(in srgb, var(--gameBase) 5%, var(--bg-card)); }
-  .game-card.is-expansion { border-left: 4px solid var(--gameExpansion); background: color-mix(in srgb, var(--gameExpansion) 5%, var(--bg-card)); }
-  .game-card.is-combo { border-left: 4px solid var(--gameCombo); background: color-mix(in srgb, var(--gameCombo) 5%, var(--bg-card)); }
-  .game-card.is-other { border-left: 4px solid var(--gameOther); background: color-mix(in srgb, var(--gameOther) 5%, var(--bg-card)); }
+  .game-card.is-base { border-left: 4px solid var(--gameBase); background: color-mix(in srgb, var(--gameBase) 8%, var(--bg-card)); }
+  .game-card.is-expansion { border-left: 4px solid var(--gameExpansion); background: color-mix(in srgb, var(--gameExpansion) 8%, var(--bg-card)); }
+  .game-card.is-combo { border-left: 4px solid var(--gameCombo); background: color-mix(in srgb, var(--gameCombo) 8%, var(--bg-card)); }
+  .game-card.is-other { border-left: 4px solid var(--gameOther); background: color-mix(in srgb, var(--gameOther) 8%, var(--bg-card)); }
 
   .gc-cover {
     width: 130px;
@@ -700,7 +700,7 @@
   <section>
     <div class="section-label">06 · Componente</div>
     <h2 class="section-title">Card de juego — rediseño</h2>
-    <p class="section-desc">2 por fila en vez de 4, horizontal en vez de apilada. Rating + complejidad quedan como protagonistas (ya validado como lo más escaneado). Idioma/dependencia/tamaño pasan a chips en una sola línea. BGG se degrada a ícono — es un link de referencia, no un dato de decisión. Tooltips fuera: el público ya conoce estos términos de BGG. Las cuatro categorías de contenido (juego base, expansión, combo y fuera de la BGG) se distinguen a simple vista en un scroll: borde izquierdo + un tinte muy sutil (5%) del mismo color de fondo en toda la card, no solo el borde.</p>
+    <p class="section-desc">2 por fila en vez de 4, horizontal en vez de apilada. Rating + complejidad quedan como protagonistas (ya validado como lo más escaneado). Idioma/dependencia/tamaño pasan a chips en una sola línea. BGG se degrada a ícono — es un link de referencia, no un dato de decisión. Tooltips fuera: el público ya conoce estos términos de BGG. Las cuatro categorías de contenido (juego base, expansión, combo y fuera de la BGG) se distinguen a simple vista en un scroll: borde izquierdo + un tinte (8%, mezclado contra blanco — no transparencia directa, que sobre un fondo gris pierde el color) del mismo color de fondo en toda la card, no solo el borde.</p>
 
     <div class="card-row">
       <div class="game-card is-base">
