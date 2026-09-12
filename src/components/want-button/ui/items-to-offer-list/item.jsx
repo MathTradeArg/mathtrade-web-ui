@@ -30,7 +30,7 @@ const Item = ({ itemRaw }) => {
     <ItemXS
       itemRaw={itemRaw}
       hideUser
-      className={checked ? "" : "opacity-45"}
+      excluded={!checked}
       extraContent={
         <input
           type="checkbox"

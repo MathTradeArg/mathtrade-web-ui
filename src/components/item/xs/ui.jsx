@@ -10,7 +10,7 @@ import ElementXS from "./element";
 const ItemXSUI = ({
   className = "",
   extraContent = null,
-  dark = false,
+  excluded = false,
   hideUser = false,
   hideValue = false,
 }) => {
@@ -21,11 +21,10 @@ const ItemXSUI = ({
   return (
     <div
       className={clsx(
-        "flex items-start gap-3 rounded-lg border border-item-700/40 shadow-sm text-black p-2.5",
-        {
-          "bg-item-200": !isCombo,
-          "bg-item-300": isCombo,
-        },
+        "flex items-start gap-3 rounded-lg border shadow-sm text-black p-2.5",
+        excluded
+          ? "bg-colorMain border-gray-200 opacity-45"
+          : "bg-white border-gray-200",
         className
       )}
     >
