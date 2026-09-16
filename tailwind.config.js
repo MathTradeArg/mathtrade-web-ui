@@ -32,12 +32,15 @@ module.exports = {
     "bg-gameBase",
     "bg-gameExpansion",
     "bg-gameCombo",
+    "bg-gameOther",
     "text-gameBase",
     "text-gameExpansion",
     "text-gameCombo",
+    "text-gameOther",
     "border-gameBase",
     "border-gameExpansion",
     "border-gameCombo",
+    "border-gameOther",
   ],
   theme: {
     colors: {
@@ -56,8 +59,14 @@ module.exports = {
       cancel: "#999",
       colorMain: "#ebebeb",
       gameBase: "#1C1F26", // content classification: base game (also expansion vs. base, not a status color)
-      gameExpansion: "#B45309", // content classification: expansion
+      gameExpansion: "#1d4ed8", // content classification: expansion — blue-700, not amber: #B45309 sat next to danger (#d9512f) and read as an alert, not a category
       gameCombo: "#5B21B6", // content classification: combo (bundle of several elements) — deep violet, clear of the BGG rating scale's gray/red/blue/green range
+      // Out-of-BGG used to share yellow-600 with the expansion's amber neighbour,
+      // so the two warm cards read as the same family at a glance. Teal-700 is
+      // already in the Tailwind set we ship and sits opposite amber on the hue
+      // wheel (cool vs warm), so the four categories land on four distinct
+      // hues: near-black, amber, violet, teal.
+      gameOther: "#0f766e",
       item: {
         50: "#faf7f2",
         100: "#f2eee2",
@@ -95,6 +104,12 @@ module.exports = {
         body: ["13px", { lineHeight: "18px", fontWeight: "400" }],
         "body-lg": ["15px", { lineHeight: "20px", fontWeight: "600" }],
         heading: ["19px", { lineHeight: "24px", fontWeight: "700" }],
+        // Page titles. Fluid so a compact header stays ~56-72px on every
+        // viewport instead of jumping from text-4xl to text-6xl.
+        display: [
+          "clamp(1.75rem, 1.3rem + 2vw, 2.5rem)",
+          { lineHeight: "1.15", fontWeight: "700" },
+        ],
       },
       borderRadius: {
         main: "16px",

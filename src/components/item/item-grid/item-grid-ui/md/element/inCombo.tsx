@@ -23,7 +23,11 @@ const ElementInCombo = ({ onToggleExpanse }: ElementInComboProps) => {
   return (
     <div className="flex items-center gap-3">
       <div className="relative w-16 h-16 shrink-0">
-        <Thumbnail elements={[element]} className="rounded-lg w-full h-full" />
+        <Thumbnail
+          contain
+          elements={[element]}
+          className="rounded-lg w-full h-full"
+        />
         <div
           className="absolute top-0 left-0 w-full h-full bg-black/40 rounded-lg grid place-content-center backdrop-blur-sm cursor-pointer opacity-0 hover:opacity-100 transition-opacity"
           onClick={onToggleExpanse}

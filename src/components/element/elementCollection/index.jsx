@@ -10,6 +10,8 @@ const ElementCollection = ({
   element,
   insideItem = false,
   extraContent = null,
+  header = null,
+  layout = "poster",
 }) => {
   // EDITING MODE *************************************/
   const [editingMode, setEditingMode] = useState(false);
@@ -29,6 +31,8 @@ const ElementCollection = ({
           toggleEditingMode={toggleEditingMode}
           insideItem={insideItem}
           extraContent={extraContent}
+          header={header}
+          layout={layout}
         />
       )}
     </ElementContextProvider>

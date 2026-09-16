@@ -2,7 +2,6 @@
 import useMyOffer from "./useMyOffer";
 import ErrorAlert from "@/components/errorAlert";
 import ItemMy from "@/components/item/item-my";
-import I18N from "@/i18n";
 import StickyHeader from "@/components/sticky-header";
 import PageHeader from "@/components/pageHeader";
 import { GotoTopContextProvider } from "@/context/goto-top";
@@ -25,14 +24,9 @@ const MyItemsPage = () => {
   return (
     <>
       <PageHeader
+        variant="compact"
         title="title.MyItems"
-        name="myOffer"
-        description={
-          <p>
-            <I18N id="MyItems.page.explanation" />
-          </p>
-        }
-        bgImg="10"
+        helpId="page.myOffer"
       />
       <ItemPreviousMTContextProvider>
         <SectionWithSidebar name="myoffer" loading={loading}>

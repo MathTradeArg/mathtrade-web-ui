@@ -16,6 +16,8 @@ export const ItemContext = createContext({
   item: null,
   reloadItem: () => {},
   loadingItem: false,
+  showAsIgnored: false,
+  setShowAsIgnored: (_value) => {},
   //
   wantGroup: null,
   otherWantGroups: [],
@@ -172,7 +174,7 @@ export const ItemContextProvider = ({ itemRaw, children }) => {
       {item.elements && item.elements.length > 0 ? (
         children
       ) : (
-        <article className="bg-item-200 border border-item-300 text-center p-3 text-balance text-red-800 mb-2 text-xs">
+        <article className="bg-danger/10 border border-danger/30 rounded-lg text-center p-3 text-balance text-red-800 mb-2 text-xs">
           <I18N id="error.item.offer.notFound" />
           <br /> <strong>Ejemplar Id: {item.id}</strong>
         </article>

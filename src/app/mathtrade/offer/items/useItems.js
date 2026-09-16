@@ -53,8 +53,10 @@ const useItems = () => {
   );
 
   const afterError = useCallback(() => {
-    updateFilters({ page: 1 }, "item");
-  }, [updateFilters]);
+    if (filters?.page && filters.page !== 1) {
+      updateFilters({ page: 1 }, "item");
+    }
+  }, [updateFilters, filters?.page]);
 
   const [, , loading, error] = useFetch({
     endpoint: "GET_ITEMS_LIST",
@@ -80,6 +82,7 @@ const useItems = () => {
     autoLoad: true,
     initialState: {},
     afterLoad: afterLoadFilters,
+    reloadValue,
   });
   /* end FETCH FILTERS */
 

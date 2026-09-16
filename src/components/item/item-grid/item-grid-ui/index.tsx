@@ -31,7 +31,10 @@ const ItemGridUI = ({ expanded, setExpanded }: ItemGridUIProps) => {
           "transition-all relative mx-auto rounded-lg",
           cardKindBorderClass(cardKind),
           {
-            "w-full h-full shadow-md hover:shadow-[0_3px_16px_rgba(0,0,0,0.25)]":
+            // Capped like the game card: a single-column viewport, or a list
+            // with fewer items than the grid has tracks, should not blow one
+            // card up to the full width of the page.
+            "w-full h-full sm:max-w-[420px] shadow-md hover:shadow-[0_3px_16px_rgba(0,0,0,0.25)]":
               !isExpanded,
             "shadow-xl w-full duration-700 max-w-5xl": isExpanded,
           }

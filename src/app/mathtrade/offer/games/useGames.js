@@ -17,6 +17,7 @@ const useItems = () => {
     setMyWants,
     setLoadingMyWants,
     setFilterData,
+    reloadValue,
   } = useContext(PageContext);
   useEffect(() => {
     setPageType("games");
@@ -48,8 +49,10 @@ const useItems = () => {
   );
 
   const afterError = useCallback(() => {
-    updateFilters({ page: 1 }, "game");
-  }, [updateFilters]);
+    if (filters?.page && filters.page !== 1) {
+      updateFilters({ page: 1 }, "game");
+    }
+  }, [updateFilters, filters?.page]);
 
   const [, , loading, error] = useFetch({
     endpoint: "GET_GAMES_LIST",
@@ -59,6 +62,7 @@ const useItems = () => {
     beforeLoad,
     afterLoad,
     afterError,
+    reloadValue,
   });
   /* end FETCH */
 
@@ -74,6 +78,7 @@ const useItems = () => {
     autoLoad: true,
     initialState: {},
     afterLoad: afterLoadFilters,
+    reloadValue,
   });
   /* end FETCH FILTERS */
 

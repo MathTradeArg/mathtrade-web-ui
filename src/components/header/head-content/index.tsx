@@ -1,6 +1,15 @@
+"use client";
 import Icon from "@/components/icon";
 import clsx from "clsx";
-import type { ReactNode } from "react";
+import { useCallback, useLayoutEffect, useState, type ReactNode } from "react";
+import {
+  useFloating,
+  autoUpdate,
+  offset,
+  flip,
+  shift,
+  size as floatingSize,
+} from "@floating-ui/react";
 
 type HeadContentProps = {
   children: ReactNode;
@@ -19,17 +28,65 @@ const HeadContent = ({
   placement = "below",
 }: HeadContentProps) => {
   const isRight = placement === "right";
+  const [isLg, setIsLg] = useState(false);
+
+  useLayoutEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const onChange = () => setIsLg(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  const { refs, floatingStyles, isPositioned } = useFloating({
+    open: isLg,
+    strategy: "fixed",
+    placement: isRight ? "right-end" : "bottom-end",
+    middleware: [
+      offset(8),
+      flip({ padding: 8 }),
+      shift({ padding: 8 }),
+      floatingSize({
+        padding: 8,
+        apply({ availableHeight, elements }) {
+          Object.assign(elements.floating.style, {
+            maxHeight: `${Math.max(160, availableHeight)}px`,
+          });
+        },
+      }),
+    ],
+    whileElementsMounted: autoUpdate,
+  });
+
+  const setFloatingRef = useCallback(
+    (node: HTMLElement | null) => {
+      refs.setFloating(node);
+      if (node?.parentElement) {
+        refs.setReference(node.parentElement);
+      }
+    },
+    [refs]
+  );
 
   return (
     <aside
+      ref={setFloatingRef}
+      style={
+        isLg
+          ? {
+              ...floatingStyles,
+              zIndex: 60,
+              ...(isPositioned ? {} : { visibility: "hidden" }),
+            }
+          : undefined
+      }
       className={clsx(
-        "lg:hidden lg:animate-fadeup animate-faderight fixed top-0 w-full max-w-full h-full z-[25000]",
-        isRight
-          ? "lg:absolute lg:top-0 lg:left-full lg:ml-2 lg:w-auto lg:max-w-min lg:hidden lg:peer-hover:block lg:hover:block"
-          : "lg:absolute lg:top-[100%] right-0 lg:w-auto lg:max-w-min lg:hidden lg:peer-hover:block lg:hover:block",
+        "max-lg:animate-faderight max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:w-full max-lg:max-w-full max-lg:h-full max-lg:z-[25000]",
+        "lg:z-[60] lg:w-auto lg:max-w-min lg:h-auto lg:flex lg:flex-col lg:overflow-hidden",
+        "lg:invisible lg:pointer-events-none lg:peer-hover:visible lg:hover:visible lg:peer-hover:pointer-events-auto lg:hover:pointer-events-auto",
         {
-          hidden: !visibleMobile,
-          block: visibleMobile,
+          "max-lg:hidden": !visibleMobile,
+          "max-lg:block": visibleMobile,
         }
       )}
     >
@@ -42,7 +99,7 @@ const HeadContent = ({
       >
         <Icon />
       </button>
-      <div className="scrollbar bg-white min-w-[260px] lg:shadow-lg overflow-y-auto overflow-x-hidden lg:max-h-[calc(100vh-50px)] lg:h-min h-full lg:pt-0 pt-10">
+      <div className="scrollbar bg-white min-w-[260px] lg:shadow-lg overflow-y-auto overflow-x-hidden h-full lg:min-h-0 lg:flex-1 lg:max-h-full max-lg:pt-10 lg:pt-0">
         {children}
       </div>
     </aside>

@@ -10,6 +10,7 @@ import useFilterItems from "./useFilterItems";
 import I18N from "@/i18n";
 import NewItemTag from "@/components/item-tags/new-item-tag";
 import BanUsers from "@/components/ban/users";
+import UnignoreAll from "@/components/ban/unignore-all";
 import Icon from "@/components/icon";
 import HelpContext from "@/components/help-context";
 import CurrentTag from "../tag-selector/currentTag";
@@ -107,6 +108,7 @@ const FiltersForItems = () => {
             icon="trash"
             size="sm"
           />
+          <UnignoreAll type="item" />
         </InputContainer>
 
         <InputContainer>

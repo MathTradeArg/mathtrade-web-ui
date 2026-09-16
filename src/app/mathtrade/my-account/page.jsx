@@ -20,7 +20,7 @@ export default function MyAccount() {
 
   return (
     <>
-      <PageHeader title="title.MyAccount" name="myAccount" />
+      <PageHeader title="title.MyAccount" variant="minimal" />
       <SectionCommon loading={loading}>
         <section className="max-w-xl mx-auto pt-4 relative">
           <h2 className="text-center pb-2 mb-7 font-bold block w-full border-b border-gray-300">

@@ -1,6 +1,7 @@
 [data-tooltip] {
   position: relative;
   border: none;
+  overflow: visible;
 }
 
 [data-tooltip][data-placement="top"]::before,
@@ -8,33 +9,34 @@
 [data-tooltip]::before,
 [data-tooltip]::after {
   display: block;
-  z-index: 99;
+  z-index: 9999;
   position: absolute;
   bottom: 100%;
   left: 50%;
-  padding: 0.25rem 0.5rem;
-  overflow: hidden;
   transform: translate(-50%, -0.25rem);
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-tooltip][data-placement="top"]::before,
+[data-tooltip]::before {
+  padding: 0.4rem 0.6rem;
   border-radius: 0.35rem;
   background: #222;
-  max-width: 260px;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(260px, calc(100vw - 24px));
   content: attr(data-tooltip);
   color: #fff;
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
+  line-height: 1.35;
   text-decoration: none;
-  text-overflow: ellipsis;
   text-transform: none;
-  text-wrap: balance;
-  // white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  text-align: center;
-}
-[data-tooltip][data-placement="top"]::before,
-[data-tooltip]::before {
-  min-width: 200px;
+  white-space: normal;
+  overflow-wrap: break-word;
+  text-align: left;
 }
 
 [data-tooltip][data-placement="top"]::after,
@@ -235,8 +237,8 @@
 }
 
 @media screen and (max-width: 600px) {
-  [data-tooltip][data-placement="top"]::before,
-  [data-tooltip]::before {
+  [data-tooltip]:not([data-placement])::before,
+  [data-tooltip][data-placement="top"]::before {
     left: auto;
     right: 0;
     transform: translate(0, -0.25rem);

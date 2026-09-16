@@ -2,6 +2,7 @@ import { ElementContextProvider } from "@/context/element";
 import { useContext } from "react";
 import { ElementContext } from "@/context/element";
 import StatusBadge from "@/components/status-badge";
+import Chip from "@/components/chip";
 import Thumbnail from "@/components/thumbnail";
 import { getI18Ntext } from "@/i18n";
 
@@ -31,9 +32,7 @@ const ElementXSSUI = () => {
             min
             label={getI18Ntext("status.label.components")}
           />
-          <div className="text-[10px] text-purple-800 font-bold">
-            {language}
-          </div>
+          {language ? <Chip>{language}</Chip> : null}
         </div>
       </div>
     </div>

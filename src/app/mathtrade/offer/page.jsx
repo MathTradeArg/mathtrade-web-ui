@@ -1,6 +1,5 @@
 "use client";
 import { lazy } from "react";
-import I18N from "@/i18n";
 import PageHeader from "@/components/pageHeader";
 import Tabs from "@/components/tabs";
 import BanUsersModal from "@/components/ban/users/modal";
@@ -18,14 +17,9 @@ const OfferPage = () => {
   return (
     <>
       <PageHeader
+        variant="compact"
         title="title.OfferGames"
-        name="games"
-        description={
-          <p>
-            <I18N id="Offer.page.explanation" />
-          </p>
-        }
-        bgImg="3"
+        helpId="page.offer"
       />
       <Wrapper className="mb-1">
         <div className="bg-colorMain rounded-t-main shadow-main">

@@ -44,19 +44,9 @@ export default function Results() {
   return (
     <>
       <PageHeader
+        variant="compact"
         title="title.Results"
-        name="results"
-        description={
-          <>
-            <p className="mb-4">
-              <I18N id="results.text1" />
-            </p>
-            <p>
-              <I18N id="results.text2" />
-            </p>
-          </>
-        }
-        bgImg="2"
+        helpId="page.results"
       />
       <Wrapper className="mb-1">
         <div className="bg-colorMain rounded-t-main shadow-main">

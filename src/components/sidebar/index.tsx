@@ -10,12 +10,13 @@ import UtilityRow from "./UtilityRow";
 import AccountRow from "./AccountRow";
 
 const Sidebar = () => {
-  const { items, isActive, collapsed, toggleCollapsed } = useSidebarNav();
+  const { items, isActive, collapsed, toggleCollapsed, lockedInfo } =
+    useSidebarNav();
 
   return (
     <aside
       className={clsx(
-        "hidden lg:flex flex-col h-screen sticky top-0 z-30 bg-black shrink-0 py-4 relative",
+        "hidden lg:flex flex-col h-screen sticky top-0 z-[60] overflow-visible bg-black shrink-0 py-4 relative",
         collapsed ? "w-[76px] items-center px-0" : "w-[260px] px-3"
       )}
     >
@@ -34,7 +35,12 @@ const Sidebar = () => {
 
       <EventStatusCard collapsed={collapsed} />
 
-      <NavRows items={items} isActive={isActive} collapsed={collapsed} />
+      <NavRows
+        items={items}
+        isActive={isActive}
+        collapsed={collapsed}
+        lockedInfo={lockedInfo}
+      />
 
       <div className="grow" />
 
