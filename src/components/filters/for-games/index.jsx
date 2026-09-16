@@ -10,6 +10,7 @@ import useFilterGames from "./useFilterGames";
 import I18N from "@/i18n";
 import Icon from "@/components/icon";
 import BanUsers from "@/components/ban/users";
+import UnignoreAll from "@/components/ban/unignore-all";
 import HelpContext from "@/components/help-context";
 
 const FiltersForGames = () => {
@@ -82,6 +83,7 @@ const FiltersForGames = () => {
             icon="trash"
             size="sm"
           />
+          <UnignoreAll type="game" />
         </InputContainer>
 
         <InputContainer>

@@ -2,21 +2,27 @@ import Thumbnail from "@/components/thumbnail";
 import LinkExternal from "@/components/link-external";
 import Icon from "@/components/icon";
 import I18N, { getI18Ntext } from "@/i18n";
-import StatusBadge from "@/components/status-badge";
+import StatusChip from "@/components/status-badge/statusChip";
+import Chip from "@/components/chip";
 import { ElementContext } from "@/context/element";
-import { useContext } from "react";
+import { useContext, type ReactNode } from "react";
 import BadgeType from "@/components/badgeType";
 import useBGGdata from "@/components/bggInfo/useBGGdata";
 import { NO_RANK_VALUE } from "@/config/no-bgggame";
 import { boxSizesValues, boxSizeIdToReview } from "@/config/boxSizes";
-import Question from "@/components/question";
 import clsx from "clsx";
 
 type ElementCompleteProps = {
   onToggleExpanse: () => void;
+  // Tags / ignore / score row. It lives below the cover rather than above the
+  // card so the cover stays flush with the card's top edge.
+  header?: ReactNode;
 };
 
-const ElementComplete = ({ onToggleExpanse }: ElementCompleteProps) => {
+const ElementComplete = ({
+  onToggleExpanse,
+  header = null,
+}: ElementCompleteProps) => {
   const { element } = useContext(ElementContext);
 
   const {
@@ -68,27 +74,22 @@ const ElementComplete = ({ onToggleExpanse }: ElementCompleteProps) => {
   const boxSize = boxSizesValues[box_size ?? boxSizeIdToReview];
 
   return (
-    <div className="flex gap-3">
-      <div className="relative w-[90px] shrink-0">
-        <Thumbnail
-          elements={[element]}
-          className="rounded-lg w-full h-full"
-        />
+    <div className="flex flex-col grow">
+      <div className="relative overflow-hidden rounded-t-lg">
+        <Thumbnail fill contain elements={[element]} className="w-full h-40" />
         <div
-          className="absolute top-0 left-0 w-full h-full bg-black/40 rounded-lg grid place-content-center backdrop-blur-sm cursor-pointer opacity-0 hover:opacity-100 transition-opacity"
+          className="absolute top-0 left-0 w-full h-full bg-black/40 grid place-content-center backdrop-blur-sm cursor-pointer opacity-0 hover:opacity-100 transition-opacity"
           onClick={onToggleExpanse}
         >
           <Icon type="plus" className="text-2xl text-white" />
         </div>
       </div>
 
-      <div className="flex-1 min-w-0 flex flex-col gap-2.5">
-        <div className="flex items-center justify-between gap-2">
-          <BadgeType
-            className="text-[9px]"
-            type="item"
-            subtype={typeNum || 1}
-          />
+      <div className="grow min-w-0 py-3 px-4 flex flex-col gap-2.5 items-start">
+        {header}
+
+        <div className="flex items-center justify-between gap-2 w-full">
+          <BadgeType type="item" subtype={typeNum || 1} />
           {offered ? (
             <div className="shrink-0 uppercase font-bold bg-item-500 text-white text-[10px] px-2.5 py-[3px] rounded-full whitespace-nowrap">
               <I18N id="element.Offered" />
@@ -98,32 +99,39 @@ const ElementComplete = ({ onToggleExpanse }: ElementCompleteProps) => {
 
         <div
           data-tooltip={getI18Ntext("Enlarge")}
-          className="cursor-pointer"
+          className="cursor-pointer w-full"
           onClick={onToggleExpanse}
         >
-          <h3 className="text-heading hover:opacity-70 leading-tight line-clamp-2">
+          {/* Reserves both lines so the rows below stay aligned across cards
+              in the same grid row — see game-grid-ui/md.tsx. */}
+          <h3 className="text-heading hover:opacity-70 leading-tight line-clamp-2 min-h-[2.5em]">
             {title}
           </h3>
         </div>
 
         {showBGGstats ? (
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 w-full">
             <div
               className="text-body-lg text-center w-10 h-10 leading-10 rounded-full text-white shrink-0 bg-primary"
               title={`${rateVotes} ${getI18Ntext("element.BGG.votes")}`}
             >
               {rate}
             </div>
-            <div className="flex gap-1" title={`${weight} / 5`}>
-              {[1, 2, 3, 4, 5].map((dot) => (
-                <span
-                  key={dot}
-                  className={clsx(
-                    "w-2 h-2 rounded-full",
-                    dot <= filledDots ? "bg-[#2c2e33]" : "bg-gray-200"
-                  )}
-                />
-              ))}
+            <div className="flex flex-col gap-1">
+              <span className="text-caption text-gray-400 leading-none">
+                <I18N id="element.BGG.weight" />
+              </span>
+              <div className="flex gap-1" title={`${weight} / 5`}>
+                {[1, 2, 3, 4, 5].map((dot) => (
+                  <span
+                    key={dot}
+                    className={clsx(
+                      "w-2 h-2 rounded-full",
+                      dot <= filledDots ? "bg-[#2c2e33]" : "bg-gray-200"
+                    )}
+                  />
+                ))}
+              </div>
             </div>
             {titleLink ? (
               <a
@@ -139,47 +147,27 @@ const ElementComplete = ({ onToggleExpanse }: ElementCompleteProps) => {
           </div>
         ) : null}
 
-        <div className="flex flex-wrap gap-1 items-center">
-          <StatusBadge
-            status={box_status}
-            type="box"
-            min
-            label={getI18Ntext("status.label.box")}
-          />
-          <StatusBadge
-            status={component_status}
-            min
-            label={getI18Ntext("status.label.components")}
-          />
-        </div>
-
         <div className="flex flex-wrap gap-1.5">
-          {language ? (
-            <span className="text-caption text-gray-500 bg-colorMain px-2.5 py-1 rounded-md">
-              {language}
-            </span>
-          ) : null}
+          <StatusChip boxStatus={box_status} componentStatus={component_status} />
+          {language ? <Chip>{language}</Chip> : null}
           {showBGGstats ? (
-            <span className="text-caption text-gray-500 bg-colorMain px-2.5 py-1 rounded-md">
+            <Chip tooltip={getI18Ntext("element.BGG.dependency")}>
               {dependency}
-            </span>
+            </Chip>
           ) : null}
           {boxSize ? (
-            <span className="text-caption text-gray-500 bg-colorMain px-2.5 py-1 rounded-md inline-flex items-center gap-1">
+            <Chip
+              tooltip={getI18Ntext(boxSize.description, [
+                boxSize.valueA,
+                boxSize.valueB,
+              ])}
+            >
               <I18N id={boxSize.text} />
-              <Question
-                text={getI18Ntext(boxSize.description, [
-                  boxSize.valueA,
-                  boxSize.valueB,
-                ])}
-                noTranslate
-                className="text-[13px]"
-              />
-            </span>
+            </Chip>
           ) : null}
         </div>
 
-        <div className="text-caption text-gray-400 truncate">
+        <div className="mt-auto w-full text-caption text-gray-400 truncate">
           {showBGGstats ? (
             <>
               <I18N id="element.BGG.rank" />{" "}

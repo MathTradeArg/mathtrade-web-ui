@@ -100,6 +100,8 @@ const endpoints = {
   GET_BANS: "api/mathtrades/$[mathtradeId]/user-bans/",
   POST_BAN: "api/mathtrades/$[mathtradeId]/user-bans/",
   DELETE_BAN: "api/mathtrades/$[mathtradeId]/user-bans/$[1]/",
+  DELETE_BANNED_GAMES_ALL: "api/bans/games/all/",
+  DELETE_BANNED_ITEMS_ALL: "api/bans/items/all/",
 
   AUTOCOMPLETE_WANTS: "api/mathtrades/$[mathtradeId]/user-want-groups-match/",
   GET_MT_RESULTS: "api/mathtrades/$[mathtradeId]/results/",

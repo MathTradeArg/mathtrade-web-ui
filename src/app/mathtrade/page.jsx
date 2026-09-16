@@ -21,36 +21,36 @@ export default function HomePage() {
 
   return (
     <>
-      <PageHeader
-        title="home.lead"
-        name="home"
-        description={
-          <p>
-            <I18N
-              id="home.lead2"
-              values={[
-                linksToHelp.video,
-                linksToHelp.telegram,
-                baseURL + instructPDFurl,
-              ]}
-            />
-          </p>
-        }
-      />
-      <SectionCommon
-        // loading={loading}
-        title="title.Home"
-        description={
-          <>
-            <p>
-              <I18N id="home.lead" />
-            </p>
-            <p>
-              <I18N id="home.lead2" />
-            </p>
-          </>
-        }
-      >
+      <PageHeader variant="welcome" title="home.welcome.title">
+        <I18N id="home.welcome.firstTime" />{" "}
+        <a
+          href={linksToHelp.video}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-2"
+        >
+          <I18N id="home.welcome.video" />
+        </a>
+        <span className="opacity-60 mx-1">·</span>
+        <a
+          href={linksToHelp.telegram}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-2"
+        >
+          <I18N id="home.welcome.telegram" />
+        </a>
+        <span className="opacity-60 mx-1">·</span>
+        <a
+          href={baseURL + instructPDFurl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-2"
+        >
+          <I18N id="home.welcome.instructivo" />
+        </a>
+      </PageHeader>
+      <SectionCommon>
         <HomeContent />
       </SectionCommon>
     </>

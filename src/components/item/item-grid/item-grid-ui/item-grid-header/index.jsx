@@ -5,12 +5,16 @@ import BanButton from "@/components/ban/button";
 import Value from "@/components/value";
 import ItemTagList from "@/components/item-tags/item-taglist";
 
-const ItemGridHeader = ({ onChangeValue, hideTags }) => {
+const ItemGridHeader = ({
+  onChangeValue = undefined,
+  hideTags = false,
+  className = "mb-2",
+}) => {
   const { item } = useContext(ItemContext);
   const { isCombo, ban_id, isOwned } = item;
 
   return (
-    <header className="mb-2">
+    <header className={className}>
       <div className="flex items-start justify-between gap-3">
         {ban_id || hideTags ? (
           <div />

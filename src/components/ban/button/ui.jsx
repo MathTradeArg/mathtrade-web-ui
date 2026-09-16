@@ -5,33 +5,27 @@ import useBanButton from "./useBanButton";
 
 const BanButtonUI = ({ className, type = "item" }) => {
   const { showAsIgnored, onClick, loading, ban_id } = useBanButton(type);
+  const isActive = showAsIgnored || ban_id;
+
   return (
     <div className={clsx("h-7", className)}>
       <div data-tooltip={getI18Ntext(ban_id ? "unban" : `ban.${type}`)}>
         <button
           className={clsx(
-            "font-normal relative cursor-pointer w-7 h-7 flex items-center justify-center transition-colors rounded-full leading-none",
+            "font-semibold cursor-pointer h-7 px-2.5 flex items-center gap-1.5 transition-colors rounded-full leading-none text-[11px] border",
             {
-              "text-gray-600": type === "item" && !showAsIgnored && !ban_id,
-              "text-white": type === "game" && !showAsIgnored && !ban_id,
-              "hover:bg-gray-200":
-                type === "item" && !showAsIgnored && !ban_id,
-              "hover:bg-white/15":
-                type === "game" && !showAsIgnored && !ban_id,
-              "text-red-600 bg-red-50": showAsIgnored || ban_id,
+              "text-gray-600 bg-white border-gray-300 hover:bg-gray-100":
+                !isActive,
+              "text-red-600 bg-red-50 border-red-200": isActive,
             }
           )}
           onClick={onClick}
         >
           <Icon
-            type={loading ? "loading" : "trash"}
-            className="relative left-[1px]"
+            type={loading ? "loading" : "eye-hide"}
+            className="text-[13px]"
           />
-          {ban_id ? (
-            <div
-              className="w-3.5 h-[2px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full -rotate-45 bg-red-600"
-            ></div>
-          ) : null}
+          <span>{getI18Ntext(ban_id ? "unban" : "ban.UserItems")}</span>
         </button>
       </div>
     </div>

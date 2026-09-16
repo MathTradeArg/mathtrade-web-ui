@@ -17,7 +17,7 @@ export default function ReferralToRegister() {
 
   return (
     <>
-      <PageHeader title="title.memardiums" name="memardiums" bgImg="9" />
+      <PageHeader title="title.memardiums" variant="minimal" />
       <SectionCommon>
         <div className="min-h-96 relative p-5">
           <LoadingBox loading={loading} />

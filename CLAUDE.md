@@ -56,7 +56,7 @@ No `jest.config.*`, no test files, no testing library in `package.json`, no `tes
 Facts observed during research — not a prescribed fix list:
 - No tests at all, on the highest-traffic app in the system.
 - A full mock-API implementation (`src/hooks/useFetch/mocks/**`) exists but is unused — `API_TEST_MODE` only switches the real base URL, not real-vs-mock.
-- Orphaned files confirmed unimported anywhere: `useLeavePageConfirmation copy.js`, `statusTypes copy.js`.
+- ~~Orphaned files confirmed unimported anywhere: `useLeavePageConfirmation copy.js`, `statusTypes copy.js`.~~ Both deleted.
 - Several commented-out-but-retained code blocks, including route `enabled` flags commented out in `src/config/routes.js:55,60,65,85`.
 - `src/components/results/wantsOffered/app/data.js` is ~69,541 lines of hardcoded historical event data bundled directly into the JS.
 - `API_TEST_MODE` hardcoded `"yes"` means the app currently always hits the test backend, not production, regardless of actual deploy environment.

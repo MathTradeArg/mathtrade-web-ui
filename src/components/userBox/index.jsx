@@ -4,7 +4,12 @@ import Avatar from "@/components/avatar";
 import { useMemo, useContext } from "react";
 import { ItemContext } from "@/context/item";
 
-const UserBox = ({ userForce, avatarWidth = 24, toLeft, toCenter }) => {
+const UserBox = ({
+  userForce = null,
+  avatarWidth = 24,
+  toLeft = false,
+  toCenter = false,
+}) => {
   /* ITEM CONTEXT **********************************************/
   const { item } = useContext(ItemContext);
   const { user: userDefault } = item;

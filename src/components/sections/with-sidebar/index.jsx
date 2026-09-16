@@ -35,7 +35,7 @@ export const Sidebar = ({ children, topNotRounded }) => {
       </button>
       <div
         className={clsx(
-          "bg-white lg:sticky lg:top-0 lg:h-screen lg:shadow-lg lg:overflow-y-auto overflow-x-hidden sidebar-aside-inner z-[999]",
+          "bg-white lg:sticky lg:top-0 lg:h-screen lg:shadow-lg lg:overflow-y-auto overflow-x-hidden sidebar-aside-inner z-20",
           {
             "lg:rounded-tl-main": !topNotRounded,
           }
@@ -56,6 +56,7 @@ export const SidebarToggleButton = ({
   const { visibleSidebar, toggleSidebar } = useContext(SidebarContext);
   return (
     <button
+      type="button"
       className={clsx(
         className,
         visibleSidebar ? classNameHighlighted : classNameNotHighlighted
@@ -81,7 +82,7 @@ const SectionWithSidebar = ({
       <Wrapper>
         <section
           className={clsx(
-            "relative bg-colorMain shadow-main",
+            "relative bg-white shadow-main",
             {
               "rounded-b-main": topNotRounded,
               "rounded-main": !topNotRounded,

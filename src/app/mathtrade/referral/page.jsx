@@ -13,7 +13,7 @@ export default function ReferralToRegister() {
 
   return (
     <>
-      <PageHeader title="title.referNewUserPage" name="referral" bgImg="5" />
+      <PageHeader title="title.referNewUserPage" variant="minimal" />
       <SectionCommon>
         {canI.sign ? (
           <>

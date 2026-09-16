@@ -7,6 +7,7 @@ type BadgeTypeProps = {
   subtype?: number;
   isCombo?: boolean;
   dark?: boolean;
+  size?: "default" | "compact";
   className?: string;
 };
 
@@ -21,6 +22,7 @@ const BadgeType = ({
   subtype = 1,
   isCombo,
   dark,
+  size = "default",
   className,
 }: BadgeTypeProps) => {
   const isGameOrItem = type === "game" || type === "item";
@@ -31,15 +33,27 @@ const BadgeType = ({
   return (
     <div
       className={clsx(
-        "inline-flex items-center gap-1 uppercase leading-[1.7] px-2 font-bold rounded-[3px]",
+        // text-heading (19px) sits next to the card title on purpose on
+        // the offer/collection grid. Mini surfaces (Mis deseos, BGG hits)
+        // pass size="compact" — className="text-[9px]" used to lose to
+        // text-heading in the compiled CSS, which is why the want cards
+        // showed a title-sized JUEGO chip.
+        "inline-flex items-center uppercase leading-none font-bold rounded-[3px]",
+        size === "compact"
+          ? "gap-1 px-1.5 py-[2px] text-[9px] tracking-wide"
+          : "gap-1.5 px-2.5 py-1 text-heading",
         {
-          "bg-gameBase/10 text-gameBase": isBase && !dark,
+          // Filled pills, not 10% tints: the card already carries a tint of
+          // the same hue, so a faint badge disappeared into it. Solid fill
+          // is the second signal (after the 6px left edge) that you can
+          // read from across the grid.
+          "bg-gameBase text-white": isBase && !dark,
           "bg-white/15 text-gray-100": isBase && dark,
-          "bg-gameExpansion/10 text-gameExpansion": isExpansion && !dark,
-          "bg-gameExpansion/20 text-orange-300": isExpansion && dark,
-          "bg-gameCombo/10 text-gameCombo": isComboBadge && !dark,
+          "bg-gameExpansion text-white": isExpansion && !dark,
+          "bg-gameExpansion/20 text-sky-300": isExpansion && dark,
+          "bg-gameCombo text-white": isComboBadge && !dark,
           "bg-gameCombo/25 text-violet-300": isComboBadge && dark,
-          "bg-yellow-300 text-black border border-yellow-600": subtype === 3,
+          "bg-gameOther text-white": subtype === 3 && !isComboBadge,
           "bg-gray-300 text-gray-900 border border-gray-500": type === "tag",
         },
         className
@@ -48,6 +62,9 @@ const BadgeType = ({
       {isBase ? <Icon type="square" className="shrink-0" /> : null}
       {isExpansion ? <Icon type="plus" className="shrink-0" /> : null}
       {isComboBadge ? <Icon type="combo" className="shrink-0" /> : null}
+      {subtype === 3 && !isComboBadge ? (
+        <Icon type="other" className="shrink-0" />
+      ) : null}
       {isComboBadge ? (
         getI18Ntext("element-type-badge-0")
       ) : (

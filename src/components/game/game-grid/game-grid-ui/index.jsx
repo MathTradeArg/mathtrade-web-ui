@@ -19,7 +19,7 @@ const GameGridUI = ({ expanded, setExpanded }) => {
         className={clsx(
           "transition-all relative mx-auto hover:shadow-[0_3px_16px_rgba(0,0,0,0.25)] shadow-md",
           {
-            "sm:max-w-[680px] h-full rounded-lg": !isExpanded,
+            "sm:max-w-[420px] h-full rounded-lg": !isExpanded,
             "bg-white shadow-xl w-full duration-700 max-w-5xl": isExpanded,
           }
         )}

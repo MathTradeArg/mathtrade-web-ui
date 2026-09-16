@@ -7,13 +7,13 @@ import InnerButton from "@/components/button/inner-button";
 import Icon from "@/components/icon";
 import { LoadingBox } from "@/components/loading";
 
-const HeaderItem = () => {
+const HeaderItem = ({ className = "mb-2" }) => {
   const { deleteItem, loading, isCombo, canIoffer, elementsLength } =
     useItemHeader();
 
   return (
     <>
-      <header className="mb-2">
+      <header className={className}>
         <div className="flex items-center justify-between gap-3">
           {elementsLength > 0 ? (
             <div className="flex items-center gap-3">

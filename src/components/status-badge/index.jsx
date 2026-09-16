@@ -4,17 +4,22 @@ import {
   INVALID_STATUS_KEY,
 } from "@/config/statusTypes";
 import { getI18Ntext } from "@/i18n";
-import clsx from "clsx";
-import Icon from "@/components/icon";
+import Chip from "@/components/chip";
 import { useMemo } from "react";
 
+// Condition of a copy's box and components. Rendered as a plain chip, the same
+// as any other attribute of the copy (language, box size), because "Muy bueno" /
+// "Bastante usado" / "Sin caja" only describe it. The exception is
+// INVALID_STATUS_KEY ("Revisar"), which is not a quality level but a pending
+// task — while it is set, the copy is not listed among the offered games — so it
+// is the only value that carries color.
 const StatusBadge = ({
   status,
-  block = false,
-  min,
+  min = false,
   noTooltip = false,
   type = "components",
   label = "",
+  className = "",
 }) => {
   const statusTypes = useMemo(() => {
     if (type === "box") {
@@ -23,52 +28,28 @@ const StatusBadge = ({
     return componentsStatusTypes;
   }, [type]);
 
-  return status ? (
-    <div
-      className={clsx(
-        "text-white font-bold uppercase rounded-sm cursor-default text-nowrap text-center flex items-center w-fit",
-        {
-          "text-[10px]": !min,
-          "text-[8px] block": min,
-          block,
-        }
-      )}
-      style={{
-        backgroundColor:
-          statusTypes[status]?.color || statusTypes[INVALID_STATUS_KEY].color,
-      }}
-      data-tooltip={
+  if (!status) {
+    return null;
+  }
+
+  const statusType = statusTypes[status] || statusTypes[INVALID_STATUS_KEY];
+
+  return (
+    <Chip
+      tone={status === INVALID_STATUS_KEY ? "alert" : "neutral"}
+      tooltip={
         noTooltip
-          ? null
+          ? ""
           : getI18Ntext(
-              `statusType.${
-                type === "box" ? "box" : "components"
-              }.desc.${status}`
+              `statusType.${type === "box" ? "box" : "components"}.desc.${status}`
             )
       }
+      className={className}
     >
-      {label ? (
-        <div className="px-1.5 border-r border-white/30 normal-case font-normal opacity-90">
-          {label}
-        </div>
-      ) : (
-        <div
-          className={clsx("rounded-l-sm px-1 border-r border-white/30", {
-            "bg-item-900": type === "box",
-            "bg-black": type !== "box",
-          })}
-        >
-          <Icon type={`status-${type === "box" ? "box" : "components"}`} />
-        </div>
-      )}
-
-      <div className="px-1">
-        {min
-          ? statusTypes[status]?.min || statusTypes[INVALID_STATUS_KEY].min
-          : statusTypes[status]?.text || statusTypes[INVALID_STATUS_KEY].text}
-      </div>
-    </div>
-  ) : null;
+      {label ? `${label}: ` : ""}
+      {min ? statusType.min : statusType.text}
+    </Chip>
+  );
 };
 
 export default StatusBadge;

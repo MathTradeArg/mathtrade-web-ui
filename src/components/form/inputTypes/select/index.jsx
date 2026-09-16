@@ -2,6 +2,15 @@ import clsx from "clsx";
 import useSelect from "./useSelect";
 import Icon from "@/components/icon";
 import { getI18Ntext } from "@/i18n";
+import {
+  useFloating,
+  autoUpdate,
+  offset,
+  flip,
+  shift,
+  size as floatingSize,
+  FloatingPortal,
+} from "@floating-ui/react";
 
 const Select = ({
   name = "",
@@ -47,6 +56,26 @@ const Select = ({
     startFocus
   );
 
+  const { refs, floatingStyles } = useFloating({
+    open: visiblePad,
+    strategy: "fixed",
+    placement: "bottom-start",
+    middleware: [
+      offset(4),
+      flip({ padding: 8 }),
+      shift({ padding: 8 }),
+      floatingSize({
+        apply({ rects, availableHeight, elements }) {
+          Object.assign(elements.floating.style, {
+            width: `${rects.reference.width}px`,
+            maxHeight: `${Math.min(240, availableHeight)}px`,
+          });
+        },
+      }),
+    ],
+    whileElementsMounted: autoUpdate,
+  });
+
   return (
     <div className="flex items-stretch">
       {icon ? (
@@ -62,7 +91,7 @@ const Select = ({
           <Icon type={icon} />
         </div>
       ) : null}
-      <div className="relative w-full">
+      <div className="relative w-full" ref={refs.setReference}>
         <div
           className={clsx(
             "input block w-full  border-stroke rounded-md  pl-3 pr-6 shadow-sm transition",
@@ -162,56 +191,59 @@ const Select = ({
           value={valueOutput}
           disabled={disabled}
         />
-        {!disabled && !disabledInput && (
-          <div
-            className={clsx(
-              "absolute z-[999] bg-white w-full top-[99%] shadow-[0_6px_20px_rgba(5,66,93,0.1),0_26px_40px_rgba(8,52,82,0.1)] max-h-60 py-2 overflow-y-auto animate-fadedown",
-              {
-                block: visiblePad,
-                hidden: !visiblePad,
-                withGroup,
-              }
-            )}
-            onMouseLeave={onMouseOut}
-          >
-            {optionsComplete.map((option) => {
-              if (option?.chosen || !option.filtered) {
-                return null;
-              }
-              if (option.type === "group") {
+        {!disabled && !disabledInput && visiblePad && (
+          <FloatingPortal>
+            <div
+              ref={refs.setFloating}
+              style={{ ...floatingStyles, zIndex: 9999 }}
+              className={clsx(
+                "z-[9999] bg-white shadow-[0_6px_20px_rgba(5,66,93,0.1),0_26px_40px_rgba(8,52,82,0.1)] py-2 overflow-y-auto animate-fadedown",
+                { withGroup }
+              )}
+              onMouseLeave={onMouseOut}
+            >
+              {optionsComplete.map((option) => {
+                if (option?.chosen || !option.filtered) {
+                  return null;
+                }
+                if (option.type === "group") {
+                  return (
+                    <div
+                      className="font-bold text-sm pl-3"
+                      key={option.value}
+                    >
+                      {option.text}
+                    </div>
+                  );
+                }
                 return (
-                  <div className="font-bold text-sm pl-3" key={option.value}>
-                    {option.text}
+                  <div
+                    className={clsx("cursor-pointer", {
+                      "pl-6": withGroup,
+                      "hover:bg-primary/20 px-2": !option?.highlighted,
+                      "bg-secondary/80 text-white p-2 hover:bg-secondary":
+                        option?.highlighted,
+                    })}
+                    key={option.value}
+                    onMouseDown={() => {
+                      handleClickOption(option);
+                    }}
+                    onMouseOver={
+                      onMouseOverOption
+                        ? () => {
+                            onMouseOverOption(option);
+                          }
+                        : null
+                    }
+                  >
+                    {customRenderOption
+                      ? customRenderOption(option)
+                      : option.text}
                   </div>
                 );
-              }
-              return (
-                <div
-                  className={clsx("cursor-pointer", {
-                    "pl-6": withGroup,
-                    "hover:bg-primary/20 px-2": !option?.highlighted,
-                    "bg-secondary/80 text-white p-2 hover:bg-secondary":
-                      option?.highlighted,
-                  })}
-                  key={option.value}
-                  onMouseDown={() => {
-                    handleClickOption(option);
-                  }}
-                  onMouseOver={
-                    onMouseOverOption
-                      ? () => {
-                          onMouseOverOption(option);
-                        }
-                      : null
-                  }
-                >
-                  {customRenderOption
-                    ? customRenderOption(option)
-                    : option.text}
-                </div>
-              );
-            })}
-          </div>
+              })}
+            </div>
+          </FloatingPortal>
         )}
       </div>
     </div>
