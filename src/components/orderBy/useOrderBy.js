@@ -72,27 +72,24 @@ const useOrderBy = (type) => {
     [data, type, updateFilters, gotoTop]
   );
 
-  const onChangeDesc = useCallback(
-    ({ target }) => {
-      const { value } = data;
-      const orderVal = `${target.checked ? "-" : ""}${value || "added_mt"}`;
-      gotoTop();
-      updateFilters(
-        {
-          order: orderVal === "added_mt" ? undefined : orderVal,
-          page: 1,
-        },
-        type
-      );
-    },
-    [data, type, updateFilters, gotoTop]
-  );
+  const toggleDesc = useCallback(() => {
+    const { value, desc } = data;
+    const orderVal = `${desc ? "" : "-"}${value || "added_mt"}`;
+    gotoTop();
+    updateFilters(
+      {
+        order: orderVal === "added_mt" ? undefined : orderVal,
+        page: 1,
+      },
+      type
+    );
+  }, [data, type, updateFilters, gotoTop]);
 
   return {
     idOrderBy,
     data,
     onChangeOrderBy,
-    onChangeDesc,
+    toggleDesc,
   };
 };
 

@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { ItemContext } from "@/context/item";
 import I18N from "@/i18n";
 
-const ItemCommentTitle = ({ forAction }) => {
+const ItemCommentTitle = ({ forAction = false }) => {
   const { item } = useContext(ItemContext);
   const { commentsCount } = item;
 

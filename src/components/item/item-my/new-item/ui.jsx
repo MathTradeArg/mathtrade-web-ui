@@ -11,7 +11,7 @@ const NewItemUI = () => {
   /* end PAGE CONTEXT *********************************************/
 
   return myCollectionList.length ? (
-    <article className="relative h-full bg-item-200 rounded-md shadow-[0_1px_8px_rgba(0,0,0,0.3)] mb-6 p-3 pt-2 border border-item-300">
+    <article className="relative bg-colorMain rounded-lg shadow-md mb-6 p-3 pt-2 border border-stroke">
       <AddElementToMyItem startOpen />
     </article>
   ) : (

@@ -1,5 +1,6 @@
 import Thumbnail from "@/components/thumbnail";
 import StatusBadge from "@/components/status-badge";
+import Chip from "@/components/chip";
 import { ElementContext } from "@/context/element";
 import { useContext } from "react";
 import clsx from "clsx";
@@ -43,17 +44,14 @@ const ElementXSUI = ({ isCombo }) => {
           label={getI18Ntext("status.label.components")}
         />
         {language ? (
-          <div
-            className={clsx(
-              "text-caption text-gray-500 bg-colorMain px-2.5 py-1 rounded-md cropped_1",
-              {
-                "max-w-40": !isCombo,
-                "text-[9px] leading-none max-w-20": isCombo,
-              }
-            )}
+          <Chip
+            className={clsx({
+              "max-w-40": !isCombo,
+              "text-[9px] leading-none max-w-20": isCombo,
+            })}
           >
             {language}
-          </div>
+          </Chip>
         ) : null}
         {comment && comment?.length > 0 ? (
           <div

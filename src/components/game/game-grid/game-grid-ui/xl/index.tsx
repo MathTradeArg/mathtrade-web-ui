@@ -75,7 +75,7 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
     <div className="relative">
       <div
         className={clsx(
-          "w-full mx-auto relative transition-opacity rounded-t-lg overflow-hidden",
+          "w-full mx-auto relative transition-opacity rounded-t-lg",
           cardKindBorderClass(cardKind),
           {
             "opacity-30  pointer-events-none": showAsIgnored,
@@ -83,25 +83,32 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
           }
         )}
       >
-        <div className="flex items-center justify-end gap-2 px-3 pt-3">
-          <BanButton size="md" type="game" />
-          <div className="w-[1px] h-4 bg-gray-200"></div>
-          {ban_id ? null : <Value type="game" />}
-        </div>
-
-        <div className="flex gap-4">
-          <div className="lg:w-52 w-24 shrink-0">
+        <div className="flex flex-col">
+          <div className="relative overflow-hidden rounded-t-lg">
             <Thumbnail
+              fill
+              contain
               elements={[{ thumbnail }]}
-              className="lg:w-52 w-24"
+              className="w-full h-52 lg:h-64"
             />
           </div>
-          <div className="grow min-w-0 flex flex-col gap-2 items-start py-2 pr-3">
-            <BadgeType
-              type="game"
-              subtype={isTrueNotGame ? 3 : typeNum || 1}
-              isCombo={isComboItem}
-            />
+          <div className="grow min-w-0 flex flex-col gap-2.5 items-start p-4">
+            <div className="flex items-center justify-between gap-2 w-full">
+              <BadgeType
+                type="game"
+                subtype={isTrueNotGame ? 3 : typeNum || 1}
+                isCombo={isComboItem}
+              />
+              <div className="flex items-center gap-2 shrink-0">
+                <BanButton size="md" type="game" />
+                {ban_id ? null : (
+                  <>
+                    <div className="w-[1px] h-4 bg-black/10" />
+                    <Value type="game" />
+                  </>
+                )}
+              </div>
+            </div>
 
             <h3 className="text-heading leading-tight w-full">{`${title}${
               year ? ` (${year})` : ""
@@ -144,16 +151,21 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
                     <Icon type="external-link" className="text-sm" />
                   </a>
                 ) : null}
-                <div className="text-caption text-gray-400 shrink-0">
-                  <I18N id="element.BGG.rank" />{" "}
-                  {rank === NO_RANK_VALUE || rank == null ? "-" : rank}
-                </div>
+              </div>
+            ) : null}
+
+            {showBGGstats ? (
+              <div className="mt-auto w-full text-caption text-gray-400 truncate">
+                <I18N id="element.BGG.rank" />{" "}
+                {rank === NO_RANK_VALUE || rank == null ? "-" : rank}
               </div>
             ) : null}
           </div>
         </div>
+        {/* Sits over the cover now that it spans the card's full width, so it
+            needs its own backdrop to stay legible on any box art. */}
         <button
-          className="absolute top-1 right-1 aspect-square w-7 opacity-60 hover:opacity-100 text-gray-500"
+          className="absolute top-2 right-2 aspect-square w-7 rounded-full bg-white/80 backdrop-blur-sm text-gray-700 shadow-sm opacity-80 hover:opacity-100"
           onClick={onToggleExpanse}
         >
           <div data-tooltip={getI18Ntext("minimize")}>

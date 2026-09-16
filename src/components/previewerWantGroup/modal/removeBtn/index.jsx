@@ -66,15 +66,15 @@ const RemoveButton = ({ wantGroup }) => {
   /* end DELETE *************************************/
 
   return (
-    <div className="text-center">
+    <div className="text-center pt-4">
       {showDelete ? (
-        <div className="animate-fadein border border-gray-300 py-2 px-4 w-fit mx-auto rounded shadow">
-          <h3 className="font-bold mb-4">
+        <div className="animate-fadein">
+          <h3 className="font-bold mb-3">
             <I18N id="want.removeFrom.answer" />
           </h3>
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-4">
             <button
-              className="text-xs uppercase border border-gray-400 text-gray-500 px-5 py-1 rounded-full transition-colors"
+              className="text-sm font-semibold text-gray-500 hover:text-gray-800 transition-colors"
               onClick={() => {
                 setShowDelete(false);
               }}
@@ -82,7 +82,7 @@ const RemoveButton = ({ wantGroup }) => {
               <I18N id="btn.Cancel" />
             </button>
             <button
-              className="text-xs uppercase border-red-600 bg-red-600 text-white px-5 py-1 rounded-full transition-colors"
+              className="font-bold text-white bg-danger px-5 py-2.5 rounded-full text-sm hover:opacity-90 transition-opacity"
               onClick={deleteWant}
             >
               <I18N id="btn.YesQuit" />
@@ -92,21 +92,17 @@ const RemoveButton = ({ wantGroup }) => {
       ) : (
         <button
           className={clsx(
-            "text-xs uppercase border-red-600 text-red-600 px-5 py-1 rounded-full transition-colors",
-            {
-              "hover:bg-red-600 hover:text-white": !loading,
-              "opacity-40": loading, // disabled
-            }
+            "text-sm font-bold text-danger transition-colors",
+            loading ? "opacity-40" : "hover:text-red-900"
           )}
           disabled={loading}
-          //
           onClick={() => {
             setShowDelete(true);
           }}
         >
           <InnerButton>
             {loading ? <Icon type="loading" /> : null}
-            <I18N id="btn.Want.removeWant.xl" disabled={loading} />
+            <I18N id="btn.Want.removeWant.xl" />
           </InnerButton>
         </button>
       )}

@@ -1,18 +1,26 @@
+// auto-FILL, not auto-fit, in every grid below. auto-fit collapses the empty
+// tracks and hands their space to the ones that are left, so a user with two
+// games got two cards inflated to half the viewport each, and a user with one
+// got a single full-width card. auto-fill keeps the empty tracks, so a card is
+// the same size whether the list has 2 items or 200.
 .collection-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  // Same poster-shaped column as the offer grids: cards stack the cover on top.
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1.25rem;
 }
 
 .item-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.75rem;
 }
 
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(516px, 1fr));
+  // Narrow, poster-shaped columns: the card stacks the cover on top of the
+  // content, and a cover spanning a 500px+ card reads as a letterbox strip.
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   // gap: 1.75rem;
   row-gap: 3rem;
   column-gap: 1.75rem;

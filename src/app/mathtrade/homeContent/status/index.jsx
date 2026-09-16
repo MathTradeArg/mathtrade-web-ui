@@ -14,7 +14,7 @@ const Status = () => {
           return (
             <div className="grid grid-cols-[110px_auto] gap-3 mb-4" key={value}>
               <div className="pt-1">
-                <StatusBadge status={value} type="box" block noTooltip />
+                <StatusBadge status={value} type="box" noTooltip />
               </div>
 
               <div className="ext-balance">
@@ -33,7 +33,7 @@ const Status = () => {
           return (
             <div className="grid grid-cols-[110px_auto] gap-3 mb-4" key={value}>
               <div className="pt-1">
-                <StatusBadge status={value} block noTooltip />
+                <StatusBadge status={value} noTooltip />
               </div>
 
               <div className="ext-balance">

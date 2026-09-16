@@ -23,13 +23,25 @@ type ElementViewProps = {
   toggleEditingMode?: () => void;
   insideItem?: boolean;
   extraContent?: ReactNode;
+  // Item-level controls (score, groups, delete). They render inside the card,
+  // at the top of the content column, so the item does not need a wrapper of
+  // its own just to hold them.
+  header?: ReactNode;
+  // "poster" stacks the cover on top, for the browse grids where cards are
+  // narrow and get scanned. "row" keeps it as a narrow column beside the
+  // content, for my-offer's single 860px-wide edit list — there a full-width
+  // cover would be a strip of mostly blurred filler.
+  layout?: "poster" | "row";
 };
 
 const ElementView = ({
   toggleEditingMode,
   insideItem,
   extraContent,
+  header = null,
+  layout = "poster",
 }: ElementViewProps) => {
+  const isRow = layout === "row";
   const { canI } = useContext(PageContext);
 
   const { element } = useContext(ElementContext);
@@ -92,15 +104,28 @@ const ElementView = ({
   return (
     <div
       className={clsx(
-        "relative -m-4 flex-1 flex rounded-lg overflow-hidden",
+        "relative -m-4 flex-1 flex rounded-lg",
+        isRow ? "flex-row" : "flex-col",
         cardKindBorderClass(cardKind)
       )}
     >
-      <div className="relative w-[130px] shrink-0">
-        <Thumbnail elements={[element]} className="w-full h-full" />
+      <div
+        className={clsx(
+          "relative overflow-hidden",
+          isRow ? "w-[150px] shrink-0" : "rounded-t-lg"
+        )}
+      >
+        <Thumbnail
+          fill
+          contain
+          elements={[element]}
+          className={clsx("w-full", isRow ? "h-full" : "h-40")}
+        />
       </div>
 
       <div className="flex-1 min-w-0 p-4 flex flex-col gap-2.5">
+        {header}
+
         <div className="flex items-center justify-between gap-2">
           <BadgeType type="item" subtype={typeNum || 1} />
           {offered ? (
@@ -110,9 +135,14 @@ const ElementView = ({
           ) : null}
         </div>
 
+        {/* Reserves both lines so the rows below stay aligned across cards in
+            the same grid row (see game-grid-ui/md.tsx). Pointless in the row
+            layout: it is a single-column list, so there is nothing to align
+            against and the reserved line would be wasted height. */}
         <h3
           className={clsx(
             "text-heading leading-tight line-clamp-2",
+            isRow ? null : "min-h-[2.5em]",
             titleColorClass
           )}
         >

@@ -21,23 +21,18 @@ const Pagination = ({ type = "item", count }) => {
   } = usePagination(type, count, gotoTop);
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center gap-1.5 shrink-0">
       {showPrevPage ? (
-        <div className="h-5 flex-[0_0_auto] px-1.5 py-0">
-          <button
-            className="w-5 h-5 leading-[16px] text-center border text-xl rounded-full
-            border-solid border-gray-400 text-gray-400  hover:bg-primary hover:border-primary hover:text-white"
-            title={getI18Ntext("pagination.PrevPage")}
-            onClick={prevPage}
-          >
-            <Icon
-              type="arrow-left"
-              className="relative top-[-1px] left-[-1px]"
-            />
-          </button>
-        </div>
+        <button
+          type="button"
+          className="w-7 h-7 leading-none text-center border rounded-full border-gray-200 text-gray-500 hover:bg-primary hover:border-primary hover:text-white"
+          title={getI18Ntext("pagination.PrevPage")}
+          onClick={prevPage}
+        >
+          <Icon type="arrow-left" className="text-sm" />
+        </button>
       ) : null}
-      <div>
+      <div className="h-[34px] px-2.5 rounded-full border border-gray-200 bg-white flex items-center text-caption font-semibold text-gray-900">
         {total > 1 ? (
           <Form
             onSubmit={(d) => {
@@ -47,38 +42,33 @@ const Pagination = ({ type = "item", count }) => {
             formatTypes={{ page: "number" }}
           >
             <input
-              className="border border-stroke rounded-md px-1 text-center text-sm w-13 focus:outline-none"
+              className="w-7 bg-transparent text-center outline-none"
               type="number"
               name="page"
               value={page}
               onChange={onChange}
               onBlur={onBlur}
-              size="sm"
               min={1}
               max={total}
             />
           </Form>
         ) : (
-          <div className="text-sm font-bold text-gray-500">1</div>
+          <span>1</span>
         )}
+        <span className="text-gray-500 whitespace-nowrap">{` / ${total}`}</span>
       </div>
-      <div className="text-sm font-bold text-gray-500 px-1">{` / ${total} ${getI18Ntext(
-        "pagination.label"
-      )}`}</div>
-
       {notShowNextPage ? null : (
-        <div className="pagination-c pagination-c-btn">
-          <button
-            className="w-8 h-8 text-center border text-3xl rounded-full leading-[0.82]
-            bg-primary text-white hover:bg-sky-700 overflow-hidden"
-            title={getI18Ntext("pagination.NextPage")}
-            onClick={nextPage}
-          >
-            <Icon type="arrow-right" className="relative top-[-1px]" />
-          </button>
-        </div>
+        <button
+          type="button"
+          className="w-7 h-7 leading-none text-center rounded-full bg-primary text-white hover:bg-sky-700"
+          title={getI18Ntext("pagination.NextPage")}
+          onClick={nextPage}
+        >
+          <Icon type="arrow-right" className="text-sm" />
+        </button>
       )}
     </div>
   );
 };
+
 export default Pagination;

@@ -13,7 +13,7 @@ import Dynamic from "@/components/dynamic";
 const WantButton = lazy(() => import("@/components/want-button"));
 
 const ItemXL = ({
-  onToggleExpanse,
+  onToggleExpanse = undefined,
   hideWant = false,
   hideTags = false,
   onChangeValue = undefined,

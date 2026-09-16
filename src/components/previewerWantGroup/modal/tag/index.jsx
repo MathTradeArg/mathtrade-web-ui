@@ -72,24 +72,19 @@ const TagPreview = ({ wantGroup }) => {
         <div className="text-center pt-5">
           {showSuccessAlert ? <SuccessAlert text="want.updated" /> : null}
           <ErrorAlert error={error} />
-          <div className="w-fit mx-auto border-b pb-4 mb-2">
-            <button
-              className={clsx(
-                "rounded-full outline-none transition-colors inline-block w-auto bg-want text-white px-7 py-3 text-xl shadow-md",
-                {
-                  "hover:opacity-75": !loading, // !disabled
-                  "opacity-40": loading, // disabled
-                }
-              )}
-              disabled={loading}
-              onClick={putWant}
-            >
-              <InnerButton>
-                <Icon type={loading ? "loading" : "heart"} />
-                <I18N id="btn.Want.updateWant" />
-              </InnerButton>
-            </button>
-          </div>
+          <button
+            className={clsx(
+              "inline-flex items-center justify-center font-bold text-white bg-want px-5 py-2.5 rounded-full outline-none transition-opacity",
+              loading ? "opacity-40" : "hover:opacity-90"
+            )}
+            disabled={loading}
+            onClick={putWant}
+          >
+            <InnerButton>
+              <Icon type={loading ? "loading" : "heart"} className="text-base" />
+              <I18N id="btn.Want.updateWant" />
+            </InnerButton>
+          </button>
         </div>
       ) : null}
       <LoadingBox loading={loading} />

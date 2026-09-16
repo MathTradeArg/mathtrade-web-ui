@@ -22,11 +22,7 @@ export default function ReferralToRegisterUI() {
 
   return (
     <>
-      <PageHeader
-        title="title.referrals-area"
-        name="referrals-area"
-        bgImg="4"
-      />
+      <PageHeader title="title.referrals-area" variant="minimal" />
       <Wrapper className="mb-1">
         <div className="bg-colorMain rounded-t-main shadow-main">
           <Tabs list={tablist} value={tabView} onChange={setTabView} />
