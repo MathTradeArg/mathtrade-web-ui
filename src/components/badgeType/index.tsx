@@ -38,7 +38,7 @@ const BadgeType = ({
         // pass size="compact" — className="text-[9px]" used to lose to
         // text-heading in the compiled CSS, which is why the want cards
         // showed a title-sized JUEGO chip.
-        "inline-flex items-center uppercase leading-none font-bold rounded-[3px]",
+        "inline-flex items-center uppercase leading-none font-bold rounded-[3px] min-w-0",
         size === "compact"
           ? "gap-1 px-1.5 py-[2px] text-[9px] tracking-wide"
           : "gap-1.5 px-2.5 py-1 text-heading",

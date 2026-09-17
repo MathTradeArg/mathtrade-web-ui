@@ -2,7 +2,12 @@ import { useContext, useEffect, useMemo } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { PageContext } from "@/context/page";
 import { useStore, useOptions } from "@/store";
-import { PRIMARY_NAV, SIGN_TO_MATHTRADE_ENTRY, type NavEntry } from "@/config/nav";
+import {
+  HOME_ENTRY,
+  PRIMARY_NAV,
+  SIGN_TO_MATHTRADE_ENTRY,
+  type NavEntry,
+} from "@/config/nav";
 import { PRIVATE_ROUTES } from "@/config/routes";
 
 const COLLAPSE_KEY = "sidebar_mainNav_collapsed";
@@ -48,14 +53,15 @@ const useSidebarNav = () => {
   const toggleCollapsed = () => updateOptions({ [COLLAPSE_KEY]: !collapsed });
 
   const items: NavEntry[] = useMemo(() => {
+    const withHome = (list: NavEntry[]) => [HOME_ENTRY, ...list];
     if (mathtrade && membership) {
-      return PRIMARY_NAV;
+      return withHome(PRIMARY_NAV);
     }
     const base = PRIMARY_NAV.filter((entry) => DEFAULT_KEYS.includes(entry.key));
     if (mathtrade && !membership && canI.sign) {
-      return [...base, SIGN_TO_MATHTRADE_ENTRY];
+      return withHome([...base, SIGN_TO_MATHTRADE_ENTRY]);
     }
-    return base;
+    return withHome(base);
   }, [mathtrade, membership, canI]);
 
   const lockedInfo: Record<string, LockedInfo> = useMemo(() => {
@@ -112,8 +118,12 @@ const useSidebarNav = () => {
     return next;
   }, [items]);
 
-  const isActive = (path: string) =>
-    pathname === path || Boolean(pathname && pathname.startsWith(path + "/"));
+  const isActive = (path: string) => {
+    if (path === PRIVATE_ROUTES.HOME.path) {
+      return pathname === path;
+    }
+    return pathname === path || Boolean(pathname && pathname.startsWith(path + "/"));
+  };
 
   return { items, groups, isActive, collapsed, toggleCollapsed, lockedInfo };
 };

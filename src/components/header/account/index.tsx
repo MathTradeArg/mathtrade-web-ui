@@ -40,6 +40,7 @@ const AccountMenuButton = ({
       <div
         className={clsx("cursor-pointer peer flex items-center", {
           "w-full": isRow,
+          "justify-center": isRow && collapsed,
         })}
         onClick={toggleMobile}
       >

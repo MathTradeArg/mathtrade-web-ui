@@ -31,7 +31,9 @@ export const ResultsContextProvider = ({ children }) => {
       return null;
     }
 
-    return userList.filter((u) => u.id === currentUserId)[0] || null;
+    return (
+      userList.find((u) => String(u.id) === String(currentUserId)) || null
+    );
   }, [userList, currentUserId]);
 
   return (

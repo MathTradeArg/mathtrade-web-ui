@@ -23,6 +23,8 @@ type WantMiniCardProps = {
   value?: number | string | null;
   preview?: ReactNode;
   size?: "mini" | "anchor";
+  /** Stretch to the parent width (results columns on mobile). */
+  fill?: boolean;
   toAdd?: boolean;
   onAdd?: () => void;
   onRemove?: () => void;
@@ -41,6 +43,7 @@ const WantMiniCard = ({
   value = null,
   preview = null,
   size = "mini",
+  fill = false,
   toAdd = false,
   onAdd,
   onRemove,
@@ -53,8 +56,12 @@ const WantMiniCard = ({
   return (
     <div
       className={clsx(
-        "relative rounded-lg border border-gray-200 overflow-hidden",
-        isAnchor ? "sm:w-52 w-24" : "sm:w-32 w-16",
+        "relative rounded-lg border border-gray-200 min-w-0 flex flex-col",
+        fill
+          ? "w-full h-full"
+          : isAnchor
+            ? "w-full sm:w-52"
+            : "w-[8.5rem] sm:w-32",
         tagStyle ? null : cardKindBorderClass(kind, 4),
         {
           "shadow-[inset_0_0_0_3px_red]": empty,
@@ -80,8 +87,8 @@ const WantMiniCard = ({
       ) : null}
       <div
         className={clsx(
-          "relative overflow-hidden",
-          isAnchor ? "sm:h-[148px] h-24" : "sm:h-[108px] h-16"
+          "relative overflow-hidden rounded-t-lg",
+          isAnchor ? "h-[7.5rem] sm:h-[148px]" : "h-[5.75rem] sm:h-[108px]"
         )}
       >
         <Thumbnail
@@ -108,9 +115,9 @@ const WantMiniCard = ({
           <ValueMini currentValue={value} />
         </div>
       </div>
-      <div className="px-2 py-1.5 flex flex-col items-start gap-1.5">
+      <div className="px-2 py-1.5 flex flex-col items-start gap-1 min-w-0 flex-1">
         <h4
-          className="text-[11px] leading-[14px] font-bold line-clamp-2 cursor-default w-full"
+          className="text-[11px] leading-[14px] font-bold line-clamp-3 sm:line-clamp-2 cursor-default w-full break-words"
           title={title}
         >
           {title}
@@ -120,6 +127,7 @@ const WantMiniCard = ({
           type={badgeType}
           subtype={badgeSubtype}
           isCombo={isCombo}
+          className="max-w-full mt-auto"
         />
       </div>
     </div>
@@ -131,19 +139,28 @@ export default WantMiniCard;
 type WantAddTileProps = {
   open?: boolean;
   onToggle?: () => void;
+  size?: "mini" | "anchor";
+  caption?: string;
   className?: string;
 };
 
 export const WantAddTile = ({
   open = false,
   onToggle,
+  size = "mini",
+  caption = "",
   className = "",
 }: WantAddTileProps) => {
+  const isAnchor = size === "anchor";
+
   return (
     <button
       type="button"
       className={clsx(
-        "relative sm:w-32 w-16 sm:min-h-[168px] min-h-[120px] rounded-lg border-[1.5px] border-dashed transition-colors flex flex-col items-center justify-center gap-1",
+        "relative rounded-lg border-[1.5px] border-dashed transition-colors flex flex-col items-center justify-center gap-2 px-2 sm:px-3 py-4 text-center",
+        isAnchor
+          ? "w-full min-w-0 sm:w-52 sm:shrink-0 min-h-[10.25rem] sm:min-h-[12.5rem]"
+          : "w-[8.5rem] sm:w-32 shrink-0 min-h-[10.5rem] sm:min-h-[12rem]",
         open
           ? "border-want bg-want text-white"
           : "border-want/40 bg-want/5 text-want hover:bg-want/15",
@@ -153,15 +170,22 @@ export const WantAddTile = ({
     >
       <span
         className={clsx(
-          "text-3xl sm:text-4xl leading-none opacity-70 transition-transform",
+          "leading-none opacity-70 transition-transform",
+          isAnchor ? "text-4xl sm:text-5xl" : "text-3xl sm:text-4xl",
           { "rotate-45": open }
         )}
       >
         <Icon type="plus" />
       </span>
-      <span className="hidden sm:block text-caption font-bold">
-        <I18N id="btn.Add" />
-      </span>
+      {caption ? (
+        <span className="text-[11px] sm:text-caption leading-snug font-medium break-words text-balance">
+          <I18N id={caption} />
+        </span>
+      ) : (
+        <span className="hidden sm:block text-caption font-bold">
+          <I18N id="btn.Add" />
+        </span>
+      )}
     </button>
   );
 };

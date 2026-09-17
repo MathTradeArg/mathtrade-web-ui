@@ -32,7 +32,7 @@ const FilterToggleButton = ({ type = "item" }: { type?: string }) => {
     >
       <InnerButton>
         <Icon type="filters" className="text-sm" />
-        <span className="lg:inline hidden">
+        <span>
           <I18N id="btn.mobile.filter" />
         </span>
         {count > 0 ? (
