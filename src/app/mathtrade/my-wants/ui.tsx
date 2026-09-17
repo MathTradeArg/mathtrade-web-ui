@@ -19,7 +19,7 @@ export default function MyWantsUI() {
     <>
       <div className="relative">
         <Wrapper className="mb-1">
-          <div className="bg-colorMain rounded-t-main shadow-main">
+            <div className="bg-white rounded-t-main shadow-main">
             <Tabs
               list={["want.screen.visual", "want.screen.grid"]}
               value={screenView}

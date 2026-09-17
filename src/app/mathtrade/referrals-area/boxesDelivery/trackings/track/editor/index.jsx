@@ -124,7 +124,7 @@ const Editor = ({ track }) => {
               customRenderTag={(box, deleteBtn) => {
                 return (
                   <div
-                    className="flex items-center justify-between  bg-item-200 border border-item-400 font-bold rounded px-2  py-1 text-sm"
+                    className="flex items-center justify-between bg-gray-100 border border-gray-300 font-bold rounded px-2 py-1 text-sm"
                     key={box.value}
                   >
                     <div className="">{box.text}</div>

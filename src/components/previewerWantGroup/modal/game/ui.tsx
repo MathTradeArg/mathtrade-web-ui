@@ -11,7 +11,7 @@ import clsx from "clsx";
 import { LoadingBox } from "@/components/loading";
 import BadgeType from "@/components/badgeType";
 import {
-  resolveCardKind,
+  resolveGameKind,
   cardKindBorderClass,
 } from "@/components/badgeType/cardKind";
 import useBGGdata from "@/components/bggInfo/useBGGdata";
@@ -52,13 +52,7 @@ const GameUI = ({ wantGroup }) => {
   };
   const showBGGstats = !notGame && isInBGG;
   const filledDots = Math.min(5, Math.max(0, Math.round(weight || 0)));
-  const isComboItem = !!notGame && (items?.[0]?.elements?.length || 0) > 1;
-  const isTrueNotGame = !!notGame && !isComboItem;
-  const cardKind = resolveCardKind({
-    isCombo: isComboItem,
-    isTrueNotGame,
-    isExpansion: !isComboItem && typeNum === 2,
-  });
+  const cardKind = resolveGameKind({ notGame, typeNum });
 
   return (
     <>
@@ -81,8 +75,7 @@ const GameUI = ({ wantGroup }) => {
             <div className="flex items-center justify-between gap-2 w-full">
               <BadgeType
                 type="game"
-                subtype={isTrueNotGame ? 3 : typeNum || 1}
-                isCombo={isComboItem}
+                subtype={notGame ? 3 : typeNum || 1}
               />
               <Value type="game" onChange={onChangeValue} />
             </div>

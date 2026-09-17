@@ -2,6 +2,7 @@ import Thumbnail from "@/components/thumbnail";
 import Icon from "@/components/icon";
 import { getI18Ntext } from "@/i18n";
 import StatusBadge from "@/components/status-badge";
+import Chip from "@/components/chip";
 import { ElementContext } from "@/context/element";
 import { useContext } from "react";
 
@@ -21,7 +22,7 @@ const ElementInCombo = ({ onToggleExpanse }: ElementInComboProps) => {
   const { box_status, component_status } = extraData;
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-start gap-3 min-w-0">
       <div className="relative w-16 h-16 shrink-0">
         <Thumbnail
           contain
@@ -36,15 +37,16 @@ const ElementInCombo = ({ onToggleExpanse }: ElementInComboProps) => {
         </div>
       </div>
 
-      <div className="min-w-0">
-        <h3
-          data-tooltip={getI18Ntext("Enlarge")}
-          className="text-body font-bold cursor-pointer hover:opacity-70 leading-tight line-clamp-1"
-          onClick={onToggleExpanse}
-        >
-          {title}
-        </h3>
-        <div className="flex flex-wrap gap-1 items-center mt-1">
+      <div className="flex-1 min-w-0">
+        <div data-tooltip={title} className="min-w-0 max-w-full">
+          <h3
+            className="text-body font-bold cursor-pointer hover:opacity-70 leading-tight truncate"
+            onClick={onToggleExpanse}
+          >
+            {title}
+          </h3>
+        </div>
+        <div className="flex flex-wrap gap-1 items-center mt-1 w-full">
           <StatusBadge
             status={box_status}
             type="box"
@@ -56,12 +58,8 @@ const ElementInCombo = ({ onToggleExpanse }: ElementInComboProps) => {
             min
             label={getI18Ntext("status.label.components")}
           />
+          {language ? <Chip>{language}</Chip> : null}
         </div>
-        {language ? (
-          <div className="text-caption text-gray-500 truncate mt-0.5">
-            {language}
-          </div>
-        ) : null}
       </div>
     </div>
   );

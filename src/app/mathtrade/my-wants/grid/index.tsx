@@ -22,7 +22,7 @@ const Grid = () => {
   return (
     <GridContextProvider>
       <Wrapper className="mb-1">
-        <div className="bg-colorMain shadow-main px-3 py-4">
+        <div className="bg-white shadow-main px-3 py-4">
           <CommitHeaderGrid />
         </div>
       </Wrapper>
@@ -31,7 +31,7 @@ const Grid = () => {
         <GridUI />
       ) : (
         <Wrapper className="mb-1">
-          <div className="bg-colorMain shadow-main px-3 py-4 rounded-b-main">
+          <div className="bg-white shadow-main px-3 py-4 rounded-b-main">
             <p className="text-center text-balance">
               <I18N
                 id="want.screen.grid.disabled"

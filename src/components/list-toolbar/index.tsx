@@ -19,7 +19,7 @@ const ListToolbar = ({
     >
       {leading}
       {search ? (
-        <div className="w-full min-w-[180px] sm:w-auto sm:flex-1">{search}</div>
+        <div className="w-full min-w-0 sm:w-auto sm:flex-1">{search}</div>
       ) : null}
       {count ? (
         <span className="text-caption font-semibold text-gray-500 whitespace-nowrap">

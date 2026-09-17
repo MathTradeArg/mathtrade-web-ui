@@ -15,6 +15,23 @@ export const resolveCardKind = ({
   return "base";
 };
 
+// Game catalog cards never use "combo". The backend buckets a bundled
+// item (several games as one offer) as a no-BGG-match placeholder; in
+// the Juegos grid that still means "fuera de la BGG". Combo is reserved
+// for ejemplar cards, where the bundle is the unit being offered.
+export const resolveGameKind = ({
+  notGame = false,
+  typeNum = 1,
+}: {
+  notGame?: boolean;
+  typeNum?: number;
+}): CardKind =>
+  resolveCardKind({
+    isCombo: false,
+    isTrueNotGame: !!notGame,
+    isExpansion: !notGame && typeNum === 2,
+  });
+
 // Left-border accent + a background tint of the same color, one pair per
 // content category. 8% into white was too faint once built — a page of
 // cards only differed by a 4px edge. Expansion used to be amber (#B45309),

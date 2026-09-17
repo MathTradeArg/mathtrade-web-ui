@@ -1451,6 +1451,50 @@
     border-radius: 999px; padding: 1px 6px;
   }
 
+  .res-page { background: white; border: 1px solid var(--border-soft); border-radius: 12px; overflow: hidden; }
+  .res-toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; border-bottom: 1px solid var(--border-soft); padding: 8px 12px; }
+  .res-user {
+    display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 12px;
+    background: var(--bg-page); border: 1px solid var(--border-soft); border-radius: 999px;
+    font-size: var(--fs-body); color: var(--text-primary); min-width: 200px;
+  }
+  .res-pill {
+    height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--border-soft);
+    font-size: var(--fs-caption); font-weight: 700; color: var(--text-muted); background: white;
+    display: inline-flex; align-items: center;
+  }
+  .res-pill.is-on { background: color-mix(in srgb, var(--primary) 10%, white); border-color: color-mix(in srgb, var(--primary) 40%, white); color: var(--primary); }
+  .res-row { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 20px 16px; border-bottom: 1px solid var(--border-soft); }
+  .res-col-h { font-size: 13px; font-weight: 700; margin: 0 0 8px; }
+  .res-col-h.is-want { color: var(--want); }
+  .res-col-h.is-give { color: var(--secondary); }
+  .res-flow-arr { font-weight: 700; font-size: 18px; line-height: 1; flex-shrink: 0; }
+  .res-flow-arr.is-want { color: var(--want); }
+  .res-flow-arr.is-give { color: var(--secondary); }
+  .res-hub { width: 72px; text-align: center; flex-shrink: 0; }
+  .res-hub-av { width: 40px; height: 40px; border-radius: 50%; background: #c4c4c4; margin: 0 auto 6px; }
+  .res-hub-name { font-size: 12px; font-weight: 700; margin: 0; line-height: 1.3; color: var(--text-primary); }
+  .res-person { font-size: var(--fs-caption); color: var(--text-muted); margin: 8px 0 6px; line-height: 1.35; }
+  .res-chip { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
+  .res-chip.is-want { background: color-mix(in srgb, var(--want) 12%, white); color: #0a7a4d; }
+  .res-chip.is-done { background: #e5e7eb; color: #1f2937; }
+  .res-arrows { padding-top: 52px; text-align: center; font-weight: 700; font-size: 16px; line-height: 1.15; }
+  .res-arrows .to { color: var(--secondary); }
+  .res-arrows .from { color: var(--want); }
+  .res-table { width: 100%; border-collapse: collapse; font-size: var(--fs-body); }
+  .res-table th { text-align: left; font-size: var(--fs-caption); font-weight: 600; color: var(--text-muted); padding: 10px 12px; border-bottom: 1px solid var(--border-soft); }
+  .res-table td { padding: 10px 12px; border-bottom: 1px solid var(--border-soft); vertical-align: middle; }
+  .res-acc { border: 1px solid var(--border-soft); border-radius: 10px; padding: 12px 16px; color: var(--text-muted); font-size: var(--fs-body); background: white; }
+  .res-old { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 16px; }
+  .res-old-user { width: 56px; text-align: center; font-size: 10px; font-weight: 700; }
+  .res-old-av { width: 40px; height: 40px; border-radius: 50%; background: #bbb; margin: 0 auto 4px; }
+  .res-old-card { width: 88px; border: 1px solid #ccc; border-radius: 8px; overflow: hidden; background: white; box-shadow: 0 8px 20px rgba(0,0,0,.12); }
+  .res-old-cover { height: 72px; background: #ddd; }
+  .res-old-name { font-size: 10px; font-weight: 700; padding: 4px; text-align: center; }
+  .res-old-bar { background: #16a34a; color: white; font-size: 10px; font-weight: 700; text-align: center; padding: 2px; }
+  .res-old-bar.is-red { background: #dc2626; }
+  .res-old-arr { color: #ff3b3b; font-size: 22px; font-weight: 700; }
+
   .want-page {
     background: white;
     border: 1px solid var(--border-soft);
@@ -2910,6 +2954,202 @@
         <li><b>El pie</b> reutiliza la toolbar: buscar pill + orden (campo + dirección) + Autocompletar outline + Guardar want. Se va el select nativo “Tipo” y la cápsula gris.</li>
         <li><b>Dirección</b> Recibo/Ofrezco pasa a pills, como el resto de controles. Visual / Grilla no se toca.</li>
         <li><b><code>BadgeType</code></b> necesita un <code>size="compact"</code>. Hoy las cards de deseos ya pasan <code>className="text-[9px]"</code>, pero <code>text-heading</code> del componente gana en el CSS compilado.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="results-visual">
+    <div class="section-label">16 · Resultados</div>
+    <h2 class="section-title">Tus intercambios primero, misma lectura que Mis deseos</h2>
+    <p class="section-desc">Cada intercambio se lee en una sola dirección: Recibo → usuario → Doy. El usuario del selector es el eje; de quién viene y a quién va queda en el caption bajo cada juego.</p>
+
+    <div class="section-label">La página</div>
+    <div class="res-page">
+      <div class="res-toolbar">
+        <div class="res-user">Laura Gómez · CABA ▾</div>
+        <span class="lt-count">2 intercambios</span>
+        <span class="lt-grow"></span>
+        <div class="res-pill is-on">Visual</div>
+        <div class="res-pill">Tabla</div>
+      </div>
+
+      <div class="res-row">
+        <div>
+          <p class="res-col-h is-want">Recibo</p>
+          <div class="want-card is-base">
+            <div class="gc-cover cover-square" style="height:108px; position:relative;">
+              <div class="want-cover-meta"><span class="want-eye">◉</span></div>
+            </div>
+            <div class="want-card-body">
+              <div class="want-card-title">Lisboa</div>
+              <span class="gc-tag compact base"><svg viewBox="0 0 10 10" fill="currentColor"><rect width="10" height="10"/></svg>JUEGO</span>
+            </div>
+          </div>
+          <p class="res-person">de Ana Pérez · Rosario</p>
+          <span class="res-chip is-want">Recibido</span>
+        </div>
+        <div class="res-flow-arr is-want">→</div>
+        <div class="res-hub">
+          <div class="res-hub-av"></div>
+          <p class="res-hub-name">Yo</p>
+        </div>
+        <div class="res-flow-arr is-give">→</div>
+        <div>
+          <p class="res-col-h is-give">Doy</p>
+          <div class="want-card is-base">
+            <div class="gc-cover cover-tall" style="height:108px; position:relative;">
+              <div class="want-cover-meta"><span class="want-eye">◉</span></div>
+            </div>
+            <div class="want-card-body">
+              <div class="want-card-title">Quadropolis</div>
+              <span class="gc-tag compact base"><svg viewBox="0 0 10 10" fill="currentColor"><rect width="10" height="10"/></svg>JUEGO</span>
+            </div>
+          </div>
+          <p class="res-person">a Luis Díaz · CABA</p>
+          <span class="res-chip is-done">Entregado</span>
+        </div>
+      </div>
+
+      <div class="res-row">
+        <div>
+          <p class="res-col-h is-want">Recibo</p>
+          <div class="want-card is-expansion">
+            <div class="gc-cover cover-wide" style="height:108px; position:relative;">
+              <div class="want-cover-meta"><span class="want-eye">◉</span></div>
+            </div>
+            <div class="want-card-body">
+              <div class="want-card-title">On Mars: Alien Worlds</div>
+              <span class="gc-tag compact expansion"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 1v8M1 5h8"/></svg>EXPANSIÓN</span>
+            </div>
+          </div>
+          <p class="res-person">de Martín Ruiz · Córdoba</p>
+        </div>
+        <div class="res-flow-arr is-want">→</div>
+        <div class="res-hub">
+          <div class="res-hub-av"></div>
+          <p class="res-hub-name">Yo</p>
+        </div>
+        <div class="res-flow-arr is-give">→</div>
+        <div>
+          <p class="res-col-h is-give">Doy</p>
+          <div class="want-card is-combo">
+            <div class="gc-cover cover-wide" style="height:108px; position:relative;">
+              <div class="want-cover-meta"><span class="want-eye">◉</span></div>
+            </div>
+            <div class="want-card-body">
+              <div class="want-card-title">Eclipse + Ship Pack</div>
+              <span class="gc-tag compact combo"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="12" height="12" rx="2" opacity="0.55"/><rect x="9" y="9" width="12" height="12" rx="2"/></svg>COMBO</span>
+            </div>
+          </div>
+          <p class="res-person">a Sofía Blanco · Mendoza</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top:36px;">Tabla · las mismas palabras</div>
+    <div class="res-page" style="padding:8px 0 0;">
+      <table class="res-table">
+        <thead>
+          <tr>
+            <th>Recibo</th>
+            <th>De</th>
+            <th>Doy</th>
+            <th>A</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Lisboa <span class="res-chip is-want">Recibido</span></td>
+            <td>Ana Pérez · Rosario</td>
+            <td>Quadropolis <span class="res-chip is-done">Entregado</span></td>
+            <td>Luis Díaz · CABA</td>
+          </tr>
+          <tr>
+            <td>On Mars: Alien Worlds</td>
+            <td>Martín Ruiz · Córdoba</td>
+            <td>Eclipse + Ship Pack</td>
+            <td>Sofía Blanco · Mendoza</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-label" style="margin-top:36px;">Abajo, no arriba</div>
+    <div style="display:flex; flex-direction:column; gap:10px; max-width:640px;">
+      <div class="res-acc">▸ Descargas del Math Trade</div>
+      <div class="res-acc">▸ ¿Qué juegos se ofrecieron a cambio de los míos?</div>
+    </div>
+
+    <div class="section-label" style="margin-top:36px;">La cadena actual</div>
+    <div class="compare">
+      <div class="compare-col">
+        <div class="compare-tag before">ANTES · dos filas y flechas rojas</div>
+        <div class="res-old">
+          <div class="res-old-user"><div class="res-old-av"></div>Vos</div>
+          <div>
+            <div style="display:flex; align-items:center; gap:4px; margin-bottom:12px;">
+              <span class="res-old-arr">↗</span>
+              <div class="res-old-card">
+                <div class="res-old-cover"></div>
+                <div class="res-old-name">Quadropolis</div>
+                <div class="res-old-bar is-red">ENTREGADO</div>
+              </div>
+              <span class="res-old-arr">→</span>
+              <div class="res-old-user"><div class="res-old-av"></div>Luis</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:4px;">
+              <span class="res-old-arr">↘</span>
+              <div class="res-old-card">
+                <div class="res-old-cover"></div>
+                <div class="res-old-name">Lisboa</div>
+                <div class="res-old-bar">RECIBIDO</div>
+              </div>
+              <span class="res-old-arr">→</span>
+              <div class="res-old-user"><div class="res-old-av"></div>Ana</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-tag after">DESPUÉS · Recibo → yo → Doy</div>
+        <div class="res-row" style="border:0; padding:16px;">
+          <div>
+            <p class="res-col-h is-want">Recibo</p>
+            <div class="want-card is-base" style="width:108px;">
+              <div class="gc-cover cover-square" style="height:88px;"></div>
+              <div class="want-card-body"><div class="want-card-title">Lisboa</div></div>
+            </div>
+            <p class="res-person">de Ana Pérez</p>
+            <span class="res-chip is-want">Recibido</span>
+          </div>
+          <div class="res-flow-arr is-want">→</div>
+          <div class="res-hub">
+            <div class="res-hub-av"></div>
+            <p class="res-hub-name">Yo</p>
+          </div>
+          <div class="res-flow-arr is-give">→</div>
+          <div>
+            <p class="res-col-h is-give">Doy</p>
+            <div class="want-card is-base" style="width:108px;">
+              <div class="gc-cover cover-tall" style="height:88px;"></div>
+              <div class="want-card-body"><div class="want-card-title">Quadropolis</div></div>
+            </div>
+            <p class="res-person">a Luis Díaz</p>
+            <span class="res-chip is-done">Entregado</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <b>Decisiones del mock.</b>
+      <ul style="margin:8px 0 0; padding-left:18px;">
+        <li><b>Tus trades primero.</b> Stats del evento viven en Estadísticas. Descargas y “qué se ofreció a cambio” bajan, sin badge NUEVO.</li>
+        <li><b>Recibo → usuario → Doy.</b> Flechas unidireccionales: want a la entrada, secondary a la salida. El usuario del selector es el eje.</li>
+        <li><b>Contrapartes</b> como caption: “de Ana” / “a Luis”, no una cadena de avatares extra.</li>
+        <li><b>ENTREGADO / RECIBIDO</b> son chips (neutro / want), no barras sólido rojo/verde.</li>
+        <li><b>Tabla</b> usa las mismas palabras. Excel no cambia de columnas de datos.</li>
+        <li><b>Historial</b> reusa Visual y Tabla, así que hereda el rediseño.</li>
       </ul>
     </div>
   </section>

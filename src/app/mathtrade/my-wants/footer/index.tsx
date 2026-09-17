@@ -11,11 +11,13 @@ import ListSearch from "@/components/list-toolbar/search";
 import { useOptions } from "@/store";
 import { useContext } from "react";
 import { GotoTopContext } from "@/context/goto-top";
+import useSidebarNav from "@/components/sidebar/useSidebarNav";
 
 const Footer = () => {
   const { emptyWants, enabledBtn, changesCount, onClick, loading } =
     useFooter();
   const { gotoTop } = useContext(GotoTopContext);
+  const { collapsed } = useSidebarNav();
   const filters = useOptions((state) => state.filters_wants);
   const updateFilters = useOptions((state) => state.updateFilters);
 
@@ -25,10 +27,16 @@ const Footer = () => {
   return (
     <>
       {loading ? null : (
-        <div className="fixed z-[3999] bottom-0 left-0 w-full pb-3">
+        <div
+          className={clsx(
+            "fixed z-50 right-0 left-0 pb-3 transition-[left] duration-300 ease-out motion-reduce:transition-none",
+            "bottom-[calc(3.5rem+env(safe-area-inset-bottom))] lg:bottom-0",
+            collapsed ? "lg:left-[76px]" : "lg:left-[260px]"
+          )}
+        >
           <Wrapper>
             <ListToolbar
-              className="rounded-main border border-gray-200 shadow-sm"
+              className="rounded-main border border-gray-200 shadow-sm max-w-full min-w-0"
               search={
                 <ListSearch
                   value={filters?.keyword || ""}

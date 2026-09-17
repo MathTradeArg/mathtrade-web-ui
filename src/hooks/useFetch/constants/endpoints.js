@@ -97,9 +97,11 @@ const endpoints = {
   GET_MATHTRADE_STATS: "api/mathtrades/$[mathtradeId]/stats/",
 
   // BAN
-  GET_BANS: "api/mathtrades/$[mathtradeId]/user-bans/",
-  POST_BAN: "api/mathtrades/$[mathtradeId]/user-bans/",
-  DELETE_BAN: "api/mathtrades/$[mathtradeId]/user-bans/$[1]/",
+  GET_BANS: "api/bans/users/",
+  POST_BAN: "api/bans/",
+  DELETE_BAN_USER: "api/bans/users/$[1]/",
+  DELETE_BAN_ITEM: "api/bans/items/$[1]/",
+  DELETE_BAN_GAME: "api/bans/games/$[1]/",
   DELETE_BANNED_GAMES_ALL: "api/bans/games/all/",
   DELETE_BANNED_ITEMS_ALL: "api/bans/items/all/",
 

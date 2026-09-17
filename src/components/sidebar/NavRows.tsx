@@ -1,77 +1,107 @@
 "use client";
-import Link from "next/link";
 import Icon from "@/components/icon";
 import I18N, { getI18Ntext } from "@/i18n";
 import clsx from "clsx";
-import type { NavEntry } from "@/config/nav";
-
-type LockedInfo = { daysLeft: number };
+import type { LockedInfo, NavGroup } from "./useSidebarNav";
+import NavItem from "./NavItem";
+import { fadeLabelClass } from "./fadeLabel";
 
 type NavRowsProps = {
-  items: NavEntry[];
+  groups: NavGroup[];
   isActive: (path: string) => boolean;
   collapsed: boolean;
   lockedInfo?: Record<string, LockedInfo>;
 };
 
-const lockedCaptionId = (daysLeft: number) => {
-  if (daysLeft <= 0) {
-    return "menu.locked.wants.today";
-  }
-  if (daysLeft === 1) {
-    return "menu.locked.wants.1day";
-  }
-  return "menu.locked.wants.days";
-};
-
-const NavRows = ({ items, isActive, collapsed, lockedInfo = {} }: NavRowsProps) => {
+const NavRows = ({
+  groups = [],
+  isActive,
+  collapsed = false,
+  lockedInfo = {},
+}: NavRowsProps) => {
   return (
-    <nav className="flex flex-col gap-1">
-      {items.map((entry) => {
-        const active = isActive(entry.path);
-        const locked = lockedInfo[entry.key];
-        const title = locked
-          ? `${getI18Ntext(entry.titleI18nKey)} — ${getI18Ntext(
-              lockedCaptionId(locked.daysLeft),
-              [locked.daysLeft]
-            )}`
-          : collapsed
-            ? getI18Ntext(entry.titleI18nKey)
-            : undefined;
+    <nav className="flex flex-col gap-1 w-full">
+      {groups.map((group) => (
+        <div key={group.id} className="flex flex-col gap-0.5">
+          <p
+            className={clsx(
+              "px-2.5 text-[11px] font-semibold text-[#8a92a0] overflow-hidden transition-[max-height,opacity,margin] duration-200 ease-out motion-reduce:transition-none",
+              collapsed
+                ? "max-h-0 opacity-0 mt-0 mb-0"
+                : "max-h-8 opacity-100 mt-2.5 mb-1"
+            )}
+          >
+            <I18N id={group.labelI18nKey} />
+          </p>
+          {group.items.map((entry) => {
+            const active = isActive(entry.path);
+            const locked = lockedInfo[entry.key];
+            const title = locked
+              ? `${getI18Ntext(entry.titleI18nKey)} — ${getI18Ntext(
+                  locked.captionId,
+                  [locked.daysLeft]
+                )}`
+              : collapsed
+                ? getI18Ntext(entry.titleI18nKey)
+                : undefined;
 
-        return (
-          <div key={entry.key}>
-            <Link
-              href={entry.path}
-              title={title}
-              className={clsx(
-                "flex items-center gap-3 rounded-xl text-sm font-medium transition-colors",
-                collapsed ? "justify-center w-11 h-11 mx-auto" : "px-3 py-2.5",
-                locked
-                  ? "text-[#6b7280]"
-                  : active
-                    ? "bg-primary text-white"
-                    : "text-[#b7bcc4] hover:bg-white/5 hover:text-white"
-              )}
-            >
-              <Icon type={entry.icon} className="text-lg shrink-0" />
-              {!collapsed ? (
-                <>
-                  <I18N id={entry.titleI18nKey} />
+            return (
+              <div key={entry.key}>
+                <NavItem
+                  href={entry.path}
+                  locked={Boolean(locked)}
+                  title={title}
+                  className={clsx(
+                    "flex items-center rounded-[10px] text-sm font-semibold transition-colors relative h-11 px-2.5 w-full",
+                    locked
+                      ? "text-[#6b7280] cursor-default"
+                      : active
+                        ? "bg-primary text-white"
+                        : "text-[#c9ced4] hover:bg-white/5 hover:text-white"
+                  )}
+                >
+                  <Icon type={entry.icon} className="text-lg shrink-0" />
+                  <span className={fadeLabelClass(!collapsed)}>
+                    <I18N id={entry.titleI18nKey} />
+                  </span>
                   {locked ? (
-                    <Icon type="key" className="text-xs ml-auto opacity-70" />
+                    <Icon
+                      type="lock"
+                      className={clsx(
+                        "text-sm opacity-80 shrink-0 overflow-hidden transition-[opacity,max-width,margin] duration-200 ease-out",
+                        collapsed
+                          ? "max-w-0 opacity-0 ml-0"
+                          : "ml-auto"
+                      )}
+                    />
                   ) : null}
-                </>
-              ) : null}
-            </Link>
-            {locked && !collapsed ? (
-              <div className="text-[11px] leading-snug text-[#6b7280] px-3 pb-1 -mt-0.5">
-                <I18N id={lockedCaptionId(locked.daysLeft)} values={[locked.daysLeft]} />
+                  {locked ? (
+                    <Icon
+                      type="lock"
+                      className={clsx(
+                        "absolute left-7 top-1 text-[10px] transition-opacity duration-200",
+                        collapsed ? "opacity-80" : "opacity-0"
+                      )}
+                    />
+                  ) : null}
+                </NavItem>
+                {locked ? (
+                  <div
+                    className={clsx(
+                      "text-[11px] leading-snug text-[#8a92a0] px-2.5 ml-7 overflow-hidden transition-[max-height,opacity,padding] duration-200 ease-out motion-reduce:transition-none",
+                      collapsed
+                        ? "max-h-0 opacity-0 pb-0"
+                        : "max-h-12 opacity-100 pb-1"
+                    )}
+                  >
+                    <I18N id={locked.captionId} values={[locked.daysLeft]} />
+                  </div>
+                ) : null}
               </div>
-            ) : null}
-          </div>
-        );
-      })}
+            );
+          })}
+        </div>
+      ))}
     </nav>
   );
 };

@@ -7,6 +7,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import { PRIVATE_ROUTES, PUBLIC_ROUTES } from "@/config/routes";
 import { rulebookPDFurl, instructPDFurl } from "@/config/rulebook";
+import { fadeLabelClass } from "@/components/sidebar/fadeLabel";
 
 const baseURL = process.env.BASE_URL;
 
@@ -16,12 +17,14 @@ type HelpButtonProps = {
   placement?: "below" | "right";
   // "dark" for the black sidebar, "light" for the white mobile sheet.
   tone?: "dark" | "light";
+  collapsed?: boolean;
 };
 
 const HelpButton = ({
   variant = "header",
   placement = "below",
   tone = "dark",
+  collapsed = false,
 }: HelpButtonProps = {}) => {
   const [visibleMobile, setVisibleMobile] = useState(false);
 
@@ -34,15 +37,17 @@ const HelpButton = ({
       {variant === "row" ? (
         <button
           className={clsx(
-            "flex items-center gap-3 w-full text-left cursor-pointer peer text-sm px-2 py-2 rounded-lg",
+            "flex items-center w-full text-left cursor-pointer peer text-sm px-2 py-2 rounded-lg",
             tone === "light"
               ? "text-gray-900 hover:bg-gray-50"
               : "text-white/80 hover:text-white hover:bg-white/5"
           )}
           onClick={toggleMobile}
         >
-          <Icon type="help2" className="text-lg" />
-          <I18N id="help.menu" />
+          <Icon type="help2" className="text-lg shrink-0" />
+          <span className={fadeLabelClass(!collapsed)}>
+            <I18N id="help.menu" />
+          </span>
         </button>
       ) : (
         <button

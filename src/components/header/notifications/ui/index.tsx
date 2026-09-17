@@ -9,6 +9,7 @@ import Icon from "@/components/icon";
 import List from "./list";
 import useBulkReadNotifications from "./useBulkReadNotifications";
 import { LoadingBox } from "@/components/loading";
+import { fadeLabelClass } from "@/components/sidebar/fadeLabel";
 
 const Tab = ({ name, id, tabSelected, setTabSelected, num }) => {
   return (
@@ -43,12 +44,14 @@ type NotificationsButtonProps = {
   placement?: "below" | "right";
   // "dark" for the black sidebar, "light" for the white mobile sheet.
   tone?: "dark" | "light";
+  collapsed?: boolean;
 };
 
 const NotificationsButton = ({
   variant = "header",
   placement = "below",
   tone = "dark",
+  collapsed = false,
 }: NotificationsButtonProps = {}) => {
   const [tabSelected, setTabSelected] = useState(0);
 
@@ -105,14 +108,14 @@ const NotificationsButton = ({
       {variant === "row" ? (
         <button
           className={clsx(
-            "flex items-center gap-3 w-full text-left cursor-pointer peer text-sm px-2 py-2 rounded-lg",
+            "flex items-center w-full text-left cursor-pointer peer text-sm px-2 py-2 rounded-lg",
             tone === "light"
               ? "text-gray-900 hover:bg-gray-50"
               : "text-white/80 hover:text-white hover:bg-white/5"
           )}
           onClick={toggleMobile}
         >
-          <span className="relative text-lg">
+          <span className="relative text-lg shrink-0">
             <Icon type="notifications" />
             {num ? (
               <span className="absolute -top-1 -right-1.5 bg-danger text-white text-[9px] font-bold min-w-[15px] h-[15px] rounded-full flex items-center justify-center px-0.5">
@@ -120,7 +123,9 @@ const NotificationsButton = ({
               </span>
             ) : null}
           </span>
-          <I18N id="title.Notifications" />
+          <span className={fadeLabelClass(!collapsed)}>
+            <I18N id="title.Notifications" />
+          </span>
         </button>
       ) : (
         <HeadButton onClick={toggleMobile} icon="notifications" num={num} />

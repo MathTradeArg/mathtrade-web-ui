@@ -1,39 +1,67 @@
 "use client";
-import { useMemo } from "react";
-import useTimeline from "@/hooks/useTimeline";
-import I18N from "@/i18n";
+import { useContext, useMemo } from "react";
+import { PageContext } from "@/context/page";
+import Icon from "@/components/icon";
+import I18N, { getI18Ntext } from "@/i18n";
+import clsx from "clsx";
+import { fadeLabelClass } from "./fadeLabel";
 
-const EventStatusCard = ({ collapsed }: { collapsed: boolean }) => {
-  const { milestones } = useTimeline();
+const daysLeftUntil = (isoDate: string) =>
+  Math.max(
+    0,
+    Math.ceil((new Date(isoDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+  );
 
-  const next = useMemo(() => {
-    const now = Date.now();
-    return milestones.find((m) => {
-      const t = new Date(m.dateRaw).getTime();
-      return !Number.isNaN(t) && t > now;
-    });
-  }, [milestones]);
+const daysLabel = (daysLeft: number) => {
+  if (daysLeft <= 0) return getI18Ntext("menu.stage.today");
+  if (daysLeft === 1) return getI18Ntext("menu.stage.1day");
+  return getI18Ntext("menu.stage.days", [daysLeft]);
+};
 
-  if (!next) {
+const EventStatusCard = ({ collapsed = false }: { collapsed?: boolean }) => {
+  const { canI, mathtrade } = useContext(PageContext);
+
+  const stage = useMemo(() => {
+    if (!mathtrade) return null;
+    if (canI?.offer && mathtrade.freeze_geek_date) {
+      return {
+        titleId: "menu.stage.offer",
+        days: daysLeftUntil(mathtrade.freeze_geek_date),
+      };
+    }
+    if (canI?.want && mathtrade.freeze_wants_date) {
+      return {
+        titleId: "menu.stage.want",
+        days: daysLeftUntil(mathtrade.freeze_wants_date),
+      };
+    }
+    if (canI?.results) {
+      return { titleId: "menu.stage.results", days: null };
+    }
     return null;
-  }
+  }, [canI, mathtrade]);
 
-  if (collapsed) {
-    return (
-      <div className="w-9 h-9 mx-auto mb-4 rounded-lg bg-[#1c1d21] flex items-center justify-center text-white text-[10px] font-bold">
-        {next.dateObj.day}/{next.dateObj.month}
-      </div>
-    );
-  }
+  if (!stage) return null;
+
+  const title = `${getI18Ntext(stage.titleId)}${
+    stage.days === null ? "" : ` · ${daysLabel(stage.days)}`
+  }`;
 
   return (
-    <div className="bg-[#1c1d21] rounded-2xl p-3 mb-4">
-      <div className="text-white text-xs font-semibold mb-1">
-        <I18N id={next.title} />
-      </div>
-      <div className="text-white/50 text-xs">
-        {next.dateObj.day}/{next.dateObj.month} · {next.hour}
-      </div>
+    <div
+      className={clsx(
+        "flex items-center bg-[#1c1d21] rounded-[10px] mb-3 text-white text-xs font-semibold h-11 overflow-hidden transition-[width,padding,margin] duration-300 ease-out motion-reduce:transition-none",
+        collapsed
+          ? "w-11 justify-center mx-auto px-0"
+          : "w-full px-2.5"
+      )}
+      title={collapsed ? title : undefined}
+    >
+      <Icon type="calendar" className="text-primary shrink-0" />
+      <span className={clsx("min-w-0 truncate", fadeLabelClass(!collapsed))}>
+        <I18N id={stage.titleId} />
+        {stage.days === null ? null : ` · ${daysLabel(stage.days)}`}
+      </span>
     </div>
   );
 };

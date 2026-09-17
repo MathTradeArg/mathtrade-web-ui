@@ -1,6 +1,5 @@
 "use client";
 import { useContext } from "react";
-import Link from "next/link";
 import Icon from "@/components/icon";
 import I18N from "@/i18n";
 import clsx from "clsx";
@@ -10,15 +9,24 @@ import NotificationsButton from "@/components/header/notifications";
 import HelpButton from "@/components/header/helpButton";
 import AccountMenuButton from "@/components/header/account";
 import type { NavEntry } from "@/config/nav";
+import type { LockedInfo } from "../useSidebarNav";
+import NavItem from "../NavItem";
 
 type MoreSheetProps = {
   open: boolean;
   onClose: () => void;
   restItems: NavEntry[];
   isActive: (path: string) => boolean;
+  lockedInfo?: Record<string, LockedInfo>;
 };
 
-const MoreSheet = ({ open, onClose, restItems, isActive }: MoreSheetProps) => {
+const MoreSheet = ({
+  open,
+  onClose,
+  restItems,
+  isActive,
+  lockedInfo = {},
+}: MoreSheetProps) => {
   const { mathtrade } = useContext(PageContext);
   const hasMathtrade = Boolean(mathtrade && Object.keys(mathtrade).length > 0);
 
@@ -49,19 +57,29 @@ const MoreSheet = ({ open, onClose, restItems, isActive }: MoreSheetProps) => {
 
         {restItems.map((entry) => {
           const active = isActive(entry.path);
+          const locked = lockedInfo[entry.key];
           return (
-            <Link
+            <NavItem
               key={entry.key}
               href={entry.path}
+              locked={Boolean(locked)}
               onClick={onClose}
               className={clsx(
                 "flex items-center gap-4 px-4 py-3 text-[15px] font-medium",
-                active ? "text-primary" : "text-gray-900"
+                locked ? "text-gray-400" : active ? "text-primary" : "text-gray-900"
               )}
             >
               <Icon type={entry.icon} className="text-lg" />
-              <I18N id={entry.titleI18nKey} />
-            </Link>
+              <span className="flex-1">
+                <I18N id={entry.titleI18nKey} />
+                {locked ? (
+                  <span className="block text-[11px] leading-snug font-normal">
+                    <I18N id={locked.captionId} values={[locked.daysLeft]} />
+                  </span>
+                ) : null}
+              </span>
+              {locked ? <Icon type="lock" className="text-sm opacity-80" /> : null}
+            </NavItem>
           );
         })}
 
