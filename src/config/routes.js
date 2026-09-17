@@ -64,6 +64,11 @@ export const PRIVATE_ROUTES = {
     path: privateRoot + "/my-wants",
     enabled: "onlyForMembers",
   },
+  PROVISIONAL_RESULTS: {
+    title: "provisionalResults",
+    path: privateRoot + "/provisional-results",
+    enabled: "onlyForMembers",
+  },
   RESULTS: {
     title: "results",
     path: privateRoot + "/results",

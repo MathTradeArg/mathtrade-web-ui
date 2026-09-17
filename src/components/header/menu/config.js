@@ -40,6 +40,12 @@ export const MenuList = [
     disabled: !PRIVATE_ROUTES.WANTS.enabled,
   },
   {
+    title: `menu.${PRIVATE_ROUTES.PROVISIONAL_RESULTS.title}`,
+    path: PRIVATE_ROUTES.PROVISIONAL_RESULTS.path,
+    name: "provisionalResults",
+    disabled: !PRIVATE_ROUTES.PROVISIONAL_RESULTS.enabled,
+  },
+  {
     title: `menu.${PRIVATE_ROUTES.RESULTS.title}`,
     path: PRIVATE_ROUTES.RESULTS.path,
     name: "results",

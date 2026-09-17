@@ -69,6 +69,8 @@ export const PageContext = createContext({
     want: false,
     commit: false,
     results: false,
+    provisionalResults: false,
+    selfExclude: false,
   },
   //
   previewWantGroupId: null,
@@ -145,39 +147,38 @@ const PageContextProvider = ({ children = null }) => {
   }, [mathtradeStored, mathtradeUpdated]);
 
   const canI = useMemo(() => {
-    if (!mathtrade) {
-      return {
-        sign: false,
-        invite: false,
-        offer: false,
-        want: false,
-        commit: false,
-        results: false,
-        pageType,
-      };
-    }
-    if (mathtrade.status === "freeze") {
-      return {
-        sign: false,
-        invite: false,
-        offer: false,
-        want: false,
-        commit: false,
-        results: false,
-        pageType,
-      };
+    const closed = {
+      sign: false,
+      invite: false,
+      offer: false,
+      want: false,
+      commit: false,
+      results: false,
+      provisionalResults: false,
+      selfExclude: false,
+      pageType,
+    };
+
+    if (!mathtrade || mathtrade.status === "freeze") {
+      return closed;
     }
     const $now = new Date().getTime();
+
+    const dateMs = (value: unknown) => {
+      if (!value) return NaN;
+      const ms = new Date(value as string).getTime();
+      return Number.isFinite(ms) ? ms : NaN;
+    };
 
     const $dates = [
       "start_date",
       "freeze_geek_date",
       "freeze_wants_date",
-      // "freeze_commit_date",
+      "provisional_results_date",
       "meeting_date",
       "show_results_date",
     ].reduce((obj: Record<string, number>, dateName) => {
-      obj[dateName] = new Date(mathtrade[dateName]).getTime();
+      obj[dateName] = dateMs(mathtrade[dateName]);
       return obj;
     }, {});
 
@@ -185,8 +186,12 @@ const PageContextProvider = ({ children = null }) => {
     const want =
       $now >= $dates.freeze_geek_date && $now < $dates.freeze_wants_date;
     const commit = want;
-    // $now >= $dates.freeze_wants_date && $now < $dates.freeze_commit_date;
-    const results = $now >= $dates.freeze_wants_date;
+    const provisionalResults =
+      Number.isFinite($dates.provisional_results_date) &&
+      $now >= $dates.provisional_results_date;
+    const results =
+      Number.isFinite($dates.show_results_date) &&
+      $now >= $dates.show_results_date;
 
     if (!membership) {
       return {
@@ -196,6 +201,8 @@ const PageContextProvider = ({ children = null }) => {
         want,
         commit,
         results,
+        provisionalResults,
+        selfExclude: false,
         pageType,
       };
     }
@@ -207,6 +214,9 @@ const PageContextProvider = ({ children = null }) => {
       want,
       commit,
       results,
+      provisionalResults,
+      selfExclude:
+        provisionalResults && !results && !membership.self_excluded,
       pageType,
     };
   }, [mathtrade, membership, pageType]);

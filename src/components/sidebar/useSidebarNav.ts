@@ -21,7 +21,14 @@ export type NavGroup = {
   items: NavEntry[];
 };
 
-const EVENT_ORDER = ["OFFER", "MY_OFFER", "WANTS", "RESULTS", "SIGN_TO_MATHTRADE"];
+const EVENT_ORDER = [
+  "OFFER",
+  "MY_OFFER",
+  "WANTS",
+  "PROVISIONAL_RESULTS",
+  "RESULTS",
+  "SIGN_TO_MATHTRADE",
+];
 const SPACE_ORDER = ["MY_COLLECTION", "STATS", "MY_DATA"];
 
 const sortBy = (order: string[]) => (a: NavEntry, b: NavEntry) =>
@@ -33,7 +40,10 @@ const daysLeftUntil = (isoDate) =>
     Math.ceil((new Date(isoDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
   );
 
-const captionIdFor = (stage: "wants" | "results", daysLeft: number) => {
+const captionIdFor = (
+  stage: "wants" | "results" | "provisional",
+  daysLeft: number
+) => {
   const base = `menu.locked.${stage}`;
   if (daysLeft <= 0) return `${base}.today`;
   if (daysLeft === 1) return `${base}.1day`;
@@ -74,11 +84,21 @@ const useSidebarNav = () => {
       };
     }
     if (
+      !canI.provisionalResults &&
+      mathtrade?.provisional_results_date
+    ) {
+      const daysLeft = daysLeftUntil(mathtrade.provisional_results_date);
+      locked.PROVISIONAL_RESULTS = {
+        daysLeft,
+        captionId: captionIdFor("provisional", daysLeft),
+      };
+    }
+    if (
       !canI.results &&
-      mathtrade?.freeze_wants_date &&
+      mathtrade?.show_results_date &&
       !(mathtrade_history?.length > 0)
     ) {
-      const daysLeft = daysLeftUntil(mathtrade.freeze_wants_date);
+      const daysLeft = daysLeftUntil(mathtrade.show_results_date);
       locked.RESULTS = {
         daysLeft,
         captionId: captionIdFor("results", daysLeft),
@@ -87,9 +107,11 @@ const useSidebarNav = () => {
     return locked;
   }, [
     canI.offer,
+    canI.provisionalResults,
     canI.results,
     mathtrade?.freeze_geek_date,
-    mathtrade?.freeze_wants_date,
+    mathtrade?.provisional_results_date,
+    mathtrade?.show_results_date,
     mathtrade_history?.length,
   ]);
 
@@ -125,7 +147,19 @@ const useSidebarNav = () => {
     return pathname === path || Boolean(pathname && pathname.startsWith(path + "/"));
   };
 
-  return { items, groups, isActive, collapsed, toggleCollapsed, lockedInfo };
+  const provisionalWindowActive = Boolean(
+    canI.provisionalResults && !canI.results
+  );
+
+  return {
+    items,
+    groups,
+    isActive,
+    collapsed,
+    toggleCollapsed,
+    lockedInfo,
+    provisionalWindowActive,
+  };
 };
 
 export const useRedirectIfNavLocked = (key: string) => {
