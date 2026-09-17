@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import type { ReactNode } from "react";
 
 const TONES: Record<string, string> = {
   neutral: "text-gray-500 bg-colorMain",
@@ -7,6 +8,8 @@ const TONES: Record<string, string> = {
   // carry a background tint of their own, and a solid fill at this size ends up
   // competing with the card's title.
   alert: "text-red-800 font-bold bg-danger/10",
+  want: "text-[#0a7a4d] font-bold bg-want/10",
+  done: "text-gray-800 font-bold bg-gray-200",
 };
 
 const Chip = ({
@@ -14,6 +17,11 @@ const Chip = ({
   tooltip = "",
   className = "",
   tone = "neutral",
+}: {
+  children?: ReactNode;
+  tooltip?: string;
+  className?: string;
+  tone?: keyof typeof TONES;
 }) => {
   // Tooltip lives on this wrapper, not on the truncated pill. Tailwind
   // `truncate` is overflow:hidden — the ::before bubble animates from inside

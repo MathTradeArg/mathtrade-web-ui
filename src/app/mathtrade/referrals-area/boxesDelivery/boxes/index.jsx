@@ -14,7 +14,7 @@ const Boxes = () => {
         return <Box key={box.number} box={box} />;
       })}
       <ErrorAlert error={error} />
-      <article className="bg-item-200/50 border border-item-400 p-3 rounded shadow-lg flex justify-center">
+      <article className="bg-white border border-dashed border-gray-300 p-3 rounded-lg flex justify-center">
         <button
           className="text-white bg-green-600 font-bold text-xl px-8 py-3 rounded-full hover:bg-green-800 hover:text-white transition-colors"
           onClick={addNewBox}

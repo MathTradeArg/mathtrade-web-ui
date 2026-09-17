@@ -6,6 +6,7 @@ import Icon from "@/components/icon";
 import I18N from "@/i18n";
 import clsx from "clsx";
 import TimeLine from "./timeline";
+import { fadeLabelClass } from "@/components/sidebar/fadeLabel";
 
 type TimelineButtonProps = {
   // "row" renders an icon + label row, for the sidebar's utility row.
@@ -13,12 +14,14 @@ type TimelineButtonProps = {
   placement?: "below" | "right";
   // "dark" for the black sidebar, "light" for the white mobile sheet.
   tone?: "dark" | "light";
+  collapsed?: boolean;
 };
 
 const TimelineButton = ({
   variant = "header",
   placement = "below",
   tone = "dark",
+  collapsed = false,
 }: TimelineButtonProps = {}) => {
   const [visibleMobile, setVisibleMobile] = useState(false);
 
@@ -31,15 +34,17 @@ const TimelineButton = ({
       {variant === "row" ? (
         <button
           className={clsx(
-            "flex items-center gap-3 w-full text-left cursor-pointer peer text-sm px-2 py-2 rounded-lg",
+            "flex items-center w-full text-left cursor-pointer peer text-sm px-2 py-2 rounded-lg",
             tone === "light"
               ? "text-gray-900 hover:bg-gray-50"
               : "text-white/80 hover:text-white hover:bg-white/5"
           )}
           onClick={toggleMobile}
         >
-          <Icon type="calendar" className="text-lg" />
-          <I18N id="timeline.header" />
+          <Icon type="calendar" className="text-lg shrink-0" />
+          <span className={fadeLabelClass(!collapsed)}>
+            <I18N id="timeline.header" />
+          </span>
         </button>
       ) : (
         <HeadButton onClick={toggleMobile} icon="calendar" />

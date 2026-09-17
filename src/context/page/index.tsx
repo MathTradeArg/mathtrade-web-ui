@@ -79,7 +79,7 @@ export const PageContext = createContext({
   setShowPreviewWantGroupModal: (_value?: any) => {},
   tooglePreviewWantGroupModal: (_value?: any) => {},
   //
-  filterData: {},
+  filterData: {} as Record<string, any>,
   setFilterData: (_value?: any) => {},
   //
   mustConfirm: false,
@@ -222,7 +222,7 @@ const PageContextProvider = ({ children = null }) => {
     setShowPreviewWantGroupModal((v) => !v);
   }, []);
 
-  const [filterData, setFilterData] = useState({});
+  const [filterData, setFilterData] = useState<Record<string, any>>({});
 
   const [mustConfirm, setMustConfirm] = useState(false);
   const [mustConfirmDate, setMustConfirmDate] = useState(null);

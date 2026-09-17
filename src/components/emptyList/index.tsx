@@ -14,7 +14,7 @@ const EmptyList = ({
     return null;
   }
 
-  if (!ctaText) {
+  if (!ctaText && !icon) {
     return (
       <div className="text-center italic font-bold text-xl text-gray-600 py-4">
         <I18N id={message || "EmptyList"} />
@@ -32,12 +32,14 @@ const EmptyList = ({
       <div className="text-gray-600 max-w-sm mx-auto mb-4">
         <I18N id={message || "EmptyList"} />
       </div>
-      <Link
-        href={ctaHref}
-        className="inline-flex items-center gap-1.5 font-bold text-white bg-primary px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity"
-      >
-        <I18N id={ctaText} />
-      </Link>
+      {ctaText && ctaHref ? (
+        <Link
+          href={ctaHref}
+          className="inline-flex items-center gap-1.5 font-bold text-white bg-primary px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity"
+        >
+          <I18N id={ctaText} />
+        </Link>
+      ) : null}
     </div>
   );
 };

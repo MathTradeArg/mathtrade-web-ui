@@ -1,27 +1,31 @@
 import clsx from "clsx";
 
-const TradeArrows = ({ inverted = false }) => {
+export const FlowArrow = ({ tone = "want" }: { tone?: "want" | "give" }) => {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fillRule="evenodd"
-      strokeLinejoin="round"
-      strokeMiterlimit="2"
-      clipRule="evenodd"
-      viewBox="0 0 73 70"
-      className={clsx({ "rotate-180": inverted })}
+    <div
+      className={clsx(
+        "self-center shrink-0 text-lg font-bold leading-none px-0.5 sm:px-1",
+        tone === "want" ? "text-want" : "text-secondary"
+      )}
+      aria-hidden
     >
-      <path
-        fill="#00B86B"
-        d="M605.499 438.592v-15.577h56.894V408.55l37.294 22.253-37.294 22.254v-14.465h-56.894z"
-        transform="translate(-585.728 -357.359) matrix(.77427 0 0 .80568 116.91 28.2)"
-      ></path>
-      <path
-        fill="#FF6E6F"
-        d="M605.499 438.592v-15.577h55.817V408.55l38.371 22.253-38.371 22.254v-14.465h-55.817z"
-        transform="translate(-585.728 -357.359) matrix(-.71057 0 0 -.76074 1085.9 738.018)"
-      ></path>
-    </svg>
+      →
+    </div>
+  );
+};
+
+const TradeArrows = ({ padded = true }: { padded?: boolean }) => {
+  return (
+    <div
+      className={clsx(
+        "w-7 shrink-0 text-center text-base font-bold leading-[1.15] px-0.5 sm:px-0",
+        padded ? "pt-10 sm:pt-[72px]" : "self-center"
+      )}
+      aria-hidden
+    >
+      <div className="text-secondary">→</div>
+      <div className="text-want">←</div>
+    </div>
   );
 };
 

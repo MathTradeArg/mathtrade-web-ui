@@ -35,7 +35,15 @@ const MyCollectionPage = () => {
 
   return (
     <>
-      <PageHeader variant="compact" title="title.MyCollection" helpId="page.myCollection" />
+      <PageHeader
+        variant="compact"
+        title="title.MyCollection"
+        helpId="page.myCollection"
+        alert={
+          canI?.want ? <I18N id="collection.offerClosed.wants" /> : null
+        }
+        alertTone="warning"
+      />
       <SectionCommon loading={loading}>
         <GotoTopContextProvider>
           <StickyHeader>
@@ -65,7 +73,7 @@ const MyCollectionPage = () => {
           </StickyHeader>
 
           <div className="md:px-7 px-3 py-7">
-            <Faq data={collectionFaq} translate />
+            <Faq data={collectionFaq} translate accent />
             <ElementWrapperOuter>
               <NewElement />
             </ElementWrapperOuter>

@@ -12,11 +12,9 @@ const VisualSectionUI = ({ wantGroup = {}, myItemList = [] }) => {
           <I18N id="wantview.IwantToReceive" />
         </h3>
         <div className="sticky top-14">
-          <div className="flex">
+          <div className="flex items-start">
             <WantGroupUI wantGroup={wantGroup} />
-            <div className="pt-12 sm:px-4 px-1 sm:w-[72px] w-[24px]">
-              <TradeArrows />
-            </div>
+            <TradeArrows />
           </div>
         </div>
       </div>

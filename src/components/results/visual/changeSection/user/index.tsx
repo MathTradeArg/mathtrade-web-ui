@@ -1,0 +1,66 @@
+"use client";
+import { useContext } from "react";
+import { ResultsContext } from "@/context/results";
+import { PageContext } from "@/context/page";
+import Avatar from "@/components/avatar";
+import I18N from "@/i18n";
+
+type ResultUser = {
+  id?: string | number;
+  first_name?: string;
+  last_name?: string;
+  avatar?: string | null;
+  location?: { name?: string };
+};
+
+export const UserCaption = ({
+  user = null,
+  side = "from",
+}: {
+  user?: ResultUser | null;
+  side?: "from" | "to";
+}) => {
+  if (!user) {
+    return null;
+  }
+
+  const name = `${user.first_name || ""} ${user.last_name || ""}`.trim();
+  const location = user.location?.name;
+
+  return (
+    <p className="text-caption text-gray-500 mt-1.5 mb-0 max-w-[8rem] sm:max-w-[8.5rem] leading-snug">
+      <I18N id={`results.person.${side}`} /> {name}
+      {location ? ` · ${location}` : ""}
+    </p>
+  );
+};
+
+const UserHub = () => {
+  const { currentUser } = useContext(ResultsContext);
+  const { userId, user } = useContext(PageContext);
+  const hub = currentUser || user;
+
+  if (!hub) {
+    return null;
+  }
+
+  const isSelf = String(hub.id) === String(userId);
+  const name = `${hub.first_name || ""} ${hub.last_name || ""}`.trim();
+
+  return (
+    <div className="self-center shrink-0 w-16 sm:w-[4.5rem] text-center px-0.5">
+      <div className="flex justify-center">
+        <Avatar
+          avatar={hub.avatar}
+          first_name={hub.first_name || ""}
+          width={40}
+        />
+      </div>
+      <p className="text-caption font-semibold mt-1.5 mb-0 leading-snug line-clamp-2">
+        {isSelf ? <I18N id="results.mySelf" /> : name || "—"}
+      </p>
+    </div>
+  );
+};
+
+export default UserHub;

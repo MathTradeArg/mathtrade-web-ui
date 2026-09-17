@@ -10,6 +10,7 @@ import HeadContent from "../head-content";
 import { useContext } from "react";
 import { PageContext } from "@/context/page";
 import clsx from "clsx";
+import { fadeLabelClass } from "@/components/sidebar/fadeLabel";
 
 type AccountMenuButtonProps = {
   // "row" renders name + "Ver cuenta" next to the avatar, for the sidebar's account row.
@@ -17,12 +18,14 @@ type AccountMenuButtonProps = {
   placement?: "below" | "right";
   // "dark" for the black sidebar, "light" for the white mobile sheet.
   tone?: "dark" | "light";
+  collapsed?: boolean;
 };
 
 const AccountMenuButton = ({
   variant = "header",
   placement = "below",
   tone = "dark",
+  collapsed = false,
 }: AccountMenuButtonProps = {}) => {
   const { user } = useStore((state) => state.data);
   const { show, visibleMobile, toggleMobile, signOut } = useHeaderAccount();
@@ -35,7 +38,7 @@ const AccountMenuButton = ({
   return show ? (
     <div className="relative">
       <div
-        className={clsx("cursor-pointer peer flex items-center gap-2", {
+        className={clsx("cursor-pointer peer flex items-center", {
           "w-full": isRow,
         })}
         onClick={toggleMobile}
@@ -46,7 +49,12 @@ const AccountMenuButton = ({
           width={32}
         />
         {isRow ? (
-          <>
+          <div
+            className={clsx(
+              "flex items-center min-w-0",
+              fadeLabelClass(!collapsed, "flex-1")
+            )}
+          >
             <div className="min-w-0 flex-1 text-left">
               <div
                 className={clsx(
@@ -72,7 +80,7 @@ const AccountMenuButton = ({
                 isLight ? "text-gray-400" : "text-white/40"
               )}
             />
-          </>
+          </div>
         ) : null}
       </div>
 

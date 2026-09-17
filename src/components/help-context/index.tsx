@@ -12,6 +12,7 @@ import {
   useRole,
   useInteractions,
   FloatingFocusManager,
+  FloatingPortal,
 } from "@floating-ui/react";
 import I18N from "@/i18n";
 import clsx from "clsx";
@@ -74,30 +75,32 @@ const HelpContext = ({ id, variant = "pill" }: HelpContextProps) => {
         </div>
       )}
       {isOpen && (
-        <FloatingFocusManager context={context} modal={false}>
-          <div
-            ref={refs.setFloating}
-            style={{ ...floatingStyles, zIndex: 70 }}
-            {...getFloatingProps()}
-            className={clsx(
-              "shadow-[0_1px_10px_rgba(0,0,0,0.2)] animate-fadein rounded-md flex",
-              isLink ? "min-w-[240px] max-w-lg" : "min-w-[200px] max-w-[300px]"
-            )}
-          >
-            <div className="text-3xl bg-orange-600 text-white rounded-tl-md rounded-bl-md p-2">
-              <div className="leading-none">
-                <Icon type="help3" />
+        <FloatingPortal>
+          <FloatingFocusManager context={context} modal={false}>
+            <div
+              ref={refs.setFloating}
+              style={{ ...floatingStyles, zIndex: 9999 }}
+              {...getFloatingProps()}
+              className={clsx(
+                "shadow-[0_1px_10px_rgba(0,0,0,0.2)] animate-fadein rounded-md flex",
+                isLink ? "min-w-[240px] max-w-lg" : "min-w-[200px] max-w-[300px]"
+              )}
+            >
+              <div className="text-3xl bg-orange-600 text-white rounded-tl-md rounded-bl-md p-2">
+                <div className="leading-none">
+                  <Icon type="help3" />
+                </div>
               </div>
-            </div>
 
-            <div className="bg-white border border-orange-600 px-3 pb-2 rounded-tr-md rounded-br-md text-sm leading-6 text-gray-900">
-              <div className="font-bold border-b border-gray-300 py-1 mb-2 text-gray-600 italic">
-                <I18N id={`helpcontext.title.${id}`} />
+              <div className="bg-white border border-orange-600 px-3 pb-2 rounded-tr-md rounded-br-md text-sm leading-6 text-gray-900">
+                <div className="font-bold border-b border-gray-300 py-1 mb-2 text-gray-600 italic">
+                  <I18N id={`helpcontext.title.${id}`} />
+                </div>
+                <I18N id={`helpcontext.answer.${id}`} />
               </div>
-              <I18N id={`helpcontext.answer.${id}`} />
             </div>
-          </div>
-        </FloatingFocusManager>
+          </FloatingFocusManager>
+        </FloatingPortal>
       )}
     </>
   );
