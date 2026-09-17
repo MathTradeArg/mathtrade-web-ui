@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import Icon from "@/components/icon";
 import I18N, { getI18Ntext } from "@/i18n";
@@ -9,7 +9,8 @@ import NavItem from "../NavItem";
 import MoreSheet from "./MoreSheet";
 
 const TabBar = () => {
-  const { items, isActive, lockedInfo } = useSidebarNav();
+  const { items, isActive, lockedInfo, provisionalWindowActive } =
+    useSidebarNav();
   const [sheetOpen, setSheetOpen] = useState(false);
   const pathname = usePathname();
 
@@ -17,8 +18,19 @@ const TabBar = () => {
     setSheetOpen(false);
   }, [pathname]);
 
-  const primary = items.filter((entry) => entry.mobilePrimary);
-  const rest = items.filter((entry) => !entry.mobilePrimary);
+  const primary = useMemo(() => {
+    return items.filter((entry) => {
+      if (entry.key === "PROVISIONAL_RESULTS") return provisionalWindowActive;
+      if (entry.key === "RESULTS") {
+        return Boolean(entry.mobilePrimary) && !provisionalWindowActive;
+      }
+      return Boolean(entry.mobilePrimary);
+    });
+  }, [items, provisionalWindowActive]);
+
+  const rest = items.filter(
+    (entry) => !primary.some((primaryEntry) => primaryEntry.key === entry.key)
+  );
 
   return (
     <>

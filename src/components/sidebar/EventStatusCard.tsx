@@ -35,6 +35,9 @@ const EventStatusCard = ({ collapsed = false }: { collapsed?: boolean }) => {
         days: daysLeftUntil(mathtrade.freeze_wants_date),
       };
     }
+    if (canI?.provisionalResults && !canI?.results) {
+      return { titleId: "menu.stage.provisional", days: null };
+    }
     if (canI?.results) {
       return { titleId: "menu.stage.results", days: null };
     }

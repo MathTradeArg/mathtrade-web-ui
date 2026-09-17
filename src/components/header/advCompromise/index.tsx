@@ -12,14 +12,11 @@ import Wrapper from "@/components/wrapper";
 const AdvCompromise = () => {
   const [showAdvice, setShowAdvice] = useState(true);
 
-  /* PAGE CONTEXT **********************************************/
   const { mustConfirm, setMustConfirm, setMustConfirmDate, userId, canI } =
     useContext(PageContext);
-  /* end PAGE CONTEXT **********************************************/
 
-  // MY USER ************************************************
   const afterLoadMyUser = useCallback(
-    (user) => {
+    (user: any) => {
       if (typeof user.commitment !== "undefined") {
         setMustConfirm(!user.commitment);
       }
@@ -40,11 +37,10 @@ const AdvCompromise = () => {
     afterLoad: afterLoadMyUser,
     autoLoad: true,
   });
-  // end MY USER ********************************************
 
   return showAdvice && mustConfirm && !canI.offer && canI.commit ? (
     <Wrapper className="mt-main">
-      <div className="bg-red-600 w-full z-[998] text-white text-center p-2 shadow-main rounded-main">
+      <div className="relative bg-red-600 w-full z-[998] text-white text-center p-2 shadow-main rounded-main">
         <I18N id="AdvCompromise" />
         <Link
           href={PRIVATE_ROUTES.WANTS.path}
