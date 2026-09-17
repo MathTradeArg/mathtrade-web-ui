@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useMemo, useState, useContext } from "react";
+import { createContext, useMemo, useState, useContext, useEffect } from "react";
 import { getI18Ntext } from "@/i18n";
 import { PageContext } from "@/context/page";
 
@@ -7,8 +7,9 @@ export const GameContext = createContext({
   gameRaw: null,
   game: null,
   showAsIgnored: false,
-  setShowAsIgnored: (_value) => {},
-  setUpdatedValue: (_value) => {},
+  setShowAsIgnored: (_value?: any) => {},
+  setBanId: (_value?: any) => {},
+  setUpdatedValue: (_value?: any) => {},
   wantGroup: null,
 });
 
@@ -16,14 +17,19 @@ export const GameContextProvider = ({ gameRaw = null, children = null }) => {
   const { myWants } = useContext(PageContext);
 
   const [showAsIgnored, setShowAsIgnored] = useState(false);
+  const [banIdOverride, setBanIdOverride] = useState(undefined);
   const [updatedValue, setUpdatedValue] = useState(null);
+
+  useEffect(() => {
+    setShowAsIgnored(false);
+    setBanIdOverride(undefined);
+  }, [gameRaw]);
 
   const game = useMemo(() => {
     if (!gameRaw) {
       return null;
     }
 
-    setShowAsIgnored(false);
     const {
       bgg_id,
       year,
@@ -54,12 +60,12 @@ export const GameContextProvider = ({ gameRaw = null, children = null }) => {
       year: year ?? year_published,
       items,
       itemCount: items?.length || 1,
-      ban_id,
+      ban_id: banIdOverride !== undefined ? banIdOverride : ban_id,
       notGame,
       value: value || updatedValue,
       isSameBGGId,
     };
-  }, [gameRaw, updatedValue]);
+  }, [gameRaw, updatedValue, banIdOverride]);
 
   const wantGroup = useMemo(() => {
     if (!myWants?.length) {
@@ -79,6 +85,7 @@ export const GameContextProvider = ({ gameRaw = null, children = null }) => {
         game,
         showAsIgnored,
         setShowAsIgnored,
+        setBanId: setBanIdOverride,
         setUpdatedValue,
         wantGroup,
       }}

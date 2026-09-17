@@ -18,6 +18,7 @@ export const ItemContext = createContext({
   loadingItem: false,
   showAsIgnored: false,
   setShowAsIgnored: (_value) => {},
+  setBanId: (_value) => {},
   //
   wantGroup: null,
   otherWantGroups: [],
@@ -32,6 +33,10 @@ export const ItemContextProvider = ({ itemRaw, children }) => {
   const [itemLoaded, setItemLoaded] = useState(itemRaw);
 
   const [showAsIgnored, setShowAsIgnored] = useState(false);
+
+  const setBanId = useCallback((id) => {
+    setItemLoaded((old) => (old ? { ...old, ban_id: id } : old));
+  }, []);
 
   /* RELOAD ITEM ***************************/
 
@@ -51,13 +56,13 @@ export const ItemContextProvider = ({ itemRaw, children }) => {
 
   useEffect(() => {
     setItemLoaded(itemRaw);
+    setShowAsIgnored(false);
   }, [itemRaw]);
 
   /* end RELOAD ITEM ***************************/
 
   /* ITEM ***************************/
   const item = useMemo(() => {
-    setShowAsIgnored(false);
     if (!itemLoaded) {
       return null;
     }
@@ -166,6 +171,7 @@ export const ItemContextProvider = ({ itemRaw, children }) => {
         loadingItem,
         showAsIgnored,
         setShowAsIgnored,
+        setBanId,
         //
         wantGroup,
         otherWantGroups,

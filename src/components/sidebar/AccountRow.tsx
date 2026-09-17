@@ -5,7 +5,8 @@ const AccountRow = ({ collapsed }: { collapsed: boolean }) => {
   return (
     <div className="px-1">
       <AccountMenuButton
-        variant={collapsed ? "header" : "row"}
+        variant="row"
+        collapsed={collapsed}
         placement="right"
       />
     </div>

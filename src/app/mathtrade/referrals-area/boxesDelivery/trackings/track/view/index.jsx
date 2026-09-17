@@ -71,7 +71,7 @@ const View = ({ track }) => {
               return (
                 <div
                   key={id}
-                  className=" bg-item-100 border border-item-400 font-bold rounded px-2  py-1 text-sm"
+                  className="bg-gray-100 border border-gray-300 font-bold rounded px-2 py-1 text-sm"
                 >
                   {`Caja Nº ${number}`}
                 </div>

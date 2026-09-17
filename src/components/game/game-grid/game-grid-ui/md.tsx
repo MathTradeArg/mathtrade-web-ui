@@ -9,7 +9,7 @@ import clsx from "clsx";
 import WantButtonGame from "./wantButtonGame";
 import ItemNoBGG from "./itemNoBgg";
 import BadgeType from "@/components/badgeType";
-import { resolveCardKind, cardKindBorderClass } from "@/components/badgeType/cardKind";
+import { resolveGameKind, cardKindBorderClass } from "@/components/badgeType/cardKind";
 import useBGGdata from "@/components/bggInfo/useBGGdata";
 import { NO_RANK_VALUE } from "@/config/no-bgggame";
 
@@ -58,18 +58,7 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
   };
   const showBGGstats = !notGame && isInBGG;
   const filledDots = Math.min(5, Math.max(0, Math.round(weight || 0)));
-
-  // The backend buckets combo items (several different games bundled as
-  // one item) under the same "no BGG match" placeholder as genuine
-  // out-of-BGG items — tell them apart by the underlying item's element
-  // count so combos get the combo badge/color, not "fuera de la BGG".
-  const isComboItem = !!notGame && (items?.[0]?.elements?.length || 0) > 1;
-  const isTrueNotGame = !!notGame && !isComboItem;
-  const cardKind = resolveCardKind({
-    isCombo: isComboItem,
-    isTrueNotGame,
-    isExpansion: !isComboItem && typeNum === 2,
-  });
+  const cardKind = resolveGameKind({ notGame, typeNum });
 
   return (
     <div
@@ -102,8 +91,7 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
           <div className="flex items-center justify-between gap-2 w-full">
             <BadgeType
               type="game"
-              subtype={isTrueNotGame ? 3 : typeNum || 1}
-              isCombo={isComboItem}
+              subtype={notGame ? 3 : typeNum || 1}
             />
             <div className="flex items-center gap-2 shrink-0">
               <BanButton size="md" type="game" />

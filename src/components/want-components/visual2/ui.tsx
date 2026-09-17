@@ -12,11 +12,9 @@ const VisualSectionUI = ({ item = null }) => {
           <I18N id="wantview.InchangeOf" />
         </h3>
         <div className="sticky top-14">
-          <div className="flex">
+          <div className="flex items-start">
             <ItemVisual2 itemRaw={item} />
-            <div className="pt-12 sm:px-4 px-1 sm:w-[72px] w-[24px]">
-              <TradeArrows inverted />
-            </div>
+            <TradeArrows />
           </div>
         </div>
       </div>

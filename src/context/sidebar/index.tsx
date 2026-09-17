@@ -7,6 +7,7 @@ export const SidebarContext = createContext({
   visibleSidebar: false,
   toggleSidebar: (_value?: any) => {},
   hideSidebar: (_value?: any) => {},
+  closeSidebar: (_value?: any) => {},
 });
 
 export const SidebarContextProvider = ({ name = null, children = null }) => {
@@ -31,6 +32,10 @@ export const SidebarContextProvider = ({ name = null, children = null }) => {
     }
   }, []);
 
+  const closeSidebar = useCallback(() => {
+    setVisibleSidebar(false);
+  }, []);
+
   useEffect(() => {
     if (name) {
       updateOptions({
@@ -45,6 +50,7 @@ export const SidebarContextProvider = ({ name = null, children = null }) => {
         name,
         visibleSidebar,
         hideSidebar,
+        closeSidebar,
         toggleSidebar,
       }}
     >

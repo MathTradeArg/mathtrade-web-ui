@@ -17,9 +17,10 @@ type PageHeaderProps = {
   meta?: ReactNode;
   helpId?: string;
   help?: ReactNode;
-  // High-risk warning that must stay visible (e.g. my-wants). Lives under
-  // the header, not inside it, so the header itself stays ≤ 80px.
+  // Visible banner under the header (header itself stays ≤ 80px).
+  // danger: high-risk (e.g. duplicate copies). warning: stage/constraint.
   alert?: ReactNode;
+  alertTone?: "danger" | "warning";
   children?: ReactNode;
 };
 
@@ -31,6 +32,7 @@ const PageHeader = ({
   helpId,
   help = null,
   alert = null,
+  alertTone = "danger",
   children = null,
 }: PageHeaderProps) => {
   if (!title && !children) {
@@ -93,7 +95,18 @@ const PageHeader = ({
           </>
         )}
       </header>
-      {alert ? <div className="mt-2">{alert}</div> : null}
+      {alert ? (
+        <div
+          className={clsx(
+            "mt-2 rounded-lg border px-4 py-2.5 text-body",
+            alertTone === "warning"
+              ? "border-orange-700 bg-orange-500 text-white font-semibold"
+              : "border-red-200 bg-red-50 text-red-800"
+          )}
+        >
+          {alert}
+        </div>
+      ) : null}
       </div>
     </Wrapper>
   );

@@ -12,10 +12,10 @@ const UtilityRow = ({ collapsed }: { collapsed: boolean }) => {
   return (
     <div className="flex flex-col gap-1 mb-2">
       {hasMathtrade ? (
-        <TimelineButton variant={collapsed ? "header" : "row"} placement="right" />
+        <TimelineButton variant="row" collapsed={collapsed} placement="right" />
       ) : null}
-      <NotificationsButton variant={collapsed ? "header" : "row"} placement="right" />
-      <HelpButton variant={collapsed ? "header" : "row"} placement="right" />
+      <NotificationsButton variant="row" collapsed={collapsed} placement="right" />
+      <HelpButton variant="row" collapsed={collapsed} placement="right" />
     </div>
   );
 };

@@ -2,7 +2,6 @@
 import { useState, useEffect, useContext, lazy } from "react";
 import { useOptions } from "@/store";
 import clsx from "clsx";
-import TradeArrows from "@/components/svg/trade-arrows";
 import I18N from "@/i18n";
 import { GotoTopContext } from "@/context/goto-top";
 import Dynamic from "@/components/dynamic";
@@ -31,8 +30,8 @@ const TabVisual = ({
       }}
     >
       <I18N id={`screenViewOffer.tab.${val}`} />
-      <span className="w-3.5">
-        <TradeArrows inverted={val === 1} />
+      <span className={val === 0 ? "text-secondary" : "text-want"} aria-hidden>
+        →
       </span>
       <I18N id={`screenViewOffer.tab.${val === 0 ? 1 : 0}`} />
     </button>
