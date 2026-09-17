@@ -52,7 +52,8 @@ const NavRows = ({
                   locked={Boolean(locked)}
                   title={title}
                   className={clsx(
-                    "flex items-center rounded-[10px] text-sm font-semibold transition-colors relative h-11 px-2.5 w-full",
+                    "flex items-center rounded-[10px] text-sm font-semibold transition-colors relative h-11 w-full",
+                    collapsed ? "justify-center px-0" : "px-2.5",
                     locked
                       ? "text-[#6b7280] cursor-default"
                       : active
@@ -60,7 +61,18 @@ const NavRows = ({
                         : "text-[#c9ced4] hover:bg-white/5 hover:text-white"
                   )}
                 >
-                  <Icon type={entry.icon} className="text-lg shrink-0" />
+                  <span className="relative shrink-0">
+                    <Icon type={entry.icon} className="text-lg" />
+                    {locked ? (
+                      <Icon
+                        type="lock"
+                        className={clsx(
+                          "absolute -right-1.5 -bottom-0.5 text-[9px] transition-opacity duration-200",
+                          collapsed ? "opacity-80" : "opacity-0"
+                        )}
+                      />
+                    ) : null}
+                  </span>
                   <span className={fadeLabelClass(!collapsed)}>
                     <I18N id={entry.titleI18nKey} />
                   </span>
@@ -72,15 +84,6 @@ const NavRows = ({
                         collapsed
                           ? "max-w-0 opacity-0 ml-0"
                           : "ml-auto"
-                      )}
-                    />
-                  ) : null}
-                  {locked ? (
-                    <Icon
-                      type="lock"
-                      className={clsx(
-                        "absolute left-7 top-1 text-[10px] transition-opacity duration-200",
-                        collapsed ? "opacity-80" : "opacity-0"
                       )}
                     />
                   ) : null}

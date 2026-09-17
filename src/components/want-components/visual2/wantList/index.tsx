@@ -1,4 +1,5 @@
 "use client";
+import clsx from "clsx";
 import useWantList from "./useWantList";
 import I18N from "@/i18n";
 import WantGroupVisual2 from "./wantGroup";
@@ -16,31 +17,40 @@ const WantListVisual2 = ({ item = null }) => {
     canIwant,
   } = useWantList(item);
 
+  const isEmpty = !wantsAdded.length;
+  const canAdd = wantsToAdd.length > 0 && canIwant;
+
   return (
     <>
-      {!wantsAdded.length ? (
-        <h4 className="mb-5 italic text-gray-500">
-          <I18N id="notOfferedVisual2" />
-        </h4>
-      ) : null}
-      <div className="flex flex-wrap gap-3">
-        {wantsAdded.length
-          ? wantsAdded.map((wantGroup) => {
-              return (
-                <WantGroupVisual2
-                  key={wantGroup.id}
-                  wantGroup={wantGroup}
-                  itemId={itemId}
-                />
-              );
-            })
-          : null}
+      <div
+        className={clsx(
+          "flex flex-wrap gap-3",
+          isEmpty && "flex-1 items-stretch min-w-0"
+        )}
+      >
+        {wantsAdded.map((wantGroup) => (
+          <WantGroupVisual2
+            key={wantGroup.id}
+            wantGroup={wantGroup}
+            itemId={itemId}
+          />
+        ))}
 
-        {wantsToAdd.length && canIwant ? (
-          <WantAddTile open={addOpen} onToggle={toggleAddOpen} />
+        {canAdd ? (
+          <WantAddTile
+            open={addOpen}
+            onToggle={toggleAddOpen}
+            size={isEmpty ? "anchor" : "mini"}
+            caption={isEmpty ? "notOfferedVisual2" : ""}
+            className={isEmpty ? "h-full w-full" : ""}
+          />
+        ) : isEmpty ? (
+          <p className="italic text-gray-500 text-sm max-w-[11rem]">
+            <I18N id="notOfferedVisual2" />
+          </p>
         ) : null}
       </div>
-      {addOpen && wantsToAdd.length && canIwant ? (
+      {addOpen && wantsToAdd.length > 0 && canIwant ? (
         <div
           className="bg-white mt-4 sm:p-4 p-3 border border-gray-200 rounded-xl relative z-10"
           ref={addPadRef}

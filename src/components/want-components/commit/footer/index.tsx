@@ -1,3 +1,4 @@
+"use client";
 import { PageContext } from "@/context/page";
 import { MyWantsContext } from "@/context/myWants/all";
 import { useContext } from "react";
@@ -5,38 +6,38 @@ import I18N from "@/i18n";
 import CommitButton from "./commitButton";
 import { useOptions } from "@/store";
 
-const CommitFooter = ({ acceptNum, changeScreenViewOffer }) => {
+const CommitFooter = ({
+  acceptNum,
+  changeScreenViewOffer,
+}: {
+  acceptNum: "1" | "2";
+  changeScreenViewOffer: () => void;
+}) => {
   const { mustConfirm, isUserEarlyPay } = useContext(PageContext);
 
-  /* FILTER OPTIONS **********************************************/
   const filters_wants = useOptions((state) => state.filters_wants);
-  /* end FILTER OPTIONS *********************************************/
 
   const { acceptChecksCommit, setAcceptChecksCommit, isLoadedWants } =
     useContext(MyWantsContext);
+
+  const chromePad =
+    "pb-[calc(14rem+env(safe-area-inset-bottom,0px))] lg:pb-28";
 
   if (isUserEarlyPay || !isLoadedWants) {
     return null;
   }
 
   if (filters_wants.keyword) {
-    return (
-      <div className="border-t-2 border-gray-300 py-10">
-        <div className="max-w-3xl mx-auto text-center text-balance">
-          <I18N id="CommitFooterVisual.clearFilter" />
-        </div>
-      </div>
-    );
+    return <div className={chromePad} />;
   }
 
   return mustConfirm ? (
-    <div className="border-t-2 border-gray-300 py-10">
+    <div className={`border-t-2 border-gray-300 pt-10 ${chromePad}`}>
       <div className="max-w-3xl mx-auto">
         <label className="flex items-start justify-center gap-4 mb-3">
           <div className="pt-1">
             <input
               type="checkbox"
-              className=""
               checked={acceptChecksCommit[`accept_${acceptNum}`]}
               onChange={(e) => {
                 setAcceptChecksCommit((oldAcceptChecksCommit) => {
@@ -72,7 +73,9 @@ const CommitFooter = ({ acceptNum, changeScreenViewOffer }) => {
         )}
       </div>
     </div>
-  ) : null;
+  ) : (
+    <div className={chromePad} />
+  );
 };
 
 export default CommitFooter;

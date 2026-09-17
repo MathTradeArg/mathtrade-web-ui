@@ -108,7 +108,8 @@ const NotificationsButton = ({
       {variant === "row" ? (
         <button
           className={clsx(
-            "flex items-center w-full text-left cursor-pointer peer text-sm px-2 py-2 rounded-lg",
+            "flex items-center w-full cursor-pointer peer text-sm py-2 rounded-lg",
+            collapsed ? "justify-center px-0" : "text-left px-2",
             tone === "light"
               ? "text-gray-900 hover:bg-gray-50"
               : "text-white/80 hover:text-white hover:bg-white/5"

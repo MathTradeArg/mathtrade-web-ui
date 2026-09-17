@@ -10,7 +10,7 @@ const UtilityRow = ({ collapsed }: { collapsed: boolean }) => {
   const hasMathtrade = Boolean(mathtrade && Object.keys(mathtrade).length > 0);
 
   return (
-    <div className="flex flex-col gap-1 mb-2">
+    <div className="flex flex-col gap-1 mb-2 w-full">
       {hasMathtrade ? (
         <TimelineButton variant="row" collapsed={collapsed} placement="right" />
       ) : null}

@@ -59,6 +59,14 @@ export const PRIMARY_NAV: NavEntry[] = [
   },
 ];
 
+// Desktop reaches home via the logo; on mobile it lives in the "Más" sheet.
+export const HOME_ENTRY: NavEntry = {
+  key: "HOME",
+  path: PRIVATE_ROUTES.HOME.path,
+  titleI18nKey: "menu.home",
+  icon: "home",
+};
+
 // Added only when the user has no membership yet but can sign up (mirrors MenuListNotSignedToMathtrade).
 export const SIGN_TO_MATHTRADE_ENTRY: NavEntry = {
   key: "SIGN_TO_MATHTRADE",

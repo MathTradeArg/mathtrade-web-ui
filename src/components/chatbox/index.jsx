@@ -2,34 +2,41 @@
 import { useContext, useEffect } from "react";
 import { PageContext } from "@/context/page";
 
+const iconBottom = () =>
+  window.matchMedia("(min-width: 1024px)").matches
+    ? "30px"
+    : // Tab bar (~3.5rem) plus the wants/list footer that sits above it.
+      "calc(7.25rem + env(safe-area-inset-bottom, 0px))";
+
 const ChatBoxButton = () => {
-  /* PAGE CONTEXT **********************************************/
   const { userId } = useContext(PageContext);
 
   useEffect(() => {
-    let dfMessenger = null;
-
-    const onLoaded = function (event) {
-      document
-        .querySelector("df-messenger")
-        .shadowRoot.querySelector(".df-messenger-wrapper")
-        .querySelector("#widgetIcon").style.bottom = "30px";
-    };
-
-    if (window) {
-      const dfMessenger = document.querySelector("df-messenger");
-      dfMessenger.addEventListener("df-messenger-loaded", onLoaded);
+    const dfMessenger = document.querySelector("df-messenger");
+    if (!dfMessenger) {
+      return undefined;
     }
 
-    return () => {
-      if (window && dfMessenger) {
-        dfMessenger.removeEventListener("df-messenger-loaded", onLoaded);
+    const applyBottom = () => {
+      const icon = dfMessenger.shadowRoot?.querySelector("#widgetIcon");
+      if (icon) {
+        icon.style.bottom = iconBottom();
+        icon.style.zIndex = "45";
       }
+    };
+
+    dfMessenger.addEventListener("df-messenger-loaded", applyBottom);
+    applyBottom();
+    window.addEventListener("resize", applyBottom);
+
+    return () => {
+      dfMessenger.removeEventListener("df-messenger-loaded", applyBottom);
+      window.removeEventListener("resize", applyBottom);
     };
   }, []);
 
   return (
-    <div className="relative z-[99999999]">
+    <div className="relative z-40">
       <df-messenger
         chat-icon="https:&#x2F;&#x2F;www.mathtrade.com.ar&#x2F;chatbox.png"
         intent="WELCOME"

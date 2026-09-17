@@ -11,15 +11,18 @@ import ListSearch from "@/components/list-toolbar/search";
 import { useOptions } from "@/store";
 import { useContext } from "react";
 import { GotoTopContext } from "@/context/goto-top";
+import { PageContext } from "@/context/page";
 import useSidebarNav from "@/components/sidebar/useSidebarNav";
 
 const Footer = () => {
   const { emptyWants, enabledBtn, changesCount, onClick, loading } =
     useFooter();
   const { gotoTop } = useContext(GotoTopContext);
+  const { isUserEarlyPay } = useContext(PageContext);
   const { collapsed } = useSidebarNav();
   const filters = useOptions((state) => state.filters_wants);
   const updateFilters = useOptions((state) => state.updateFilters);
+  const showClearHint = Boolean(!isUserEarlyPay && filters?.keyword);
 
   if (emptyWants) {
     return null;
@@ -35,6 +38,23 @@ const Footer = () => {
           )}
         >
           <Wrapper>
+            {showClearHint ? (
+              <div className="mb-2 px-3 py-2.5 rounded-xl bg-amber-50 border border-amber-200 flex items-center gap-2.5">
+                <p className="text-sm font-semibold text-amber-950 leading-snug flex-1 min-w-0">
+                  <I18N id="CommitFooterVisual.clearFilter" />
+                </p>
+                <button
+                  type="button"
+                  className="shrink-0 h-8 px-3 rounded-full bg-white border border-amber-300 text-caption font-bold text-amber-950 hover:bg-amber-100"
+                  onClick={() => {
+                    gotoTop();
+                    updateFilters({ keyword: undefined }, "wants");
+                  }}
+                >
+                  <I18N id="CommitFooterVisual.clearFilter.btn" />
+                </button>
+              </div>
+            ) : null}
             <ListToolbar
               className="rounded-main border border-gray-200 shadow-sm max-w-full min-w-0"
               search={

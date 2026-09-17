@@ -28,7 +28,7 @@ export const UserCaption = ({
   const location = user.location?.name;
 
   return (
-    <p className="text-caption text-gray-500 mt-1.5 mb-0 max-w-[8rem] sm:max-w-[8.5rem] leading-snug">
+    <p className="text-caption text-gray-500 mt-1.5 mb-0 max-w-full leading-snug break-words">
       <I18N id={`results.person.${side}`} /> {name}
       {location ? ` · ${location}` : ""}
     </p>
@@ -48,7 +48,7 @@ const UserHub = () => {
   const name = `${hub.first_name || ""} ${hub.last_name || ""}`.trim();
 
   return (
-    <div className="self-center shrink-0 w-16 sm:w-[4.5rem] text-center px-0.5">
+    <div className="shrink-0 w-16 sm:w-[4.5rem] text-center px-0.5">
       <div className="flex justify-center">
         <Avatar
           avatar={hub.avatar}
