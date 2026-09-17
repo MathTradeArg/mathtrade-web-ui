@@ -12,6 +12,7 @@ const CommitHeaderVisual = () => {
 
   /* FILTER OPTIONS **********************************************/
   const filters_wants = useOptions((state) => state.filters_wants);
+  const updateFilters = useOptions((state) => state.updateFilters);
   /* end FILTER OPTIONS *********************************************/
 
   if (mustConfirm && !canI.commit) {
@@ -33,9 +34,20 @@ const CommitHeaderVisual = () => {
           <I18N id="CommitHeaderVisual.text" />
         </div>
         {filters_wants.keyword ? (
-          <div className="border-b-2 border-gray-300 pb-10">
-            <div className="max-w-3xl mx-auto text-center text-balance font-bold">
-              <I18N id="CommitFooterVisual.clearFilter" />
+          <div className="border-b-2 border-gray-300 pb-6">
+            <div className="max-w-3xl mx-auto text-center">
+              <p className="text-balance font-bold mb-3">
+                <I18N id="CommitFooterVisual.clearFilter" />
+              </p>
+              <button
+                type="button"
+                className="h-8 px-4 rounded-full border border-gray-300 bg-white text-caption font-bold hover:bg-gray-50"
+                onClick={() =>
+                  updateFilters({ keyword: undefined }, "wants")
+                }
+              >
+                <I18N id="CommitFooterVisual.clearFilter.btn" />
+              </button>
             </div>
           </div>
         ) : null}

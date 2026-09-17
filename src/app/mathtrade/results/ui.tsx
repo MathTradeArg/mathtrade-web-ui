@@ -46,6 +46,7 @@ export default function ResultsUI() {
   return (
     <div className="relative">
       <ListToolbar
+        align="end"
         leading={<UserSelector compact />}
         count={
           tradeCount ? (

@@ -1,20 +1,20 @@
-import { useContext, useCallback, useState, useEffect, useMemo } from "react";
+import { useContext, useCallback, useState, useEffect } from "react";
 import { ResultsContext } from "@/context/results";
 import { PageContext } from "@/context/page";
 import useFetch from "@/hooks/useFetch";
 
 const defaultScreenViewResults = 0;
 
-const useMT = (mtId) => {
-  /* SCREEN OPTIONS **********************************************/
+const useMT = (mtId: number) => {
   const [screenViewResults, setScreenViewResults] = useState(
     defaultScreenViewResults
   );
-  /* end SCREEN OPTIONS **********************************************/
 
-  /* RESULTS CONTEXT *****************************************/
+  const { userId } = useContext(PageContext);
   const {
     currentUserId,
+    setCurrentUserId,
+    setUserList,
     setMathTradeResults,
     MathTradeResults,
     setCustomMathtradeId,
@@ -22,11 +22,25 @@ const useMT = (mtId) => {
 
   useEffect(() => {
     setCustomMathtradeId(mtId);
-  }, [setCustomMathtradeId, mtId]);
+    setCurrentUserId(userId);
+  }, [setCustomMathtradeId, mtId, setCurrentUserId, userId]);
 
-  /* end RESULTS CONTEXT *****************************************/
+  const afterLoadUsers = useCallback(
+    (newUserList) => {
+      setUserList(newUserList || []);
+    },
+    [setUserList]
+  );
+  const [getUsers, , loadingUsers] = useFetch({
+    endpoint: "GET_MATHTRADE_USERS",
+    initialState: [],
+    afterLoad: afterLoadUsers,
+  });
 
-  /* GET USERS *************************************************/
+  useEffect(() => {
+    getUsers({ mathtradeId: mtId });
+  }, [getUsers, mtId]);
+
   const afterLoad = useCallback(
     ({ results }) => {
       setMathTradeResults(results);
@@ -35,24 +49,25 @@ const useMT = (mtId) => {
   );
   const [getMathTradeResults, , loading, error] = useFetch({
     endpoint: "GET_MT_RESULTS_HISTORIAL",
-    //autoLoad: true,
     initialState: [],
     afterLoad,
   });
 
   useEffect(() => {
+    if (!currentUserId) {
+      return;
+    }
     getMathTradeResults({
       params: { user: currentUserId, page_size: 200 },
       urlParams: [mtId],
     });
-  }, [getMathTradeResults, setMathTradeResults, currentUserId, mtId]);
-  // end GET USERS ********************************************
+  }, [getMathTradeResults, currentUserId, mtId]);
 
   return {
     screenViewResults,
     setScreenViewResults,
     MathTradeResults,
-    loading,
+    loading: loading || loadingUsers,
     error,
   };
 };

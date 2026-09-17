@@ -8,6 +8,8 @@ import { LoadingBox } from "@/components/loading";
 import ErrorAlert from "@/components/errorAlert";
 import EmptyList from "@/components/emptyList";
 import I18N from "@/i18n";
+import UserSelector from "@/components/results/userSelector";
+import ListToolbar from "@/components/list-toolbar";
 
 const ResultsVisual = lazy(() => import("@/components/results/visual"));
 const ResultsTable = lazy(() => import("@/components/results/table"));
@@ -46,20 +48,38 @@ const MtResultUI = ({ mt }: { mt: { id: number } }) => {
     MathTradeResults,
   } = useMT(mt.id);
 
+  const tradeCount = MathTradeResults?.length || 0;
+
   return (
     <div className="relative">
-      <div className="flex items-center justify-center gap-1.5 py-3 border-b border-gray-200">
-        <ViewPill
-          active={screenViewResults === 0}
-          onClick={() => setScreenViewResults(0)}
-          labelId="results.screen.visual"
-        />
-        <ViewPill
-          active={screenViewResults === 1}
-          onClick={() => setScreenViewResults(1)}
-          labelId="results.screen.grid"
-        />
-      </div>
+      <ListToolbar
+        align="end"
+        leading={<UserSelector compact />}
+        count={
+          tradeCount ? (
+            <>
+              {tradeCount}{" "}
+              <I18N
+                id={tradeCount === 1 ? "result.trade" : "result.trades"}
+              />
+            </>
+          ) : null
+        }
+        trailing={
+          <>
+            <ViewPill
+              active={screenViewResults === 0}
+              onClick={() => setScreenViewResults(0)}
+              labelId="results.screen.visual"
+            />
+            <ViewPill
+              active={screenViewResults === 1}
+              onClick={() => setScreenViewResults(1)}
+              labelId="results.screen.grid"
+            />
+          </>
+        }
+      />
       {screenViewResults === 0 ? (
         <Dynamic>
           <ResultsVisual forced />

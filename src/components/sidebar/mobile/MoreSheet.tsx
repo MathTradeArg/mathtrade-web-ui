@@ -1,5 +1,5 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Icon from "@/components/icon";
 import I18N from "@/i18n";
 import clsx from "clsx";
@@ -20,6 +20,12 @@ type MoreSheetProps = {
   lockedInfo?: Record<string, LockedInfo>;
 };
 
+// Sit above the tab bar so primary tabs stay tappable. No transform: the
+// calendar/help/account panels use position:fixed and a transform here
+// would trap and clip them inside the sheet.
+const aboveTabBar =
+  "bottom-[calc(3.5rem+env(safe-area-inset-bottom,0px))]";
+
 const MoreSheet = ({
   open,
   onClose,
@@ -30,12 +36,23 @@ const MoreSheet = ({
   const { mathtrade } = useContext(PageContext);
   const hasMathtrade = Boolean(mathtrade && Object.keys(mathtrade).length > 0);
 
+  useEffect(() => {
+    document.body.classList.toggle("mt-more-open", open);
+    return () => {
+      document.body.classList.remove("mt-more-open");
+    };
+  }, [open]);
+
   return (
     <div
+      id="mobile-more-sheet"
       className={clsx(
-        "lg:hidden fixed inset-0 z-[9998]",
+        "lg:hidden fixed inset-x-0 top-0 z-[60]",
+        aboveTabBar,
         open ? "pointer-events-auto" : "pointer-events-none"
       )}
+      aria-hidden={!open}
+      {...(!open ? { inert: "" } : {})}
     >
       <div
         onClick={onClose}
@@ -45,13 +62,19 @@ const MoreSheet = ({
         )}
       />
       <div
+        role="dialog"
+        aria-modal={open}
+        aria-labelledby="mobile-more-sheet-title"
         className={clsx(
-          "absolute left-0 right-0 bottom-0 bg-white rounded-t-2xl pb-[calc(14px+env(safe-area-inset-bottom))] shadow-[0_-8px_32px_rgba(0,0,0,0.3)] transition-transform",
-          open ? "translate-y-0" : "translate-y-full"
+          "absolute left-0 right-0 bottom-0 h-auto max-h-[min(85dvh,calc(100dvh-4.5rem))] overflow-y-auto bg-white rounded-t-2xl pb-3 shadow-[0_-8px_32px_rgba(0,0,0,0.3)] transition-[opacity,visibility]",
+          open ? "opacity-100 visible" : "opacity-0 invisible"
         )}
       >
         <div className="w-9 h-1 rounded-full bg-gray-300 mx-auto mt-3 mb-1" />
-        <div className="text-xs font-bold text-gray-400 uppercase tracking-wide px-4 pt-2 pb-1">
+        <div
+          id="mobile-more-sheet-title"
+          className="text-xs font-bold text-gray-400 uppercase tracking-wide px-4 pt-2 pb-1"
+        >
           <I18N id="menu.More" />
         </div>
 
