@@ -53,12 +53,12 @@ const PrivateEnvironment = ({ children }) => {
       return true;
     }
 
-    if (enabled === "onlyForMembers" && membership) {
+    if (enabled === "onlyForMembers" && (membership || user?.math_admin)) {
       return true;
     }
 
     return false;
-  }, [currentPath, membership]);
+  }, [currentPath, membership, user]);
 
   return (
     <PrivateEnvironmentContext.Provider

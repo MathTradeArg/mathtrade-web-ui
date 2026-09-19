@@ -96,6 +96,7 @@ const Sidebar = () => {
         isActive={isActive}
         collapsed={collapsed}
         lockedInfo={lockedInfo}
+        isAdmin={isAdmin}
       />
 
       <div className="grow" />
