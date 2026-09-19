@@ -53,7 +53,7 @@ const EventStatusCard = ({ collapsed = false }: { collapsed?: boolean }) => {
   return (
     <div
       className={clsx(
-        "flex items-center bg-[#1c1d21] rounded-[10px] mb-3 text-white text-xs font-semibold h-11 overflow-hidden transition-[width,padding,margin] duration-300 ease-out motion-reduce:transition-none",
+        "flex items-center bg-[#1c1d21] rounded-[10px] mb-1.5 mt-2 text-white text-xs font-semibold h-9 overflow-hidden transition-[width,padding,margin] duration-300 ease-out motion-reduce:transition-none [@media(max-height:800px)]:h-8 [@media(max-height:800px)]:mb-1 [@media(max-height:800px)]:mt-1.5",
         collapsed
           ? "w-11 justify-center mx-auto px-0"
           : "w-full px-2.5"

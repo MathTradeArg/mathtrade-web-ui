@@ -20,13 +20,13 @@ const Sidebar = () => {
   return (
     <aside
       className={clsx(
-        "hidden lg:flex flex-col h-screen sticky top-0 z-[60] overflow-visible bg-black shrink-0 py-3 px-2 transition-[width] duration-300 ease-out motion-reduce:transition-none",
+        "hidden lg:flex flex-col h-screen sticky top-0 z-[60] overflow-visible bg-black shrink-0 py-2 px-2 transition-[width] duration-300 ease-out motion-reduce:transition-none",
         collapsed ? "w-[68px] items-center" : "w-[244px]"
       )}
     >
       <div
         className={clsx(
-          "flex items-center gap-2 min-h-10 w-full",
+          "flex items-center gap-1.5 min-h-9 w-full shrink-0",
           collapsed ? "flex-col" : ""
         )}
       >
@@ -37,13 +37,22 @@ const Sidebar = () => {
             collapsed ? "justify-center" : "flex-1"
           )}
         >
-          <Image
-            src="/favicon/apple-icon.png"
-            alt="Math Trade"
-            width={32}
-            height={32}
-            className="w-8 h-8 rounded-full shrink-0"
-          />
+          <span className="relative shrink-0">
+            <Image
+              src="/favicon/apple-icon.png"
+              alt="Math Trade"
+              width={32}
+              height={32}
+              className="w-8 h-8 rounded-full"
+            />
+            {isAdmin && collapsed ? (
+              <span
+                className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-purple-500 ring-2 ring-black cursor-help"
+                data-tooltip={getI18Ntext("sidebar.adminPill.tooltip")}
+                data-placement="right"
+              />
+            ) : null}
+          </span>
           <span
             className={clsx(
               "text-white font-bold text-[15px]",
@@ -53,10 +62,19 @@ const Sidebar = () => {
             Math Trade
           </span>
         </Link>
+        {isAdmin && !collapsed ? (
+          <Chip
+            tone="admin"
+            placement="right"
+            tooltip={getI18Ntext("sidebar.adminPill.tooltip")}
+          >
+            {getI18Ntext("sidebar.adminPill")}
+          </Chip>
+        ) : null}
         <button
           type="button"
           onClick={toggleCollapsed}
-          className="w-9 h-9 rounded-[10px] bg-[#1c1d21] text-white flex items-center justify-center hover:bg-[#2a2c32] shrink-0"
+          className="w-8 h-8 rounded-[10px] bg-[#1c1d21] text-white flex items-center justify-center hover:bg-[#2a2c32] shrink-0"
           aria-expanded={!collapsed}
           aria-label={getI18Ntext(collapsed ? "menu.unfold" : "menu.fold")}
         >
@@ -70,25 +88,6 @@ const Sidebar = () => {
         </button>
       </div>
 
-      {isAdmin ? (
-        <div
-          className={clsx(
-            "mb-2.5",
-            collapsed ? "self-center" : "self-start ml-0.5"
-          )}
-        >
-          <Chip
-            tone="admin"
-            placement="right"
-            tooltip={getI18Ntext("sidebar.adminPill.tooltip")}
-          >
-            {getI18Ntext("sidebar.adminPill")}
-          </Chip>
-        </div>
-      ) : (
-        <div className="mb-2.5" />
-      )}
-
       <EventStatusCard collapsed={collapsed} />
 
       <NavRows
@@ -99,11 +98,9 @@ const Sidebar = () => {
         isAdmin={isAdmin}
       />
 
-      <div className="grow" />
-
       <div
         className={clsx(
-          "border-t border-white/10 my-2 transition-[width,margin] duration-300 ease-out motion-reduce:transition-none",
+          "border-t border-white/10 my-1.5 shrink-0 transition-[width,margin] duration-300 ease-out motion-reduce:transition-none",
           collapsed ? "w-8 mx-auto" : "mx-1"
         )}
       />
