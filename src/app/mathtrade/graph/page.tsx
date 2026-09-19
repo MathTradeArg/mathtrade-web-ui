@@ -20,7 +20,7 @@ export default function InteractiveGraphPage() {
       />
       <SectionCommon>
         <div className="min-h-96 relative p-5">
-          <GraphViewer />
+          <GraphViewer years={["2025", "2024", "2023"]} />
         </div>
       </SectionCommon>
     </>

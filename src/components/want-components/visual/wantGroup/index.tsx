@@ -6,12 +6,11 @@ import WantMiniCard from "@/components/want-components/mini-card";
 import { resolveWantGroupKind } from "@/components/badgeType/cardKind";
 
 const WantGroupUI = ({ wantGroup = null }) => {
-  if (!wantGroup) return null;
   const { name, type, game_type, tag, wants, bgg_id, value, availables } =
-    wantGroup;
+    wantGroup || {};
 
   const isCombo = type === "item" && wants?.[0]?.elements?.length > 1;
-  const kind = resolveWantGroupKind(wantGroup);
+  const kind = wantGroup ? resolveWantGroupKind(wantGroup) : null;
   const badgeSubtype =
     type === "game"
       ? game_type || 1
@@ -46,6 +45,8 @@ const WantGroupUI = ({ wantGroup = null }) => {
   const tagStyle = useMemo(() => {
     return type === "tag" ? colorTagStyles(tag?.color) : null;
   }, [type, tag]);
+
+  if (!wantGroup) return null;
 
   return (
     <WantMiniCard

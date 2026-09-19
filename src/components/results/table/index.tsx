@@ -9,9 +9,13 @@ const ResultsTable = () => {
 
   return (
     <Table
+      header={null}
       data={MathTradeResults || []}
       columns={columns}
       downloadExcel="resultados"
+      loading={false}
+      error={null}
+      rowsProps={null}
       searchValuesFunc={(result) => {
         const { item_to, membership_to, item_from, membership_from } = result;
 
