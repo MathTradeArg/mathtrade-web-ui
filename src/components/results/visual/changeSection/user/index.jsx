@@ -1,6 +1,10 @@
 import Avatar from "@/components/avatar";
 
 const UserChange = ({ user }) => {
+  if (!user) {
+    return <div className="w-20" />;
+  }
+
   const { avatar, location, first_name, last_name } = user;
 
   return (
