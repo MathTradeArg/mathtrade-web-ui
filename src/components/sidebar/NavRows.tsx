@@ -22,15 +22,18 @@ const NavRows = ({
   isAdmin = false,
 }: NavRowsProps) => {
   return (
-    <nav className="flex flex-col gap-1 w-full">
-      {groups.map((group) => (
-        <div key={group.id} className="flex flex-col gap-0.5">
+    <nav className="sidebar-nav-scroll flex flex-col gap-0.5 w-full">
+      {groups.map((group, groupIndex) => (
+        <div key={group.id} className="flex flex-col gap-px">
           <p
             className={clsx(
-              "px-2.5 text-[11px] font-semibold text-[#8a92a0] overflow-hidden transition-[max-height,opacity,margin] duration-200 ease-out motion-reduce:transition-none",
+              "px-2.5 text-[11px] leading-tight font-semibold text-[#8a92a0] overflow-hidden transition-[max-height,opacity,margin] duration-200 ease-out motion-reduce:transition-none",
               collapsed
                 ? "max-h-0 opacity-0 mt-0 mb-0"
-                : "max-h-8 opacity-100 mt-2.5 mb-1"
+                : clsx(
+                    "max-h-6 opacity-100 mb-0.5",
+                    groupIndex === 0 ? "mt-1" : "mt-2"
+                  )
             )}
           >
             <I18N id={group.labelI18nKey} />
@@ -60,7 +63,7 @@ const NavRows = ({
                   locked={navLocked}
                   title={title}
                   className={clsx(
-                    "flex items-center rounded-[10px] text-sm font-semibold transition-colors relative h-11 w-full",
+                    "flex items-center rounded-[10px] text-sm font-semibold transition-colors relative h-9 w-full [@media(max-height:800px)]:h-8",
                     collapsed ? "justify-center px-0" : "px-2.5",
                     navLocked
                       ? "text-[#6b7280] cursor-default"
@@ -99,10 +102,10 @@ const NavRows = ({
                 {locked ? (
                   <div
                     className={clsx(
-                      "text-[11px] leading-snug text-[#8a92a0] px-2.5 ml-7 overflow-hidden transition-[max-height,opacity,padding] duration-200 ease-out motion-reduce:transition-none",
+                      "text-[11px] leading-tight text-[#8a92a0] px-2.5 ml-7 truncate overflow-hidden transition-[max-height,opacity,padding] duration-200 ease-out motion-reduce:transition-none",
                       collapsed
                         ? "max-h-0 opacity-0 pb-0"
-                        : "max-h-12 opacity-100 pb-1"
+                        : "max-h-5 opacity-100 pb-0.5 [@media(max-height:800px)]:max-h-0 [@media(max-height:800px)]:opacity-0 [@media(max-height:800px)]:pb-0"
                     )}
                   >
                     <I18N id={locked.captionId} values={[lockedValue]} />
