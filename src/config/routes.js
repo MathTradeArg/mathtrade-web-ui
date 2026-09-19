@@ -74,6 +74,11 @@ export const PRIVATE_ROUTES = {
     path: privateRoot + "/results",
     enabled: "onlyForMembers",
   },
+  RESULTS_HISTORIAL: {
+    title: "resultsHistorial",
+    path: privateRoot + "/results-historial",
+    enabled: "always",
+  },
   STATS: {
     title: "statistics",
     path: privateRoot + "/statistics",
