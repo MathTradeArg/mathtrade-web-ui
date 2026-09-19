@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect } from "react";
-import fetchBGG from "@/hooks/useFetchBGG/fetchBGG";
 import useFetch from "@/hooks/useFetch";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { GOOGLE_RECAPTCHA_SIGNUP_ID } from "@/config";
@@ -35,7 +34,7 @@ const useSignUp = () => {
       setErrorRecaptcha(null);
 
       let avatar = "";
-
+      /*
       const [, responseBGG, bggData] = await fetchBGG("USER", {
         name: data.bgg_user,
       });
@@ -45,6 +44,7 @@ const useSignUp = () => {
         setLoading(false);
         return;
       }
+      */
 
       if (!bggData?.user?.id) {
         setErrorBGG(true);
@@ -75,12 +75,12 @@ const useSignUp = () => {
         setErrorRecaptcha("error.General");
       }
     },
-    [executeRecaptcha, createUser]
+    [executeRecaptcha, createUser],
   );
 
   useEffect(() => {
     let params = new URLSearchParams(
-      decodeURIComponent(window.location.search)
+      decodeURIComponent(window.location.search),
     );
     const referral_code = params.get("code") ?? "";
     const email = params.get("referred") ?? "";

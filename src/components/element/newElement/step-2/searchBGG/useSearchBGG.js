@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import useFetchBGG from "@/hooks/useFetchBGG";
+import useFetch from "@/hooks/useFetch";
 
 const formatTextComp = (text, textLower, valueLower) => {
   const ind = textLower.indexOf(valueLower);
+
+  if (ind < 0) return { a: text, b: "", c: "" };
+
   const length = valueLower.length;
 
   const a = text.substring(0, ind);
@@ -12,7 +15,7 @@ const formatTextComp = (text, textLower, valueLower) => {
   return { a, b, c };
 };
 
-const useSearchBGG = ({ setSearchResultBGG }) => {
+const useSearchBGG = ({ setSearchResultBGG, inCollection }) => {
   const inputRef = useRef(null);
 
   const [value, setValue] = useState({ val: "", enableSearch: false });
@@ -20,66 +23,40 @@ const useSearchBGG = ({ setSearchResultBGG }) => {
 
   const [list, setList] = useState([]);
 
-  const afterLoad = useCallback((data, { query }) => {
-    let dataList = [];
-    if (data && data.items && data.items.item) {
-      dataList =
-        typeof data.items.item.forEach !== "undefined"
-          ? data.items.item
-          : [data.items.item];
-    }
+  const afterLoad = useCallback(
+    (list) => {
+      const newList = list
+        .map((item) => {
+          const name = `${item?.primary_name || ""} (${item?.year || ""})`;
+          const nameLower = name.toLowerCase();
 
-    const valueLower = query.toLowerCase();
+          return {
+            bgg_id: item.bgg_id,
+            name,
+            nameComp: formatTextComp(name, nameLower, value.val.toLowerCase()),
+            expansion: item.type !== 1,
+            indexPosition: nameLower.indexOf(value.val.toLowerCase()),
+          };
+        })
 
-    const pool = {};
-    dataList.forEach((item) => {
-      const setItemInfo = () => {
-        const name = `${item?.name?.value || ""} (${
-          item?.yearpublished?.value || ""
-        })`;
-        const nameLower = name.toLowerCase();
+        .sort((a, b) => {
+          return a.indexPosition === b.indexPosition
+            ? a.name.length < b.name.length
+              ? -1
+              : 1
+            : a.indexPosition < b.indexPosition
+              ? -1
+              : 1;
+        })
+        .slice(0, 15);
 
-        return {
-          bgg_id: item.id,
-          name,
-          nameComp: formatTextComp(name, nameLower, valueLower),
-          expansion: item?.type === "boardgameexpansion",
-          indexPosition: nameLower.indexOf(valueLower),
-        };
-      };
-      if (pool[item.id]) {
-        if (!pool[item.id].expansion) {
-          pool[item.id] = setItemInfo();
-        }
-      } else {
-        pool[item.id] = setItemInfo();
-      }
-    });
+      setList(newList);
+    },
+    [value.val],
+  );
 
-    const newListA = [];
-    for (let idItem in pool) {
-      newListA.push(pool[idItem]);
-    }
-
-    const newList = newListA.filter(({ indexPosition }) => {
-      return indexPosition >= 0;
-    });
-
-    newList.sort((a, b) => {
-      return a.indexPosition === b.indexPosition
-        ? a.name.length < b.name.length
-          ? -1
-          : 1
-        : a.indexPosition < b.indexPosition
-        ? -1
-        : 1;
-    });
-    // setList(newList);
-    setList(newList.slice(0, 15));
-  }, []);
-
-  const [searchBGGelements, , loading] = useFetchBGG({
-    endpoint: "SEARCH",
+  const [getBGGgames, , loading, errorMessage] = useFetch({
+    endpoint: "BGG_GET_GAMES",
     afterLoad,
   });
 
@@ -87,16 +64,20 @@ const useSearchBGG = ({ setSearchResultBGG }) => {
     let delayDebounceFn = null;
     if (value.val.length >= 2 && value.enableSearch) {
       delayDebounceFn = setTimeout(() => {
-        searchBGGelements({
-          type: "boardgame,boardgameexpansion",
-          query: value.val,
+        const params = { query: value.val };
+        if (inCollection) {
+          params.inCollection = true;
+        }
+
+        getBGGgames({
+          params,
         });
       }, 1000);
     } else {
       setList([]);
     }
     return () => clearTimeout(delayDebounceFn);
-  }, [searchBGGelements, value]);
+  }, [getBGGgames, inCollection, value]);
 
   //////////////////
   useEffect(() => {
@@ -122,7 +103,7 @@ const useSearchBGG = ({ setSearchResultBGG }) => {
         enableSearch: false,
       });
     },
-    [setSearchResultBGG]
+    [setSearchResultBGG],
   );
 
   const onClear = useCallback(() => {
@@ -137,6 +118,7 @@ const useSearchBGG = ({ setSearchResultBGG }) => {
 
   return {
     loading,
+    errorMessage,
     inputRef,
     value,
     setValue,
