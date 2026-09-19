@@ -28,8 +28,8 @@ const useMT = (mtId) => {
 
   /* GET USERS *************************************************/
   const afterLoad = useCallback(
-    (newMTresults) => {
-      setMathTradeResults(newMTresults);
+    ({ results }) => {
+      setMathTradeResults(results);
     },
     [setMathTradeResults]
   );
@@ -42,7 +42,7 @@ const useMT = (mtId) => {
 
   useEffect(() => {
     getMathTradeResults({
-      params: { user: currentUserId },
+      params: { user: currentUserId, page_size: 200 },
       urlParams: [mtId],
     });
   }, [getMathTradeResults, setMathTradeResults, currentUserId, mtId]);
