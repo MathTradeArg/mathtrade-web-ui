@@ -52,6 +52,11 @@ export const MenuList = [
     disabled: !PRIVATE_ROUTES.RESULTS.enabled,
   },
   {
+    title: `menu.${PRIVATE_ROUTES.RESULTS_HISTORIAL.title}`,
+    path: PRIVATE_ROUTES.RESULTS_HISTORIAL.path,
+    name: "resultsHistorial",
+  },
+  {
     title: `menu.${PRIVATE_ROUTES.STATS.title}`,
     path: PRIVATE_ROUTES.STATS.path,
     name: "stats",
