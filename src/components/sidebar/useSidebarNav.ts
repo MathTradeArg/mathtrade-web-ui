@@ -52,9 +52,7 @@ const captionIdFor = (
 
 const useSidebarNav = () => {
   const { canI } = useContext(PageContext);
-  const { membership, mathtrade, mathtrade_history } = useStore(
-    (state) => state.data
-  );
+  const { membership, mathtrade } = useStore((state) => state.data);
   const pathname = usePathname();
 
   const options = useOptions((state) => state.options);
@@ -93,16 +91,19 @@ const useSidebarNav = () => {
         captionId: captionIdFor("provisional", daysLeft),
       };
     }
-    if (
-      !canI.results &&
-      mathtrade?.show_results_date &&
-      !(mathtrade_history?.length > 0)
-    ) {
-      const daysLeft = daysLeftUntil(mathtrade.show_results_date);
-      locked.RESULTS = {
-        daysLeft,
-        captionId: captionIdFor("results", daysLeft),
-      };
+    if (!canI.results) {
+      const unlockDate = [mathtrade?.show_results_date, mathtrade?.freeze_wants_date]
+        .filter(Boolean)
+        .sort(
+          (a, b) => new Date(b as string).getTime() - new Date(a as string).getTime()
+        )[0];
+      if (unlockDate) {
+        const daysLeft = daysLeftUntil(unlockDate);
+        locked.RESULTS = {
+          daysLeft,
+          captionId: captionIdFor("results", daysLeft),
+        };
+      }
     }
     return locked;
   }, [
@@ -110,9 +111,9 @@ const useSidebarNav = () => {
     canI.provisionalResults,
     canI.results,
     mathtrade?.freeze_geek_date,
+    mathtrade?.freeze_wants_date,
     mathtrade?.provisional_results_date,
     mathtrade?.show_results_date,
-    mathtrade_history?.length,
   ]);
 
   const groups: NavGroup[] = useMemo(() => {
