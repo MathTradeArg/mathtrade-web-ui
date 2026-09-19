@@ -3,9 +3,9 @@ const nextConfig = {
   env: {
     PAUSED_SITE: "no",
     //
-    API_TEST_MODE: "yes",
+    API_TEST_MODE: "no",
     BASE_URL_TEST: "http://localhost:8000/",
-    BASE_URL: "https://api.mathtrade.com.ar/",
+    BASE_URL: "https://mathtrade-backend.fly.dev/",
     //
     GOOGLE_RECAPTCHA_CLIENT_KEY: "6LeWcz8gAAAAAGgpOiINIJZSwsmKH-eMjtbQbFbF",
     //
