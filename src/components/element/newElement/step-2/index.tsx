@@ -6,7 +6,6 @@ import Icon from "@/components/icon";
 import I18N from "@/i18n";
 import clsx from "clsx";
 import SearchBGG from "./searchBGG";
-import SearchMyCollectionBGG from "./searchMyCollectionBGG";
 import useStepSearchBGG from "./useStepSearchBGG";
 import { LoadingBox } from "@/components/loading";
 import BGGlink from "@/components/bggInfo/bggLink";
@@ -83,11 +82,14 @@ const NewElementStep2 = ({
           </LabelNav>
         </nav>
 
-        {!searchType ? (
-          <SearchBGG setSearchResultBGG={setSearchResultBGG} />
-        ) : (
-          <SearchMyCollectionBGG setSearchResultBGG={setSearchResultBGG} />
-        )}
+        <SearchBGG
+          setSearchResultBGG={setSearchResultBGG}
+          inCollection={searchType === 1}
+        />
+        <p className="text-xs text-gray-500 pt-1">
+          <I18N id="BGGsearch.Instruction" />
+        </p>
+
         {alreadyHaveThisBGGid && elementToShow ? (
           <div className="text-center text-secondary text-xs font-bold pt-2">
             <I18N id="ElementAlreadyLoaded" />
