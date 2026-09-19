@@ -80,11 +80,7 @@ const useSidebarNav = () => {
       // can see what's coming and when it opens.
       const nav = PRIMARY_NAV.map((entry) => {
         if (entry.key === "MY_DATA" && !membership) {
-          return {
-            ...entry,
-            titleI18nKey: "menu.myData.signup",
-            titleValues: [mathtrade.name],
-          };
+          return { ...entry, titleI18nKey: "menu.myData.signup" };
         }
         return entry;
       });
