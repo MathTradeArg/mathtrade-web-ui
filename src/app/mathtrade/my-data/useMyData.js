@@ -151,6 +151,11 @@ const useMyData = () => {
 
   const [acceptTyC, setAcceptTyC] = useState(false);
 
+  const signupOpensOn = useMemo(
+    () => formatDateString(mathtrade?.start_date || null).dateObj,
+    [mathtrade]
+  );
+
   return {
     validations: {
       location: ["required"],
@@ -159,6 +164,8 @@ const useMyData = () => {
     meetingDay,
     isMathtrade: mathtrade !== null,
     isMembership: membership !== null,
+    signupOpen: membership !== null || canI.sign,
+    signupOpensOn,
     currentLocation, //: membership?.location,
     currentEventAttendance,
     isMandatoryAttendance: currentLocation?.mandatory_attendance,

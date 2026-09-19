@@ -77,7 +77,17 @@ const useSidebarNav = () => {
       // Full nav is shown even without a membership yet — gated items render
       // locked (see lockedInfo) instead of being hidden outright, so people
       // can see what's coming and when it opens.
-      return withHome(PRIMARY_NAV);
+      const nav = PRIMARY_NAV.map((entry) => {
+        if (entry.key === "MY_DATA" && !membership) {
+          return {
+            ...entry,
+            titleI18nKey: "menu.myData.signup",
+            titleValues: [mathtrade.name],
+          };
+        }
+        return entry;
+      });
+      return withHome(nav);
     }
     const visibleKeys =
       mathtrade_history?.length > 0
@@ -85,7 +95,7 @@ const useSidebarNav = () => {
         : DEFAULT_KEYS;
     const base = PRIMARY_NAV.filter((entry) => visibleKeys.includes(entry.key));
     return withHome(base);
-  }, [mathtrade, mathtrade_history]);
+  }, [mathtrade, membership, mathtrade_history]);
 
   const lockedInfo: Record<string, LockedInfo> = useMemo(() => {
     const locked: Record<string, LockedInfo> = {};
