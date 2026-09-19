@@ -36,10 +36,11 @@ const NavRows = ({
           {group.items.map((entry) => {
             const active = isActive(entry.path);
             const locked = lockedInfo[entry.key];
+            const lockedValue = locked?.displayValue ?? locked?.daysLeft;
             const title = locked
               ? `${getI18Ntext(entry.titleI18nKey)} — ${getI18Ntext(
                   locked.captionId,
-                  [locked.daysLeft]
+                  [lockedValue]
                 )}`
               : collapsed
                 ? getI18Ntext(entry.titleI18nKey)
@@ -97,7 +98,7 @@ const NavRows = ({
                         : "max-h-12 opacity-100 pb-1"
                     )}
                   >
-                    <I18N id={locked.captionId} values={[locked.daysLeft]} />
+                    <I18N id={locked.captionId} values={[lockedValue]} />
                   </div>
                 ) : null}
               </div>
