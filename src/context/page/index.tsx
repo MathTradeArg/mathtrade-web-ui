@@ -162,25 +162,6 @@ const PageContextProvider = ({ children = null }) => {
     if (!mathtrade || mathtrade.status === "freeze") {
       return closed;
     }
-
-    if (user?.math_admin) {
-      // Admins can see every phase's UI regardless of the real date/
-      // membership — the backend still rejects writes (POST/PUT) unless
-      // the phase is genuinely open, so this only affects what's visible,
-      // not what actually saves.
-      return {
-        sign: false,
-        invite: true,
-        offer: true,
-        want: true,
-        commit: true,
-        results: true,
-        provisionalResults: true,
-        selfExclude: false,
-        pageType,
-      };
-    }
-
     const $now = new Date().getTime();
 
     const dateMs = (value: unknown) => {
@@ -240,7 +221,7 @@ const PageContextProvider = ({ children = null }) => {
         provisionalResults && !results && !membership.self_excluded,
       pageType,
     };
-  }, [mathtrade, membership, pageType, user]);
+  }, [mathtrade, membership, pageType]);
 
   //
 
