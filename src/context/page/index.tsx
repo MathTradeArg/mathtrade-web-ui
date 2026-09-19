@@ -191,7 +191,9 @@ const PageContextProvider = ({ children = null }) => {
       $now >= $dates.provisional_results_date;
     const results =
       Number.isFinite($dates.show_results_date) &&
-      $now >= $dates.show_results_date;
+      $now >= $dates.show_results_date &&
+      (!Number.isFinite($dates.freeze_wants_date) ||
+        $now >= $dates.freeze_wants_date);
 
     if (!membership) {
       return {
