@@ -37,13 +37,14 @@ const NavRows = ({
             const active = isActive(entry.path);
             const locked = lockedInfo[entry.key];
             const lockedValue = locked?.displayValue ?? locked?.daysLeft;
+            const entryLabel = getI18Ntext(
+              entry.titleI18nKey,
+              entry.titleValues || []
+            );
             const title = locked
-              ? `${getI18Ntext(entry.titleI18nKey)} — ${getI18Ntext(
-                  locked.captionId,
-                  [lockedValue]
-                )}`
+              ? `${entryLabel} — ${getI18Ntext(locked.captionId, [lockedValue])}`
               : collapsed
-                ? getI18Ntext(entry.titleI18nKey)
+                ? entryLabel
                 : undefined;
 
             return (
@@ -75,7 +76,7 @@ const NavRows = ({
                     ) : null}
                   </span>
                   <span className={fadeLabelClass(!collapsed)}>
-                    <I18N id={entry.titleI18nKey} />
+                    <I18N id={entry.titleI18nKey} values={entry.titleValues} />
                   </span>
                   {locked ? (
                     <Icon
