@@ -97,13 +97,19 @@ const endpoints = {
   GET_MATHTRADE_STATS: "api/mathtrades/$[mathtradeId]/stats/",
 
   // BAN
-  GET_BANS: "api/mathtrades/$[mathtradeId]/user-bans/",
-  POST_BAN: "api/mathtrades/$[mathtradeId]/user-bans/",
-  DELETE_BAN: "api/mathtrades/$[mathtradeId]/user-bans/$[1]/",
+  GET_BANS: "api/bans/users/",
+  POST_BAN: "api/bans/",
+  DELETE_BAN_USER: "api/bans/users/$[1]/",
+  DELETE_BAN_ITEM: "api/bans/items/$[1]/",
+  DELETE_BAN_GAME: "api/bans/games/$[1]/",
+  DELETE_BANNED_GAMES_ALL: "api/bans/games/all/",
+  DELETE_BANNED_ITEMS_ALL: "api/bans/items/all/",
 
   AUTOCOMPLETE_WANTS: "api/mathtrades/$[mathtradeId]/user-want-groups-match/",
   GET_MT_RESULTS: "api/mathtrades/$[mathtradeId]/results/",
   GET_MT_RESULTS_HISTORIAL: "api/mathtrades/$[1]/results/",
+  GET_PROVISIONAL_RESULTS: "api/mathtrades/$[mathtradeId]/provisional-results/",
+  POST_SELF_EXCLUDE: "api/mathtrades/$[mathtradeId]/self-exclude/",
 
   // IMAGES
   POST_IMAGE: "api/users/images/",
@@ -162,6 +168,9 @@ const endpoints = {
   LOGISTICS_POST_TRACKING: "api/logistics/trackings/",
   LOGISTICS_PUT_TRACKING: "api/logistics/trackings/$[1]/",
   LOGISTICS_DELETE_TRACKING: "api/logistics/trackings/$[1]/",
+
+  BGG_GET_GAMES: "api/bgg/games/",
+  BGG_GET_GAME: "api/bgg/games/$[1]/",
 };
 
 export default endpoints;

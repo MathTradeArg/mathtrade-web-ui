@@ -2,7 +2,7 @@
 import listIcons from "./list";
 import clsx from "clsx";
 
-const Icon = ({ type = "close", className }) => {
+const Icon = ({ type = "close", className = "" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -16,6 +16,9 @@ export const ItemContext = createContext({
   item: null,
   reloadItem: () => {},
   loadingItem: false,
+  showAsIgnored: false,
+  setShowAsIgnored: (_value) => {},
+  setBanId: (_value) => {},
   //
   wantGroup: null,
   otherWantGroups: [],
@@ -30,6 +33,10 @@ export const ItemContextProvider = ({ itemRaw, children }) => {
   const [itemLoaded, setItemLoaded] = useState(itemRaw);
 
   const [showAsIgnored, setShowAsIgnored] = useState(false);
+
+  const setBanId = useCallback((id) => {
+    setItemLoaded((old) => (old ? { ...old, ban_id: id } : old));
+  }, []);
 
   /* RELOAD ITEM ***************************/
 
@@ -49,13 +56,13 @@ export const ItemContextProvider = ({ itemRaw, children }) => {
 
   useEffect(() => {
     setItemLoaded(itemRaw);
+    setShowAsIgnored(false);
   }, [itemRaw]);
 
   /* end RELOAD ITEM ***************************/
 
   /* ITEM ***************************/
   const item = useMemo(() => {
-    setShowAsIgnored(false);
     if (!itemLoaded) {
       return null;
     }
@@ -164,6 +171,7 @@ export const ItemContextProvider = ({ itemRaw, children }) => {
         loadingItem,
         showAsIgnored,
         setShowAsIgnored,
+        setBanId,
         //
         wantGroup,
         otherWantGroups,
@@ -172,7 +180,7 @@ export const ItemContextProvider = ({ itemRaw, children }) => {
       {item.elements && item.elements.length > 0 ? (
         children
       ) : (
-        <article className="bg-item-200 border border-item-300 text-center p-3 text-balance text-red-800 mb-2 text-xs">
+        <article className="bg-danger/10 border border-danger/30 rounded-lg text-center p-3 text-balance text-red-800 mb-2 text-xs">
           <I18N id="error.item.offer.notFound" />
           <br /> <strong>Ejemplar Id: {item.id}</strong>
         </article>

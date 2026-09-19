@@ -1,0 +1,172 @@
+import Thumbnail from "@/components/thumbnail";
+import I18N, { getI18Ntext } from "@/i18n";
+import Value from "@/components/value";
+import GameItemList from "./gameItemList";
+import useGame from "./useGame";
+import SuccessAlert from "@/components/successAlert";
+import ErrorAlert from "@/components/errorAlert";
+import InnerButton from "@/components/button/inner-button";
+import Icon from "@/components/icon";
+import clsx from "clsx";
+import { LoadingBox } from "@/components/loading";
+import BadgeType from "@/components/badgeType";
+import {
+  resolveGameKind,
+  cardKindBorderClass,
+} from "@/components/badgeType/cardKind";
+import useBGGdata from "@/components/bggInfo/useBGGdata";
+import { NO_RANK_VALUE } from "@/config/no-bgggame";
+import ItemNoBGG from "@/components/game/game-grid/game-grid-ui/itemNoBgg";
+
+const GameUI = ({ wantGroup }) => {
+  const {
+    gameRaw,
+    title,
+    titleLink,
+    typeNum,
+    thumbnail,
+    items,
+    itemCount,
+    year,
+    notGame,
+    groupWantList,
+    setGroupWantList,
+    ownList,
+    showSuccessAlert,
+    notSelectedGame,
+    putWant,
+    loading,
+    error,
+    onChangeValue,
+    canIwant,
+  } = useGame(wantGroup);
+
+  const { isInBGG, rate, rateVotes, rank, weight } = useBGGdata({
+    game: gameRaw,
+  }) as {
+    isInBGG?: boolean;
+    rate: number;
+    rateVotes: number;
+    rank?: number;
+    weight: number;
+  };
+  const showBGGstats = !notGame && isInBGG;
+  const filledDots = Math.min(5, Math.max(0, Math.round(weight || 0)));
+  const cardKind = resolveGameKind({ notGame, typeNum });
+
+  return (
+    <>
+      <div
+        className={clsx(
+          "w-full mx-auto overflow-hidden rounded-lg",
+          cardKindBorderClass(cardKind)
+        )}
+      >
+        <div className="flex items-stretch">
+          <div className="relative w-[160px] shrink-0 self-stretch">
+            <Thumbnail
+              fill
+              contain
+              elements={[{ thumbnail }]}
+              className="w-full h-full min-h-[200px]"
+            />
+          </div>
+          <div className="flex-1 min-w-0 p-4 flex flex-col gap-2.5 items-start">
+            <div className="flex items-center justify-between gap-2 w-full">
+              <BadgeType
+                type="game"
+                subtype={notGame ? 3 : typeNum || 1}
+              />
+              <Value type="game" onChange={onChangeValue} />
+            </div>
+
+            <h3 className="text-heading leading-tight w-full">
+              {`${title}${year ? ` (${year})` : ""}`}
+            </h3>
+
+            {notGame ? (
+              <ItemNoBGG itemRaw={items?.[0] || null} />
+            ) : showBGGstats ? (
+              <div className="flex items-center gap-4 w-full">
+                <div
+                  className="text-body-lg text-center w-10 h-10 leading-10 rounded-full text-white shrink-0 bg-primary"
+                  title={`${rateVotes} ${getI18Ntext("element.BGG.votes")}`}
+                >
+                  {rate}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-caption text-gray-400 leading-none">
+                    <I18N id="element.BGG.weight" />
+                  </span>
+                  <div className="flex gap-1" title={`${weight} / 5`}>
+                    {[1, 2, 3, 4, 5].map((dot) => (
+                      <span
+                        key={dot}
+                        className={clsx(
+                          "w-2 h-2 rounded-full",
+                          dot <= filledDots ? "bg-[#2c2e33]" : "bg-gray-200"
+                        )}
+                      />
+                    ))}
+                  </div>
+                </div>
+                {titleLink ? (
+                  <a
+                    href={titleLink}
+                    target="_blank"
+                    rel="nofollow noopener"
+                    className="ml-auto shrink-0 w-7 h-7 rounded-md bg-bgg/10 text-bgg flex items-center justify-center hover:bg-bgg/20 transition-colors"
+                    title={getI18Ntext("element.BGG.OpenGameInBGG")}
+                  >
+                    <Icon type="external-link" className="text-sm" />
+                  </a>
+                ) : null}
+              </div>
+            ) : null}
+
+            {showBGGstats ? (
+              <div className="mt-auto w-full text-caption text-gray-400 truncate">
+                <I18N id="element.BGG.rank" />{" "}
+                {rank === NO_RANK_VALUE || rank == null ? "-" : rank}
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </div>
+      <GameItemList
+        items={items}
+        itemCount={itemCount}
+        groupWantList={groupWantList}
+        setGroupWantList={setGroupWantList}
+        ownList={ownList}
+      />
+      {notSelectedGame ? (
+        <div className="text-center pt-3 text-red-600">
+          <I18N id="want.notSelectedGame" />
+        </div>
+      ) : null}
+      {canIwant ? (
+        <div className="text-center pt-5">
+          {showSuccessAlert ? <SuccessAlert text="want.updated" /> : null}
+          <ErrorAlert error={error} />
+          <button
+            className={clsx(
+              "inline-flex items-center justify-center font-bold text-white bg-want px-5 py-2.5 rounded-full outline-none transition-opacity",
+              loading ? "opacity-40" : "hover:opacity-90"
+            )}
+            disabled={loading}
+            onClick={putWant}
+          >
+            <InnerButton>
+              <Icon type={loading ? "loading" : "heart"} className="text-base" />
+              <I18N id="btn.Want.updateWant" />
+            </InnerButton>
+          </button>
+        </div>
+      ) : null}
+      <LoadingBox loading={loading} />
+    </>
+  );
+};
+
+export default GameUI;

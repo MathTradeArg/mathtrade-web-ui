@@ -150,11 +150,11 @@ const BtnEditRemove = () => {
     return (
       <div className="text-center p-5 pb-9">
         <button
-          className="rounded-full outline-none transition-colors inline-block w-auto px-7 py-3 text-xl shadow-md bg-gray-500 text-white opacity-30 cursor-not-allowed"
+          className="rounded-full outline-none transition-colors inline-block w-auto px-5 py-2 text-sm font-semibold bg-gray-400 text-white opacity-60 cursor-not-allowed"
           disabled
         >
           <InnerButton>
-            <Icon type="heart" />
+            <Icon type="heart" className="text-base" />
             <I18N id="btn.Want.updateWant" />
           </InnerButton>
         </button>
@@ -164,7 +164,12 @@ const BtnEditRemove = () => {
 
   return (
     <div className="text-center p-5 pb-9">
-      {showSuccessAlert ? <SuccessAlert text="want.updated" /> : null}
+      {showSuccessAlert ? (
+        <SuccessAlert
+          text="want.updated"
+          className="fixed left-1/2 -translate-x-1/2 bottom-6 z-50 shadow-lg w-fit"
+        />
+      ) : null}
       <ErrorAlert error={error} />
       <div className="w-fit mx-auto border-b pb-4 mb-2">
         {notSelectedGame ? (
@@ -174,9 +179,9 @@ const BtnEditRemove = () => {
         ) : null}
         <button
           className={clsx(
-            "rounded-full outline-none transition-colors inline-block w-auto bg-want text-white px-7 py-3 text-xl shadow-md",
+            "rounded-full outline-none transition-colors inline-block w-auto bg-want text-white px-5 py-2 text-sm font-semibold",
             {
-              "hover:opacity-75": !loading, // !disabled
+              "hover:opacity-90": !loading, // !disabled
               "opacity-40": loading, // disabled
             }
           )}
@@ -184,7 +189,10 @@ const BtnEditRemove = () => {
           onClick={putWant}
         >
           <InnerButton>
-            <Icon type={loadingMyWants || loading ? "loading" : "heart"} />
+            <Icon
+              type={loadingMyWants || loading ? "loading" : "heart"}
+              className="text-base"
+            />
             <I18N id="btn.Want.updateWant" />
           </InnerButton>
         </button>

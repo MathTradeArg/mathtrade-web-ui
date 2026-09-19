@@ -40,10 +40,21 @@ export const MenuList = [
     disabled: !PRIVATE_ROUTES.WANTS.enabled,
   },
   {
+    title: `menu.${PRIVATE_ROUTES.PROVISIONAL_RESULTS.title}`,
+    path: PRIVATE_ROUTES.PROVISIONAL_RESULTS.path,
+    name: "provisionalResults",
+    disabled: !PRIVATE_ROUTES.PROVISIONAL_RESULTS.enabled,
+  },
+  {
     title: `menu.${PRIVATE_ROUTES.RESULTS.title}`,
     path: PRIVATE_ROUTES.RESULTS.path,
     name: "results",
     disabled: !PRIVATE_ROUTES.RESULTS.enabled,
+  },
+  {
+    title: `menu.${PRIVATE_ROUTES.RESULTS_HISTORIAL.title}`,
+    path: PRIVATE_ROUTES.RESULTS_HISTORIAL.path,
+    name: "resultsHistorial",
   },
   {
     title: `menu.${PRIVATE_ROUTES.STATS.title}`,

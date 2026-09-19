@@ -1,10 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-import Header from "@/components/header";
+import Sidebar from "@/components/sidebar";
+import TabBar from "@/components/sidebar/mobile/TabBar";
 import Footer from "@/components/footer";
 import PageContextProvider from "@/context/page";
 import ModalPreviewer from "@/components/previewer/modal";
 import ModalPreviewerWantGroup from "@/components/previewerWantGroup/modal";
 import ChatBoxButton from "@/components/chatbox";
+import AdvCompromise from "@/components/header/advCompromise";
+import AdvSelfExcluded from "@/components/header/advSelfExcluded";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 import EarlyPayPopup from "@/components/earlyPayPopup";
@@ -55,11 +58,16 @@ export default function MathTradeLayout({ children }) {
           <Bg />
         </div> */}
         <PageContextProvider>
-          <Header />
-          <div className="relative w-full min-h-screen pt-11 pb-20">
-            <a id="a-top" />
-            <main className="relative py-main">{children}</main>
-            <Footer />
+          <div className="lg:flex">
+            <Sidebar />
+            <TabBar />
+            <div className="relative w-full min-h-screen pb-24 lg:pb-20 lg:min-w-0 lg:flex-1">
+              <a id="a-top" />
+              <AdvCompromise />
+              <AdvSelfExcluded />
+              <main className="relative py-main">{children}</main>
+              <Footer />
+            </div>
           </div>
           <ModalPreviewerWantGroup />
           <ModalPreviewer />

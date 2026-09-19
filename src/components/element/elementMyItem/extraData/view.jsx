@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { PageContext } from "@/context/page";
-import I18N from "@/i18n";
+import I18N, { getI18Ntext } from "@/i18n";
 import StatusBadge from "@/components/status-badge";
 import PhotoGallery from "@/components/photoGallery";
 import Icon from "@/components/icon";
@@ -19,19 +19,16 @@ const ExtraDataView = ({ toggleEditingMode }) => {
 
   return (
     <>
-      <div className="flex gap-6">
-        <div className="flex flex-col gap-1">
-          <div className="text-[10px] opacity-90 leading-none">
-            <I18N id="status.label.box" />
-          </div>
-          <StatusBadge status={box_status || ""} type="box" />
-        </div>
-        <div className="flex flex-col gap-1">
-          <div className="text-[10px] opacity-90  leading-none">
-            <I18N id="status.label.components" />
-          </div>
-          <StatusBadge status={component_status || ""} />
-        </div>
+      <div className="flex flex-wrap gap-2">
+        <StatusBadge
+          status={box_status || ""}
+          type="box"
+          label={getI18Ntext("status.label.box")}
+        />
+        <StatusBadge
+          status={component_status || ""}
+          label={getI18Ntext("status.label.components")}
+        />
       </div>
       {box_status === INVALID_STATUS_KEY ||
       component_status === INVALID_STATUS_KEY ? (

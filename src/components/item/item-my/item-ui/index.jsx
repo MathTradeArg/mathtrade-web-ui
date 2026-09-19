@@ -4,6 +4,7 @@ import { ItemContext } from "@/context/item";
 import ElementMyItem from "@/components/element/elementMyItem";
 import HeaderItem from "./item-header";
 import Dynamic from "@/components/dynamic";
+import { cardKindBorderClass } from "@/components/badgeType/cardKind";
 import clsx from "clsx";
 
 const AddElementToMyItem = lazy(() => import("../addElement"));
@@ -18,20 +19,39 @@ const ItemUI = () => {
   const { id, elements, isCombo } = item;
   /* end ITEM CONTEXT **********************************************/
 
+  // A combo bundles several elements into one item, so it still needs a
+  // container showing they travel together — it uses the design system's combo
+  // treatment (left accent + violet tint) instead of the beige it had, which
+  // was not part of the card language anywhere else. A single element is a card
+  // on its own, so the item around it is nothing but vertical spacing, and its
+  // controls move inside the card.
+  const headerOutside = isCombo || !elements.length;
+
   return (
     <article
       className={clsx(
-        "relative h-full rounded-lg shadow-md hover:shadow-[0_3px_16px_rgba(0,0,0,0.25)] mb-6 p-3 border transition-shadow",
-        {
-          "bg-item-200 border-item-300": !isCombo,
-          "bg-item-300 border-item-400": isCombo,
-        }
+        "relative mb-6",
+        isCombo
+          ? clsx("rounded-lg p-3 shadow-md", cardKindBorderClass("combo"))
+          : null
       )}
     >
-      <HeaderItem />
+      {headerOutside ? <HeaderItem /> : null}
       <div className="flex flex-col gap-3">
-        {elements.map((element) => {
-          return <ElementMyItem key={element.id} element={element} />;
+        {elements.map((element, k) => {
+          return (
+            <ElementMyItem
+              key={element.id}
+              element={element}
+              header={
+                headerOutside || k > 0 ? null : (
+                  // No bottom margin: inside the card the content column
+                  // already spaces its rows with a gap.
+                  <HeaderItem className="w-full" />
+                )
+              }
+            />
+          );
         })}
         {canI.offer && elements.length ? (
           <Dynamic h={100}>

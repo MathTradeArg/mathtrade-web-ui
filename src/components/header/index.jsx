@@ -11,7 +11,6 @@ import { PRIVATE_ROUTES } from "@/config/routes";
 import clsx from "clsx";
 import TimelineButton from "./timeline";
 import HelpButton from "./helpButton";
-import AdvCompromise from "./advCompromise";
 import Wrapper from "../wrapper";
 import I18N from "@/i18n";
 
@@ -21,13 +20,12 @@ const Header = () => {
   /* end PAGE CONTEXT */
 
   return (
-    <>
-      <nav
-        className={clsx("z-[9999] w-full left-0 top-0", {
-          fixed: pageType !== "wants-grid",
-          absolute: pageType === "wants-grid",
-        })}
-      >
+    <nav
+      className={clsx("z-[9999] w-full left-0 top-0 lg:hidden", {
+        fixed: pageType !== "wants-grid",
+        absolute: pageType === "wants-grid",
+      })}
+    >
         <Wrapper>
           <nav className="h-11 bg-black rounded-b-main shadow-main pl-2 pr-3">
             <div className="flex items-center justify-between h-11">
@@ -69,8 +67,6 @@ const Header = () => {
           </nav>
         </Wrapper>
       </nav>
-      {!canI.offer && canI.commit ? <AdvCompromise /> : null}
-    </>
   );
 };
 

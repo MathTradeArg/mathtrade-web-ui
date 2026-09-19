@@ -52,22 +52,32 @@ export const PRIVATE_ROUTES = {
   MY_OFFER: {
     title: "myOffer",
     path: privateRoot + "/my-offer",
-    // enabled: "onlyForMembers",
+    enabled: "onlyForMembers",
   },
   OFFER: {
     title: "offerGames",
     path: privateRoot + "/offer",
-    // enabled: "onlyForMembers",
+    enabled: "onlyForMembers",
   },
   WANTS: {
     title: "wants",
     path: privateRoot + "/my-wants",
-    //enabled: "onlyForMembers",
+    enabled: "onlyForMembers",
+  },
+  PROVISIONAL_RESULTS: {
+    title: "provisionalResults",
+    path: privateRoot + "/provisional-results",
+    enabled: "onlyForMembers",
   },
   RESULTS: {
     title: "results",
     path: privateRoot + "/results",
     enabled: "onlyForMembers",
+  },
+  RESULTS_HISTORIAL: {
+    title: "resultsHistorial",
+    path: privateRoot + "/results-historial",
+    enabled: "always",
   },
   STATS: {
     title: "statistics",
@@ -82,7 +92,7 @@ export const PRIVATE_ROUTES = {
   MY_DATA: {
     title: "myData",
     path: privateRoot + "/my-data",
-    //  enabled: "always",
+    enabled: "always",
   },
   SIGN_TO_MATHTRADE: {
     title: "SignToMathTrade",

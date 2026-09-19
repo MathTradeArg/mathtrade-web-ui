@@ -163,11 +163,11 @@ const useMyCollection = () => {
   // END My Collection ********************************************
 
   // FILTERS ********************************************
-  const searchText = ({ target }) => {
+  const searchText = (keyword) => {
     gotoTop();
     updateFilters(
       {
-        keyword: target.value || undefined,
+        keyword: keyword || undefined,
       },
       "collection"
     );
