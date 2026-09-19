@@ -15,7 +15,7 @@ import {
 
 const ItemUI = ({ afterAddItem = (_value?: any) => {} }) => {
   const { isCombo, value, elements, addToMT, loading, error } =
-    useItemPreviousMT(afterAddItem);
+    useItemPreviousMT();
   const { item } = useContext(ItemContext);
 
   return (

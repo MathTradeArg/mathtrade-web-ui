@@ -9,7 +9,6 @@ const WantGroupVisual2 = ({
   itemId = null,
   toAdd = false,
 }) => {
-  if (!wantGroup) return null;
   const {
     isCombo,
     elementsThumbnails,
@@ -21,6 +20,8 @@ const WantGroupVisual2 = ({
     onToggle,
     canIwant,
   } = useWantGroup(wantGroup, itemId);
+
+  if (!wantGroup) return null;
 
   return (
     <WantMiniCard

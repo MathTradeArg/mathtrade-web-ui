@@ -52,7 +52,7 @@ const MoreSheet = ({
         open ? "pointer-events-auto" : "pointer-events-none"
       )}
       aria-hidden={!open}
-      {...(!open ? { inert: "" } : {})}
+      inert={!open}
     >
       <div
         onClick={onClose}
