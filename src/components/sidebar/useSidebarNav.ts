@@ -29,7 +29,7 @@ const EVENT_ORDER = [
   "RESULTS",
   "SIGN_TO_MATHTRADE",
 ];
-const SPACE_ORDER = ["MY_COLLECTION", "STATS", "MY_DATA"];
+const SPACE_ORDER = ["MY_COLLECTION", "STATS", "RESULTS_HISTORIAL", "MY_DATA"];
 
 const sortBy = (order: string[]) => (a: NavEntry, b: NavEntry) =>
   order.indexOf(a.key) - order.indexOf(b.key);
@@ -52,7 +52,9 @@ const captionIdFor = (
 
 const useSidebarNav = () => {
   const { canI } = useContext(PageContext);
-  const { membership, mathtrade } = useStore((state) => state.data);
+  const { membership, mathtrade, mathtrade_history } = useStore(
+    (state) => state.data
+  );
   const pathname = usePathname();
 
   const options = useOptions((state) => state.options);
@@ -65,12 +67,16 @@ const useSidebarNav = () => {
     if (mathtrade && membership) {
       return withHome(PRIMARY_NAV);
     }
-    const base = PRIMARY_NAV.filter((entry) => DEFAULT_KEYS.includes(entry.key));
+    const visibleKeys =
+      mathtrade_history?.length > 0
+        ? [...DEFAULT_KEYS, "RESULTS_HISTORIAL"]
+        : DEFAULT_KEYS;
+    const base = PRIMARY_NAV.filter((entry) => visibleKeys.includes(entry.key));
     if (mathtrade && !membership && canI.sign) {
       return withHome([...base, SIGN_TO_MATHTRADE_ENTRY]);
     }
     return withHome(base);
-  }, [mathtrade, membership, canI]);
+  }, [mathtrade, membership, canI, mathtrade_history]);
 
   const lockedInfo: Record<string, LockedInfo> = useMemo(() => {
     const locked: Record<string, LockedInfo> = {};
