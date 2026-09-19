@@ -11,8 +11,8 @@ const useTimeline = () => {
 
   // const mathtrade = {
   //   start_date: "2025-04-01T00:00:00-03:00",
-  //   frezze_geek_date: "2025-04-09T23:59:00-03:00",
-  //   frezze_wants_date: "2025-04-15T11:32:00-03:00",
+  //   freeze_geek_date: "2025-04-09T23:59:00-03:00",
+  //   freeze_wants_date: "2025-04-15T11:32:00-03:00",
   //   show_results_date: "2025-04-26T20:59:00-03:00",
   //   meeting_date: "2025-05-15T11:42:00-03:00",
   // };
@@ -27,11 +27,11 @@ const useTimeline = () => {
         title: "timeline.start",
         color: 1,
       },
-      frezze_geek_date: {
+      freeze_geek_date: {
         title: "timeline.geek",
         color: 1,
       },
-      frezze_wants_date: {
+      freeze_wants_date: {
         title: "timeline.want",
         color: 2,
       },
