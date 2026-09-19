@@ -97,12 +97,6 @@ const useSidebarNav = () => {
   const lockedInfo: Record<string, LockedInfo> = useMemo(() => {
     const locked: Record<string, LockedInfo> = {};
 
-    if (isAdmin) {
-      // Admins can browse every section read-only regardless of phase/membership;
-      // the backend still blocks writes (POST/PUT) until the phase is actually open.
-      return locked;
-    }
-
     if (mathtrade && !membership) {
       MEMBERSHIP_GATED_KEYS.forEach((key) => {
         if (canI.sign) {
@@ -153,7 +147,6 @@ const useSidebarNav = () => {
     }
     return locked;
   }, [
-    isAdmin,
     mathtrade,
     membership,
     canI.sign,
@@ -216,9 +209,9 @@ const useSidebarNav = () => {
 };
 
 export const useRedirectIfNavLocked = (key: string) => {
-  const { lockedInfo } = useSidebarNav();
+  const { lockedInfo, isAdmin } = useSidebarNav();
   const router = useRouter();
-  const locked = Boolean(lockedInfo[key]);
+  const locked = Boolean(lockedInfo[key]) && !isAdmin;
 
   useEffect(() => {
     if (locked) {

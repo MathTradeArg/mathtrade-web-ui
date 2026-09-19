@@ -11,6 +11,7 @@ type NavRowsProps = {
   isActive: (path: string) => boolean;
   collapsed: boolean;
   lockedInfo?: Record<string, LockedInfo>;
+  isAdmin?: boolean;
 };
 
 const NavRows = ({
@@ -18,6 +19,7 @@ const NavRows = ({
   isActive,
   collapsed = false,
   lockedInfo = {},
+  isAdmin = false,
 }: NavRowsProps) => {
   return (
     <nav className="flex flex-col gap-1 w-full">
@@ -36,6 +38,10 @@ const NavRows = ({
           {group.items.map((entry) => {
             const active = isActive(entry.path);
             const locked = lockedInfo[entry.key];
+            // Admins see the same lock icon/caption (nothing hides that this
+            // section isn't really open yet) but can still click through —
+            // the backend enforces read-only for them regardless.
+            const navLocked = Boolean(locked) && !isAdmin;
             const lockedValue = locked?.displayValue ?? locked?.daysLeft;
             const entryLabel = getI18Ntext(
               entry.titleI18nKey,
@@ -51,12 +57,12 @@ const NavRows = ({
               <div key={entry.key}>
                 <NavItem
                   href={entry.path}
-                  locked={Boolean(locked)}
+                  locked={navLocked}
                   title={title}
                   className={clsx(
                     "flex items-center rounded-[10px] text-sm font-semibold transition-colors relative h-11 w-full",
                     collapsed ? "justify-center px-0" : "px-2.5",
-                    locked
+                    navLocked
                       ? "text-[#6b7280] cursor-default"
                       : active
                         ? "bg-primary text-white"
