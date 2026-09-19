@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import Icon from "@/components/icon";
 import clsx from "clsx";
 import { PRIVATE_ROUTES } from "@/config/routes";
@@ -35,7 +36,13 @@ const Sidebar = () => {
             collapsed ? "justify-center" : "flex-1"
           )}
         >
-          <span className="w-8 h-8 rounded-full bg-logo shrink-0" />
+          <Image
+            src="/favicon/apple-icon.png"
+            alt="Math Trade"
+            width={32}
+            height={32}
+            className="w-8 h-8 rounded-full shrink-0"
+          />
           <span
             className={clsx(
               "text-white font-bold text-[15px]",
