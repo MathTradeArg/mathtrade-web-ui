@@ -2,18 +2,27 @@ import { useContext, useEffect, useMemo } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { PageContext } from "@/context/page";
 import { useStore, useOptions } from "@/store";
-import {
-  HOME_ENTRY,
-  PRIMARY_NAV,
-  SIGN_TO_MATHTRADE_ENTRY,
-  type NavEntry,
-} from "@/config/nav";
+import { HOME_ENTRY, PRIMARY_NAV, type NavEntry } from "@/config/nav";
 import { PRIVATE_ROUTES } from "@/config/routes";
+import { formatDateString } from "@/utils/dateUtils";
 
 const COLLAPSE_KEY = "sidebar_mainNav_collapsed";
 const DEFAULT_KEYS = ["MY_COLLECTION", "STATS"];
 
-export type LockedInfo = { daysLeft: number; captionId: string };
+// These require an accepted Membership in the active mathtrade to be usable at all.
+const MEMBERSHIP_GATED_KEYS = [
+  "OFFER",
+  "MY_OFFER",
+  "WANTS",
+  "PROVISIONAL_RESULTS",
+  "RESULTS",
+];
+
+export type LockedInfo = {
+  daysLeft: number;
+  captionId: string;
+  displayValue?: string | number;
+};
 
 export type NavGroup = {
   id: string;
@@ -64,7 +73,10 @@ const useSidebarNav = () => {
 
   const items: NavEntry[] = useMemo(() => {
     const withHome = (list: NavEntry[]) => [HOME_ENTRY, ...list];
-    if (mathtrade && membership) {
+    if (mathtrade) {
+      // Full nav is shown even without a membership yet — gated items render
+      // locked (see lockedInfo) instead of being hidden outright, so people
+      // can see what's coming and when it opens.
       return withHome(PRIMARY_NAV);
     }
     const visibleKeys =
@@ -72,14 +84,29 @@ const useSidebarNav = () => {
         ? [...DEFAULT_KEYS, "RESULTS_HISTORIAL"]
         : DEFAULT_KEYS;
     const base = PRIMARY_NAV.filter((entry) => visibleKeys.includes(entry.key));
-    if (mathtrade && !membership && canI.sign) {
-      return withHome([...base, SIGN_TO_MATHTRADE_ENTRY]);
-    }
     return withHome(base);
-  }, [mathtrade, membership, canI, mathtrade_history]);
+  }, [mathtrade, mathtrade_history]);
 
   const lockedInfo: Record<string, LockedInfo> = useMemo(() => {
     const locked: Record<string, LockedInfo> = {};
+
+    if (mathtrade && !membership) {
+      MEMBERSHIP_GATED_KEYS.forEach((key) => {
+        if (canI.sign) {
+          // Signup window is open — just haven't accepted membership yet.
+          locked[key] = { daysLeft: 0, captionId: "menu.locked.needMembership" };
+        } else if (mathtrade.start_date) {
+          const { day, month } = formatDateString(mathtrade.start_date).dateObj;
+          locked[key] = {
+            daysLeft: daysLeftUntil(mathtrade.start_date),
+            captionId: "menu.locked.signupOpensOn",
+            displayValue: `${day}/${month}`,
+          };
+        }
+      });
+      return locked;
+    }
+
     if (canI.offer && mathtrade?.freeze_geek_date) {
       const daysLeft = daysLeftUntil(mathtrade.freeze_geek_date);
       locked.WANTS = {
@@ -113,9 +140,13 @@ const useSidebarNav = () => {
     }
     return locked;
   }, [
+    mathtrade,
+    membership,
+    canI.sign,
     canI.offer,
     canI.provisionalResults,
     canI.results,
+    mathtrade?.start_date,
     mathtrade?.freeze_geek_date,
     mathtrade?.freeze_wants_date,
     mathtrade?.provisional_results_date,

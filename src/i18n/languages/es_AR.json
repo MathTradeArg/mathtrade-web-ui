@@ -541,6 +541,8 @@
   "menu.locked.provisional.today": "Se habilita cuando salgan los resultados provisorios (hoy)",
   "menu.locked.provisional.1day": "Se habilita cuando salgan los resultados provisorios (falta 1 día)",
   "menu.locked.provisional.days": "Se habilita cuando salgan los resultados provisorios (faltan $$$ días)",
+  "menu.locked.needMembership": "Se habilita cuando aceptes la membresía en Mis Datos",
+  "menu.locked.signupOpensOn": "La inscripción abre el $$$",
   "menu.OfferGames": "Juegos ofrecidos",
   "menu.OtherOffer": "Otros ofrecen",
   "menu.PostMT": "Post Math Trade",
