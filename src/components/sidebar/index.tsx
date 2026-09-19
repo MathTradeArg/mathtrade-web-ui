@@ -11,6 +11,7 @@ import NavRows from "./NavRows";
 import UtilityRow from "./UtilityRow";
 import AccountRow from "./AccountRow";
 import { fadeLabelClass } from "./fadeLabel";
+import Chip from "@/components/chip";
 
 const Sidebar = () => {
   const { groups, isActive, collapsed, toggleCollapsed, lockedInfo, isAdmin } =
@@ -69,13 +70,21 @@ const Sidebar = () => {
         </button>
       </div>
 
-      {isAdmin && !collapsed ? (
-        <span
-          title={getI18Ntext("sidebar.adminPill.tooltip")}
-          className="self-start mb-2.5 ml-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-amber-500/20 text-amber-400 border border-amber-500/40 cursor-help"
+      {isAdmin ? (
+        <div
+          className={clsx(
+            "mb-2.5",
+            collapsed ? "self-center" : "self-start ml-0.5"
+          )}
         >
-          {getI18Ntext("sidebar.adminPill")}
-        </span>
+          <Chip
+            tone="admin"
+            placement="right"
+            tooltip={getI18Ntext("sidebar.adminPill.tooltip")}
+          >
+            {getI18Ntext("sidebar.adminPill")}
+          </Chip>
+        </div>
       ) : (
         <div className="mb-2.5" />
       )}
