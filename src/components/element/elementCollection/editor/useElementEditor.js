@@ -1,6 +1,5 @@
 import { useMemo, useContext, useEffect, useState, useCallback } from "react";
 import useFetch from "@/hooks/useFetch";
-import useFetchBGG from "@/hooks/useFetchBGG";
 import { extractBGGdataFromElement } from "@/utils/bgg";
 import { photoUploaderConfig } from "@/config/photoUploader";
 import { noBGGgame } from "@/config/no-bgggame";
@@ -27,22 +26,21 @@ const useElementEditor = ({ newBGGinfo, toggleEditingMode }) => {
   /* FILTER OPTIONS **********************************************/
   const updateFilters = useOptions((state) => state.updateFilters);
   /* end FILTER OPTIONS *********************************************/
-
   const [BGGinfo, setBGGinfo] = useState(newBGGinfo);
 
-  const afterLoadBGG = useCallback((d) => {
-    setBGGinfo(d);
+  const afterLoadBGGelement = useCallback((bggData) => {
+    setBGGinfo(bggData);
   }, []);
 
-  const [getBGGelements, , loadingBGG] = useFetchBGG({
+  const [getBGGelement, , loadingBGGelement] = useFetch({
+    endpoint: "BGG_GET_GAME",
     initialState: {
       game: null,
       thumbnail: "",
       versions: [],
     },
-    endpoint: "ELEMENT",
     format: extractBGGdataFromElement,
-    afterLoad: afterLoadBGG,
+    afterLoad: afterLoadBGGelement,
   });
 
   ///////////////////////////////////////////
@@ -66,11 +64,7 @@ const useElementEditor = ({ newBGGinfo, toggleEditingMode }) => {
         element.game.bgg_id > 0 &&
         `${element.game.bgg_id}` !== noBGGgame.element.bgg_id
       ) {
-        getBGGelements({
-          id: element.game.bgg_id,
-          versions: 1,
-          stats: 1,
-        });
+        getBGGelement({ urlParams: [element.game.bgg_id] });
       } else {
         setNoGame(true);
       }
@@ -124,12 +118,12 @@ const useElementEditor = ({ newBGGinfo, toggleEditingMode }) => {
     setName(BGGinfoClone.element?.title || BGGinfoClone.element?.name || "");
     setThumbnail(BGGinfoClone.element?.thumbnail || "");
     setBgg_version_id(
-      `${BGGinfoClone.element?.bgg_version_id || ""}`.toLowerCase()
+      `${BGGinfoClone.element?.bgg_version_id || ""}`.toLowerCase(),
     );
     setBox_size(box_size);
 
     setLanguage(
-      BGGinfoClone.element?.languageRaw || BGGinfoClone.element?.language || ""
+      BGGinfoClone.element?.languageRaw || BGGinfoClone.element?.language || "",
     );
     setPublisher(BGGinfoClone.element?.publisher || "");
     setYear(BGGinfoClone.element?.year || "");
@@ -155,7 +149,7 @@ const useElementEditor = ({ newBGGinfo, toggleEditingMode }) => {
         {
           keyword: undefined,
         },
-        "collection"
+        "collection",
       );
       forceReloadPage();
     }
@@ -176,7 +170,7 @@ const useElementEditor = ({ newBGGinfo, toggleEditingMode }) => {
   });
 
   return {
-    loading: loadingBGG || loadingCreateElement || loadingEditElement,
+    loading: loadingBGGelement || loadingCreateElement || loadingEditElement,
     error: errorCreateElement || errorEditElement,
     noGame,
     //
@@ -197,29 +191,7 @@ const useElementEditor = ({ newBGGinfo, toggleEditingMode }) => {
     //
     game: dataComplete.game,
     item_id: itemId || null,
-    hiddenInputs: [
-      "type",
-      "bgg_id",
-      "primary_name",
-      "names",
-      "dependency",
-      "dependency_votes",
-      "rank",
-      "rate",
-      "rate_votes",
-      "geek_rate",
-      "weight",
-      "weight_votes",
-      "max_players",
-      "min_players",
-      "max_playtime",
-      "min_playtime",
-      "playing_time",
-      "game_thumbnail",
-      "year_published",
-      "box_size",
-      "contain_ids",
-    ],
+    hiddenInputs: ["type", "bgg_id", "box_size"],
     //
     versions: dataComplete.versions,
     //
@@ -242,16 +214,6 @@ const useElementEditor = ({ newBGGinfo, toggleEditingMode }) => {
     onSubmit: (params) => {
       const data = {
         ...params,
-        primary_name:
-          params.primary_name !== "none"
-            ? params.primary_name
-            : params.name || "none",
-        names: params.names !== "none" ? params.names : params.name || "none",
-        game_thumbnail:
-          !params?.game_thumbnail || params.game_thumbnail === "none"
-            ? params.thumbnail
-            : params?.game_thumbnail,
-        year_published: params.year_published || params.year,
       };
 
       if (element && element.elementRaw) {
