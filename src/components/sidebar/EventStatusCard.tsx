@@ -41,6 +41,12 @@ const EventStatusCard = ({ collapsed = false }: { collapsed?: boolean }) => {
     if (canI?.results) {
       return { titleId: "menu.stage.results", days: null };
     }
+    if (mathtrade.start_date) {
+      return {
+        titleId: "menu.stage.new",
+        days: daysLeftUntil(mathtrade.start_date),
+      };
+    }
     return null;
   }, [canI, mathtrade]);
 
