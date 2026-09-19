@@ -3,16 +3,16 @@ import { PageContext } from "@/context/page";
 
 export const ResultsContext = createContext({
   userList: [],
-  setUserList: () => {},
+  setUserList: (_list?: any) => {},
   currentUser: null,
   currentUserId: null,
-  setCurrentUserId: () => {},
+  setCurrentUserId: (_id?: any) => {},
   //
   customMathtradeId: null,
-  setCustomMathtradeId: () => {},
+  setCustomMathtradeId: (_id?: any) => {},
   //
   MathTradeResults: null,
-  setMathTradeResults: () => {},
+  setMathTradeResults: (_results?: any) => {},
 });
 
 export const ResultsContextProvider = ({ children }) => {

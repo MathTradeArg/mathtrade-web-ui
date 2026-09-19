@@ -11,21 +11,23 @@ import {
 } from "@/components/badgeType/cardKind";
 
 const WantGroupLabelUI = ({ wantGroup = null }) => {
-  if (!wantGroup) return null;
   const { setShowNoOptionsAdv } = useContext(GridContext);
-  const { name, type, tag, wants, value } = wantGroup;
+  const { name, type, tag, wants, value } = wantGroup || {};
   const empty = !(wants?.length);
-  const kind = resolveWantGroupKind(wantGroup);
+  const kind = wantGroup ? resolveWantGroupKind(wantGroup) : null;
 
   useEffect(() => {
+    if (!wantGroup) return;
     if (empty) {
       setShowNoOptionsAdv(true);
     }
-  }, [wants, setShowNoOptionsAdv, empty]);
+  }, [wantGroup, wants, setShowNoOptionsAdv, empty]);
 
   const tagStyle = useMemo(() => {
     return type === "tag" ? colorTagStyles(tag?.color) : null;
   }, [type, tag]);
+
+  if (!wantGroup) return null;
 
   return (
     <div
