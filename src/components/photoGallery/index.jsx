@@ -10,14 +10,14 @@ import PhotoUploader from "../photoUploader";
 
 const PhotoGallery = ({
   images,
-  setImages,
-  className,
+  setImages = undefined,
+  className = "",
   title = "photoGallery.editElement.title",
   subtitle = "photoGallery.editElement.subtitle",
-  noTitled,
+  noTitled = false,
   max = 4,
-  extended,
-  noEdit,
+  extended = false,
+  noEdit = false,
 }) => {
   const {
     editable,

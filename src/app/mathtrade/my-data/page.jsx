@@ -48,8 +48,7 @@ const MyDataPage = () => {
     <>
       <PageHeader
         title={isMembership ? "title.MyData" : "title.SignToMathTrade"}
-        name="myData"
-        bgImg="7"
+        variant="minimal"
       />
       <SectionCommon
         title={isMembership ? "title.MyData" : "title.SignToMathTrade"}

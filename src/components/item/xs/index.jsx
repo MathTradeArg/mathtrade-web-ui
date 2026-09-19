@@ -7,14 +7,14 @@ const ItemXS = ({
   hideValue,
   extraContent,
   className,
-  dark,
+  excluded,
 }) => {
   return (
     <ItemContextProvider itemRaw={itemRaw}>
       <ItemXSUI
         extraContent={extraContent}
         className={className}
-        dark={dark}
+        excluded={excluded}
         hideUser={hideUser}
         hideValue={hideValue}
       />

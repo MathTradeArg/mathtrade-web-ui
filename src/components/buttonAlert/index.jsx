@@ -4,12 +4,14 @@ import I18N from "@/i18n";
 import { useState } from "react";
 
 const ButtonAlert = ({
-  className,
-  ariaLabel,
-  disabled,
+  className = "",
+  ariaLabel = undefined,
+  disabled = false,
   children,
   onClick,
   title,
+  description = "",
+  confirmId = "Yes",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -23,6 +25,7 @@ const ButtonAlert = ({
   return (
     <>
       <button
+        type="button"
         className={className}
         aria-label={ariaLabel}
         disabled={disabled}
@@ -35,11 +38,17 @@ const ButtonAlert = ({
           <h3 className="text-xl mb-2 font-bold">
             <I18N id={title} />
           </h3>
+          {description ? (
+            <p className="text-sm text-gray-600 text-balance">
+              <I18N id={description} />
+            </p>
+          ) : null}
           <div className="flex items-center justify-center gap-3 pt-4">
-            <Button color="cancel" outline onClick={toggleIsOpen}>
+            <Button type="button" color="cancel" outline onClick={toggleIsOpen}>
               <I18N id="btn.Cancel" />
             </Button>
             <Button
+              type="button"
               color="danger"
               className="px-9"
               onClick={(e) => {
@@ -49,7 +58,7 @@ const ButtonAlert = ({
                 }
               }}
             >
-              <I18N id="Yes" />
+              <I18N id={confirmId} />
             </Button>
           </div>
         </div>

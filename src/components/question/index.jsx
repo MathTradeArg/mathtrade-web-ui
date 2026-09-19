@@ -5,8 +5,8 @@ import { getI18Ntext } from "@/i18n";
 const Question = ({
   placement = "top",
   text = "text",
-  noTranslate,
-  className,
+  noTranslate = false,
+  className = "",
 }) => {
   return (
     <div

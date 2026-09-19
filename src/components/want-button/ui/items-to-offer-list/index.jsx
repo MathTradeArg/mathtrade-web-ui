@@ -63,7 +63,7 @@ const ItemToOfferList = () => {
         <button
           className={clsx("px-2", {
             "text-gray-500 bg-white": !isItem,
-            "text-gray-800 bg-item-200": isItem,
+            "text-gray-800 bg-gray-100": isItem,
           })}
           onClick={toggleShowAll}
         >
