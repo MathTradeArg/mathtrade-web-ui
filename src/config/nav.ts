@@ -7,6 +7,8 @@ export type NavEntry = {
   icon: string;
   /** Shown in the mobile bottom tab bar; otherwise only reachable via the "Más" sheet. */
   mobilePrimary?: boolean;
+  /** Values interpolated into titleI18nKey's "$$$" placeholders, if any. */
+  titleValues?: (string | number)[];
 };
 
 // Full route catalog; which subset is actually shown is decided by the consuming hook (useSidebarNav.ts).

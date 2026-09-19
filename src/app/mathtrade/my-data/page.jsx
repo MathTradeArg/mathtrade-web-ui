@@ -30,6 +30,8 @@ const MyDataPage = () => {
     meetingDay,
     isMathtrade,
     isMembership,
+    signupOpen,
+    signupOpensOn,
     currentLocation,
     currentEventAttendance,
     isMandatoryAttendance,
@@ -55,7 +57,16 @@ const MyDataPage = () => {
         loading={loading}
       >
         <div className="py-8">
-          {isMathtrade ? (
+          {isMathtrade && !signupOpen ? (
+            <div className="text-center py-11 text-xl">
+              <p>
+                <I18N
+                  id="menu.locked.signupOpensOn"
+                  values={[`${signupOpensOn.day}/${signupOpensOn.month}`]}
+                />
+              </p>
+            </div>
+          ) : isMathtrade ? (
             <section className="max-w-lg mx-auto py-8 relative">
               <h2 className=" text-balance text-center font-bold mb-5 text-3xl text-gray-600">
                 🎊 {mathtradeName} 🎉
