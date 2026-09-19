@@ -61,9 +61,10 @@ const captionIdFor = (
 
 const useSidebarNav = () => {
   const { canI } = useContext(PageContext);
-  const { membership, mathtrade, mathtrade_history } = useStore(
+  const { membership, mathtrade, mathtrade_history, user } = useStore(
     (state) => state.data
   );
+  const isAdmin = Boolean(user?.math_admin);
   const pathname = usePathname();
 
   const options = useOptions((state) => state.options);
@@ -99,6 +100,12 @@ const useSidebarNav = () => {
 
   const lockedInfo: Record<string, LockedInfo> = useMemo(() => {
     const locked: Record<string, LockedInfo> = {};
+
+    if (isAdmin) {
+      // Admins can browse every section read-only regardless of phase/membership;
+      // the backend still blocks writes (POST/PUT) until the phase is actually open.
+      return locked;
+    }
 
     if (mathtrade && !membership) {
       MEMBERSHIP_GATED_KEYS.forEach((key) => {
@@ -150,6 +157,7 @@ const useSidebarNav = () => {
     }
     return locked;
   }, [
+    isAdmin,
     mathtrade,
     membership,
     canI.sign,
@@ -207,6 +215,7 @@ const useSidebarNav = () => {
     toggleCollapsed,
     lockedInfo,
     provisionalWindowActive,
+    isAdmin,
   };
 };
 
