@@ -12,7 +12,7 @@ import AccountRow from "./AccountRow";
 import { fadeLabelClass } from "./fadeLabel";
 
 const Sidebar = () => {
-  const { groups, isActive, collapsed, toggleCollapsed, lockedInfo } =
+  const { groups, isActive, collapsed, toggleCollapsed, lockedInfo, isAdmin } =
     useSidebarNav();
 
   return (
@@ -24,7 +24,7 @@ const Sidebar = () => {
     >
       <div
         className={clsx(
-          "flex items-center gap-2 mb-2.5 min-h-10 w-full",
+          "flex items-center gap-2 min-h-10 w-full",
           collapsed ? "flex-col" : ""
         )}
       >
@@ -61,6 +61,17 @@ const Sidebar = () => {
           />
         </button>
       </div>
+
+      {isAdmin && !collapsed ? (
+        <span
+          title={getI18Ntext("sidebar.adminPill.tooltip")}
+          className="self-start mb-2.5 ml-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-amber-500/20 text-amber-400 border border-amber-500/40 cursor-help"
+        >
+          {getI18Ntext("sidebar.adminPill")}
+        </span>
+      ) : (
+        <div className="mb-2.5" />
+      )}
 
       <EventStatusCard collapsed={collapsed} />
 
