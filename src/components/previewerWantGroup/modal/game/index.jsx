@@ -3,7 +3,7 @@ import { LoadingBox } from "@/components/loading";
 import { GameContextProvider } from "@/context/game";
 import useFetch from "@/hooks/useFetch";
 import { useMemo } from "react";
-import GameUI from "./ui";
+import GameUI from "./ui.tsx";
 
 const GamePreview = ({ wantGroup }) => {
   /* LOAD GAME ***************************/

@@ -42,8 +42,7 @@ const ItemOfGame = ({ item }) => {
           disabled={!canI.want || ownList[item?.id]}
         />
       }
-      className={ownList[item?.id] ? "opacity-50" : null}
-      dark
+      className={ownList[item?.id] ? "opacity-50" : ""}
     />
   );
 

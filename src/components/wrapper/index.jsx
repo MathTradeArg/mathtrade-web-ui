@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-const Wrapper = ({ children, className, tag = "div" }) => {
+const Wrapper = ({ children, className = "", tag = "div" }) => {
   const VariableTag = tag;
   return (
     <VariableTag

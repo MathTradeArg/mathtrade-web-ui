@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-const ElementWrapperInside = ({ children, padded = true, className }) => {
+const ElementWrapperInside = ({ children, padded = true, className = "" }) => {
   return (
     <div
       className={clsx(

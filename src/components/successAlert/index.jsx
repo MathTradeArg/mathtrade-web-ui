@@ -1,7 +1,7 @@
 import I18N from "@/i18n";
 import clsx from "clsx";
 
-const SuccessAlert = ({ text, className }) => {
+const SuccessAlert = ({ text, className = "" }) => {
   return (
     <div
       className={clsx(

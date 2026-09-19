@@ -12,7 +12,7 @@ const LayoutExternal = ({ title, subtitle, children }) => {
     <div className="relative w-full min-h-screen pb-20">
       <a id="a-top" />
       <main className="relative py-main">
-        <PageHeader title={title} subtitle={subtitle} name="home" />
+        <PageHeader title={title} subtitle={subtitle} variant="minimal" />
         <SectionCommon>
           <article className="p-9">{children}</article>
         </SectionCommon>

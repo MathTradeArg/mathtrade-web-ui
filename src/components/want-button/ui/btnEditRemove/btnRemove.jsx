@@ -50,9 +50,9 @@ const BtnRemove = () => {
     <>
       <button
         className={clsx(
-          "text-xs uppercase border-red-600 text-red-600 px-5 py-1 rounded-full transition-colors",
+          "text-sm text-red-600 underline decoration-red-300 underline-offset-2 transition-colors",
           {
-            "hover:bg-red-600 hover:text-white": !loading,
+            "hover:decoration-red-600": !loading,
             "opacity-40": loading, // disabled
           }
         )}

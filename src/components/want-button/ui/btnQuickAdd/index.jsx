@@ -132,17 +132,14 @@ const BtnQuickAdd = () => {
   if (!canI.want) {
     return (
       <div className="text-center">
-        <button
-          className="rounded-full outline-none transition-colors inline-block w-auto px-7 py-3 text-lg shadow-md bg-gray-500 text-white opacity-30 cursor-not-allowed"
-          disabled
+        <div
+          className="inline-flex items-center gap-2 text-sm font-semibold text-gray-400 cursor-not-allowed"
           ref={buttonRef}
         >
-          <InnerButton>
-            <Icon type="heart" />
-            <I18N id="btn.Want.Iwant" />
-          </InnerButton>
-        </button>
-        <div className="w-fit mx-auto pt-2">
+          <Icon type="heart" className="text-base" />
+          <I18N id="btn.Want.Iwant" />
+        </div>
+        <div className="w-fit mx-auto pt-1">
           <HelpContext id="whyCantWant" />
         </div>
       </div>
@@ -154,12 +151,11 @@ const BtnQuickAdd = () => {
       <div className="text-center">
         <button
           className={clsx(
-            "rounded-full outline-none transition-colors inline-block w-auto px-7 py-3 text-lg shadow-md",
+            "inline-flex items-center gap-2 text-sm font-semibold transition-colors",
             {
-              "bg-want text-white": !loadingMyWants,
-              "bg-gray-500 text-white": loadingMyWants,
-              "hover:opacity-75": !loadingMyWants && !loading,
-              "opacity-50": loadingMyWants || loading,
+              "text-gray-400 hover:text-want": !loadingMyWants && !loading,
+              "text-gray-400": loadingMyWants || loading,
+              "opacity-60": loadingMyWants || loading,
             }
           )}
           disabled={loadingMyWants || loading}
@@ -172,10 +168,11 @@ const BtnQuickAdd = () => {
           }
           ref={buttonRef}
         >
-          <InnerButton>
-            <Icon type={loadingMyWants || loading ? "loading" : "heart"} />
-            <I18N id={`btn.Want.${loadingMyWants ? "Loading" : "Iwant"}`} />
-          </InnerButton>
+          <Icon
+            type={loadingMyWants || loading ? "loading" : "heart"}
+            className="text-base"
+          />
+          <I18N id={`btn.Want.${loadingMyWants ? "Loading" : "Iwant"}`} />
         </button>
         <ErrorAlert error={error} className="mt-2" />
       </div>

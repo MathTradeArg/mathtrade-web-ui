@@ -12,7 +12,12 @@ import Dynamic from "@/components/dynamic";
 
 const WantButton = lazy(() => import("@/components/want-button"));
 
-const ItemXL = ({ onToggleExpanse, hideWant, hideTags, onChangeValue }) => {
+const ItemXL = ({
+  onToggleExpanse = undefined,
+  hideWant = false,
+  hideTags = false,
+  onChangeValue = undefined,
+}) => {
   /* ITEM CONTEXT **********************************************/
   const { item, loadingItem, showAsIgnored } = useContext(ItemContext);
   const { ban_id, elements } = item;

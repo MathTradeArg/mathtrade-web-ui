@@ -27,7 +27,7 @@
     transition: 0.3s;
 
     &.visibleSidebar {
-      grid-template-columns: 330px auto;
+      grid-template-columns: 280px auto;
       // .sidebar-aside {
       //   padding-right: 1.75rem;
       // }
@@ -38,19 +38,29 @@
 @media screen and (max-width: 1023px) {
   .sidebar-aside {
     position: fixed;
-    z-index: 9999;
+    z-index: 70;
     width: 100%;
-    height: 100vh;
+    height: 100dvh;
     top: 0;
     left: 0;
     background-color: #fff;
     display: none;
     overflow: auto;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
 
     &.visibleMobile {
       display: block;
     }
   }
+
+  // Dialogflow's FAB is position:fixed in shadow DOM and can sit above the
+  // Más sheet / filter overlay even when the React wrapper is z-40.
+  body.mt-more-open df-messenger,
+  body:has(.sidebar-aside.visibleMobile) df-messenger {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
   .container-with-sidebar {
     grid-template-columns: 100%;
   }

@@ -3,7 +3,7 @@ import Notification from "./notification";
 import { LoadingBox } from "@/components/loading";
 import I18N from "@/i18n";
 
-const List = ({ type, noMembership }) => {
+const List = ({ type, noMembership = false }) => {
   const { list, loading, showLoadMore, loadMore } = useNotifications(type);
 
   return (

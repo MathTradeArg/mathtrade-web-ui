@@ -41,27 +41,21 @@ const useBanUserList = () => {
   const [userBans, setUserBans] = useState({});
 
   const afterLoadBanUsers = useCallback((list) => {
-    const newUserBan = list
-      .filter((ban) => ban.type === "U")
-      .reduce((obj, value) => {
-        const { id, identity } = value;
-
+    const rows = Array.isArray(list) ? list : list?.results || [];
+    const newUserBan = rows.reduce((obj, value) => {
+      const { id, identity } = value;
+      if (id && identity) {
         obj[identity] = id;
-
-        return obj;
-      }, {});
+      }
+      return obj;
+    }, {});
 
     setUserBans(newUserBan);
-  }, []);
-
-  const banParams = useMemo(() => {
-    return { users: true };
   }, []);
 
   const [, , loadingBanUsers, errorBanUsers] = useFetch({
     endpoint: "GET_BANS",
     initialState: {},
-    params: banParams,
     autoLoad: true,
 
     afterLoad: afterLoadBanUsers,
