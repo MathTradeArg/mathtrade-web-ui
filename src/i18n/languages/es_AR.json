@@ -296,6 +296,7 @@
   "forgotPassword.title": "Olvidé mi contraseña",
   "forgotPassword.title2": "Enviamos una contraseña provisoria",
   "forgotPassword.usernameOrEmail": "Nombre de usuario o email",
+  "footer.poweredByBGG": "Powered by BoardGameGeek",
   "form.BGGuser": "Usuario en la BGG",
   "form.BGGuser.error": "No se encuentra este usuario en la BGG",
   "form.BGGuser.help": "Podés poner tu alias en la BGG.",

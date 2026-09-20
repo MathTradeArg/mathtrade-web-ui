@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import useFetch from "@/hooks/useFetch";
+import { isBggExpansionType } from "@/utils/text";
 
-const formatTextComp = (text, textLower, valueLower) => {
+const formatTextComp = (text = "", textLower = "", valueLower = "") => {
   const ind = textLower.indexOf(valueLower);
 
   if (ind < 0) return { a: text, b: "", c: "" };
@@ -15,31 +16,39 @@ const formatTextComp = (text, textLower, valueLower) => {
   return { a, b, c };
 };
 
-const useSearchBGG = ({ setSearchResultBGG, inCollection }) => {
-  const inputRef = useRef(null);
+const useSearchBGG = ({
+  setSearchResultBGG = (_result?: any) => {},
+  inCollection = false,
+}: {
+  setSearchResultBGG?: (result: any) => void;
+  inCollection?: boolean;
+} = {}) => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const [value, setValue] = useState({ val: "", enableSearch: false });
   const [isFocus, setIsFocus] = useState(false);
 
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<any[]>([]);
 
   const afterLoad = useCallback(
-    (list) => {
-      const newList = list
-        .map((item) => {
+    (list: any[] = []) => {
+      const newList = (list || [])
+        .map((item: any = {}) => {
           const name = `${item?.primary_name || ""} (${item?.year || ""})`;
           const nameLower = name.toLowerCase();
+          const versionId = item.version_id || item.version || null;
 
           return {
             bgg_id: item.bgg_id,
             name,
             nameComp: formatTextComp(name, nameLower, value.val.toLowerCase()),
-            expansion: item.type !== 1,
+            expansion: isBggExpansionType(item.type),
+            version_id: versionId,
             indexPosition: nameLower.indexOf(value.val.toLowerCase()),
           };
         })
 
-        .sort((a, b) => {
+        .sort((a: any, b: any) => {
           return a.indexPosition === b.indexPosition
             ? a.name.length < b.name.length
               ? -1
@@ -52,7 +61,7 @@ const useSearchBGG = ({ setSearchResultBGG, inCollection }) => {
 
       setList(newList);
     },
-    [value.val],
+    [value.val]
   );
 
   const [getBGGgames, , loading, errorMessage] = useFetch({
@@ -61,10 +70,12 @@ const useSearchBGG = ({ setSearchResultBGG, inCollection }) => {
   });
 
   useEffect(() => {
-    let delayDebounceFn = null;
+    let delayDebounceFn: ReturnType<typeof setTimeout> | null = null;
     if (value.val.length >= 2 && value.enableSearch) {
       delayDebounceFn = setTimeout(() => {
-        const params = { query: value.val };
+        const params: { query: string; inCollection?: boolean } = {
+          query: value.val,
+        };
         if (inCollection) {
           params.inCollection = true;
         }
@@ -76,13 +87,14 @@ const useSearchBGG = ({ setSearchResultBGG, inCollection }) => {
     } else {
       setList([]);
     }
-    return () => clearTimeout(delayDebounceFn);
+    return () => {
+      if (delayDebounceFn) clearTimeout(delayDebounceFn);
+    };
   }, [getBGGgames, inCollection, value]);
 
-  //////////////////
   useEffect(() => {
     setSearchResultBGG(null);
-    inputRef.current.focus();
+    inputRef.current?.focus();
   }, [setSearchResultBGG]);
 
   const onFocus = useCallback(() => {
@@ -95,19 +107,23 @@ const useSearchBGG = ({ setSearchResultBGG, inCollection }) => {
   }, []);
 
   const onSelect = useCallback(
-    (elem) => {
-      const { bgg_id, name } = elem;
-      setSearchResultBGG({ bgg_id, name });
+    (elem: any = {}) => {
+      const { bgg_id, name, version_id } = elem;
+      setSearchResultBGG({
+        bgg_id,
+        name,
+        bgg_version_id: version_id ? `${version_id}` : undefined,
+      });
       setValue({
         val: name,
         enableSearch: false,
       });
     },
-    [setSearchResultBGG],
+    [setSearchResultBGG]
   );
 
   const onClear = useCallback(() => {
-    inputRef.current.focus();
+    inputRef.current?.focus();
     setSearchResultBGG(null);
     setIsFocus(true);
     setValue({
