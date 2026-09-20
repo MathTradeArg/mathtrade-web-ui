@@ -8,27 +8,27 @@ import { ItemContext } from "@/context/item";
 import { ElementContext } from "@/context/element";
 import { useOptions } from "@/store";
 
-const useElementEditor = ({ newBGGinfo, toggleEditingMode }) => {
-  // PAGE CONTEXT *************************************/
+const useElementEditor = ({
+  newBGGinfo = null,
+  toggleEditingMode = () => {},
+}: {
+  newBGGinfo?: any;
+  toggleEditingMode?: () => void;
+} = {}) => {
   const { forceReloadPage } = useContext(PageContext);
-  // end PAGE CONTEXT *************************************/
-
-  // ITEM CONTEXT *************************************/
-  const { item, reloadItem } = useContext(ItemContext);
+  const { item, reloadItem } = useContext(ItemContext) as {
+    item?: { id?: string | number } | null;
+    reloadItem?: () => void;
+  };
 
   const itemId = item && item.id ? item.id : null;
-  // end ITEM CONTEXT *************************************/
 
-  // ELEMENT CONTEXT *************************************/
   const { element } = useContext(ElementContext);
-  // end ELEMENT CONTEXT *************************************/
 
-  /* FILTER OPTIONS **********************************************/
-  const updateFilters = useOptions((state) => state.updateFilters);
-  /* end FILTER OPTIONS *********************************************/
+  const updateFilters = useOptions((state: any) => state.updateFilters);
   const [BGGinfo, setBGGinfo] = useState(newBGGinfo);
 
-  const afterLoadBGGelement = useCallback((bggData) => {
+  const afterLoadBGGelement = useCallback((bggData: any) => {
     setBGGinfo(bggData);
   }, []);
 
@@ -43,10 +43,8 @@ const useElementEditor = ({ newBGGinfo, toggleEditingMode }) => {
     afterLoad: afterLoadBGGelement,
   });
 
-  ///////////////////////////////////////////
   const [noGame, setNoGame] = useState(false);
   const [thumbnailAlt, setThumbnailAlt] = useState(null);
-  ///////////////////////////////////////////
   const [name, setName] = useState("");
   const [thumbnail, setThumbnail] = useState("");
   const [bgg_version_id, setBgg_version_id] = useState("");
@@ -54,14 +52,12 @@ const useElementEditor = ({ newBGGinfo, toggleEditingMode }) => {
   const [language, setLanguage] = useState("");
   const [publisher, setPublisher] = useState("");
   const [year, setYear] = useState("");
-  ///////////////////////////////////////////
 
   useEffect(() => {
     if (!newBGGinfo) {
-      //edit
       if (
         element?.type !== "Fuera de la BGG" &&
-        element.game.bgg_id > 0 &&
+        element?.game?.bgg_id > 0 &&
         `${element.game.bgg_id}` !== noBGGgame.element.bgg_id
       ) {
         getBGGelement({ urlParams: [element.game.bgg_id] });
@@ -79,9 +75,7 @@ const useElementEditor = ({ newBGGinfo, toggleEditingMode }) => {
 
   const dataComplete = useMemo(() => {
     const elementClone = {
-      ...(element //&& element.elementRaw
-        ? element //.elementRaw
-        : {}),
+      ...(element ? element : {}),
     };
     const box_size = elementClone?.box_size || "";
 
@@ -118,38 +112,42 @@ const useElementEditor = ({ newBGGinfo, toggleEditingMode }) => {
     setName(BGGinfoClone.element?.title || BGGinfoClone.element?.name || "");
     setThumbnail(BGGinfoClone.element?.thumbnail || "");
     setBgg_version_id(
-      `${BGGinfoClone.element?.bgg_version_id || ""}`.toLowerCase(),
+      `${BGGinfoClone.element?.bgg_version_id || ""}`.toLowerCase()
     );
     setBox_size(box_size);
 
     setLanguage(
-      BGGinfoClone.element?.languageRaw || BGGinfoClone.element?.language || "",
+      BGGinfoClone.element?.languageRaw || BGGinfoClone.element?.language || ""
     );
-    setPublisher(BGGinfoClone.element?.publisher || "");
-    setYear(BGGinfoClone.element?.year || "");
+    const originalElement = element?.elementRaw?.element || {};
+    setPublisher(
+      originalElement.publisher ||
+        elementClone.publisherRaw ||
+        BGGinfo?.element?.publisher ||
+        ""
+    );
+    setYear(
+      originalElement.year || elementClone.year || BGGinfo?.element?.year || ""
+    );
 
     return BGGinfoClone;
   }, [BGGinfo, element]);
 
-  /////////////////////
-  const onLoadedNewThumbnail = useCallback((newThumbnail) => {
+  const onLoadedNewThumbnail = useCallback((newThumbnail: string) => {
     setThumbnail(`${photoUploaderConfig.urlBase}${newThumbnail}`);
   }, []);
 
-  /********************************************************/
-
-  // CREATE ELEMENT
   const afterLoadCreateEdit = useCallback(() => {
     toggleEditingMode();
 
     if (itemId) {
-      reloadItem();
+      reloadItem?.();
     } else {
       updateFilters(
         {
           keyword: undefined,
         },
-        "collection",
+        "collection"
       );
       forceReloadPage();
     }
@@ -161,8 +159,6 @@ const useElementEditor = ({ newBGGinfo, toggleEditingMode }) => {
     afterLoad: afterLoadCreateEdit,
   });
 
-  // EDIT ELEMENT
-
   const [editElement, , loadingEditElement, errorEditElement] = useFetch({
     endpoint: "PUT_MYCOLLECTION_ELEMENT",
     method: "PUT",
@@ -173,7 +169,6 @@ const useElementEditor = ({ newBGGinfo, toggleEditingMode }) => {
     loading: loadingBGGelement || loadingCreateElement || loadingEditElement,
     error: errorCreateElement || errorEditElement,
     noGame,
-    //
     name,
     thumbnail,
     bgg_version_id,
@@ -188,20 +183,14 @@ const useElementEditor = ({ newBGGinfo, toggleEditingMode }) => {
     setLanguage,
     setPublisher,
     setYear,
-    //
     game: dataComplete.game,
     item_id: itemId || null,
     hiddenInputs: ["type", "bgg_id", "box_size"],
-    //
     versions: dataComplete.versions,
-    //
     thumbnailAlt,
     setThumbnailAlt,
-    //
     onLoadedNewThumbnail,
-    //
     onCancel: toggleEditingMode,
-    //
     validations: {
       thumbnail: ["required"],
       bgg_version_id: ["required"],
@@ -211,7 +200,7 @@ const useElementEditor = ({ newBGGinfo, toggleEditingMode }) => {
       year: ["required"],
       box_size: ["required"],
     },
-    onSubmit: (params) => {
+    onSubmit: (params: any = {}) => {
       const data = {
         ...params,
       };

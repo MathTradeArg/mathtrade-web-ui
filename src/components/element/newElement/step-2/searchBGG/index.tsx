@@ -2,6 +2,7 @@
 import Icon from "@/components/icon";
 import { getI18Ntext } from "@/i18n";
 import useSearchBGG from "./useSearchBGG";
+
 import BadgeType from "@/components/badgeType";
 import ErrorAlert from "@/components/errorAlert";
 

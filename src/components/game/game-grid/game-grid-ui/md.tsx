@@ -11,6 +11,7 @@ import ItemNoBGG from "./itemNoBgg";
 import BadgeType from "@/components/badgeType";
 import { resolveGameKind, cardKindBorderClass } from "@/components/badgeType/cardKind";
 import useBGGdata from "@/components/bggInfo/useBGGdata";
+import BGGlink from "@/components/bggInfo/bggLink";
 import { NO_RANK_VALUE } from "@/config/no-bgggame";
 
 type GameCardData = {
@@ -129,7 +130,7 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
                 {rate}
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-caption text-gray-400 leading-none">
+                <span className="text-caption text-gray-700 leading-none">
                   <I18N id="element.BGG.weight" />
                 </span>
                 <div className="flex gap-1" title={`${weight} / 5`}>
@@ -138,27 +139,17 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
                       key={dot}
                       className={clsx(
                         "w-2 h-2 rounded-full",
-                        dot <= filledDots ? "bg-[#2c2e33]" : "bg-gray-200"
+                        dot <= filledDots ? "bg-[#2c2e33]" : "bg-gray-300"
                       )}
                     />
                   ))}
                 </div>
               </div>
-              {titleLink ? (
-                <a
-                  href={titleLink}
-                  target="_blank"
-                  rel="nofollow noopener"
-                  className="ml-auto shrink-0 w-7 h-7 rounded-md bg-bgg/10 text-bgg flex items-center justify-center hover:bg-bgg/20 transition-colors"
-                  title={getI18Ntext("element.BGG.OpenGameInBGG")}
-                >
-                  <Icon type="external-link" className="text-sm" />
-                </a>
-              ) : null}
+              {titleLink ? <BGGlink href={titleLink} className="ml-auto" /> : null}
             </div>
           ) : null}
 
-          <div className="mt-auto w-full text-caption text-gray-400 truncate">
+          <div className="mt-auto w-full text-caption text-gray-700 truncate">
             {itemCount} <I18N id={itemCount === 1 ? "game.item-num.1" : "game.item-num.more"} />
             {showBGGstats ? (
               <>
