@@ -139,8 +139,12 @@ const PageContextProvider = ({ children = null }) => {
   const [mathtradeUpdated, updateMathtrade] = useState<any>({});
 
   const isReferrer = useMemo(() => {
+    // Admins can browse the referrals-area read-only, same as other
+    // membership-gated sections — the backend already allows math_admin
+    // through IsReferredAuthenticated regardless of the real referrer role.
+    if (user?.math_admin) return true;
     return referrer && membership && mathtradeStored;
-  }, [referrer, membership, mathtradeStored]);
+  }, [referrer, membership, mathtradeStored, user]);
 
   const mathtrade = useMemo(() => {
     return { ...mathtradeStored, ...mathtradeUpdated };
