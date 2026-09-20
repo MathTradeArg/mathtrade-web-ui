@@ -1,33 +1,40 @@
 "use client";
-import { createContext, useMemo } from "react";
+import { createContext, useMemo, type ReactNode } from "react";
 import { getI18Ntext } from "@/i18n";
+import { formatPublisherWithYear } from "@/utils/text";
 
 export const ElementContext = createContext({
-  element: null,
+  element: null as any,
 });
 
-const getLanguageListText = (lang) => {
+const getLanguageListText = (lang: unknown = "") => {
   if (!lang) {
     return "";
   }
-  return lang
+  return `${lang}`
     .split(",")
-    .map((lang) => {
-      return getI18Ntext(`language.${lang.trim()}`);
+    .map((item) => {
+      return getI18Ntext(`language.${item.trim()}`);
     })
     .join(", ");
 };
 
-export const ElementContextProvider = ({ elementRaw, children }) => {
+export const ElementContextProvider = ({
+  elementRaw = {},
+  children = null,
+}: {
+  elementRaw?: any;
+  children?: ReactNode;
+}) => {
   const element = useMemo(() => {
     const {
       id: math_element_id,
-      element: elementOriginal,
+      element: elementOriginal = {},
       box_status,
       component_status,
       comment,
       images,
-    } = elementRaw;
+    } = elementRaw || {};
 
     const {
       id,
@@ -56,7 +63,8 @@ export const ElementContextProvider = ({ elementRaw, children }) => {
         : `https://boardgamegeek.com/boardgame/${game?.bgg_id}/`,
       bgg_version_id,
       year,
-      publisher: publisher && year ? `${publisher} (${year})` : null,
+      publisherRaw: publisher || "",
+      publisher: formatPublisherWithYear(publisher, year),
       publisherLink:
         bgg_version_id && bgg_version_id === "other"
           ? null

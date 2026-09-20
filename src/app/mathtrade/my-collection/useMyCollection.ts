@@ -6,6 +6,26 @@ import { getI18Ntext } from "@/i18n";
 import { useOptions } from "@/store";
 import { normalizeString } from "@/utils";
 
+const asElementList = (elements: unknown = []) =>
+  Array.isArray(elements) ? elements : [];
+
+const collectionSearchHaystack = (item: any = {}) => {
+  const parts = [
+    item.name,
+    item.publisher,
+    item.year,
+    item.game?.primary_name,
+    item.game?.bgg_id,
+  ];
+  const alternates = item.game?.alternate_names;
+  if (Array.isArray(alternates)) {
+    parts.push(...alternates);
+  } else if (alternates) {
+    parts.push(alternates);
+  }
+  return normalizeString(parts.filter(Boolean).join(" "));
+};
+
 const useMyCollection = () => {
   const { gotoTop } = useContext(GotoTopContext);
 
@@ -14,12 +34,9 @@ const useMyCollection = () => {
     mathTradeId,
     setPageType,
     reloadValue,
-    //myCollection,
-    //setMyCollection,
     myItemsInMT,
     setMyItemsInMT,
     setMyCollectionBGGids,
-    //mathTradeId,
     canI,
   } = useContext(PageContext);
 
@@ -33,7 +50,7 @@ const useMyCollection = () => {
   const updateFilters = useOptions((state) => state.updateFilters);
 
   useEffect(() => {
-    if (Object.keys(filters_collection).length <= 0) {
+    if (Object.keys(filters_collection || {}).length <= 0) {
       updateFilters({ order: "-created_date", page: 1 }, "collection");
     }
   }, [filters_collection, updateFilters]);
@@ -42,7 +59,7 @@ const useMyCollection = () => {
   // My Items in MathTrade ********************************************
 
   const afterLoadMyItems = useCallback(
-    (newMyItemsInMT) => {
+    (newMyItemsInMT: any) => {
       setMyItemsInMT(newMyItemsInMT);
     },
     [setMyItemsInMT]
@@ -55,9 +72,11 @@ const useMyCollection = () => {
   });
 
   const elementIdListOffered = useMemo(() => {
-    return myItemsInMT.reduce((arr, { elements }) => {
-      elements.forEach(({ element }) => {
-        arr.push(`${element.id}`);
+    return (myItemsInMT || []).reduce((arr: string[], { elements }: any = {}) => {
+      (elements || []).forEach(({ element }: any = {}) => {
+        if (element?.id != null) {
+          arr.push(`${element.id}`);
+        }
       });
       return arr;
     }, []);
@@ -67,13 +86,15 @@ const useMyCollection = () => {
 
   // My Collection ********************************************
 
-  const [elementsInCollectionRaw, setElementsInCollectionRaw] = useState([]);
+  const [elementsInCollectionRaw, setElementsInCollectionRaw] = useState<any[]>(
+    []
+  );
 
   const afterLoadMyCollection = useCallback(
-    (elements) => {
-      setElementsInCollectionRaw(elements);
-      //
-      const newMyCollectionBGGids = elements.reduce((arr, { game }) => {
+    (elements: unknown) => {
+      const list = asElementList(elements);
+      setElementsInCollectionRaw(list);
+      const newMyCollectionBGGids = list.reduce((arr: string[], { game }: any = {}) => {
         if (game && game.bgg_id) {
           arr.push(`${game.bgg_id}`);
         }
@@ -101,7 +122,7 @@ const useMyCollection = () => {
       return elementsInCollectionRaw;
     }
 
-    return elementsInCollectionRaw.map((element) => {
+    return elementsInCollectionRaw.map((element: any = {}) => {
       const elementOffered = elementIdListOffered.indexOf(`${element.id}`) >= 0;
       return {
         ...element,
@@ -111,19 +132,13 @@ const useMyCollection = () => {
   }, [elementsInCollectionRaw, elementIdListOffered]);
 
   const elementList = useMemo(() => {
-    // SEARCH
     const keyword = filters_collection?.keyword || "";
     const elementFiltered = keyword.length
-      ? (() => {
-          const keyLow = normalizeString(keyword);
-
-          return elementsInCollection.filter((item) => {
-            return normalizeString(item.name).indexOf(keyLow) >= 0;
-          });
-        })()
+      ? elementsInCollection.filter((item: any = {}) => {
+          return collectionSearchHaystack(item).indexOf(normalizeString(keyword)) >= 0;
+        })
       : [...elementsInCollection];
 
-    // ORDER
     const order = filters_collection?.order || "none";
     if (order === "none") {
       return elementFiltered;
@@ -135,35 +150,15 @@ const useMyCollection = () => {
     const dir = order.indexOf("-") === 0 ? -1 : 1;
     const key = order.indexOf("-") === 0 ? order.substring(1) : order;
 
-    return [...elementFiltered].sort((a, b) => {
+    return [...elementFiltered].sort((a: any, b: any) => {
       return a[key] < b[key] ? -1 * dir : dir;
     });
-
-    // if (key === "offered") {
-    //   const offereds = [];
-    //   const notOffereds = [];
-
-    //   const myItemsInMT_ids = myItemsInMT.map((item) => item.id);
-
-    //   itemsFiltered.forEach((a) => {
-    //     if (myItemsInMT_ids.indexOf(a.id) >= 0) {
-    //       offereds.push(a);
-    //     } else {
-    //       notOffereds.push(a);
-    //     }
-    //   });
-    //   if (dir > 0) {
-    //     return offereds.concat(notOffereds);
-    //   } else {
-    //     return notOffereds.concat(offereds);
-    //   }
-    // }
   }, [elementsInCollection, filters_collection]);
 
   // END My Collection ********************************************
 
   // FILTERS ********************************************
-  const searchText = (keyword) => {
+  const searchText = (keyword: string = "") => {
     gotoTop();
     updateFilters(
       {
@@ -178,13 +173,6 @@ const useMyCollection = () => {
       { text: getI18Ntext("element.Date"), value: "created_date" },
       { text: getI18Ntext("element.Name"), value: "name" },
     ];
-
-    // if (mathTradeId) {
-    //   list.push({
-    //     text: getI18Ntext("element.Offered-NotOffered"),
-    //     value: "offered",
-    //   });
-    // }
     return list;
   }, []);
   // end FILTERS ********************************************
