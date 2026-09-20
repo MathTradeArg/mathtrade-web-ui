@@ -96,6 +96,10 @@ const endpoints = {
 
   GET_MATHTRADE_STATS: "api/mathtrades/$[mathtradeId]/stats/",
 
+  // MATHTRADE: ADMIN PANEL
+  PATCH_MATHTRADE_ADMIN: "api/mathtrades/$[1]/",
+  POST_MATHTRADE_RULEBOOK: "api/mathtrades/$[1]/rulebook/",
+
   // BAN
   GET_BANS: "api/bans/users/",
   POST_BAN: "api/bans/",
