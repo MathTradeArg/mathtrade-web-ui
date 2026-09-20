@@ -4,6 +4,7 @@ import { NO_RANK_VALUE } from "@/config/no-bgggame";
 import BGGinfoLabel from "./bggInfoLabel";
 import BGGlink from "./bggLink";
 
+
 const BGGinfo = ({ game, contextFor = "black", className = "", bggLink }) => {
   const {
     isInBGG,

@@ -22,12 +22,13 @@ import RadioList from "@/components/form/inputTypes/radioList";
 import Question from "@/components/question";
 import BGGlink from "@/components/bggInfo/bggLink";
 
+
 const boxSizesOptionsList = boxSizesOptions.map((option) => {
   const { value } = option;
   return { value, text: <BoxSize value={value} /> };
 });
 
-const ElementEditor = ({ newBGGinfo, toggleEditingMode }) => {
+const ElementEditor = ({ newBGGinfo = null, toggleEditingMode = () => {} }) => {
   const {
     loading,
     error,

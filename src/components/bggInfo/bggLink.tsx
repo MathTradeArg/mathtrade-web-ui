@@ -1,9 +1,14 @@
 import Icon from "@/components/icon";
 import { getI18Ntext } from "@/i18n";
+import clsx from "clsx";
 
-const BGGlink = ({ href }) => {
+const BGGlink = ({ href = "", className = "" }) => {
+  if (!href) return null;
   return (
-    <div className="" data-tooltip={getI18Ntext("element.BGG.OpenGameInBGG")}>
+    <div
+      className={clsx("shrink-0", className)}
+      data-tooltip={getI18Ntext("element.BGG.OpenGameInBGG")}
+    >
       <a
         href={href}
         target="_blank"
@@ -20,4 +25,3 @@ const BGGlink = ({ href }) => {
   );
 };
 export default BGGlink;
-// #ff5100

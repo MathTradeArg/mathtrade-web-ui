@@ -2,7 +2,10 @@ import clsx from "clsx";
 import type { ReactNode } from "react";
 
 const TONES: Record<string, string> = {
-  neutral: "text-gray-500 bg-colorMain",
+  // White-ish fill + near-black text: these chips sit on the card-kind tints
+  // (#d2d2d4 and neighbours), where gray-on-gray (text-gray-500 / colorMain)
+  // disappeared. White still reads as a pill on white wrappers.
+  neutral: "text-gray-800 bg-white/85",
   // For a value that asks the user to do something rather than describing the
   // copy. Tinted instead of solid: these chips sit inside cards that already
   // carry a background tint of their own, and a solid fill at this size ends up
