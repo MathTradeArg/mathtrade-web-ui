@@ -14,10 +14,15 @@ import { useContext, useMemo, type ReactNode } from "react";
 import BadgeType from "@/components/badgeType";
 import { resolveCardKind, cardKindBorderClass } from "@/components/badgeType/cardKind";
 import useBGGdata from "@/components/bggInfo/useBGGdata";
+import BGGlink from "@/components/bggInfo/bggLink";
 import { getI18Ntext } from "@/i18n";
 import { NO_RANK_VALUE } from "@/config/no-bgggame";
 import { boxSizesValues, boxSizeIdToReview } from "@/config/boxSizes";
 import clsx from "clsx";
+
+const META_TEXT = "text-caption text-gray-700";
+const TAG_PILL =
+  "text-caption text-gray-800 bg-white/85 px-2.5 py-1 rounded-md";
 
 type ElementViewProps = {
   toggleEditingMode?: () => void;
@@ -164,7 +169,7 @@ const ElementView = ({
               {rate}
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-caption text-gray-400">
+              <span className={META_TEXT}>
                 <I18N id="element.BGG.weight" />
               </span>
               <div className="flex gap-1" title={`${weight} / 5`}>
@@ -173,39 +178,21 @@ const ElementView = ({
                     key={dot}
                     className={clsx(
                       "w-2 h-2 rounded-full",
-                      dot <= filledDots ? "bg-[#2c2e33]" : "bg-gray-200"
+                      dot <= filledDots ? "bg-[#2c2e33]" : "bg-gray-300"
                     )}
                   />
                 ))}
               </div>
             </div>
-            {titleLink ? (
-              <a
-                href={titleLink}
-                target="_blank"
-                rel="nofollow noopener"
-                className="ml-auto shrink-0 w-7 h-7 rounded-md bg-bgg/10 text-bgg flex items-center justify-center hover:bg-bgg/20 transition-colors"
-                title={getI18Ntext("element.BGG.OpenGameInBGG")}
-              >
-                <Icon type="external-link" className="text-sm" />
-              </a>
-            ) : null}
+            {titleLink ? <BGGlink href={titleLink} className="ml-auto" /> : null}
           </div>
         ) : null}
 
         <div className="flex flex-wrap gap-1.5">
-          {language ? (
-            <span className="text-caption text-gray-500 bg-colorMain px-2.5 py-1 rounded-md">
-              {language}
-            </span>
-          ) : null}
-          {showBGGstats ? (
-            <span className="text-caption text-gray-500 bg-colorMain px-2.5 py-1 rounded-md">
-              {dependency}
-            </span>
-          ) : null}
+          {language ? <span className={TAG_PILL}>{language}</span> : null}
+          {showBGGstats ? <span className={TAG_PILL}>{dependency}</span> : null}
           {boxSize ? (
-            <span className="text-caption text-gray-500 bg-colorMain px-2.5 py-1 rounded-md inline-flex items-center gap-1">
+            <span className={clsx(TAG_PILL, "inline-flex items-center gap-1")}>
               <I18N id={boxSize.text} />
               <Question
                 text={getI18Ntext(boxSize.description, [
@@ -219,7 +206,7 @@ const ElementView = ({
           ) : null}
         </div>
 
-        <div className="text-caption text-gray-400 truncate">
+        <div className={clsx(META_TEXT, "truncate")}>
           {showBGGstats ? (
             <>
               <I18N id="element.BGG.rank" />{" "}
@@ -236,7 +223,7 @@ const ElementView = ({
         </div>
 
         {showEdition ? (
-          <div className="flex items-center gap-1 border-t text-gray-500 pt-3">
+          <div className="flex items-center gap-1 border-t border-black/10 text-gray-600 pt-3">
             <button
               className="bg-primary text-white px-5 py-1 rounded-full font-bold text-sm hover:bg-sky-800  transition-colors"
               onClick={toggleEditingMode}

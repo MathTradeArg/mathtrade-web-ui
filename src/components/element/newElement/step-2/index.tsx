@@ -7,6 +7,7 @@ import I18N from "@/i18n";
 import clsx from "clsx";
 import SearchBGG from "./searchBGG";
 import useStepSearchBGG from "./useStepSearchBGG";
+
 import { LoadingBox } from "@/components/loading";
 import BGGlink from "@/components/bggInfo/bggLink";
 import BadgeType from "@/components/badgeType";
@@ -112,7 +113,7 @@ const NewElementStep2 = ({
                 <BadgeType
                   size="compact"
                   type="item"
-                  subtype={elementToShow.type === "Juego" ? 1 : 2}
+                  subtype={elementToShow.typeNum || 1}
                 />
                 <div className="flex items-center gap-2">
                   <h3 className="text-lg font-bold">{elementToShow.title}</h3>

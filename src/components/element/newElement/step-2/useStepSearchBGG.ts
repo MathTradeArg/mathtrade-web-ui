@@ -5,31 +5,35 @@ import { extractBGGdataFromElement } from "@/utils/bgg";
 import { getI18Ntext } from "@/i18n";
 import { PageContext } from "@/context/page";
 
-const useStepSearchBGG = ({ newBGGinfo, setnewBGGinfo }) => {
+const useStepSearchBGG = ({
+  newBGGinfo = null,
+  setnewBGGinfo = (_info: any) => {},
+}: {
+  newBGGinfo?: any;
+  setnewBGGinfo?: (info: any) => void;
+} = {}) => {
   const [searchType, setSearchType] = useState(0);
 
-  /* PAGE CONTEXT **********************************************/
-  const { myCollectionBGGids } = useContext(PageContext);
-  /* end PAGE CONTEXT *********************************************/
+  const { myCollectionBGGids } = useContext(PageContext) as {
+    myCollectionBGGids?: string[];
+  };
 
   const alreadyHaveThisBGGid = useMemo(() => {
-    const bggId = newBGGinfo.element.bgg_id;
+    const bggId = newBGGinfo?.element?.bgg_id;
 
     if (bggId === noBGGgame.element.bgg_id) {
       return false;
     }
 
-    return myCollectionBGGids.indexOf(bggId) >= 0;
+    return (myCollectionBGGids || []).indexOf(`${bggId}`) >= 0;
   }, [myCollectionBGGids, newBGGinfo]);
 
-  //////////////////////////
+  const [searchResultBGG, setSearchResultBGG] = useState<any>(null);
 
-  const [searchResultBGG, setSearchResultBGG] = useState(null);
-
-  const [elementToShow, setElementToShow] = useState(null);
+  const [elementToShow, setElementToShow] = useState<any>(null);
 
   const afterLoad = useCallback(
-    (bggData) => {
+    (bggData: any = {}) => {
       const o = {
         ...bggData,
         element: {
@@ -38,8 +42,8 @@ const useStepSearchBGG = ({ newBGGinfo, setnewBGGinfo }) => {
         },
       };
 
-      if (searchResultBGG.bgg_version_id && bggData.versions.length) {
-        const v = bggData.versions.find((version) => {
+      if (searchResultBGG?.bgg_version_id && bggData.versions?.length) {
+        const v = bggData.versions.find((version: any) => {
           return version.value === searchResultBGG.bgg_version_id;
         });
 
@@ -54,12 +58,13 @@ const useStepSearchBGG = ({ newBGGinfo, setnewBGGinfo }) => {
         thumbnail: o.element.thumbnail,
         title: o.element.name,
         type: getI18Ntext(`element-type-badge-${o.game.type}`),
+        typeNum: o.game.type || 1,
         game: o.game,
         titleLink: `https://boardgamegeek.com/boardgame/${o.game.bgg_id}/`,
       });
       setnewBGGinfo(o);
     },
-    [searchResultBGG, setnewBGGinfo],
+    [searchResultBGG, setnewBGGinfo]
   );
 
   const [getBGGelement, , loading] = useFetch({
@@ -75,7 +80,6 @@ const useStepSearchBGG = ({ newBGGinfo, setnewBGGinfo }) => {
 
   useEffect(() => {
     if (searchResultBGG) {
-      //
       getBGGelement({ urlParams: [searchResultBGG.bgg_id] });
     } else {
       setElementToShow(null);
