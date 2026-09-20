@@ -120,6 +120,11 @@ export const PRIVATE_ROUTES = {
     path: privateRoot + "/memardiums",
     enabled: "always",
   },
+  ADMIN_PANEL: {
+    title: "adminPanel",
+    path: privateRoot + "/admin",
+    enabled: "onlyForAdmin",
+  },
 };
 
 export const EXTERNAL_ROUTES = {

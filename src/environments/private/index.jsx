@@ -57,6 +57,10 @@ const PrivateEnvironment = ({ children }) => {
       return true;
     }
 
+    if (enabled === "onlyForAdmin" && user?.math_admin) {
+      return true;
+    }
+
     return false;
   }, [currentPath, membership, user]);
 
