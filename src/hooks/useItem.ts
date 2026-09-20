@@ -1,18 +1,16 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getI18Ntext } from "@/i18n";
 import { getLanguageListText } from "@/utils/itemUtils";
+import { formatPublisherWithYear } from "@/utils/text";
 import useFetch from "@/hooks/useFetch";
 
-const processElements = ({ elements }) => {
-  return elements.map((element) => {
+const processElements = ({ elements = [] }: { elements?: any[] } = {}) => {
+  return (elements || []).map((element: any = {}) => {
     const { id, thumbnail, game, status } = element;
 
     const typeNum = game?.type || 1;
 
     const type = getI18Ntext(`element-type-badge-${typeNum}`);
-    /////////////////////
-
-    ///////////////
 
     return {
       id,
@@ -21,15 +19,11 @@ const processElements = ({ elements }) => {
       game,
       thumbnail,
       title: element.name,
-      // titleCropped: cropWord(element.name, 50),
       titleLink:
         typeNum > 0 && typeNum < 3
           ? `https://boardgamegeek.com/boardgame/${game?.bgg_id}/`
           : null,
-      publisher:
-        element.publisher && element.year
-          ? `${element.publisher} (${element.year})`
-          : null,
+      publisher: formatPublisherWithYear(element.publisher, element.year),
       publisherLink:
         element.bgg_version_id && element?.bgg_version_id === "other"
           ? null
@@ -45,11 +39,21 @@ const processElements = ({ elements }) => {
   });
 };
 
-const useItem = ({ itemExternal, item, isForcedReload, deleteReload }) => {
+const useItem = ({
+  itemExternal = null,
+  item = null,
+  isForcedReload = false,
+  deleteReload = null,
+}: {
+  itemExternal?: any;
+  item?: any;
+  isForcedReload?: boolean;
+  deleteReload?: (() => void) | null;
+} = {}) => {
   const [itemLoaded, setItemLoaded] = useState(item);
 
   const afterLoad = useCallback(
-    (newItemLoaded) => {
+    (newItemLoaded: any) => {
       if (deleteReload) {
         deleteReload();
       }
@@ -86,14 +90,14 @@ const useItem = ({ itemExternal, item, isForcedReload, deleteReload }) => {
       comments,
 
       comments: commentsCount,
-    } = itemLoaded;
+    } = itemLoaded || {};
 
     const elements = processElements(itemLoaded);
 
     const { titleLink, publisher, publisherLink, language, status } =
-      elements[0];
+      elements[0] || {};
 
-    const typeNum = elements?.length > 1 ? 0 : elements[0].typeNum;
+    const typeNum = elements?.length > 1 ? 0 : elements[0]?.typeNum;
 
     return {
       id,
