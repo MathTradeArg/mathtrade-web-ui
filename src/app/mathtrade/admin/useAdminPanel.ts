@@ -61,6 +61,7 @@ const useAdminPanel = () => {
       const params: Record<string, any> = {
         name: formProps.name,
         active: formProps.active,
+        admin_only: formProps.admin_only,
       };
       if (formProps.location) params.location = formProps.location;
       DATE_FIELDS.forEach((field) => {
