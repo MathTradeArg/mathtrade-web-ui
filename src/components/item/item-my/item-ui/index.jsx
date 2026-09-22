@@ -27,12 +27,23 @@ const ItemUI = () => {
   // controls move inside the card.
   const headerOutside = isCombo || !elements.length;
 
+  const showsAddElement = canI.offer && elements.length > 0;
+
+  // A lone element that can still become a combo shows the "add another
+  // article" button right below its card — that button has no card of its
+  // own, so without a shared container it reads as floating, unrelated
+  // content. A plain border (not the combo's colored one, it isn't a combo
+  // yet) groups the two visually the same way the combo case already does.
+  const showsAsPlainCard = !isCombo && showsAddElement && elements.length === 1;
+
   return (
     <article
       className={clsx(
         "relative mb-6",
         isCombo
           ? clsx("rounded-lg p-3 shadow-md", cardKindBorderClass("combo"))
+          : showsAsPlainCard
+          ? "rounded-lg p-3 border border-stroke"
           : null
       )}
     >
@@ -53,7 +64,7 @@ const ItemUI = () => {
             />
           );
         })}
-        {canI.offer && elements.length ? (
+        {showsAddElement ? (
           <Dynamic h={100}>
             <AddElementToMyItem />
           </Dynamic>
