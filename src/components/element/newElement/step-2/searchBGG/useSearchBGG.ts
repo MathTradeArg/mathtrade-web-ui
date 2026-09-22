@@ -29,9 +29,17 @@ const useSearchBGG = ({
   const [isFocus, setIsFocus] = useState(false);
 
   const [list, setList] = useState<any[]>([]);
+  const [preparing, setPreparing] = useState(false);
+  const lastParamsRef = useRef<any>(null);
 
   const afterLoad = useCallback(
     (list: any[] = []) => {
+      if (!Array.isArray(list)) {
+        setPreparing(true);
+        return;
+      }
+      setPreparing(false);
+
       const newList = (list || [])
         .map((item: any = {}) => {
           const name = `${item?.primary_name || ""} (${item?.year || ""})`;
@@ -80,6 +88,8 @@ const useSearchBGG = ({
           params.inCollection = true;
         }
 
+        setPreparing(false);
+        lastParamsRef.current = params;
         getBGGgames({
           params,
         });
@@ -132,6 +142,12 @@ const useSearchBGG = ({
     });
   }, [setSearchResultBGG]);
 
+  const retry = useCallback(() => {
+    if (lastParamsRef.current) {
+      getBGGgames({ params: lastParamsRef.current });
+    }
+  }, [getBGGgames]);
+
   return {
     loading,
     errorMessage,
@@ -140,10 +156,12 @@ const useSearchBGG = ({
     setValue,
     onFocus,
     onBlur,
-    visiblePad: isFocus && list.length,
+    visiblePad: isFocus && list.length && !preparing,
     list,
     onSelect,
     onClear,
+    preparing,
+    retry,
   };
 };
 
