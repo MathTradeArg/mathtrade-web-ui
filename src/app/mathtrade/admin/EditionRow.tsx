@@ -20,6 +20,7 @@ type Mathtrade = {
   id: number;
   name: string;
   active: boolean;
+  admin_only: boolean;
   location?: { id: number } | null;
   rulebook_url?: string | null;
   [key: string]: any;
@@ -62,6 +63,11 @@ const EditionRow = ({
               <I18N id="adminPanel.active.badge" />
             </span>
           ) : null}
+          {mathtrade.admin_only ? (
+            <span className="ml-2 uppercase text-[10px] font-bold bg-warning text-white px-2 py-[3px] rounded-full">
+              <I18N id="adminPanel.adminOnly.badge" />
+            </span>
+          ) : null}
         </div>
         <Button sm outline onClick={onToggleEdit} type="button">
           <I18N id="element.Edit" />
@@ -71,7 +77,7 @@ const EditionRow = ({
       {editing ? (
         <div className="relative mt-4 pt-4 border-t border-stroke">
           <Form
-            formatTypes={{ active: "boolean" }}
+            formatTypes={{ active: "boolean", admin_only: "boolean" }}
             onSubmit={(formProps) => onSubmitEdit(mathtrade.id, formProps)}
           >
             <InputContainer>
@@ -91,6 +97,12 @@ const EditionRow = ({
             <InputContainer className="mb-4">
               <Switch name="active" data={{ active: !!mathtrade.active }}>
                 <I18N id="adminPanel.field.active" />
+              </Switch>
+            </InputContainer>
+
+            <InputContainer className="mb-4">
+              <Switch name="admin_only" data={{ admin_only: !!mathtrade.admin_only }}>
+                <I18N id="adminPanel.field.adminOnly" />
               </Switch>
             </InputContainer>
 
