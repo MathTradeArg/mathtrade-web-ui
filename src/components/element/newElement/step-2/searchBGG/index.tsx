@@ -1,6 +1,6 @@
 "use client";
 import Icon from "@/components/icon";
-import { getI18Ntext } from "@/i18n";
+import I18N, { getI18Ntext } from "@/i18n";
 import useSearchBGG from "./useSearchBGG";
 
 import BadgeType from "@/components/badgeType";
@@ -22,6 +22,8 @@ const SearchBGG = ({
     list,
     onSelect,
     onClear,
+    preparing,
+    retry,
   } = useSearchBGG({ setSearchResultBGG, inCollection });
 
   return (
@@ -87,6 +89,21 @@ const SearchBGG = ({
                 );
               })}
             </ul>
+          </div>
+        ) : null}
+
+        {inCollection && preparing ? (
+          <div className="animate-fadein bg-danger text-white text-sm p-3 mb-3 rounded-md text-center">
+            <I18N id="BGGsearch.noCollection" />
+            <div className="pt-2">
+              <button
+                type="button"
+                className="underline font-bold"
+                onClick={retry}
+              >
+                <I18N id="BGGsearch.noCollection.retry" />
+              </button>
+            </div>
           </div>
         ) : null}
       </div>
