@@ -12,6 +12,7 @@ import I18N from "@/i18n";
 
 const ResultsVisual = lazy(() => import("@/components/results/visual"));
 const ResultsTable = lazy(() => import("@/components/results/table"));
+const ReceivedItems = lazy(() => import("@/components/results/receivedItems"));
 
 const ViewPill = ({
   active = false,
@@ -70,6 +71,11 @@ export default function ResultsUI() {
               onClick={() => setScreenViewResults(1)}
               labelId="results.screen.grid"
             />
+            <ViewPill
+              active={screenViewResults === 2}
+              onClick={() => setScreenViewResults(2)}
+              labelId="results.screen.received"
+            />
           </>
         }
       />
@@ -79,9 +85,13 @@ export default function ResultsUI() {
           <Dynamic>
             <ResultsVisual />
           </Dynamic>
-        ) : (
+        ) : screenViewResults === 1 ? (
           <Dynamic>
             <ResultsTable />
+          </Dynamic>
+        ) : (
+          <Dynamic>
+            <ReceivedItems />
           </Dynamic>
         )}
       </div>

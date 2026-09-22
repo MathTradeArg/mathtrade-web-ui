@@ -12,6 +12,7 @@ import {
   resolveItemKind,
   cardKindBorderClass,
 } from "@/components/badgeType/cardKind";
+import { resolveApiErrorMessage } from "@/utils/apiError";
 
 const ItemUI = ({ afterAddItem = (_value?: any) => {} }) => {
   const { isCombo, value, elements, addToMT, loading, error } =
@@ -42,7 +43,7 @@ const ItemUI = ({ afterAddItem = (_value?: any) => {} }) => {
         })}
       </div>
       <div className="pt-3">
-        <ErrorAlert error={error} />
+        <ErrorAlert error={error} errorMessage={resolveApiErrorMessage(error)} />
         <div className="flex justify-center">
           <button
             type="button"
