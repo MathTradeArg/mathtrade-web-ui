@@ -1,6 +1,7 @@
 import I18N from "@/i18n";
 import PhotoGallery from "@/components/photoGallery";
 import ErrorAlert from "@/components/errorAlert";
+import { resolveApiErrorMessage } from "@/utils/apiError";
 import { boxStatusList, componentsStatusList } from "@/config/statusTypes";
 import StatusBadge from "@/components/status-badge";
 import clsx from "clsx";
@@ -165,7 +166,7 @@ const ExtraDataEditor = ({ toggleEditingMode, onCancel, forAddElement }) => {
       />
       <Hidden data={{ images }} name="images" />
 
-      <ErrorAlert error={error} />
+      <ErrorAlert error={error} errorMessage={resolveApiErrorMessage(error)} />
       <div className="flex items-center justify-center gap-4 pt-2 pb-5">
         <button
           className="border border-gray-400 text-gray-500 font-bold text-lg px-6 py-1 rounded-full hover:bg-gray-400 hover:text-white transition-colors"
