@@ -1,0 +1,35 @@
+type FieldRule = { field: string; test: (message: string) => boolean; key: string };
+type DetailRule = { test: (detail: string) => boolean; key: string };
+
+const FIELD_RULES: FieldRule[] = [
+  { field: "item_id", test: (m) => m === "Math item already cloned", key: "error.item.alreadyCloned" },
+  { field: "item", test: (m) => m === "Only one new item possible", key: "error.item.draftExists" },
+  {
+    field: "item_id",
+    test: (m) => m.startsWith("Invalid pk") && m.endsWith("object does not exist."),
+    key: "error.item.notAvailable",
+  },
+];
+
+const DETAIL_RULES: DetailRule[] = [
+  { test: (d) => d === "No MathElement matches the given query.", key: "error.mathElement.notFound" },
+  { test: (d) => d === "You do not have permission to perform this action.", key: "error.mathtrade.geekListClosed" },
+];
+
+export const resolveApiErrorMessage = (error: any): string | undefined => {
+  const data = error?.data;
+  if (!data || typeof data !== "object") return undefined;
+
+  if (typeof data.detail === "string") {
+    return DETAIL_RULES.find(({ test }) => test(data.detail))?.key;
+  }
+
+  for (const { field, test, key } of FIELD_RULES) {
+    const messages = data[field];
+    if (Array.isArray(messages) && messages.some((m: unknown) => typeof m === "string" && test(m))) {
+      return key;
+    }
+  }
+
+  return undefined;
+};
