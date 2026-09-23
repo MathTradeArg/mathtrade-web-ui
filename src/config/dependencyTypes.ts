@@ -24,9 +24,14 @@ export const dependencyChipsFromCounts = (
   if (!counts || typeof counts !== "object") return null;
   const merged: Record<string, { value: string; text: string; count: number }> =
     {};
+  let noDataCount = 0;
   Object.entries(counts).forEach(([rawKey, num]) => {
     const count = Number(num) || 0;
     if (!count) return;
+    if (rawKey === "null" || rawKey === "None") {
+      noDataCount += count;
+      return;
+    }
     const value = normalizeDependencyValue(rawKey);
     const n = parseInt(value, 10);
     if (!Number.isFinite(n) || n < 1 || n > 5) return;
@@ -38,5 +43,12 @@ export const dependencyChipsFromCounts = (
   const list = Object.values(merged).sort(
     (a, b) => Number(a.value) - Number(b.value)
   );
+  if (noDataCount) {
+    list.push({
+      value: "none",
+      text: getI18Ntext("dependencyType.noData"),
+      count: noDataCount,
+    });
+  }
   return list.length ? list : null;
 };
