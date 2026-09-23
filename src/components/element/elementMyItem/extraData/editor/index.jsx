@@ -5,6 +5,7 @@ import { resolveApiErrorMessage } from "@/utils/apiError";
 import { boxStatusList, componentsStatusList } from "@/config/statusTypes";
 import StatusBadge from "@/components/status-badge";
 import clsx from "clsx";
+import { useMemo } from "react";
 import { maxCharacters, charactersDanger } from "@/config/maxCharacters";
 import useExtraDataEditor from "./useExtraDataEditor";
 import BoxSize from "@/components/boxSize";
@@ -27,37 +28,51 @@ const boxSizesOptionsList = boxSizesOptions.map((option) => {
   return { value, text: <BoxSize value={value} /> };
 });
 
-const boxStatusOptionsList = boxStatusList.map((option) => {
-  const { value } = option;
-  return {
-    value,
-    text: (
-      <div>
-        <StatusBadge status={value} type="box" />
-        <p className="text-xs text-gray-600">
-          <I18N id={`statusType.box.desc.${value}`} />
-        </p>
-      </div>
-    ),
-  };
-});
+// The pill-styled StatusBadge label fits "Yo ofrezco", where the rest of
+// the page is already pill-heavy (language/box-size chips on every card).
+// Mi ludoteca's "add to MT" modal has none of that surrounding context, so
+// the same pill there just looked like a mismatched, oddly-bolded option —
+// plainStatusLabels swaps it for the same plain title+description style
+// BoxSize already uses, so every option in the form reads consistently.
+const statusOptionsList = (list, type, plainStatusLabels) =>
+  list.map((option) => {
+    const { value } = option;
+    return {
+      value,
+      text: plainStatusLabels ? (
+        <div>
+          <div className="text-body-lg">
+            <I18N id={`statusType.${type}.${value}`} />
+          </div>
+          <p className="text-caption italic text-gray-500 text-balance">
+            <I18N id={`statusType.${type}.desc.${value}`} />
+          </p>
+        </div>
+      ) : (
+        <div>
+          <StatusBadge status={value} type={type === "box" ? "box" : undefined} />
+          <p className="text-xs text-gray-600">
+            <I18N id={`statusType.${type}.desc.${value}`} />
+          </p>
+        </div>
+      ),
+    };
+  });
 
-const componentsStatusOptionsList = componentsStatusList.map((option) => {
-  const { value } = option;
-  return {
-    value,
-    text: (
-      <div>
-        <StatusBadge status={value} />
-        <p className="text-xs text-gray-600">
-          <I18N id={`statusType.components.desc.${value}`} />
-        </p>
-      </div>
-    ),
-  };
-});
-
-const ExtraDataEditor = ({ toggleEditingMode, onCancel, forAddElement }) => {
+const ExtraDataEditor = ({
+  toggleEditingMode,
+  onCancel,
+  forAddElement,
+  plainStatusLabels = false,
+}) => {
+  const boxStatusOptionsList = useMemo(
+    () => statusOptionsList(boxStatusList, "box", plainStatusLabels),
+    [plainStatusLabels]
+  );
+  const componentsStatusOptionsList = useMemo(
+    () => statusOptionsList(componentsStatusList, "components", plainStatusLabels),
+    [plainStatusLabels]
+  );
   /***********************/
 
   const {
