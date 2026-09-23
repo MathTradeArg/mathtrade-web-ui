@@ -101,7 +101,7 @@ const FiltersForGames = () => {
                     : undefined
               }
             />
-            <UnignoreAll type="game" />
+            <UnignoreAll />
           </div>
 
           <InputContainer className="mb-0">
