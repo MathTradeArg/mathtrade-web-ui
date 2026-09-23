@@ -49,7 +49,7 @@ const useValue = (type, itemIds, currentValue, groupId) => {
         { itemListId_game: [] }
       );
 
-      setValue(valueGame);
+      setValue(valueGame || 0);
       setItemListId(itemListId_game);
     }
     if (type === "tag") {
