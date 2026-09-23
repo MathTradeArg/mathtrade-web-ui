@@ -27,11 +27,17 @@ const Switch = ({
 
   const [checkboxValue, setCheckboxValue] = useState(false);
 
+  // Depend on the actual boolean value, not the `data` object itself —
+  // callers commonly pass a fresh object literal (e.g. `data={{ active:
+  // mathtrade.active }}`) on every render, which previously re-ran this
+  // effect on any re-render of the parent and silently reverted an
+  // already-toggled-but-not-yet-saved switch back to its original value.
+  const dataValue =
+    data && typeof data[name] === "boolean" ? data[name] : false;
+
   useEffect(() => {
-    setCheckboxValue(
-      (data && typeof data[name] === "boolean" && data[name] === true) || false
-    );
-  }, [data, name]);
+    setCheckboxValue(dataValue);
+  }, [dataValue, name]);
 
   return (
     <>
