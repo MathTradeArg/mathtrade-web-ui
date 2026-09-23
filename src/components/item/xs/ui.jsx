@@ -16,13 +16,13 @@ const ItemXSUI = ({
 }) => {
   const { item } = useContext(ItemContext);
 
-  const { isCombo, elements, value } = item;
+  const { isCombo, elements, value, ban_id } = item;
 
   return (
     <div
       className={clsx(
         "flex items-start gap-3 rounded-lg border shadow-sm text-black p-2.5",
-        excluded
+        excluded || ban_id
           ? "bg-colorMain border-gray-200 opacity-45"
           : "bg-white border-gray-200",
         className
@@ -42,6 +42,15 @@ const ItemXSUI = ({
             );
           })}
         </div>
+        {ban_id ? (
+          // This item is present in the list (e.g. an explicit "show
+          // ignored" filter, or a stale cached response) but individually
+          // banned by the viewer — say so instead of just dimming it with
+          // no explanation.
+          <p className="text-caption text-gray-500 italic">
+            <I18N id="item.xs.ignoredLegend" />
+          </p>
+        ) : null}
         <div className="flex items-center gap-2 flex-wrap">
           {!hideUser ? <UserBox toLeft /> : null}
           <div className="flex items-center gap-2 ml-auto shrink-0">
