@@ -5,6 +5,7 @@ import I18N, { getI18Ntext } from "@/i18n";
 import Icon from "@/components/icon";
 import Value from "@/components/value";
 import BanButton from "@/components/ban/button";
+import Chip from "@/components/chip";
 import clsx from "clsx";
 import ItemNoBGG from "../itemNoBgg";
 import Dynamic from "@/components/dynamic";
@@ -48,7 +49,7 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
   } = game as GameCardData;
   /* end GAME CONTEXT */
 
-  const { isInBGG, rate, rateVotes, rank, weight } = useBGGdata({
+  const { isInBGG, rate, rateVotes, rank, weight, dependency } = useBGGdata({
     game: gameRaw,
   }) as {
     isInBGG?: boolean;
@@ -56,6 +57,7 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
     rateVotes: number;
     rank?: number;
     weight: number;
+    dependency: string;
   };
   const showBGGstats = !notGame && isInBGG;
   const filledDots = Math.min(5, Math.max(0, Math.round(weight || 0)));
@@ -130,6 +132,14 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
                   </div>
                 </div>
                 {titleLink ? <BGGlink href={titleLink} className="ml-auto" /> : null}
+              </div>
+            ) : null}
+
+            {showBGGstats ? (
+              <div className="flex flex-wrap gap-1.5">
+                <Chip tooltip={getI18Ntext("element.BGG.dependency")}>
+                  {dependency}
+                </Chip>
               </div>
             ) : null}
 
