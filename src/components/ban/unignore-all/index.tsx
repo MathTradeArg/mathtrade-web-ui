@@ -3,14 +3,17 @@ import ErrorAlert from "@/components/errorAlert";
 import I18N from "@/i18n";
 import useUnignoreAll from "./useUnignoreAll";
 
-const UnignoreAll = ({ type = "game" }) => {
-  const { unignoreAll, loading, error } = useUnignoreAll(type);
+// No `type` prop: shown from either the Juegos or Ejemplares filter panel,
+// this always clears both ignored games and ignored items together — see
+// useUnignoreAll for why.
+const UnignoreAll = () => {
+  const { unignoreAll, loading, error } = useUnignoreAll();
 
   return (
     <div className="mt-2">
       <ButtonAlert
         className="text-primary underline hover:text-sky-700 text-xs font-bold"
-        title={`ban.unignoreAll.${type}.title`}
+        title="ban.unignoreAll.title"
         description="ban.unignoreAll.warning"
         confirmId="ban.unignoreAll.confirm"
         disabled={loading}
