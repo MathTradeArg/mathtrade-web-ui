@@ -31,7 +31,6 @@ const HeadContent = ({
   open,
   setFloating,
   floatingStyles,
-  isPositioned,
   floatingProps,
 }: HeadContentProps) => {
   const isRight = placement === "right";
@@ -39,10 +38,14 @@ const HeadContent = ({
   return (
     <aside
       ref={setFloating}
+      // No isPositioned-gated visibility:hidden here: this <aside> is
+      // always mounted (safePolygon needs it in the DOM pre-open), so
+      // floating-ui's `isPositioned` — which only flips true on a fresh
+      // mount-while-open — never resolves for it, permanently hiding the
+      // panel behind the lg:visible class below (MAT-113 prod regression).
       style={{
         ...floatingStyles,
         zIndex: 60,
-        ...(open && !isPositioned ? { visibility: "hidden" } : {}),
       }}
       className={clsx(
         "max-lg:animate-faderight max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:w-full max-lg:max-w-full max-lg:h-full max-lg:z-[25000]",
