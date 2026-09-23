@@ -37,6 +37,8 @@ type ElementViewProps = {
   // content, for my-offer's single 860px-wide edit list — there a full-width
   // cover would be a strip of mostly blurred filler.
   layout?: "poster" | "row";
+  showAddToMT?: boolean;
+  onAddToMT?: () => void;
 };
 
 const ElementView = ({
@@ -45,6 +47,8 @@ const ElementView = ({
   extraContent,
   header = null,
   layout = "poster",
+  showAddToMT = false,
+  onAddToMT,
 }: ElementViewProps) => {
   const isRow = layout === "row";
   const { canI } = useContext(PageContext);
@@ -105,6 +109,10 @@ const ElementView = ({
     }
     return true;
   }, [insideItem, canI, offered]);
+
+  // MAT-131: only while the offer window is open, and only for a copy not
+  // already offered — matches showEdition's own offer-window awareness.
+  const canAddToMT = showAddToMT && !insideItem && canI.offer && !offered;
 
   return (
     <div
@@ -228,27 +236,42 @@ const ElementView = ({
           </div>
         </div>
 
-        {showEdition ? (
-          <div className="flex items-center gap-1 border-t border-black/10 text-gray-600 pt-3">
-            <button
-              className="bg-primary text-white px-5 py-1 rounded-full font-bold text-sm hover:bg-sky-800  transition-colors"
-              onClick={toggleEditingMode}
-            >
-              <InnerButton>
-                <Icon type="edit" />
-                <I18N id="element.Edit" />
-              </InnerButton>
-            </button>
-            <ButtonAlert
-              className="text-danger font-bold px-5 py-1 text-sm hover:text-red-900 transition-colors"
-              title="Delete.Element"
-              onClick={deleteElement}
-            >
-              <InnerButton>
-                <Icon type="trash" />
-                <I18N id="btn.Delete" />
-              </InnerButton>
-            </ButtonAlert>
+        {showEdition || canAddToMT ? (
+          <div className="flex items-center gap-1 flex-wrap border-t border-black/10 text-gray-600 pt-3">
+            {canAddToMT ? (
+              <button
+                className="bg-want text-white px-5 py-1 rounded-full font-bold text-sm hover:bg-emerald-700 transition-colors"
+                onClick={onAddToMT}
+              >
+                <InnerButton>
+                  <Icon type="plus" />
+                  <I18N id="btn.AddToMT" />
+                </InnerButton>
+              </button>
+            ) : null}
+            {showEdition ? (
+              <>
+                <button
+                  className="bg-primary text-white px-5 py-1 rounded-full font-bold text-sm hover:bg-sky-800  transition-colors"
+                  onClick={toggleEditingMode}
+                >
+                  <InnerButton>
+                    <Icon type="edit" />
+                    <I18N id="element.Edit" />
+                  </InnerButton>
+                </button>
+                <ButtonAlert
+                  className="text-danger font-bold px-5 py-1 text-sm hover:text-red-900 transition-colors"
+                  title="Delete.Element"
+                  onClick={deleteElement}
+                >
+                  <InnerButton>
+                    <Icon type="trash" />
+                    <I18N id="btn.Delete" />
+                  </InnerButton>
+                </ButtonAlert>
+              </>
+            ) : null}
           </div>
         ) : null}
         <ErrorAlert error={error} className="mb-0" />
