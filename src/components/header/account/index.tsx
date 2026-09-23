@@ -7,6 +7,7 @@ import { PRIVATE_ROUTES } from "@/config/routes";
 import I18N from "@/i18n";
 import useHeaderAccount from "./useHeaderAccount";
 import HeadContent from "../head-content";
+import useHoverPanel from "../head-content/useHoverPanel";
 import { useContext } from "react";
 import { PageContext } from "@/context/page";
 import clsx from "clsx";
@@ -35,8 +36,17 @@ const AccountMenuButton = ({
   const isRow = variant === "row";
   const isLight = tone === "light";
 
+  const {
+    refs,
+    getReferenceProps,
+    getFloatingProps,
+    floatingStyles,
+    isPositioned,
+    open,
+  } = useHoverPanel(placement);
+
   return show ? (
-    <div className="relative">
+    <div className="relative" ref={refs.setReference} {...getReferenceProps()}>
       <div
         className={clsx("cursor-pointer peer flex items-center", {
           "w-full": isRow,
@@ -89,6 +99,11 @@ const AccountMenuButton = ({
         visibleMobile={visibleMobile}
         toggleMobile={toggleMobile}
         placement={placement}
+        open={open}
+        setFloating={refs.setFloating}
+        floatingStyles={floatingStyles}
+        isPositioned={isPositioned}
+        floatingProps={getFloatingProps()}
       >
         <div className="text-center pt-6 pb-1">
           <div className="w-[80px] mx-auto mb-2">

@@ -80,6 +80,7 @@ export const ItemContextProvider = ({ itemRaw, children }) => {
       ban_id,
       reported,
       matched_bgg_id,
+      ready,
     } = itemLoaded;
 
     const isCombo = elements?.length > 1;
@@ -122,6 +123,7 @@ export const ItemContextProvider = ({ itemRaw, children }) => {
       ban_id,
       reported,
       isCombo,
+      ready: ready !== false,
       user: {
         avatar: user?.avatar || "",
         name: `${user?.first_name || ""} ${user?.last_name || ""}`,

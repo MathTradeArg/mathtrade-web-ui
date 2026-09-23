@@ -1,7 +1,12 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useContext } from "react";
 import useFetch from "@/hooks/useFetch";
+import { PageContext } from "@/context/page";
+import { useOptions } from "@/store";
 
 const useUserBanRow = (user, userBans, setUserBans) => {
+  const { forceReloadPage } = useContext(PageContext);
+  const updateFilters = useOptions((state) => state.updateFilters);
+
   /* POST BAN  **********************************************/
   const afterLoadBan = useCallback(
     (res) => {
@@ -11,8 +16,17 @@ const useUserBanRow = (user, userBans, setUserBans) => {
         oldUserBansCopy[identity] = id;
         return oldUserBansCopy;
       });
+      // Banning a user hides all their items/games from the offer lists.
+      // Force both lists to refetch so the change is reflected immediately
+      // without requiring a manual filter interaction (same pattern as
+      // useBanButton.ts — updateFilters creates a new filter reference so
+      // the useFetch dependency array sees a change even if the filter
+      // values haven't changed).
+      updateFilters({}, "item");
+      updateFilters({}, "game");
+      forceReloadPage();
     },
-    [setUserBans]
+    [setUserBans, updateFilters, forceReloadPage]
   );
 
   const [banUser, , loadingBan] = useFetch({
@@ -30,7 +44,10 @@ const useUserBanRow = (user, userBans, setUserBans) => {
       delete oldUserBansCopy[id];
       return oldUserBansCopy;
     });
-  }, [user, setUserBans]);
+    updateFilters({}, "item");
+    updateFilters({}, "game");
+    forceReloadPage();
+  }, [user, setUserBans, updateFilters, forceReloadPage]);
 
   const [unbanUser, , loadingUnBan] = useFetch({
     endpoint: "DELETE_BAN_USER",
