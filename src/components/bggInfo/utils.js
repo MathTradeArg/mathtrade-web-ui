@@ -1,5 +1,6 @@
 import { getI18Ntext } from "@/i18n";
 import { noBGGgame } from "@/config/no-bgggame";
+import { dependencyLabel } from "@/config/dependencyTypes";
 
 // Ratings BGG
 const ratingsBGG = {
@@ -16,38 +17,6 @@ const ratingsBGG = {
   10: "#186b40",
 };
 
-const listDependencyTexts = (function () {
-  const o = [];
-  let value = 0;
-  while (value < 5) {
-    o.push({
-      min: getI18Ntext(`dependencyType.min.${value}`),
-      max: getI18Ntext(`dependencyType.max.${value}`),
-      value,
-    });
-    value++;
-  }
-  return o;
-})();
-
-/* const dependencyToData = (dependency) => {
-  if (dependency?.value?.length === 0) {
-    return {
-      most: getI18Ntext("NoData"),
-      list: [],
-    };
-  }
-
-  return {
-    most: listDependencyTexts[parseInt(dependency?.value || 0, 10)].min,
-    list: dependency.votes.split("|").map((vote, i) => {
-      return {
-        value: parseInt(vote, 10),
-        text: listDependencyTexts[i].max,
-      };
-    }),
-  };
-}; */
 const dependencyToData = (dependency) => {
   // dependency.votes is the backend's Game.dependency_votes JSONField, a
   // {level: voteCount} object (e.g. {"1": 12, "2": 3}), not a delimited string.
@@ -66,7 +35,7 @@ const dependencyToData = (dependency) => {
   }
 
   return {
-    dependency: listDependencyTexts[parseInt(dependency?.value || 0, 10)].min,
+    dependency: dependencyLabel(dependency?.value || 0),
     dependencyVotes: totalVotes,
   };
 };
