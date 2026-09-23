@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useState, useSyncExternalStore } from "react";
 import {
   useFloating,
   useHover,
@@ -12,6 +12,12 @@ import {
   safePolygon,
   size as floatingSize,
 } from "@floating-ui/react";
+import {
+  getActivePanel,
+  getServerActivePanel,
+  setActivePanel,
+  subscribe,
+} from "./activePanelStore";
 
 // Shared by every sidebar/header hover panel (Timeline, Notifications, Help,
 // Account, Cart): computes the floating position AND the open/close
@@ -22,8 +28,14 @@ import {
 // (mobile click-to-toggle keeps working exactly as before, untouched).
 const useHoverPanel = (placement: "below" | "right" = "below") => {
   const isRight = placement === "right";
+  const panelId = useId();
   const [isLg, setIsLg] = useState(false);
   const [open, setOpen] = useState(false);
+  const activePanel = useSyncExternalStore(
+    subscribe,
+    getActivePanel,
+    getServerActivePanel
+  );
 
   useLayoutEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
@@ -33,9 +45,26 @@ const useHoverPanel = (placement: "below" | "right" = "below") => {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
+  // Another trigger became active while this one was open — close this one
+  // so only a single hover panel is ever open at a time.
+  useEffect(() => {
+    if (open && activePanel !== panelId) setOpen(false);
+  }, [open, activePanel, panelId]);
+
   const { refs, floatingStyles, isPositioned, context } = useFloating({
     open: isLg && open,
-    onOpenChange: setOpen,
+    onOpenChange: (v) => {
+      setOpen(v);
+      if (v) {
+        setActivePanel(panelId);
+      } else if (activePanel === panelId) {
+        // Only clear the shared slot if we still own it — if another
+        // trigger already took over (and force-closed us via the effect
+        // above), its own onOpenChange(false) firing afterwards must not
+        // clobber that trigger's active id.
+        setActivePanel(null);
+      }
+    },
     strategy: "fixed",
     placement: isRight ? "right-end" : "bottom-end",
     middleware: [
