@@ -27,15 +27,26 @@ const useHoverPanel = (placement: "below" | "right" = "below") => {
 
   useLayoutEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
-    const onChange = () => setIsLg(mq.matches);
+    const onChange = () => {
+      // eslint-disable-next-line no-console
+      console.log("[DEBUG useHoverPanel] mq change, matches=", mq.matches);
+      setIsLg(mq.matches);
+    };
     onChange();
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
+  // eslint-disable-next-line no-console
+  console.log("[DEBUG useHoverPanel] render, isLg=", isLg, "open=", open, "placement=", placement);
+
   const { refs, floatingStyles, isPositioned, context } = useFloating({
     open: isLg && open,
-    onOpenChange: setOpen,
+    onOpenChange: (v, event, reason) => {
+      // eslint-disable-next-line no-console
+      console.log("[DEBUG useHoverPanel] onOpenChange called with", v, "reason=", reason);
+      setOpen(v);
+    },
     strategy: "fixed",
     placement: isRight ? "right-end" : "bottom-end",
     middleware: [
@@ -61,11 +72,21 @@ const useHoverPanel = (placement: "below" | "right" = "below") => {
   const click = useClick(context, { enabled: isLg });
   const dismiss = useDismiss(context, { enabled: isLg });
 
-  const { getReferenceProps, getFloatingProps } = useInteractions([
-    hover,
-    click,
-    dismiss,
-  ]);
+  const { getReferenceProps: rawGetReferenceProps, getFloatingProps } =
+    useInteractions([hover, click, dismiss]);
+
+  const getReferenceProps = (userProps?: any) => {
+    const props = rawGetReferenceProps(userProps);
+    const wrappedOnClick = props.onClick;
+    return {
+      ...props,
+      onClick: (e: any) => {
+        // eslint-disable-next-line no-console
+        console.log("[DEBUG useHoverPanel] reference onClick fired, isLg=", isLg, "open before=", open);
+        wrappedOnClick?.(e);
+      },
+    };
+  };
 
   return {
     isLg,
