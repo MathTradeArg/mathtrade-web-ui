@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 
 const Textarea = ({
   name,
-  placeholder,
-  noTranslatePlaceholder,
+  placeholder = null,
+  noTranslatePlaceholder = false,
   size = "md",
-  disabled,
-  disabledInput,
-  ariaLabel,
+  disabled = false,
+  disabledInput = false,
+  ariaLabel = null,
   data,
-  onChange,
-  rows,
-  maxlength,
+  onChange = null,
+  rows = null,
+  maxlength = undefined,
   className,
 }) => {
   const [valueInput, setValueInput] = useState("");

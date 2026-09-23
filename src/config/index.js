@@ -5,5 +5,6 @@ export {
   GOOGLE_RECAPTCHA_SIGNIN_ID,
   GOOGLE_RECAPTCHA_SIGNUP_ID,
   GOOGLE_RECAPTCHA_RECOVER_PASS_ID,
+  GOOGLE_RECAPTCHA_BUGREPORT_ID,
 } from "./google";
 export { default as languagesOptions } from "./languagesOptions";

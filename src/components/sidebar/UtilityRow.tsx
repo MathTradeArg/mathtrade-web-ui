@@ -4,6 +4,7 @@ import { PageContext } from "@/context/page";
 import TimelineButton from "@/components/header/timeline";
 import NotificationsButton from "@/components/header/notifications";
 import HelpButton from "@/components/header/helpButton";
+import BugReportButton from "@/components/header/bugReportButton";
 
 const UtilityRow = ({ collapsed }: { collapsed: boolean }) => {
   const { mathtrade } = useContext(PageContext);
@@ -16,6 +17,7 @@ const UtilityRow = ({ collapsed }: { collapsed: boolean }) => {
       ) : null}
       <NotificationsButton variant="row" collapsed={collapsed} placement="right" />
       <HelpButton variant="row" collapsed={collapsed} placement="right" />
+      <BugReportButton variant="row" collapsed={collapsed} />
     </div>
   );
 };
