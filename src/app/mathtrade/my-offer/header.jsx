@@ -8,6 +8,7 @@ import Icon from "@/components/icon";
 import { useOptions } from "@/store";
 import ListToolbar from "@/components/list-toolbar";
 import ListSearch from "@/components/list-toolbar/search";
+import OptionChips from "@/components/filters/optionChips";
 
 const HeaderMyOffer = ({ count }) => {
   const filters_myoffer = useOptions((state) => state.filters_myoffer);
@@ -51,6 +52,18 @@ const HeaderMyOffer = ({ count }) => {
         <I18N
           id={`itemCount.${count === 1 ? "one" : "many"}`}
           values={[count]}
+        />
+      }
+      extra={
+        <OptionChips
+          filterType="myoffer"
+          name="ready"
+          allowEmpty
+          emptyLabel={getI18Ntext("myOffer.filter.ready.all")}
+          options={[
+            { value: "ready", text: getI18Ntext("myOffer.filter.ready.ready") },
+            { value: "missing", text: getI18Ntext("myOffer.filter.ready.missing") },
+          ]}
         />
       }
       sort={

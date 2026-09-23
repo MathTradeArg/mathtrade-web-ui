@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useState } from "react";
 import HeadContent from "../head-content";
+import useHoverPanel from "../head-content/useHoverPanel";
 import Icon from "@/components/icon";
 import I18N from "@/i18n";
 import Link from "next/link";
@@ -32,8 +33,17 @@ const HelpButton = ({
     setVisibleMobile((v) => !v);
   }, []);
 
+  const {
+    refs,
+    getReferenceProps,
+    getFloatingProps,
+    floatingStyles,
+    isPositioned,
+    open,
+  } = useHoverPanel(placement);
+
   return (
-    <div className="relative">
+    <div className="relative" ref={refs.setReference} {...getReferenceProps()}>
       {variant === "row" ? (
         <button
           className={clsx(
@@ -66,6 +76,11 @@ const HelpButton = ({
         visibleMobile={visibleMobile}
         toggleMobile={toggleMobile}
         placement={placement}
+        open={open}
+        setFloating={refs.setFloating}
+        floatingStyles={floatingStyles}
+        isPositioned={isPositioned}
+        floatingProps={getFloatingProps()}
       >
         <div className="py-1">
           <Link

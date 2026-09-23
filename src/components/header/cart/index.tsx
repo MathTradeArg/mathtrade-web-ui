@@ -3,6 +3,7 @@ import { useCallback, useState, useContext, useRef, useEffect } from "react";
 import { PageContext } from "@/context/page";
 import HeadContent from "../head-content";
 import HeadButton from "../head-button";
+import useHoverPanel from "../head-content/useHoverPanel";
 import Icon from "@/components/icon";
 import I18N from "@/i18n";
 import clsx from "clsx";
@@ -63,9 +64,18 @@ const CartButton = ({
   }, [wantsNumPosition, setWantsNumPosition]);
   /*************************/
 
+  const {
+    refs,
+    getReferenceProps,
+    getFloatingProps,
+    floatingStyles,
+    isPositioned,
+    open,
+  } = useHoverPanel(placement);
+
   return (
     <>
-      <div className="relative">
+      <div className="relative" ref={refs.setReference} {...getReferenceProps()}>
         {variant === "row" ? (
           <button
             className={clsx(
@@ -100,6 +110,11 @@ const CartButton = ({
           visibleMobile={visibleMobile}
           toggleMobile={toggleMobile}
           placement={placement}
+          open={open}
+          setFloating={refs.setFloating}
+          floatingStyles={floatingStyles}
+          isPositioned={isPositioned}
+          floatingProps={getFloatingProps()}
         >
           <CartList toggleMobile={toggleMobile} />
         </HeadContent>

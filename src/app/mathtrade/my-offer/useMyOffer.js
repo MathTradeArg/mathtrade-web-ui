@@ -99,17 +99,25 @@ const useMyOffer = () => {
       });
     })();
 
+    // READY / MISSING INFO
+    const readyFilter = filters_myoffer?.ready || "";
+    const itemsByReady = readyFilter
+      ? itemsByGroup.filter((item) => {
+          return readyFilter === "missing" ? !item.ready : !!item.ready;
+        })
+      : itemsByGroup;
+
     // SEARCH
     const keyword = filters_myoffer?.keyword || "";
     const itemsFiltered = keyword.length
       ? (() => {
           const keyLow = normalizeString(keyword);
 
-          return itemsByGroup.filter((item) => {
+          return itemsByReady.filter((item) => {
             return normalizeString(item.title).indexOf(keyLow) >= 0;
           });
         })()
-      : itemsByGroup;
+      : itemsByReady;
 
     // ORDER
     const order = filters_myoffer?.order || "none";
