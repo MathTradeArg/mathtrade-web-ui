@@ -8,6 +8,13 @@ import { getI18Ntext } from "@/i18n";
 
 type StatusTypeMap = Record<string, { min?: string } | undefined>;
 
+// Chip's tooltip is a CSS-only `content: attr(data-tooltip)` bubble (see
+// styles/tooltip.scss) — it can never render HTML, unlike <I18N>'s
+// dangerouslySetInnerHTML. Some status descriptions carry <b> markup meant
+// for <I18N> usage elsewhere (e.g. the item editor), so strip tags here
+// rather than showing them as literal text (MAT-121).
+const stripHtml = (text: string) => text.replace(/<[^>]*>/g, "");
+
 const shortValue = (types: StatusTypeMap, status: string) =>
   types[status]?.min || types[INVALID_STATUS_KEY]?.min || "";
 
@@ -36,8 +43,8 @@ const StatusChip = ({
       )}`
     );
     tooltips.push(
-      `${getI18Ntext("status.label.box")}: ${getI18Ntext(
-        `statusType.box.desc.${boxStatus}`
+      `${getI18Ntext("status.label.box")}: ${stripHtml(
+        getI18Ntext(`statusType.box.desc.${boxStatus}`)
       )}`
     );
   }
@@ -50,8 +57,8 @@ const StatusChip = ({
       )}`
     );
     tooltips.push(
-      `${getI18Ntext("status.label.components")}: ${getI18Ntext(
-        `statusType.components.desc.${componentStatus}`
+      `${getI18Ntext("status.label.components")}: ${stripHtml(
+        getI18Ntext(`statusType.components.desc.${componentStatus}`)
       )}`
     );
   }
