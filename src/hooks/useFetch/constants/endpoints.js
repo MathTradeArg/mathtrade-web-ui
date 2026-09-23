@@ -118,6 +118,9 @@ const endpoints = {
   // IMAGES
   POST_IMAGE: "api/users/images/",
 
+  // BUG REPORTS
+  POST_BUG_REPORT: "api/bug-reports/",
+
   // MEMARDIUMS
   MEMARDIUMS: "api/news/",
 
