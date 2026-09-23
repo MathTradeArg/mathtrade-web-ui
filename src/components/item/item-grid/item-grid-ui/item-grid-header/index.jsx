@@ -24,7 +24,10 @@ const ItemGridHeader = ({
           </div>
         )}
         <div className="flex items-center gap-3">
-          {hideTags ? null : <BanButton size="xl" type="item" />}
+          {/* hideTags only means "no tag chips" — it shouldn't also hide
+              the ignore/ban control, which both preview modals need
+              (they pass hideTags for the tags, not to hide this). */}
+          <BanButton size="xl" type="item" />
           {ban_id ? null : (
             <>
               {isOwned ? null : <div className="w-[1px] h-4 bg-gray-500"></div>}
