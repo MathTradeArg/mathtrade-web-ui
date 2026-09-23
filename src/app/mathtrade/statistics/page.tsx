@@ -10,9 +10,6 @@ import Dynamic from "@/components/dynamic";
 
 const StatsUI = lazy(() => import("./currentMT"));
 const HistorialMT = lazy(() => import("./historial"));
-const GraphViewer = lazy(() =>
-  import("@/components/interactiveGraph/graphViewer")
-);
 
 const Header = () => {
   return (
@@ -47,11 +44,7 @@ export default function Statistics() {
       <Wrapper className="mb-1">
         <div className="bg-white rounded-t-main shadow-main">
           <Tabs
-            list={[
-              "stats.screen.current",
-              "stats.screen.historial",
-              "stats.screen.chains",
-            ]}
+            list={["stats.screen.current", "stats.screen.historial"]}
             value={screenViewStats}
             onChange={setScreenViewStats}
           />
@@ -63,16 +56,10 @@ export default function Statistics() {
             <Dynamic>
               <StatsUI />
             </Dynamic>
-          ) : screenViewStats === 1 ? (
+          ) : (
             <Dynamic>
               <HistorialMT />
             </Dynamic>
-          ) : (
-            <div className="min-h-96 relative">
-              <Dynamic>
-                <GraphViewer years={["2024", "2023"]} />
-              </Dynamic>
-            </div>
           )}
         </div>
       </SectionCommon>
