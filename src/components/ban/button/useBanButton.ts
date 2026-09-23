@@ -1,9 +1,14 @@
 import { useCallback, useContext, useMemo } from "react";
 import { ItemContext } from "@/context/item";
 import { GameContext } from "@/context/game";
+import { PageContext } from "@/context/page";
+import { useOptions } from "@/store";
 import useFetch from "@/hooks/useFetch";
 
 const useBanButton = (type = "item") => {
+  const { forceReloadPage } = useContext(PageContext);
+  const updateFilters = useOptions((state) => state.updateFilters);
+
   const {
     item,
     showAsIgnored: showAsIgnoredItem,
@@ -32,8 +37,22 @@ const useBanButton = (type = "item") => {
         if (res?.id) setBanIdGame(res.id);
         setShowAsIgnoredGame(true);
       }
+      // Forces the list to refetch, the same way switching a filter chip
+      // does (updateFilters always returns a new object reference) —
+      // otherwise the ignored-filter views only reflect this ban after an
+      // unrelated filter change.
+      updateFilters({}, type);
+      forceReloadPage();
     },
-    [type, setBanIdItem, setBanIdGame, setShowAsIgnoredItem, setShowAsIgnoredGame]
+    [
+      type,
+      setBanIdItem,
+      setBanIdGame,
+      setShowAsIgnoredItem,
+      setShowAsIgnoredGame,
+      updateFilters,
+      forceReloadPage,
+    ]
   );
 
   const afterLoadUnban = useCallback(() => {
@@ -45,7 +64,17 @@ const useBanButton = (type = "item") => {
       setBanIdGame(null);
       setShowAsIgnoredGame(false);
     }
-  }, [type, setBanIdItem, setBanIdGame, setShowAsIgnoredItem, setShowAsIgnoredGame]);
+    updateFilters({}, type);
+    forceReloadPage();
+  }, [
+    type,
+    setBanIdItem,
+    setBanIdGame,
+    setShowAsIgnoredItem,
+    setShowAsIgnoredGame,
+    updateFilters,
+    forceReloadPage,
+  ]);
 
   const [banElement, , loadingBanElement] = useFetch({
     endpoint: "POST_BAN",
