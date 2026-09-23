@@ -133,7 +133,7 @@ const FiltersForItems = () => {
                     : undefined
               }
             />
-            <UnignoreAll type="item" />
+            <UnignoreAll />
           </div>
 
           <InputContainer className="mb-0">
