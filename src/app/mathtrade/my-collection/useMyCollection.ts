@@ -69,6 +69,10 @@ const useMyCollection = () => {
     endpoint: "GET_MYITEMS",
     afterLoad: afterLoadMyItems,
     autoLoad: mathTradeId !== null,
+    // Without this, forceReloadPage() (called after adding an item to the
+    // MT from here) never refetches this list, so a just-offered card kept
+    // showing its "Ofertar al Math Trade" button until a hard reload.
+    reloadValue,
   });
 
   const elementIdListOffered = useMemo(() => {

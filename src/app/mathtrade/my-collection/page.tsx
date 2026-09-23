@@ -81,7 +81,7 @@ const MyCollectionPage = () => {
               {elementList.map((element) => {
                 return (
                   <ElementWrapperOuter key={element.id}>
-                    <ElementCollection element={{ element }} />
+                    <ElementCollection element={{ element }} showAddToMT />
                   </ElementWrapperOuter>
                 );
               })}
