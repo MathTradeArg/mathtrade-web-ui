@@ -1,9 +1,20 @@
 "use client";
-import { createContext, useState, useCallback, useMemo } from "react";
+import { createContext, useState, useCallback, useEffect, useMemo, useRef } from "react";
 import useLocations from "@/hooks/useLocations";
+import useFetch from "@/hooks/useFetch";
 import { useStore } from "@/store";
 import { NEW_USER_OFFER_LIMIT } from "@/config/newUserOfferLimit";
 import { REFERRAL_LIMIT } from "@/config/referral";
+
+// Only the login response persists `data.mathtrade` (dates, active, etc.),
+// so an admin's date change never reaches an already-open tab until it
+// re-logs in. Refetching on every render/interval would multiply API calls
+// across every logged-in user for no reason — instead, refetch the cheap
+// single-mathtrade endpoint only when a tab regains focus (a human actually
+// looking at it again), which costs nothing while the tab is idle or
+// closed. MIN_REFRESH_INTERVAL_MS guards against rapid alt-tabbing firing
+// this repeatedly.
+const MIN_REFRESH_INTERVAL_MS = 60 * 1000;
 
 export const PageContext = createContext({
   updateMathtrade: (_value?: any) => {},
@@ -98,12 +109,14 @@ export const PageContext = createContext({
 });
 
 const PageContextProvider = ({ children = null }) => {
+  const storeData = useStore((state) => state.data);
+  const updateStore = useStore((state) => state.updateStore);
   const {
     mathtrade: mathtradeStored,
     membership,
     user,
     mathtrade_history,
-  } = useStore((state) => state.data);
+  } = storeData;
 
   const referrer = user?.referrer || null;
   const referring_limit = user?.referring_limit || REFERRAL_LIMIT;
@@ -149,6 +162,39 @@ const PageContextProvider = ({ children = null }) => {
   const mathtrade = useMemo(() => {
     return { ...mathtradeStored, ...mathtradeUpdated };
   }, [mathtradeStored, mathtradeUpdated]);
+
+  /* Refresh mathtrade (dates, active) on tab focus regain — see
+   * MIN_REFRESH_INTERVAL_MS comment above for why this isn't a timer. */
+  const lastRefreshRef = useRef(0);
+  const afterLoadFreshMathtrade = useCallback(
+    (freshMathtrade: any) => {
+      if (!freshMathtrade) return;
+      updateMathtrade(freshMathtrade);
+      updateStore("data", { ...storeData, mathtrade: freshMathtrade });
+    },
+    [updateStore, storeData]
+  );
+  const [refreshMathtrade] = useFetch({
+    endpoint: "GET_MATHTRADE",
+    afterLoad: afterLoadFreshMathtrade,
+  });
+  const mathtradeId = mathtradeStored?.id;
+  useEffect(() => {
+    if (!mathtradeId) return;
+    const onFocusRegain = () => {
+      if (document.visibilityState !== "visible") return;
+      const now = Date.now();
+      if (now - lastRefreshRef.current < MIN_REFRESH_INTERVAL_MS) return;
+      lastRefreshRef.current = now;
+      refreshMathtrade({ mathtradeId });
+    };
+    document.addEventListener("visibilitychange", onFocusRegain);
+    window.addEventListener("focus", onFocusRegain);
+    return () => {
+      document.removeEventListener("visibilitychange", onFocusRegain);
+      window.removeEventListener("focus", onFocusRegain);
+    };
+  }, [mathtradeId, refreshMathtrade]);
 
   const canI = useMemo(() => {
     const closed = {
