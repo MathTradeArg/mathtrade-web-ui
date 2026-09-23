@@ -5,10 +5,11 @@ import useItemHeader from "./useItemHeader";
 import ButtonAlert from "@/components/buttonAlert";
 import InnerButton from "@/components/button/inner-button";
 import Icon from "@/components/icon";
+import Chip from "@/components/chip";
 import { LoadingBox } from "@/components/loading";
 
 const HeaderItem = ({ className = "mb-2" }) => {
-  const { deleteItem, loading, isCombo, canIoffer, elementsLength } =
+  const { deleteItem, loading, isCombo, canIoffer, elementsLength, ready } =
     useItemHeader();
 
   return (
@@ -19,6 +20,11 @@ const HeaderItem = ({ className = "mb-2" }) => {
             <div className="flex items-center gap-3">
               <MyGroupsInItem className="" />
               <Value size="xl" type="item" />
+              {ready === false ? (
+                <Chip tone="alert">
+                  <I18N id="myOffer.item.missingInfo" />
+                </Chip>
+              ) : null}
             </div>
           ) : null}
           {canIoffer ? (

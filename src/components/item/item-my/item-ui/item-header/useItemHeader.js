@@ -10,7 +10,7 @@ const useItemHeader = () => {
 
   /* ITEM CONTEXT **********************************************/
   const { item } = useContext(ItemContext);
-  const { isCombo, elements } = item;
+  const { isCombo, elements, ready } = item;
   /* end ITEM CONTEXT **********************************************/
 
   /* DELETE **************************************************/
@@ -39,6 +39,7 @@ const useItemHeader = () => {
     isCombo,
     canIoffer: canI.offer,
     elementsLength: elements?.length,
+    ready,
   };
 };
 
