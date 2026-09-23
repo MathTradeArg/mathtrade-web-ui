@@ -11,7 +11,7 @@ const useGame = ({ game }) => {
       type: getI18Ntext(`element-type-badge-${1}`),
       thumbnail,
       items,
-      itemCount: items?.length || 1,
+      itemCount: items?.length ?? 0,
     };
   }, [game]);
 

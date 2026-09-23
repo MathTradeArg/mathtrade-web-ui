@@ -59,7 +59,11 @@ export const GameContextProvider = ({ gameRaw = null, children = null }) => {
       thumbnail: game_thumbnail || thumbnail,
       year: year ?? year_published,
       items,
-      itemCount: items?.length || 1,
+      // Not `|| 1`: the backend already excludes ignored-owner copies from
+      // `items`, so a game whose only copy belongs to an ignored user
+      // legitimately has 0 items — that's a real count, not a loading
+      // placeholder (MAT-120).
+      itemCount: items?.length ?? 0,
       ban_id: banIdOverride !== undefined ? banIdOverride : ban_id,
       notGame,
       value: value || updatedValue,
