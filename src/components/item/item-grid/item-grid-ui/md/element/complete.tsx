@@ -158,20 +158,25 @@ const ElementComplete = ({
           ) : null}
         </div>
 
-        <div className="mt-auto w-full text-caption text-gray-700 truncate">
-          {showBGGstats ? (
-            <>
-              <I18N id="element.BGG.rank" />{" "}
-              {rank === NO_RANK_VALUE || rank == null ? "-" : rank}
-              {" · "}
-            </>
-          ) : null}
-          <LinkExternal
-            href={publisherLink}
-            tooltip="element.BGG.OpenEditionInBGG"
-          >
-            {publisher}
-          </LinkExternal>
+        <div
+          className="mt-auto w-full text-caption text-gray-700"
+          // The tooltip bubble lives on this wrapper, not on the truncated
+          // <a> inside it — a truncate ancestor's overflow:hidden clips the
+          // CSS tooltip pseudo-elements otherwise (MAT-116-style bug).
+          data-tooltip={
+            publisherLink ? getI18Ntext("element.BGG.OpenEditionInBGG") : undefined
+          }
+        >
+          <div className="truncate">
+            {showBGGstats ? (
+              <>
+                <I18N id="element.BGG.rank" />{" "}
+                {rank === NO_RANK_VALUE || rank == null ? "-" : rank}
+                {" · "}
+              </>
+            ) : null}
+            <LinkExternal href={publisherLink}>{publisher}</LinkExternal>
+          </div>
         </div>
       </div>
     </div>
