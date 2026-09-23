@@ -1121,6 +1121,7 @@
   "collectionFaq.answer.1": "Acá cargás tu <strong>colección permanente</strong>: nombre, edición, idioma y tamaño de caja. No pedimos estado ni fotos, porque estos juegos son tuyos y todavía no los estás ofreciendo.<br/><br/>Cargar un juego acá <strong>no lo pone en el Math Trade</strong>. Cuando se abran las ofertas, publicá los que quieras en <strong>Yo ofrezco</strong>: ahí sí pedimos estado de caja y componentes, descripción y fotos.",
   "collection.offerClosed.wants": "La carga en <strong>Yo ofrezco</strong> está cerrada: ahora es la etapa de <strong>Deseos</strong>. Podés seguir sumando juegos a tu ludoteca para próximos Math Trades, pero no publicarlos en este.",
   "no-memardiums": "No hay memardiums que mostrar todavía.",
+  "item.xs.ignoredLegend": "Ignoraste este ejemplar",
   "item.xs.element.description": "Descripción",
   "item.xs.element.description.min": "Descr.",
   "referral-area.usertitle": "Usuarios de $$$",
