@@ -2,6 +2,7 @@
 import { useCallback, useState } from "react";
 import HeadContent from "../head-content";
 import HeadButton from "../head-button";
+import useHoverPanel from "../head-content/useHoverPanel";
 import Icon from "@/components/icon";
 import I18N from "@/i18n";
 import clsx from "clsx";
@@ -29,8 +30,17 @@ const TimelineButton = ({
     setVisibleMobile((v) => !v);
   }, []);
 
+  const {
+    refs,
+    getReferenceProps,
+    getFloatingProps,
+    floatingStyles,
+    isPositioned,
+    open,
+  } = useHoverPanel(placement);
+
   return (
-    <div className="relative">
+    <div className="relative" ref={refs.setReference} {...getReferenceProps()}>
       {variant === "row" ? (
         <button
           className={clsx(
@@ -55,6 +65,11 @@ const TimelineButton = ({
         visibleMobile={visibleMobile}
         toggleMobile={toggleMobile}
         placement={placement}
+        open={open}
+        setFloating={refs.setFloating}
+        floatingStyles={floatingStyles}
+        isPositioned={isPositioned}
+        floatingProps={getFloatingProps()}
       >
         <TimeLine />
       </HeadContent>

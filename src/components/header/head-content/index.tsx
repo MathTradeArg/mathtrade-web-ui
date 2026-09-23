@@ -1,15 +1,7 @@
 "use client";
 import Icon from "@/components/icon";
 import clsx from "clsx";
-import { useCallback, useLayoutEffect, useState, type ReactNode } from "react";
-import {
-  useFloating,
-  autoUpdate,
-  offset,
-  flip,
-  shift,
-  size as floatingSize,
-} from "@floating-ui/react";
+import type { CSSProperties, ReactNode } from "react";
 
 type HeadContentProps = {
   children: ReactNode;
@@ -19,6 +11,16 @@ type HeadContentProps = {
   // to the trigger's right (sidebar rows, where "below" would overflow
   // off-screen since the trigger sits near the left edge of the viewport).
   placement?: "below" | "right";
+  // Desktop open/close + floating position, computed by the trigger's own
+  // useHoverPanel() call and passed down — see useHoverPanel.ts for why
+  // this can't be computed inside HeadContent itself (the hover/click/
+  // dismiss listeners must attach to the real trigger DOM node, which
+  // lives in the caller, not in this component).
+  open: boolean;
+  setFloating: (node: HTMLElement | null) => void;
+  floatingStyles: CSSProperties;
+  isPositioned: boolean;
+  floatingProps: Record<string, unknown>;
 };
 
 const HeadContent = ({
@@ -26,69 +28,33 @@ const HeadContent = ({
   visibleMobile,
   toggleMobile,
   placement = "below",
+  open,
+  setFloating,
+  floatingStyles,
+  isPositioned,
+  floatingProps,
 }: HeadContentProps) => {
   const isRight = placement === "right";
-  const [isLg, setIsLg] = useState(false);
-
-  useLayoutEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
-    const onChange = () => setIsLg(mq.matches);
-    onChange();
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
-
-  const { refs, floatingStyles, isPositioned } = useFloating({
-    open: isLg,
-    strategy: "fixed",
-    placement: isRight ? "right-end" : "bottom-end",
-    middleware: [
-      offset(8),
-      flip({ padding: 8 }),
-      shift({ padding: 8 }),
-      floatingSize({
-        padding: 8,
-        apply({ availableHeight, elements }) {
-          Object.assign(elements.floating.style, {
-            maxHeight: `${Math.max(160, availableHeight)}px`,
-          });
-        },
-      }),
-    ],
-    whileElementsMounted: autoUpdate,
-  });
-
-  const setFloatingRef = useCallback(
-    (node: HTMLElement | null) => {
-      refs.setFloating(node);
-      if (node?.parentElement) {
-        refs.setReference(node.parentElement);
-      }
-    },
-    [refs]
-  );
 
   return (
     <aside
-      ref={setFloatingRef}
-      style={
-        isLg
-          ? {
-              ...floatingStyles,
-              zIndex: 60,
-              ...(isPositioned ? {} : { visibility: "hidden" }),
-            }
-          : undefined
-      }
+      ref={setFloating}
+      style={{
+        ...floatingStyles,
+        zIndex: 60,
+        ...(open && !isPositioned ? { visibility: "hidden" } : {}),
+      }}
       className={clsx(
         "max-lg:animate-faderight max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:w-full max-lg:max-w-full max-lg:h-full max-lg:z-[25000]",
         "lg:z-[60] lg:w-auto lg:max-w-min lg:h-auto lg:flex lg:flex-col lg:overflow-hidden",
-        "lg:invisible lg:pointer-events-none lg:peer-hover:visible lg:hover:visible lg:peer-hover:pointer-events-auto lg:hover:pointer-events-auto",
         {
           "max-lg:hidden": !visibleMobile,
           "max-lg:block": visibleMobile,
+          "lg:invisible lg:pointer-events-none": !open,
+          "lg:visible lg:pointer-events-auto": open,
         }
       )}
+      {...floatingProps}
     >
       {!isRight ? (
         <div className="absolute top-[-16px] right-2 z-[12]  w-0 h-0 ml-auto  border-8 border-t-transparent  border-l-transparent border-r-transparent border-b-white lg:block hidden" />
