@@ -7,6 +7,7 @@ import { PageContext } from "@/context/page";
 import TimelineButton from "@/components/header/timeline";
 import NotificationsButton from "@/components/header/notifications";
 import HelpButton from "@/components/header/helpButton";
+import BugReportButton from "@/components/header/bugReportButton";
 import AccountMenuButton from "@/components/header/account";
 import type { NavEntry } from "@/config/nav";
 import type { LockedInfo } from "../useSidebarNav";
@@ -118,6 +119,9 @@ const MoreSheet = ({
         </SheetRow>
         <SheetRow>
           <HelpButton variant="row" tone="light" />
+        </SheetRow>
+        <SheetRow>
+          <BugReportButton variant="row" tone="light" />
         </SheetRow>
         <SheetRow>
           <AccountMenuButton variant="row" tone="light" />

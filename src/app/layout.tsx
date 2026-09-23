@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { DOCUMENT_TITLE, DOCUMENT_DESCRIPTION } from "@/config";
+import ConsoleBufferInit from "@/components/consoleBufferInit";
 
 //const mainFont = Montserrat({ subsets: ["latin"], weight: ["500", "700"] });
 
@@ -111,7 +112,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="es">
-      <body className={mainFont.className}>{children}</body>
+      <body className={mainFont.className}>
+        <ConsoleBufferInit />
+        {children}
+      </body>
     </html>
   );
 }
