@@ -3,6 +3,7 @@ import { useCallback, useState, useContext, useMemo } from "react";
 import { NotificationsContext } from "@/context/notifications";
 import HeadContent from "../../head-content";
 import HeadButton from "../../head-button";
+import useHoverPanel from "../../head-content/useHoverPanel";
 import clsx from "clsx";
 import I18N from "@/i18n";
 import Icon from "@/components/icon";
@@ -103,8 +104,17 @@ const NotificationsButton = ({
 
   const { setNotificationsBulkReaded, loading } = useBulkReadNotifications();
 
+  const {
+    refs,
+    getReferenceProps,
+    getFloatingProps,
+    floatingStyles,
+    isPositioned,
+    open,
+  } = useHoverPanel(placement);
+
   return (
-    <div className="relative">
+    <div className="relative" ref={refs.setReference} {...getReferenceProps()}>
       {variant === "row" ? (
         <button
           className={clsx(
@@ -136,6 +146,11 @@ const NotificationsButton = ({
         visibleMobile={visibleMobile}
         toggleMobile={toggleMobile}
         placement={placement}
+        open={open}
+        setFloating={refs.setFloating}
+        floatingStyles={floatingStyles}
+        isPositioned={isPositioned}
+        floatingProps={getFloatingProps()}
       >
         <div
           className={clsx("relative", {
