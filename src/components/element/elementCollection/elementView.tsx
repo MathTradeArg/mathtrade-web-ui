@@ -206,20 +206,26 @@ const ElementView = ({
           ) : null}
         </div>
 
-        <div className={clsx(META_TEXT, "truncate")}>
-          {showBGGstats ? (
-            <>
-              <I18N id="element.BGG.rank" />{" "}
-              {rank === NO_RANK_VALUE ? "-" : rank}
-              {" · "}
-            </>
-          ) : null}
-          <LinkExternal
-            href={publisherLink}
-            tooltip="element.BGG.OpenEditionInBGG"
-          >
-            {publisher}
-          </LinkExternal>
+        <div
+          className={META_TEXT}
+          // The tooltip bubble lives on this wrapper, not on the truncated
+          // <a> inside it — LinkExternal's own [data-tooltip] used to sit on
+          // an element clipped by the truncate div's overflow:hidden, so the
+          // bubble never had room to paint (MAT-116). Same fix as Chip.
+          data-tooltip={
+            publisherLink ? getI18Ntext("element.BGG.OpenEditionInBGG") : undefined
+          }
+        >
+          <div className="truncate">
+            {showBGGstats ? (
+              <>
+                <I18N id="element.BGG.rank" />{" "}
+                {rank === NO_RANK_VALUE ? "-" : rank}
+                {" · "}
+              </>
+            ) : null}
+            <LinkExternal href={publisherLink}>{publisher}</LinkExternal>
+          </div>
         </div>
 
         {showEdition ? (
