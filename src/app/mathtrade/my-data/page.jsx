@@ -113,6 +113,11 @@ const MyDataPage = () => {
                       <I18N id="MyData.InPerson.labelSwitch" />
                       <Question text="MyData.InPerson.help" className="ml-1" />
                     </Switch>
+                    {isMandatoryAttendance ? (
+                      <p className="text-sm text-gray-600 mt-2">
+                        <I18N id="MyData.InPerson.mandatory" />
+                      </p>
+                    ) : null}
                   </InputContainer>
                 </div>
                 <ErrorAlert error={error} />
