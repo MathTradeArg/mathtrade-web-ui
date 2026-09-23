@@ -344,6 +344,7 @@
   "form.error": "Por favor, completá los datos con errores:",
   "game.item-num.1": "ejemplar ofrecido",
   "game.item-num.more": "ejemplares ofrecidos",
+  "game.noVisibleItems": "No hay ejemplares visibles de este juego: probablemente pertenecen a un usuario que ignoraste.",
   "group.dragger.help": "Arrastrá y soltá el ejemplar sobre un grupo de la izquierda para agregar a un grupo.",
   "help.menu": "Ayuda",
   "help.title": "Ayuda",
