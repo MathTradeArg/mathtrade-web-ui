@@ -2,6 +2,7 @@ import { useCallback, useContext, useMemo, useState } from "react";
 import { PageContext } from "@/context/page";
 import { ItemContext } from "@/context/item";
 import useFetch from "@/hooks/useFetch";
+import { applyGroupUpdate } from "../applyGroupUpdate";
 
 const useHeaderGroups = () => {
   /* PAGE CONTEXT **********************************************/
@@ -37,25 +38,16 @@ const useHeaderGroups = () => {
     };
   }, [myGroups, itemId]);
 
-  // MY GROUPS ********************************************
-  const afterLoadMyGroups = useCallback(
-    (newGroups) => {
-      setMyGroups(newGroups);
+  /* PUT GROUP ************************************************/
+
+  // The PUT returns the updated group; apply it locally instead of
+  // reloading every group (one call per change instead of two).
+  const afterLoadPutMyItemGroup = useCallback(
+    (updatedGroup) => {
+      setMyGroups((groups) => applyGroupUpdate(groups, updatedGroup));
     },
     [setMyGroups]
   );
-  const [loadMyGroups, , loadingMyGropus, errorGropusMyGropus] = useFetch({
-    endpoint: "GET_MYITEM_GROUPS",
-    initialState: [],
-    afterLoad: afterLoadMyGroups,
-  });
-  // end MY GROUPS ********************************************
-
-  /* PUT GROUP ************************************************/
-
-  const afterLoadPutMyItemGroup = useCallback(() => {
-    loadMyGroups();
-  }, [loadMyGroups]);
 
   const [putMyItemGroup, , loading] = useFetch({
     endpoint: "PUT_MYITEM_GROUPS",
