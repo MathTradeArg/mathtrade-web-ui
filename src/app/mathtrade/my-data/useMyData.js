@@ -68,6 +68,34 @@ const useMyData = () => {
     return [membership?.user_id || "none"];
   }, [membership]);
 
+  // REFRESH MEMBERSHIP ***************************************
+  // The stored membership comes from login/sign-up; its contribution data
+  // (assigned account, review status) can change afterwards, so reload it
+  // when the page opens. Keyed on ids only: depending on the membership
+  // object itself would refetch every time the store is updated.
+  const memberUserId = membership?.user_id;
+  const afterLoadRefresh = useCallback((freshMembership) => {
+    const { data, updateStore: update } = useStore.getState();
+    if (data.membership) {
+      update("data", { ...data, membership: freshMembership });
+    }
+  }, []);
+  const [refreshMembership] = useFetch({
+    endpoint: "GET_MYDATA_MATHTRADE",
+    afterLoad: afterLoadRefresh,
+  });
+  const reloadMembership = useCallback(() => {
+    if (memberUserId) refreshMembership({ urlParams: [memberUserId] });
+  }, [memberUserId, refreshMembership]);
+
+  useEffect(() => {
+    if (memberUserId && mathtrade?.id) {
+      refreshMembership({ urlParams: [memberUserId] });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [memberUserId, mathtrade?.id]);
+  // END REFRESH MEMBERSHIP ***************************************
+
   const afterLoadSign = useCallback(
     (membership) => {
       updateStore("data", {
@@ -184,6 +212,10 @@ const useMyData = () => {
     acceptTyC,
     setAcceptTyC,
     canOut: canI.offer,
+    contribution: membership?.contribution || null,
+    contributionAmount: mathtrade?.contribution_amount || null,
+    mathtradeId: mathtrade?.id || null,
+    reloadMembership,
   };
 };
 export default useMyData;

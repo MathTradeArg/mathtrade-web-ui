@@ -7,6 +7,7 @@ import ErrorAlert from "@/components/errorAlert";
 import { LoadingBox } from "@/components/loading";
 import { mathtradeRulebookPDFurl } from "@/config/rulebook";
 import { DATE_FIELDS, toLocalInput } from "./useAdminPanel";
+import ContributionAccounts from "./ContributionAccounts";
 
 const baseURL = process.env.BASE_URL;
 
@@ -26,6 +27,13 @@ type Mathtrade = {
   admin_only: boolean;
   location?: { id: number } | null;
   rulebook_url?: string | null;
+  contribution_amount?: string | null;
+  contribution_counts?: {
+    missing: number;
+    pending: number;
+    approved: number;
+    rejected: number;
+  } | null;
   [key: string]: any;
 };
 
@@ -76,6 +84,19 @@ const EditionRow = ({
           <I18N id="element.Edit" />
         </Button>
       </div>
+      {mathtrade.contribution_counts ? (
+        <p className="text-sm text-gray-600 mt-2">
+          <I18N
+            id="adminPanel.contribution.counts"
+            values={[
+              mathtrade.contribution_counts.approved,
+              mathtrade.contribution_counts.pending,
+              mathtrade.contribution_counts.rejected,
+              mathtrade.contribution_counts.missing,
+            ]}
+          />
+        </p>
+      ) : null}
 
       {editing ? (
         <div className="relative mt-4 pt-4 border-t border-stroke">
@@ -107,6 +128,21 @@ const EditionRow = ({
               <Switch name="admin_only" data={{ admin_only: !!mathtrade.admin_only }}>
                 <I18N id="adminPanel.field.adminOnly" />
               </Switch>
+            </InputContainer>
+
+            <InputContainer>
+              <Label
+                text="adminPanel.contribution.amount"
+                name="contribution_amount"
+              />
+              {/* Text, not number: a number input silently changes on mouse
+                  wheel / arrow keys, which is too easy to do by accident on
+                  a money field. */}
+              <Input
+                name="contribution_amount"
+                placeholder="adminPanel.contribution.amountPlaceholder"
+                data={{ contribution_amount: mathtrade.contribution_amount ?? "" }}
+              />
             </InputContainer>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -163,6 +199,8 @@ const EditionRow = ({
             </div>
             <ErrorAlert error={errorRulebook} />
           </div>
+
+          <ContributionAccounts mathtradeId={mathtrade.id} />
 
           <LoadingBox loading={saving || uploadingRulebook} transparent />
         </div>
