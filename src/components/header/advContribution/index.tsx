@@ -73,7 +73,7 @@ const AdvContribution = () => {
     <Wrapper className="mt-main">
       <div
         className={clsx(
-          "relative w-full z-[998] text-white text-center p-2 pr-8 shadow-main rounded-main",
+          "relative w-full text-white text-center p-2 pr-8 shadow-main rounded-main",
           state === "pending" ? "bg-sky-600" : "bg-red-600"
         )}
       >
