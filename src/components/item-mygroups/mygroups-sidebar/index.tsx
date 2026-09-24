@@ -12,10 +12,11 @@ const MyGroupsSidebar = () => {
 
   return (
     <div className="p-3 overflow-y-auto">
-      <div className="mb-3 flex flex-col gap-2">
-        <HelpContext id="whatAreGroups" />
-        {canIEdit ? <HelpContext id="howToAddToGroup" /> : null}
-      </div>
+      {canIEdit ? (
+        <div className="mb-3 flex flex-col gap-2">
+          <HelpContext id="howToAddToGroup" />
+        </div>
+      ) : null}
 
       <div
         className={clsx(
