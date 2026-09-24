@@ -8,7 +8,7 @@ const apiConfig = {
   baseURL,
   headers: {
     Accept: "application/json",
-    "content-Type": "application/json",
+    "Content-Type": "application/json",
   },
 };
 
