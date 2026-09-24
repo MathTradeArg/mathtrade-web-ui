@@ -4,6 +4,9 @@ import SectionCommon from "@/components/sections/common";
 import ErrorAlert from "@/components/errorAlert";
 import useAdminPanel from "./useAdminPanel";
 import EditionRow from "./EditionRow";
+import Link from "next/link";
+import I18N from "@/i18n";
+import { PRIVATE_ROUTES } from "@/config/routes";
 
 const AdminPanelPage = () => {
   const {
@@ -26,6 +29,14 @@ const AdminPanelPage = () => {
       <PageHeader title="title.AdminPanel" variant="minimal" />
       <SectionCommon loading={loadingList}>
         <div className="md:px-7 px-3 py-7">
+          <div className="mb-4 text-right">
+            <Link
+              href={PRIVATE_ROUTES.ADMIN_CONTRIBUTIONS.path}
+              className="text-primary underline"
+            >
+              <I18N id="adminContributions.link" />
+            </Link>
+          </div>
           <ErrorAlert error={errorList} />
           {mathtrades.map((mathtrade: any) => (
             <EditionRow
