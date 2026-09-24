@@ -216,6 +216,10 @@ const useMyData = () => {
     contributionAmount: mathtrade?.contribution_amount || null,
     mathtradeId: mathtrade?.id || null,
     reloadMembership,
+    rulesRequired: !!mathtrade?.rules_quiz_required,
+    // Members signed up before the quiz was turned on still have to pass it.
+    rulesPending:
+      !!membership?.rules?.required && !membership?.rules?.accepted_at,
   };
 };
 export default useMyData;

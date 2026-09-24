@@ -98,6 +98,12 @@ const endpoints = {
   GET_CONTRIBUTION_RECEIPT: "api/mathtrades/$[1]/contributions/$[2]/receipt/",
   POST_CONTRIBUTION_APPROVE: "api/mathtrades/$[1]/contributions/$[2]/approve/",
   POST_CONTRIBUTION_REJECT: "api/mathtrades/$[1]/contributions/$[2]/reject/",
+  GET_RULES_QUESTIONS: "api/rules-questions/",
+  POST_RULES_QUESTION: "api/rules-questions/",
+  PUT_RULES_QUESTION: "api/rules-questions/$[1]/",
+  GET_RULES_QUIZ: "api/mathtrades/$[mathtradeId]/rules-quiz/",
+  POST_RULES_QUIZ_START: "api/mathtrades/$[mathtradeId]/rules-quiz/start/",
+  POST_RULES_QUIZ_SUBMIT: "api/mathtrades/$[mathtradeId]/rules-quiz/submit/",
   SIGNOUT_MYDATA_MATHTRADE: "api/mathtrades/$[mathtradeId]/members/$[1]/",
 
   GET_MATHTRADE_STATS: "api/mathtrades/$[mathtradeId]/stats/",

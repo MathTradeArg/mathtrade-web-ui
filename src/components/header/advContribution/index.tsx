@@ -38,7 +38,9 @@ const AdvContribution = () => {
     afterLoad,
   });
   const lastRefreshRef = useRef(0);
-  const required = !!mathtrade?.contribution_amount;
+  const contributionRequired = !!mathtrade?.contribution_amount;
+  const rulesRequired = !!mathtrade?.rules_quiz_required;
+  const required = contributionRequired || rulesRequired;
 
   useEffect(() => {
     if (!memberUserId || !required) return;
@@ -61,9 +63,13 @@ const AdvContribution = () => {
 
   if (!showAdvice || !required || pathname === PRIVATE_ROUTES.MY_DATA.path) return null;
 
+  // Most urgent pending requirement first: the rules quiz gates everything
+  // else, the contribution only matters once signed up.
   let state: string | null = null;
   if (!membership) {
-    if (canI?.sign) state = "notSigned";
+    if (canI?.sign) state = rulesRequired ? "notSignedQuiz" : "notSigned";
+  } else if (membership.rules?.required && !membership.rules.accepted_at) {
+    state = "rulesQuiz";
   } else if (membership.contribution && membership.contribution.status !== "approved") {
     state = membership.contribution.status; // missing | pending | rejected
   }
