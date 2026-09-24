@@ -23,11 +23,18 @@ const handlePromise = (promise) =>
     .catch((error) => Promise.resolve([error, { ok: false }, null]));
 
 const service = ({ method, pathRequest, params }) => {
+  // The client defaults to a JSON Content-Type, which makes axios serialize
+  // FormData to JSON (files become {}). Override it so file uploads go multipart.
+  const config =
+    params instanceof FormData
+      ? { headers: { "Content-Type": "multipart/form-data" } }
+      : undefined;
+
   switch (method) {
     case "POST":
-      return api.post(pathRequest || "", params);
+      return api.post(pathRequest || "", params, config);
     case "PUT":
-      return api.put(pathRequest || "", params);
+      return api.put(pathRequest || "", params, config);
     case "DELETE":
       return api.delete(pathRequest || "", params);
     default:
