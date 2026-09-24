@@ -5,7 +5,10 @@ import { Form, InputContainer, Label, Input, Select, Switch } from "@/components
 import Button from "@/components/button";
 import ErrorAlert from "@/components/errorAlert";
 import { LoadingBox } from "@/components/loading";
+import { mathtradeRulebookPDFurl } from "@/config/rulebook";
 import { DATE_FIELDS, toLocalInput } from "./useAdminPanel";
+
+const baseURL = process.env.BASE_URL;
 
 const DATE_LABELS: Record<string, string> = {
   start_date: "adminPanel.field.startDate",
@@ -134,7 +137,7 @@ const EditionRow = ({
           <div className="mt-5 pt-4 border-t border-stroke">
             {mathtrade.rulebook_url ? (
               <a
-                href={mathtrade.rulebook_url}
+                href={baseURL + mathtradeRulebookPDFurl(mathtrade.id)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary underline text-sm"
