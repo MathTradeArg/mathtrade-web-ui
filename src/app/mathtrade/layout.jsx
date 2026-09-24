@@ -8,6 +8,7 @@ import ModalPreviewerWantGroup from "@/components/previewerWantGroup/modal";
 import ChatBoxButton from "@/components/chatbox";
 import AdvCompromise from "@/components/header/advCompromise";
 import AdvSelfExcluded from "@/components/header/advSelfExcluded";
+import AdvContribution from "@/components/header/advContribution";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 import EarlyPayPopup from "@/components/earlyPayPopup";
@@ -63,6 +64,7 @@ export default function MathTradeLayout({ children }) {
             <TabBar />
             <div className="relative w-full min-h-screen pb-24 lg:pb-20 lg:min-w-0 lg:flex-1">
               <a id="a-top" />
+              <AdvContribution />
               <AdvCompromise />
               <AdvSelfExcluded />
               <main className="relative py-main">{children}</main>
