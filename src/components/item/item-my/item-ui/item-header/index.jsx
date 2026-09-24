@@ -9,8 +9,15 @@ import Chip from "@/components/chip";
 import { LoadingBox } from "@/components/loading";
 
 const HeaderItem = ({ className = "mb-2" }) => {
-  const { deleteItem, loading, isCombo, canIoffer, elementsLength, ready } =
-    useItemHeader();
+  const {
+    deleteItem,
+    loading,
+    isCombo,
+    canIdelete,
+    isWantPhase,
+    elementsLength,
+    ready,
+  } = useItemHeader();
 
   return (
     <>
@@ -27,10 +34,15 @@ const HeaderItem = ({ className = "mb-2" }) => {
               ) : null}
             </div>
           ) : null}
-          {canIoffer ? (
+          {canIdelete ? (
             <ButtonAlert
               className="text-red-700 font-bold text-xs hover:text-red-900 transition-colors"
               title="title.DeleteItem"
+              description={
+                isWantPhase
+                  ? "description.DeleteItem.wants"
+                  : "description.DeleteItem"
+              }
               onClick={deleteItem}
             >
               <InnerButton>
