@@ -75,6 +75,7 @@ const useAdminPanel = () => {
         name: formProps.name,
         active: formProps.active,
         admin_only: formProps.admin_only,
+        rules_quiz_required: formProps.rules_quiz_required,
       };
       if (formProps.location) params.location = formProps.location;
       // Blank clears it: no contribution required for this edition.

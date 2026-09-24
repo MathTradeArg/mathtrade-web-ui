@@ -36,6 +36,12 @@ const AdminPanelPage = () => {
             >
               <I18N id="adminContributions.link" />
             </Link>
+            <Link
+              href={PRIVATE_ROUTES.ADMIN_RULES_QUESTIONS.path}
+              className="text-primary underline ml-4"
+            >
+              <I18N id="adminRulesQuestions.link" />
+            </Link>
           </div>
           <ErrorAlert error={errorList} />
           {mathtrades.map((mathtrade: any) => (

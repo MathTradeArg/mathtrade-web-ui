@@ -28,6 +28,7 @@ type Mathtrade = {
   location?: { id: number } | null;
   rulebook_url?: string | null;
   contribution_amount?: string | null;
+  rules_quiz_required?: boolean;
   contribution_counts?: {
     missing: number;
     pending: number;
@@ -101,7 +102,11 @@ const EditionRow = ({
       {editing ? (
         <div className="relative mt-4 pt-4 border-t border-stroke">
           <Form
-            formatTypes={{ active: "boolean", admin_only: "boolean" }}
+            formatTypes={{
+              active: "boolean",
+              admin_only: "boolean",
+              rules_quiz_required: "boolean",
+            }}
             onSubmit={(formProps) => onSubmitEdit(mathtrade.id, formProps)}
           >
             <InputContainer>
@@ -127,6 +132,15 @@ const EditionRow = ({
             <InputContainer className="mb-4">
               <Switch name="admin_only" data={{ admin_only: !!mathtrade.admin_only }}>
                 <I18N id="adminPanel.field.adminOnly" />
+              </Switch>
+            </InputContainer>
+
+            <InputContainer className="mb-4">
+              <Switch
+                name="rules_quiz_required"
+                data={{ rules_quiz_required: !!mathtrade.rules_quiz_required }}
+              >
+                <I18N id="adminPanel.field.rulesQuizRequired" />
               </Switch>
             </InputContainer>
 

@@ -19,6 +19,8 @@ import SectionCommon from "@/components/sections/common";
 import PageHeader from "@/components/pageHeader";
 import { PUBLIC_ROUTES } from "@/config";
 import ContributionBox from "./ContributionBox";
+import RulesQuiz from "./RulesQuiz";
+import { useState } from "react";
 import { rulebookPDFurl } from "@/config/rulebook";
 import Referral from "@/components/referral";
 
@@ -49,7 +51,13 @@ const MyDataPage = () => {
     contributionAmount,
     mathtradeId,
     reloadMembership,
+    rulesRequired,
+    rulesPending,
   } = useMyData();
+  const [quizPassed, setQuizPassed] = useState(false);
+  // Non-members of an edition that requires the quiz see the sign-up form
+  // only once they pass it.
+  const quizGate = !isMembership && rulesRequired && !quizPassed;
 
   return (
     <>
@@ -84,6 +92,16 @@ const MyDataPage = () => {
                 />
               </p>
 
+              {(!isMembership && rulesRequired) || rulesPending ? (
+                <RulesQuiz
+                  mathtradeId={mathtradeId}
+                  onPassed={() => {
+                    setQuizPassed(true);
+                    if (isMembership) reloadMembership();
+                  }}
+                />
+              ) : null}
+
               <ContributionBox
                 isMembership={isMembership}
                 contribution={contribution}
@@ -92,95 +110,100 @@ const MyDataPage = () => {
                 onChanged={reloadMembership}
               />
 
-              <Form validations={validations} onSubmit={onSubmit}>
-                <div className="max-w-96 mx-auto">
-                  <InputContainer className="m-0" validate="location">
-                    <Label text="form.Location" required name="location" />
-                    <Select
-                      name="location"
-                      data={{ location: currentLocation?.id }}
-                      options={locations}
-                      //loading={loadingLocations}
-                      onChange={changeCurrentLocation}
-                      icon="location"
-                    />
-                  </InputContainer>
-                  <p className="text-center text-sm text-gray-600 mb-7">
-                    <I18N
-                      id="form.Location.help"
-                      values={[linksToHelp.organization]}
-                    />
-                  </p>
-                </div>
-                <Referral />
-                <div style={{ maxWidth: 300, margin: "0 auto" }}>
-                  <InputContainer>
-                    <Label text="MyData.InPerson" className="mb-2" />
-                    <Switch
-                      name="event_attendance"
-                      data={{
-                        event_attendance: currentEventAttendance,
-                      }}
-                      disabled={isMandatoryAttendance}
-                    >
-                      <I18N id="MyData.InPerson.labelSwitch" />
-                      <Question text="MyData.InPerson.help" className="ml-1" />
-                    </Switch>
-                    {isMandatoryAttendance ? (
-                      <p className="text-sm text-gray-600 mt-2">
-                        <I18N id="MyData.InPerson.mandatory" />
-                      </p>
-                    ) : null}
-                  </InputContainer>
-                </div>
-                <ErrorAlert error={error} />
-
-                {isMembership ? null : (
-                  <div className="mb-1 pt-4">
-                    <Checkbox
-                      data={{ terms_acceptance: acceptTyC }}
-                      name="terms_acceptance"
-                      required
-                      ariaLabel="title.TyC"
-                      onChange={setAcceptTyC}
-                    >
-                      <I18N id="accept.TyC1" />
-                      <a
-                        href={PUBLIC_ROUTES.TERMS_CONDITIONS.path}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary underline hover:text-primary-hover"
-                      >
-                        <I18N id="title.TyC" />
-                      </a>
-                      <I18N id="accept.TyC2" />
-                      <a
-                        href={baseURL + rulebookPDFurl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary underline hover:text-primary-hover"
-                      >
-                        <I18N id="title.Rulebook" />
-                      </a>
-                      <I18N id="accept.TyC3" />
-                    </Checkbox>
+              {quizGate ? null : (
+                <Form validations={validations} onSubmit={onSubmit}>
+                  <div className="max-w-96 mx-auto">
+                    <InputContainer className="m-0" validate="location">
+                      <Label text="form.Location" required name="location" />
+                      <Select
+                        name="location"
+                        data={{ location: currentLocation?.id }}
+                        options={locations}
+                        //loading={loadingLocations}
+                        onChange={changeCurrentLocation}
+                        icon="location"
+                      />
+                    </InputContainer>
+                    <p className="text-center text-sm text-gray-600 mb-7">
+                      <I18N
+                        id="form.Location.help"
+                        values={[linksToHelp.organization]}
+                      />
+                    </p>
                   </div>
-                )}
+                  <Referral />
+                  <div style={{ maxWidth: 300, margin: "0 auto" }}>
+                    <InputContainer>
+                      <Label text="MyData.InPerson" className="mb-2" />
+                      <Switch
+                        name="event_attendance"
+                        data={{
+                          event_attendance: currentEventAttendance,
+                        }}
+                        disabled={isMandatoryAttendance}
+                      >
+                        <I18N id="MyData.InPerson.labelSwitch" />
+                        <Question
+                          text="MyData.InPerson.help"
+                          className="ml-1"
+                        />
+                      </Switch>
+                      {isMandatoryAttendance ? (
+                        <p className="text-sm text-gray-600 mt-2">
+                          <I18N id="MyData.InPerson.mandatory" />
+                        </p>
+                      ) : null}
+                    </InputContainer>
+                  </div>
+                  <ErrorAlert error={error} />
 
-                <div className="text-center pb-3 pt-4">
-                  <Button
-                    ariaLabel="btn.Save"
-                    className="px-5"
-                    disabled={!isMembership && !acceptTyC}
-                  >
-                    <I18N
-                      id={`MyData.btn.${
-                        isMembership ? "UpdateData" : "SignToMathTrade"
-                      }`}
-                    />
-                  </Button>
-                </div>
-              </Form>
+                  {isMembership ? null : (
+                    <div className="mb-1 pt-4">
+                      <Checkbox
+                        data={{ terms_acceptance: acceptTyC }}
+                        name="terms_acceptance"
+                        required
+                        ariaLabel="title.TyC"
+                        onChange={setAcceptTyC}
+                      >
+                        <I18N id="accept.TyC1" />
+                        <a
+                          href={PUBLIC_ROUTES.TERMS_CONDITIONS.path}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary underline hover:text-primary-hover"
+                        >
+                          <I18N id="title.TyC" />
+                        </a>
+                        <I18N id="accept.TyC2" />
+                        <a
+                          href={baseURL + rulebookPDFurl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary underline hover:text-primary-hover"
+                        >
+                          <I18N id="title.Rulebook" />
+                        </a>
+                        <I18N id="accept.TyC3" />
+                      </Checkbox>
+                    </div>
+                  )}
+
+                  <div className="text-center pb-3 pt-4">
+                    <Button
+                      ariaLabel="btn.Save"
+                      className="px-5"
+                      disabled={!isMembership && !acceptTyC}
+                    >
+                      <I18N
+                        id={`MyData.btn.${
+                          isMembership ? "UpdateData" : "SignToMathTrade"
+                        }`}
+                      />
+                    </Button>
+                  </div>
+                </Form>
+              )}
               {isMembership && canOut ? (
                 <div className="text-center pb-3 pt-3">
                   <ButtonAlert
