@@ -40,7 +40,7 @@ const AdvCompromise = () => {
 
   return showAdvice && mustConfirm && !canI.offer && canI.commit ? (
     <Wrapper className="mt-main">
-      <div className="relative bg-red-600 w-full z-[998] text-white text-center p-2 shadow-main rounded-main">
+      <div className="relative bg-red-600 w-full text-white text-center p-2 shadow-main rounded-main">
         <I18N id="AdvCompromise" />
         <Link
           href={PRIVATE_ROUTES.WANTS.path}
