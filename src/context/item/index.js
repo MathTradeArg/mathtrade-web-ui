@@ -26,7 +26,7 @@ export const ItemContext = createContext({
 
 export const ItemContextProvider = ({ itemRaw, children }) => {
   /* PAGE CONTEXT **********************************************/
-  const { myWants /* myItemsInMT_forWants , userId*/ } =
+  const { myWants, userId /* myItemsInMT_forWants */ } =
     useContext(PageContext);
   /* end PAGE CONTEXT */
 
@@ -108,7 +108,15 @@ export const ItemContextProvider = ({ itemRaw, children }) => {
     //   return isFoundedBGGId;
     // })();
 
-    const isSameBGGId = owner ? false : matched_bgg_id && matched_bgg_id > 0;
+    // Items nested in the games list (ItemWantGroupSerializer) don't carry
+    // `owner`, so fall back to comparing the membership's user id — otherwise
+    // an own non-BGG item shows "Lo quiero" in the games view.
+    const isOwned =
+      owner ?? (user?.id !== undefined && userId !== undefined
+        ? String(user.id) === String(userId)
+        : false);
+
+    const isSameBGGId = isOwned ? false : matched_bgg_id && matched_bgg_id > 0;
 
     return {
       id,
@@ -116,7 +124,7 @@ export const ItemContextProvider = ({ itemRaw, children }) => {
       copies,
       elements,
       value,
-      isOwned: owner || false, //: user.id === userId,
+      isOwned,
       group,
       tags,
       commentsCount,
@@ -131,7 +139,7 @@ export const ItemContextProvider = ({ itemRaw, children }) => {
       },
       isSameBGGId,
     };
-  }, [itemLoaded]);
+  }, [itemLoaded, userId]);
 
   /* end ITEM ***************************/
 
