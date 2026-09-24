@@ -18,6 +18,7 @@ import { linksToHelp } from "@/config/linksToHelp";
 import SectionCommon from "@/components/sections/common";
 import PageHeader from "@/components/pageHeader";
 import { PUBLIC_ROUTES } from "@/config";
+import ContributionBox from "./ContributionBox";
 import { rulebookPDFurl } from "@/config/rulebook";
 import Referral from "@/components/referral";
 
@@ -44,6 +45,10 @@ const MyDataPage = () => {
     acceptTyC,
     setAcceptTyC,
     canOut,
+    contribution,
+    contributionAmount,
+    mathtradeId,
+    reloadMembership,
   } = useMyData();
 
   return (
@@ -78,6 +83,14 @@ const MyDataPage = () => {
                   }.lead`}
                 />
               </p>
+
+              <ContributionBox
+                isMembership={isMembership}
+                contribution={contribution}
+                contributionAmount={contributionAmount}
+                mathtradeId={mathtradeId}
+                onChanged={reloadMembership}
+              />
 
               <Form validations={validations} onSubmit={onSubmit}>
                 <div className="max-w-96 mx-auto">
@@ -173,6 +186,11 @@ const MyDataPage = () => {
                   <ButtonAlert
                     className="text-danger text-sm hover:text-red-800"
                     title="MyData.title.SignOutToMathTrade"
+                    description={
+                      ["pending", "approved"].includes(contribution?.status)
+                        ? "contribution.cancelWarning"
+                        : ""
+                    }
                     onClick={onSignOut}
                   >
                     <I18N id="MyData.btn.SignOutToMathTrade" />
