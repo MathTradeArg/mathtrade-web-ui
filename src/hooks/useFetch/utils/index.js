@@ -54,3 +54,29 @@ export const callToAPI = ({
 
   return handlePromise(service({ method, pathRequest, params }));
 };
+
+// Authenticated file download (useFetch only handles JSON). Opens the file in
+// a new tab from a blob URL, since a plain link wouldn't send the auth token.
+export const openAuthenticatedFile = async ({
+  endpoint,
+  urlParams = [],
+  mathtradeId = 0,
+}) => {
+  // Open the tab synchronously (still inside the click) so popup blockers
+  // allow it, then point it at the file once downloaded.
+  const tab = window.open("", "_blank");
+  const pathRequest = composeEndpoint(endpoint, null, urlParams, mathtradeId);
+  const response = await api.get(pathRequest, {}, { responseType: "blob" });
+  if (!response.ok || !response.data) {
+    if (tab) tab.close();
+    return false;
+  }
+  const url = URL.createObjectURL(response.data);
+  if (tab) {
+    tab.location.href = url;
+  } else {
+    window.location.href = url;
+  }
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+  return true;
+};

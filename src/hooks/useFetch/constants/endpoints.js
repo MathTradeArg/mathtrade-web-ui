@@ -92,6 +92,12 @@ const endpoints = {
   // MATHTRADE: MYDATA
   SINGIN_MATHTRADE: "api/mathtrades/$[mathtradeId]/members/",
   EDIT_MYDATA_MATHTRADE: "api/mathtrades/$[mathtradeId]/members/$[1]/",
+  GET_MYDATA_MATHTRADE: "api/mathtrades/$[mathtradeId]/members/$[1]/",
+  POST_CONTRIBUTION: "api/mathtrades/$[mathtradeId]/contributions/",
+  GET_CONTRIBUTIONS: "api/mathtrades/$[1]/contributions/",
+  GET_CONTRIBUTION_RECEIPT: "api/mathtrades/$[1]/contributions/$[2]/receipt/",
+  POST_CONTRIBUTION_APPROVE: "api/mathtrades/$[1]/contributions/$[2]/approve/",
+  POST_CONTRIBUTION_REJECT: "api/mathtrades/$[1]/contributions/$[2]/reject/",
   SIGNOUT_MYDATA_MATHTRADE: "api/mathtrades/$[mathtradeId]/members/$[1]/",
 
   GET_MATHTRADE_STATS: "api/mathtrades/$[mathtradeId]/stats/",
@@ -99,6 +105,10 @@ const endpoints = {
   // MATHTRADE: ADMIN PANEL
   PATCH_MATHTRADE_ADMIN: "api/mathtrades/$[1]/",
   POST_MATHTRADE_RULEBOOK: "api/mathtrades/$[1]/rulebook/",
+  GET_CONTRIBUTION_ACCOUNTS: "api/mathtrades/$[1]/contribution-accounts/",
+  POST_CONTRIBUTION_ACCOUNT: "api/mathtrades/$[1]/contribution-accounts/",
+  PUT_CONTRIBUTION_ACCOUNT: "api/mathtrades/$[1]/contribution-accounts/$[2]/",
+  DELETE_CONTRIBUTION_ACCOUNT: "api/mathtrades/$[1]/contribution-accounts/$[2]/",
 
   // BAN
   GET_BANS: "api/bans/users/",

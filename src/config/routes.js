@@ -125,6 +125,11 @@ export const PRIVATE_ROUTES = {
     path: privateRoot + "/admin",
     enabled: "onlyForAdmin",
   },
+  ADMIN_CONTRIBUTIONS: {
+    title: "adminContributions",
+    path: privateRoot + "/admin/contributions",
+    enabled: "onlyForAdmin",
+  },
 };
 
 export const EXTERNAL_ROUTES = {

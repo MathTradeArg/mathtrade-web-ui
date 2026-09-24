@@ -25,6 +25,19 @@ export const toLocalInput = (iso?: string | null) => {
   )}:${pad(d.getMinutes())}`;
 };
 
+// Accepts Argentine formatting ("5.000", "5.000,50") as well as "5000.50".
+// A lone dot followed by exactly 3 digits is a thousands separator.
+export const parseAmount = (value?: string | number | null) => {
+  let text = `${value ?? ""}`.replace(/[\s$]/g, "");
+  if (text === "") return null;
+  if (text.includes(",")) {
+    text = text.replace(/\./g, "").replace(",", ".");
+  } else if (/^\d{1,3}(\.\d{3})+$/.test(text)) {
+    text = text.replace(/\./g, "");
+  }
+  return text;
+};
+
 const toISO = (value?: string) => {
   if (!value) return null;
   const d = new Date(value);
@@ -64,6 +77,8 @@ const useAdminPanel = () => {
         admin_only: formProps.admin_only,
       };
       if (formProps.location) params.location = formProps.location;
+      // Blank clears it: no contribution required for this edition.
+      params.contribution_amount = parseAmount(formProps.contribution_amount);
       DATE_FIELDS.forEach((field) => {
         const iso = toISO(formProps[field]);
         if (iso) params[field] = iso;
