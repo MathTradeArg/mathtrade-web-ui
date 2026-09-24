@@ -68,6 +68,31 @@ const useMyData = () => {
     return [membership?.user_id || "none"];
   }, [membership]);
 
+  // REFRESH MATHTRADE ***************************************
+  // Sign-up requirements (quiz, contribution) are edition settings an admin
+  // may have just changed; load them fresh when the page opens.
+  const { updateMathtrade } = useContext(PageContext);
+  const afterLoadMathtrade = useCallback(
+    (freshMathtrade) => {
+      const { data, updateStore: update } = useStore.getState();
+      if (freshMathtrade?.id && data.mathtrade?.id === freshMathtrade.id) {
+        update("data", { ...data, mathtrade: freshMathtrade });
+        updateMathtrade(freshMathtrade);
+      }
+    },
+    [updateMathtrade]
+  );
+  const [refreshMathtrade] = useFetch({
+    endpoint: "GET_MATHTRADE",
+    afterLoad: afterLoadMathtrade,
+  });
+  const storedMathtradeId = mathtrade?.id;
+  useEffect(() => {
+    if (storedMathtradeId) refreshMathtrade({ mathtradeId: storedMathtradeId });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storedMathtradeId]);
+  // END REFRESH MATHTRADE ***************************************
+
   // REFRESH MEMBERSHIP ***************************************
   // The stored membership comes from login/sign-up; its contribution data
   // (assigned account, review status) can change afterwards, so reload it
