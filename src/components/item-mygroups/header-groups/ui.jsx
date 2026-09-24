@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import clsx from "clsx";
 import Icon from "@/components/icon";
+import { SidebarContext } from "@/context/sidebar";
 import useHeaderGroups from "./useHeaderGroups";
 import GroupBadge from "./badge";
 import I18N from "@/i18n";
@@ -15,11 +17,12 @@ const MyGroupsInItemUI = ({ className }) => {
     loading,
     canIEdit,
   } = useHeaderGroups();
+  const { openSidebar, setIntent } = useContext(SidebarContext);
 
   return (
     <div className={className}>
       <div
-        className={clsx("relative w-fit h-[22px]", {
+        className={clsx("relative w-fit h-7", {
           "opacity-50": loading,
         })}
       >
@@ -32,16 +35,16 @@ const MyGroupsInItemUI = ({ className }) => {
               setVisible(false);
             }, 180);
           }}
-          className={clsx("h-[22px] block", {
+          className={clsx("h-7 block", {
             "cursor-default": !canIEdit,
           })}
         >
           {groupAdded ? (
             <GroupBadge group={groupAdded} isSelected canIEdit={canIEdit} />
           ) : canIEdit ? (
-            <div className="flex items-center gap-1 text-gray-800 w-fit pr-2 pl-1 rounded-md shadow-[0_0_1px_1px_rgba(0,0,0,.2)]">
+            <div className="flex items-center gap-1 text-gray-800 w-fit h-7 pr-3 pl-2 rounded-md shadow-[0_0_1px_1px_rgba(0,0,0,.2)]">
               <Icon type="plus" className="leading-5 h-[20px]" />
-              <div className="whitespace-nowrap text-[12px] sfont-bold leading-5">
+              <div className="whitespace-nowrap text-sm font-bold leading-5">
                 <I18N id="myItems.AddToGroup" />
               </div>
             </div>
@@ -63,6 +66,21 @@ const MyGroupsInItemUI = ({ className }) => {
                     </span>
                   </div>
                 </div>
+              </div>
+            ) : null}
+            {groupsToAdd.length === 0 && !groupAdded ? (
+              <div className="p-1">
+                <button
+                  type="button"
+                  className="flex items-center gap-1 text-primary text-sm font-bold px-2 py-1 whitespace-nowrap"
+                  onMouseDown={() => {
+                    setIntent("newGroup");
+                    openSidebar();
+                  }}
+                >
+                  <Icon type="plus" />
+                  <I18N id="myItems.CreateGroupFromItem" />
+                </button>
               </div>
             ) : null}
             {groupsToAdd.map((group) => {

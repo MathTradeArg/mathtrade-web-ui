@@ -33,8 +33,15 @@ const HeaderMyOffer = ({ count }) => {
         >
           <InnerButton>
             <Icon type="collection" className="text-sm" />
-            <span className="lg:inline hidden">
-              <I18N id="myGroups.groupHeader" />
+            {/* Labelled on every size: an icon-only toggle on mobile made
+                groups hard to find. */}
+            <span>
+              <span className="sm:hidden">
+                <I18N id="myGroups.groupHeaderShort" />
+              </span>
+              <span className="hidden sm:inline">
+                <I18N id="myGroups.groupHeader" />
+              </span>
               {myGroups.length > 0 ? ` (${myGroups.length})` : ""}
             </span>
           </InnerButton>

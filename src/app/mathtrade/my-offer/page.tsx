@@ -18,6 +18,8 @@ import EmptyList from "@/components/emptyList";
 import NewItem from "@/components/item/item-my/new-item";
 import ItemsPreviousMT from "@/components/itemsPreviousMT";
 import NewUserOfferAlert from "@/components/NewUserOfferAlert";
+import GroupBar from "@/components/item-mygroups/group-bar";
+import GroupsHint from "@/components/item-mygroups/groups-hint";
 import I18N from "@/i18n";
 
 const MyItemsPage = () => {
@@ -48,6 +50,8 @@ const MyItemsPage = () => {
                 </StickyHeader>
                 <div className="md:px-7 px-3 py-7">
                   <div className="max-w-[860px] mx-auto">
+                    <GroupsHint />
+                    <GroupBar />
                     <NewUserOfferAlert />
                     {canAddNewElement && <NewItem />}
                     {items.map((itemRaw) => {

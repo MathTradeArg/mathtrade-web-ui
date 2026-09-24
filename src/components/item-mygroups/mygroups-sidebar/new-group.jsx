@@ -1,10 +1,21 @@
 import Icon from "@/components/icon";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { SidebarContext } from "@/context/sidebar";
 import GroupEditor from "./editor";
 import I18N from "@/i18n";
 
 const NewGroup = () => {
   const [visibleEdit, setVisibleEdit] = useState(false);
+  const { intent, setIntent } = useContext(SidebarContext);
+
+  // "Crear un grupo" from the page or an item card opens the sidebar with
+  // this editor already open.
+  useEffect(() => {
+    if (intent === "newGroup") {
+      setVisibleEdit(true);
+      setIntent(null);
+    }
+  }, [intent, setIntent]);
 
   return visibleEdit ? (
     <GroupEditor
