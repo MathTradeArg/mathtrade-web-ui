@@ -37,7 +37,11 @@ const useItemHeader = () => {
     deleteItem,
     loading,
     isCombo,
-    canIoffer: canI.offer,
+    // Withdrawing your own item from this Math Trade (it stays in the
+    // ludoteca) is allowed through the want-list phase — the backend drops
+    // every want involving it; adding/editing is geek-list only.
+    canIdelete: canI.offer || canI.want,
+    isWantPhase: canI.want,
     elementsLength: elements?.length,
     ready,
   };
