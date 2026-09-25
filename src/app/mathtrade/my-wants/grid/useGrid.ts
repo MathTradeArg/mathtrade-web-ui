@@ -6,12 +6,9 @@ import { useOptions } from "@/store";
 import { normalizeString } from "@/utils";
 import useFetch from "@/hooks/useFetch";
 
-// My own tags are few; one page covers them (as the other tag consumers do).
-// Module-level so useFetch's autoLoad doesn't refetch on every render.
+// My own tags are few; one page covers them. Module-level so useFetch's
+// autoLoad doesn't refetch on every render.
 const TAGS_PARAMS = { page_size: 200 };
-
-const idsOf = (list: any[] = []) =>
-  list.map((x) => (typeof x === "object" && x !== null ? x.id : x));
 
 const orders: Record<string, number> = {
   game: 0,
@@ -102,58 +99,52 @@ const useGrid = () => {
   /* end WANTLIST **********************************************/
 
   /* TAG SECTIONS (MAT-136) ****************************************/
-  // With the default order, rows are grouped under a header per color tag
-  // (like item columns are grouped by item group). A want with several tags
-  // is repeated in each section, marked with the other tags; the cells of
-  // the repeats read and write the same want/item pairs.
+  // Same design as item groups in the columns: a tag want is one row that
+  // holds the ticks (the want is per tag), and, when expanded, its tagged
+  // items are listed under it as info rows without ticks of their own.
+  // Tags are for items only; game and item wants keep their normal rows.
+  const { tagsVisible } = useContext(GridContext);
+
+  // All tagged items (wanted or not), with titles, in one call.
   const [, tagsData] = useFetch({
     endpoint: "MYTAGS",
     initialState: { results: [] },
     params: TAGS_PARAMS,
     autoLoad: true,
   });
+  const tagItems = useMemo(() => {
+    const byTag: Record<string, any[]> = {};
+    (tagsData?.results || []).forEach((tag: any) => {
+      byTag[tag.id] = tag.items || [];
+    });
+    return byTag;
+  }, [tagsData]);
 
   const rows = useMemo(() => {
-    const tags = [...(tagsData?.results || [])].sort((a: any, b: any) =>
-      a.name < b.name ? -1 : 1
-    );
     const order = (filters?.order || "type").replace("-", "");
-    if (order !== "type" || !tags.length) return wantList;
+    if (order !== "type") return wantList;
 
-    const tagItemIds = tags.map((tag: any) => new Set(idsOf(tag.items)));
-    const tagsOfWant = (want: any) =>
-      tags.filter((tag: any, i: number) =>
-        want.type === "tag"
-          ? (want.tag?.id ?? want.tag) === tag.id
-          : idsOf(want.wants).some((id) => tagItemIds[i].has(id))
-      );
-
-    const wantTags = new Map(wantList.map((w: any) => [w.id, tagsOfWant(w)]));
     const result: any[] = [];
-
-    tags.forEach((tag: any) => {
-      const inTag = wantList
-        .filter((w: any) => wantTags.get(w.id).some((t: any) => t.id === tag.id))
-        // The tag's own "everything with this tag" want goes first.
-        .sort((a: any, b: any) => (a.type === "tag" ? -1 : b.type === "tag" ? 1 : 0));
-      if (!inTag.length) return;
-      result.push({ isTagHeader: true, _key: `tag-${tag.id}`, tag, count: inTag.length });
-      inTag.forEach((w: any) => {
+    wantList.forEach((want: any) => {
+      result.push(want);
+      if (want.type !== "tag" || !tagsVisible?.[want.id]) return;
+      const color = want.tag?.color || "#999999";
+      const wantedIds = new Set((want.wants || []).map((itm: any) => itm.id));
+      const tagId = want.tag?.id ?? want.tag;
+      // Every tagged item; the wanted ones are the tag's want members.
+      const items = tagItems[tagId] || want.wants || [];
+      items.forEach((item: any) => {
         result.push({
-          ...w,
-          _key: `${tag.id}_${w.id}`,
-          otherTags: wantTags.get(w.id).filter((t: any) => t.id !== tag.id),
+          isTagItem: true,
+          _key: `tagitem-${want.id}-${item.id}`,
+          item,
+          color,
+          wanted: wantedIds.has(item.id),
         });
       });
     });
-
-    const untagged = wantList.filter((w: any) => !wantTags.get(w.id).length);
-    if (untagged.length) {
-      result.push({ isTagHeader: true, _key: "tag-none", tag: null, count: untagged.length });
-      result.push(...untagged);
-    }
     return result;
-  }, [wantList, tagsData, filters]);
+  }, [wantList, filters, tagsVisible, tagItems]);
   /* end TAG SECTIONS ************************************************/
 
   const mostOfferedItemsObj = useMemo(() => {

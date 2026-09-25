@@ -10,6 +10,8 @@ import I18N from "@/i18n";
 import clsx from "clsx";
 import HelpContext from "@/components/help-context";
 import { PageContext } from "@/context/page";
+import { ItemContext } from "@/context/item";
+import BtnTagWant from "./ui/btnTagWant";
 
 const WantButton = ({ contextSize }) => {
   const { canI } = useContext(PageContext);
@@ -18,6 +20,9 @@ const WantButton = ({ contextSize }) => {
 
   const { isOwner, contextType, wantGroup, isSameBGGId } =
     useContext(WantGroupContext);
+  const { itemTag } = useContext(ItemContext);
+  // A tagged item without a want of its own is wanted through its tag.
+  const viaTag = contextType === "item" && !!itemTag && !wantGroup;
 
   return isOwner ? (
     contextSize === "md" && canIwant ? (
@@ -49,6 +54,8 @@ const WantButton = ({ contextSize }) => {
         ) : null}
       </>
     )
+  ) : viaTag ? (
+    canIwant ? <BtnTagWant /> : null
   ) : (
     <>
       {contextSize === "xl" && contextType === "game" ? <GameItemList /> : null}

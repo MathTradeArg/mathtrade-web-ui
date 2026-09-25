@@ -1,6 +1,7 @@
 "use client";
 import useGrid from "./useGrid";
 import WantGroupLabel from "@/components/want-components/grid/wantGroupLabel";
+import TagItemLabel from "@/components/want-components/grid/tagItemLabel";
 import MyItemLabel from "@/components/want-components/grid/myItemLabel";
 import Cell from "@/components/want-components/grid/cell";
 import EmptyList from "@/components/emptyList";
@@ -70,32 +71,28 @@ const GridUI = () => {
             </thead>
             <tbody>
               {wantList.map((wantGroup, j) => {
-                if (wantGroup.isTagHeader) {
+                if (wantGroup.isTagItem) {
+                  // Info row of an expanded tag: the item is wanted through
+                  // the tag, so the ticks live on the tag row above.
+                  const tint = `${wantGroup.color}25`;
                   return (
                     <tr key={wantGroup._key} className="border-spacing-0">
-                      <td
-                        colSpan={myItemList.length}
-                        className="border-spacing-0 m-0 p-0"
-                      >
-                        <div
-                          className="sticky left-0 w-64 h-6 flex items-center gap-2 px-2 text-xs font-bold border-b border-r border-gray-300 bg-white"
-                        >
-                          <span
-                            className="w-3 h-3 rounded-full shrink-0 border border-gray-300"
-                            style={{
-                              backgroundColor: wantGroup.tag?.color || "#fff",
-                            }}
+                      {myItemList.map((myItem, k) =>
+                        k === 0 ? (
+                          <td
+                            key={k}
+                            className="border-spacing-0 m-0 p-0 sticky z-40 left-0"
+                          >
+                            <TagItemLabel row={wantGroup} />
+                          </td>
+                        ) : (
+                          <td
+                            key={k}
+                            className="border-spacing-0 m-0 p-0 td-cell border-b border-r border-gray-200"
+                            style={{ backgroundColor: tint }}
                           />
-                          <span className="cropped_1">
-                            {wantGroup.tag ? (
-                              wantGroup.tag.name
-                            ) : (
-                              <I18N id="grid.untagged" />
-                            )}{" "}
-                            ({wantGroup.count})
-                          </span>
-                        </div>
-                      </td>
+                        )
+                      )}
                     </tr>
                   );
                 }

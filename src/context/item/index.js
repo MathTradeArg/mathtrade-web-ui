@@ -21,12 +21,15 @@ export const ItemContext = createContext({
   setBanId: (_value) => {},
   //
   wantGroup: null,
+  itemTag: null,
+  tagWant: null,
+  wantedViaTag: false,
   otherWantGroups: [],
 });
 
 export const ItemContextProvider = ({ itemRaw, children }) => {
   /* PAGE CONTEXT **********************************************/
-  const { myWants, userId /* myItemsInMT_forWants */ } =
+  const { myWants, userId, itemTags /* myItemsInMT_forWants */ } =
     useContext(PageContext);
   /* end PAGE CONTEXT */
 
@@ -172,6 +175,28 @@ export const ItemContextProvider = ({ itemRaw, children }) => {
     return { wantGroup, otherWantGroups };
   }, [itemLoaded, myWants]);
 
+  /* TAG (an item has at most one) **************************/
+  // A tag is a want; a tagged item is wanted only once added to it
+  // ("Lo quiero" on the item). itemTags is loaded on the offered-items page.
+  const { itemTag, tagWant, wantedViaTag } = useMemo(() => {
+    const id = itemLoaded?.id;
+    const tag = id
+      ? (itemTags || []).find((t) =>
+          (t.items || []).map((x) => `${x}`).includes(`${id}`)
+        ) || null
+      : null;
+    const want = tag
+      ? myWants.find(
+          (w) => w.type === "tag" && `${w.tag?.id ?? w.tag}` === `${tag.id}`
+        ) || null
+      : null;
+    return {
+      itemTag: tag,
+      tagWant: want,
+      wantedViaTag: !!want?.wants?.some((itm) => itm.id === id),
+    };
+  }, [itemLoaded, itemTags, myWants]);
+
   return (
     <ItemContext.Provider
       value={{
@@ -185,6 +210,9 @@ export const ItemContextProvider = ({ itemRaw, children }) => {
         //
         wantGroup,
         otherWantGroups,
+        itemTag,
+        tagWant,
+        wantedViaTag,
       }}
     >
       {item.elements && item.elements.length > 0 ? (
