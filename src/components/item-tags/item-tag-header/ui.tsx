@@ -1,7 +1,7 @@
 "use client";
 import Value from "@/components/value";
 import useItemTagHeader from "./useItemTagHeader";
-import WantButton from "@/components/want-button";
+import TagWantAll from "../tag-want-all";
 import Icon from "@/components/icon";
 import { getI18Ntext } from "@/i18n";
 import ItemTagEditor from "../item-tag-editor";
@@ -28,7 +28,7 @@ const ItemTagHeaderUI = () => {
         {count ? ` · ${count}` : ""}
       </span>
       <Value type="tag" onChange={onChangeValue} />
-      {tag?.items?.length > 0 ? <WantButton contextSize="md" /> : null}
+      {tag?.items?.length > 0 ? <TagWantAll /> : null}
       {canIEdit ? (
         <button
           type="button"

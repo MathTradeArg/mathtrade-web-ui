@@ -124,6 +124,14 @@ const useGrid = () => {
     const order = (filters?.order || "type").replace("-", "");
     if (order !== "type") return wantList;
 
+    // Items the user already wants outside a tag (their own item want or a
+    // game want): shown as "por separado", not offered to add to the tag.
+    const wantedElsewhere = new Set<number>();
+    wantList.forEach((w: any) => {
+      if (w.type === "tag") return;
+      (w.wants || []).forEach((itm: any) => wantedElsewhere.add(itm.id));
+    });
+
     const result: any[] = [];
     wantList.forEach((want: any) => {
       result.push(want);
@@ -140,6 +148,9 @@ const useGrid = () => {
           item,
           color,
           wanted: wantedIds.has(item.id),
+          wantedElsewhere: wantedElsewhere.has(item.id),
+          tagId,
+          tagWantId: want.id,
         });
       });
     });
