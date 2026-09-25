@@ -2,7 +2,8 @@
 import I18N from "@/i18n";
 import Icon from "@/components/icon";
 import { colorTagStyles } from "@/utils/color";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { SidebarContext } from "@/context/sidebar";
 
 const AddTag = ({
   updateTag,
@@ -16,8 +17,16 @@ const AddTag = ({
   loading?: boolean;
 }) => {
   const [visible, setVisible] = useState(false);
+  // "Crear etiqueta…" is always offered: creating tags otherwise means
+  // finding "Nueva etiqueta" inside the filters panel, which starts closed.
+  // Only the offered-items page has the tag editor in its sidebar; item
+  // cards shown elsewhere (e.g. preview modals) keep the old behaviour.
+  const { name, openSidebar, setIntent } = useContext(SidebarContext);
+  const canCreate = name === "items";
 
-  return options.length ? (
+  if (!options.length && !canCreate) return null;
+
+  return (
     <div className="relative">
       <button
         type="button"
@@ -60,10 +69,23 @@ const AddTag = ({
                 </button>
               );
             })}
+            {canCreate ? (
+              <button
+                type="button"
+                className="flex items-center gap-1 text-primary text-xs font-semibold py-1 px-2 w-full text-left hover:underline"
+                onMouseDown={() => {
+                  setIntent("newTag");
+                  openSidebar();
+                }}
+              >
+                <Icon type="plus" className="text-[11px]" />
+                <I18N id="itemList.Tags.CreateFromItem" />
+              </button>
+            ) : null}
           </div>
         </div>
       ) : null}
     </div>
-  ) : null;
+  );
 };
 export default AddTag;
