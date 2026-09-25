@@ -8,46 +8,30 @@ import I18N, { getI18Ntext } from "@/i18n";
 import Icon from "@/components/icon";
 import InnerButton from "@/components/button/inner-button";
 import { colorTagStyles } from "@/utils/color";
+import { replaceWant } from "@/utils/replaceWant";
 
 /* "Lo quiero" on an item that has a tag: the tag is the want, so wanting the
  * item adds it to the tag's want (and "Ya no lo quiero" takes it out, keeping
  * the tag), instead of creating a separate want that could bring a duplicate. */
 const BtnTagWant = () => {
-  const { itemTag, tagWant, wantedViaTag, item } = useContext(ItemContext);
-  const { setMyWants, forceReloadPage } = useContext(PageContext);
+  const { itemTag, wantedViaTag, item } = useContext(ItemContext);
+  const { setMyWants } = useContext(PageContext);
 
-  // Update the tag's want locally from the result: one call per click, no
-  // reload of wants or items.
-  const applyLocally = useCallback(
-    (wanted) => {
-      // A tag created in this session isn't in the loaded wants yet: reload.
-      if (!tagWant) {
-        forceReloadPage();
-        return;
-      }
-      setMyWants((wants) =>
-        wants.map((w) => {
-          if (w.id !== tagWant.id) return w;
-          const others = (w.wants || []).filter((itm) => itm.id !== item.id);
-          return {
-            ...w,
-            wants: wanted ? [...others, { id: item.id, title: item.title }] : others,
-          };
-        })
-      );
-    },
-    [tagWant, item, setMyWants, forceReloadPage]
+  // The backend returns the updated tag want (full data): swap it in.
+  const afterLoad = useCallback(
+    (updated) => setMyWants((wants) => replaceWant(wants, updated)),
+    [setMyWants]
   );
 
   const [consolidate, , loadingAdd, errorAdd] = useFetch({
     endpoint: "POST_TAG_CONSOLIDATE",
     method: "POST",
-    afterLoad: useCallback(() => applyLocally(true), [applyLocally]),
+    afterLoad,
   });
   const [unconsolidate, , loadingRemove, errorRemove] = useFetch({
     endpoint: "POST_TAG_UNCONSOLIDATE",
     method: "POST",
-    afterLoad: useCallback(() => applyLocally(false), [applyLocally]),
+    afterLoad,
   });
 
   if (!itemTag) return null;

@@ -122,7 +122,10 @@ const useGrid = () => {
 
   const rows = useMemo(() => {
     const order = (filters?.order || "type").replace("-", "");
-    if (order !== "type") return wantList;
+    // Mixed orders (name, value…) have no sections: label each row instead.
+    if (order !== "type") {
+      return wantList.map((w: any) => ({ ...w, _showTypeBadge: true }));
+    }
 
     // Items the user already wants outside a tag (their own item want or a
     // game want): shown as "por separado", not offered to add to the tag.
@@ -133,7 +136,14 @@ const useGrid = () => {
     });
 
     const result: any[] = [];
+    let lastType: string | null = null;
     wantList.forEach((want: any) => {
+      // Default order is grouped by type: a thin separator per section
+      // (Juegos / Etiquetas / Ejemplares) instead of a label on every row.
+      if (want.type !== lastType) {
+        result.push({ isSection: true, sectionType: want.type, _key: `section-${want.type}` });
+        lastType = want.type;
+      }
       result.push(want);
       if (want.type !== "tag" || !tagsVisible?.[want.id]) return;
       const color = want.tag?.color || "#999999";

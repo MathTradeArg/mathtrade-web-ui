@@ -4,6 +4,7 @@ import { PageContext } from "@/context/page";
 import { TagContext } from "@/context/tag";
 import useFetch from "@/hooks/useFetch";
 import ButtonAlert from "@/components/buttonAlert";
+import { replaceWant } from "@/utils/replaceWant";
 import I18N from "@/i18n";
 
 /* Tag header: a tag is a want, and each game in it is wanted only when you
@@ -24,26 +25,21 @@ const TagWantAll = () => {
   const total = tag?.items?.length || 0;
   const wanted = tagWant?.wants?.length || 0;
 
-  const applyLocally = useCallback(
-    (all) => {
-      if (!tagWant) return;
-      const items = (tag.itemsComplete || []).map(({ id, title }) => ({ id, title }));
-      setMyWants((wants) =>
-        wants.map((w) => (w.id === tagWant.id ? { ...w, wants: all ? items : [] } : w))
-      );
-    },
-    [tagWant, tag, setMyWants]
+  // The backend returns the updated tag want (full data): swap it in.
+  const afterLoad = useCallback(
+    (updated) => setMyWants((wants) => replaceWant(wants, updated)),
+    [setMyWants]
   );
 
   const [wantAll, , loadingAll] = useFetch({
     endpoint: "POST_TAG_CONSOLIDATE",
     method: "POST",
-    afterLoad: useCallback(() => applyLocally(true), [applyLocally]),
+    afterLoad,
   });
   const [wantNone, , loadingNone] = useFetch({
     endpoint: "POST_TAG_UNCONSOLIDATE",
     method: "POST",
-    afterLoad: useCallback(() => applyLocally(false), [applyLocally]),
+    afterLoad,
   });
 
   if (!tag || !total || !canI?.want) return null;
