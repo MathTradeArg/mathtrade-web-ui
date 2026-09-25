@@ -6,7 +6,7 @@ const TermConditionsPage = () => {
     <LayoutExternal title="title.TyC">
       <div className="rich-text max-w-4xl mx-auto">
         <p>
-          Bienvenides al Math Trade Argentina 2025, el mejor del mundo. Te
+          Bienvenides al Math Trade Argentina 2026, el mejor del mundo. Te
           agradecemos por sumarte y hacer una comunidad argentina de juegos de
           mesa cada vez más grande.
         </p>
@@ -26,9 +26,11 @@ const TermConditionsPage = () => {
             peor de tus posibles cambios.{" "}
           </li>
           <li>
-            No cumplir con un cambio establecido implica el baneo permanente del
-            MT. El sistema se basa en la confianza y el compromiso entre
-            usuaries y quebrarlo arruina la experiencia de todes.
+            No cumplir con un cambio establecido es pasible de sanción: según el
+            caso, una advertencia o un ban (la imposibilidad de participar en
+            próximas ediciones), tal como detalla el reglamento. El sistema se
+            basa en la confianza y el compromiso entre usuaries y quebrarlo
+            arruina la experiencia de todes.
           </li>
           <li>
             Los cambios pueden generar costos de envío, que deben ser costeados
@@ -38,9 +40,11 @@ const TermConditionsPage = () => {
             como punto intermedio (cuando es más barato que el envío directo).{" "}
           </li>
           <li>
-            En este MT se decidió contratar un servicio de Logística. Estimamos
-            que costará unos 100 pesos por juego cambiado. El pago de este monto
-            será obligatorio y nos permitirá hacer aún mejor las cosas.
+            Para participar se hace un depósito de operatividad, que se toma a
+            cuenta de tu liquidación final (arancel por ítem cambiado y costos
+            de envío). Si gastás menos o no concretás ningún cambio, se te
+            reintegra el excedente. Los montos y plazos de cada edición están en
+            el reglamento; pagarlos en tiempo y forma es obligatorio.
           </li>
           <li>
             Participar del MT requiere responsabilidad. Ser precisos con los
@@ -58,21 +62,18 @@ const TermConditionsPage = () => {
             diferencias subjetivas sobre las categorías de estado de los juegos.
             Tratá de tener una visión comprensiva, ya que todes buscamos lo
             mejor para el MT. Si existen discrepancias importantes o no te
-            contenta la situación, primero intentá resolver la situación con la
-            persona que entregó el juego. Si no obtenés la respuesta que
-            esperabas, comunicate con la organización.
+            contenta la situación, primero intentá resolverla con la persona que
+            entregó el juego, dentro de los 30 días posteriores al encuentro. Si
+            no llegan a un acuerdo, la Comisión de Moderación interviene y
+            define una solución final.
             <br />
             Los juegos viajan mucho. Hemos tenido casos de un juego que de Jujuy
             va a Buenos Aires y luego a Catamarca. Pueden pasar cosas en el
             medio, hacemos todo lo posible para que no pase, pero puede pasar.
           </li>
           <li>
-            En este MT volvemos a ayudar con una causa solidaria. En el anterior
-            le armamos una hermosa ludoteca a un Hospital infantojuvenil de Las
-            Heras, Mendoza. Esta vez tenemos el objetivo de ayudar a un Hogar de
-            pibes de la calle de Lanús. Vas a poder enviar algún juego en buen
-            estado para que lo disfruten en la Casa de los Chicos Ceferino
-            (Personería jurídica Nº 11.135)
+            En este MT volvemos a ayudar con una causa solidaria: este año vamos
+            a hacer una donación al Hospital de Pediatría Garrahan.
           </li>
           <li>
             Por último, tené en cuenta que las personas que llevamos adelante el
