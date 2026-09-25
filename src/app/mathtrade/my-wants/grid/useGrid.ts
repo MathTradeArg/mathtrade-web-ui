@@ -4,14 +4,7 @@ import { MyWantsContext } from "@/context/myWants/all";
 import { GridContext } from "@/context/myWants/grid";
 import { useOptions } from "@/store";
 import { normalizeString } from "@/utils";
-import useFetch from "@/hooks/useFetch";
 
-// My own tags are few; one page covers them (as the other tag consumers do).
-// Module-level so useFetch's autoLoad doesn't refetch on every render.
-const TAGS_PARAMS = { page_size: 200 };
-
-const idsOf = (list: any[] = []) =>
-  list.map((x) => (typeof x === "object" && x !== null ? x.id : x));
 
 const orders: Record<string, number> = {
   game: 0,
@@ -102,65 +95,32 @@ const useGrid = () => {
   /* end WANTLIST **********************************************/
 
   /* TAG SECTIONS (MAT-136) ****************************************/
-  // With the default order, rows are grouped under a header per color tag
-  // (like item columns are grouped by item group). A want with several tags
-  // is repeated in each section, marked with the other tags; the cells of
-  // the repeats read and write the same want/item pairs.
-  const [, tagsData] = useFetch({
-    endpoint: "MYTAGS",
-    initialState: { results: [] },
-    params: TAGS_PARAMS,
-    autoLoad: true,
-  });
+  // Same design as item groups in the columns: a tag want is one row that
+  // holds the ticks (the want is per tag), and, when expanded, its tagged
+  // items are listed under it as info rows without ticks of their own.
+  // Tags are for items only; game and item wants keep their normal rows.
+  const { tagsVisible } = useContext(GridContext);
 
   const rows = useMemo(() => {
-    const tags = [...(tagsData?.results || [])].sort((a: any, b: any) =>
-      a.name < b.name ? -1 : 1
-    );
     const order = (filters?.order || "type").replace("-", "");
-    if (order !== "type" || !tags.length) return wantList;
+    if (order !== "type") return wantList;
 
-    // Tags are for items only: a game want is already its own grouping (all
-    // copies with the same BGG id), so it never goes under a tag even if one
-    // of its copies is tagged. Only the tag's own want and item wants whose
-    // item carries the tag are listed under it.
-    const tagItemIds = tags.map((tag: any) => new Set(idsOf(tag.items)));
-    const tagsOfWant = (want: any) => {
-      if (want.type === "tag") {
-        return tags.filter((tag: any) => (want.tag?.id ?? want.tag) === tag.id);
-      }
-      if (want.type !== "item") return [];
-      return tags.filter((tag: any, i: number) =>
-        idsOf(want.wants).some((id) => tagItemIds[i].has(id))
-      );
-    };
-
-    const wantTags = new Map(wantList.map((w: any) => [w.id, tagsOfWant(w)]));
     const result: any[] = [];
-
-    tags.forEach((tag: any) => {
-      const inTag = wantList
-        .filter((w: any) => wantTags.get(w.id).some((t: any) => t.id === tag.id))
-        // The tag's own "everything with this tag" want goes first.
-        .sort((a: any, b: any) => (a.type === "tag" ? -1 : b.type === "tag" ? 1 : 0));
-      if (!inTag.length) return;
-      result.push({ isTagHeader: true, _key: `tag-${tag.id}`, tag, count: inTag.length });
-      inTag.forEach((w: any) => {
+    wantList.forEach((want: any) => {
+      result.push(want);
+      if (want.type !== "tag" || !tagsVisible?.[want.id]) return;
+      const color = want.tag?.color || "#999999";
+      (want.wants || []).forEach((item: any) => {
         result.push({
-          ...w,
-          _key: `${tag.id}_${w.id}`,
-          otherTags: wantTags.get(w.id).filter((t: any) => t.id !== tag.id),
+          isTagItem: true,
+          _key: `tagitem-${want.id}-${item.id}`,
+          item,
+          color,
         });
       });
     });
-
-    const untagged = wantList.filter((w: any) => !wantTags.get(w.id).length);
-    if (untagged.length) {
-      result.push({ isTagHeader: true, _key: "tag-none", tag: null, count: untagged.length });
-      result.push(...untagged);
-    }
     return result;
-  }, [wantList, tagsData, filters]);
+  }, [wantList, filters, tagsVisible]);
   /* end TAG SECTIONS ************************************************/
 
   const mostOfferedItemsObj = useMemo(() => {

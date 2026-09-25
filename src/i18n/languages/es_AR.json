@@ -630,8 +630,6 @@
   "myGroups.NewGroup": "Nuevo grupo",
   "value.lockedByGroup": "Este ejemplar está en el grupo <strong>$$$</strong>: su puntaje es el del grupo y se edita desde el grupo, en Mis grupos.",
   "value.mixedGroup": "Los ejemplares de este grupo tienen puntajes distintos. Al editar el puntaje del grupo se unifica para todos.",
-  "grid.untagged": "Sin etiqueta",
-  "grid.alsoIn": "También en",
   "myGroups.groupHeader": "Mis grupos",
   "myGroups.groupHeaderShort": "Grupos",
   "myGroups.hint.create": "Crear un grupo",
