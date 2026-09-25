@@ -70,11 +70,40 @@ const GridUI = () => {
             </thead>
             <tbody>
               {wantList.map((wantGroup, j) => {
-                /* if (j >= 4) {
-                  return null;
-                } */
+                if (wantGroup.isTagHeader) {
+                  return (
+                    <tr key={wantGroup._key} className="border-spacing-0">
+                      <td
+                        colSpan={myItemList.length}
+                        className="border-spacing-0 m-0 p-0"
+                      >
+                        <div
+                          className="sticky left-0 w-64 h-6 flex items-center gap-2 px-2 text-xs font-bold border-b border-r border-gray-300 bg-white"
+                        >
+                          <span
+                            className="w-3 h-3 rounded-full shrink-0 border border-gray-300"
+                            style={{
+                              backgroundColor: wantGroup.tag?.color || "#fff",
+                            }}
+                          />
+                          <span className="cropped_1">
+                            {wantGroup.tag ? (
+                              wantGroup.tag.name
+                            ) : (
+                              <I18N id="grid.untagged" />
+                            )}{" "}
+                            ({wantGroup.count})
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                }
                 return (
-                  <tr key={wantGroup.id} className="border-spacing-0">
+                  <tr
+                    key={wantGroup._key || wantGroup.id}
+                    className="border-spacing-0"
+                  >
                     {myItemList.map((myItem, k) => {
                       return k === 0 ? (
                         <td
