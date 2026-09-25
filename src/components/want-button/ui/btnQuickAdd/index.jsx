@@ -185,9 +185,14 @@ const BtnQuickAdd = () => {
         size="sm"
       >
         <div className="text-center pt-3">
-          <p className="mb-4 text-red-500 text-sm">
-            <I18N id="wantEditor.IsItemInOther.item" />
-          </p>
+          <div className="mb-4 text-sm">
+            <p className="text-red-600 mb-2">
+              <I18N id="wantEditor.IsItemInOther.item" />
+            </p>
+            <p className="text-left text-gray-700 text-xs leading-snug">
+              <I18N id="wantEditor.IsItemInOther.why" />
+            </p>
+          </div>
           <div className="flex items-center justify-center gap-3">
             <button
               className="rounded-full outline-none transition-colors inline-block w-auto px-7 py-3 text-lg shadow-xs border border-gray-300 text-gray-500 hover:opacity-75"
