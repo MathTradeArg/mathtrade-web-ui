@@ -3,6 +3,7 @@ import { colorTagStyles } from "@/utils/color";
 import useItemTagList from "./useItemTagList";
 import Icon from "@/components/icon";
 import AddTag from "./addTag";
+import I18N from "@/i18n";
 
 const ItemTagList = () => {
   const {
@@ -14,6 +15,7 @@ const ItemTagList = () => {
     loadingUpdateTag,
     loadingTags,
     canIEdit,
+    notice,
   } = useItemTagList();
 
   return isOwned || isSameBGGId ? null : (
@@ -34,13 +36,17 @@ const ItemTagList = () => {
                 className="opacity-80 hover:opacity-100"
                 onClick={() => {
                   if (!loadingUpdateTag && !loadingTags) {
-                    updateTag(id, {
-                      bgg_id: "",
-                      protected_dup: true,
-                      items: items.filter((itmId) => itmId !== itemId),
-                      color,
-                      name,
-                    });
+                    updateTag(
+                      id,
+                      {
+                        bgg_id: "",
+                        protected_dup: true,
+                        items: items.filter((itmId) => itmId !== itemId),
+                        color,
+                        name,
+                      },
+                      { removingThisItem: true }
+                    );
                   }
                 }}
               >
@@ -53,6 +59,11 @@ const ItemTagList = () => {
           </div>
         );
       })}
+      {notice ? (
+        <p className="w-full text-xs text-sky-800 bg-sky-50 rounded px-2 py-1">
+          <I18N id="tagWant.untaggedStillWanted" />
+        </p>
+      ) : null}
       {/* An item has at most one tag: once tagged, no "+ Agregar etiqueta". */}
       {canIEdit && !tagCollection.current.length ? (
         <AddTag
