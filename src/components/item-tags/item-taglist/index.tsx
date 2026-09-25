@@ -53,7 +53,8 @@ const ItemTagList = () => {
           </div>
         );
       })}
-      {canIEdit ? (
+      {/* An item has at most one tag: once tagged, no "+ Agregar etiqueta". */}
+      {canIEdit && !tagCollection.current.length ? (
         <AddTag
           updateTag={updateTag}
           options={tagCollection.options}

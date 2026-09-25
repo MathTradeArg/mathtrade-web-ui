@@ -467,6 +467,7 @@
   "itemList.Tags.AddTag": "Etiqueta",
   "itemList.Tags.Edit": "Editar",
   "itemList.Tags.EditTag": "Editar etiqueta",
+  "itemList.Tags.CreateFromItem": "Crear etiqueta…",
   "itemList.Tags.NewTag": "Nueva etiqueta",
   "itemList.Tags.form.AddTag": "Agregar etiqueta",
   "itemList.Tags.form.Color": "Color",

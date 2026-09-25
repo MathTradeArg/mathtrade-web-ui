@@ -9,10 +9,13 @@ const ItemTagEditor = ({
   tag = null,
   className = "",
   onClose = () => {},
+  initialItemIds = [],
 }: {
   tag?: any;
   className?: string;
   onClose?: () => void;
+  // Items to put in a newly created tag (e.g. the item it was created from).
+  initialItemIds?: any[];
 }) => {
   const {
     inputRef,
@@ -25,7 +28,7 @@ const ItemTagEditor = ({
     onCancel,
     onSubmit,
     onDelete,
-  } = useTagEditor(tag, onClose);
+  } = useTagEditor(tag, onClose, initialItemIds);
 
   return (
     <div
