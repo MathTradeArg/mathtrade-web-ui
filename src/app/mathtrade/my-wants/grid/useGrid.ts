@@ -4,7 +4,11 @@ import { MyWantsContext } from "@/context/myWants/all";
 import { GridContext } from "@/context/myWants/grid";
 import { useOptions } from "@/store";
 import { normalizeString } from "@/utils";
+import useFetch from "@/hooks/useFetch";
 
+// My own tags are few; one page covers them. Module-level so useFetch's
+// autoLoad doesn't refetch on every render.
+const TAGS_PARAMS = { page_size: 200 };
 
 const orders: Record<string, number> = {
   game: 0,
@@ -101,6 +105,21 @@ const useGrid = () => {
   // Tags are for items only; game and item wants keep their normal rows.
   const { tagsVisible } = useContext(GridContext);
 
+  // All tagged items (wanted or not), with titles, in one call.
+  const [, tagsData] = useFetch({
+    endpoint: "MYTAGS",
+    initialState: { results: [] },
+    params: TAGS_PARAMS,
+    autoLoad: true,
+  });
+  const tagItems = useMemo(() => {
+    const byTag: Record<string, any[]> = {};
+    (tagsData?.results || []).forEach((tag: any) => {
+      byTag[tag.id] = tag.items || [];
+    });
+    return byTag;
+  }, [tagsData]);
+
   const rows = useMemo(() => {
     const order = (filters?.order || "type").replace("-", "");
     if (order !== "type") return wantList;
@@ -110,17 +129,22 @@ const useGrid = () => {
       result.push(want);
       if (want.type !== "tag" || !tagsVisible?.[want.id]) return;
       const color = want.tag?.color || "#999999";
-      (want.wants || []).forEach((item: any) => {
+      const wantedIds = new Set((want.wants || []).map((itm: any) => itm.id));
+      const tagId = want.tag?.id ?? want.tag;
+      // Every tagged item; the wanted ones are the tag's want members.
+      const items = tagItems[tagId] || want.wants || [];
+      items.forEach((item: any) => {
         result.push({
           isTagItem: true,
           _key: `tagitem-${want.id}-${item.id}`,
           item,
           color,
+          wanted: wantedIds.has(item.id),
         });
       });
     });
     return result;
-  }, [wantList, filters, tagsVisible]);
+  }, [wantList, filters, tagsVisible, tagItems]);
   /* end TAG SECTIONS ************************************************/
 
   const mostOfferedItemsObj = useMemo(() => {

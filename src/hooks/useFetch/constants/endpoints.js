@@ -64,6 +64,8 @@ const endpoints = {
   POST_MYTAGS: "api/mathtrades/$[mathtradeId]/user-tags/",
   PUT_MYTAGS: "api/mathtrades/$[mathtradeId]/user-tags/$[1]/",
   DELETE_MYTAGS: "api/mathtrades/$[mathtradeId]/user-tags/$[1]/",
+  POST_TAG_CONSOLIDATE: "api/mathtrades/$[mathtradeId]/user-tags/$[1]/consolidate/",
+  POST_TAG_UNCONSOLIDATE: "api/mathtrades/$[mathtradeId]/user-tags/$[1]/unconsolidate/",
   COMMIT_CHANGES: "api/mathtrades/$[mathtradeId]/user-commit/",
 
   // GAMES
