@@ -67,7 +67,13 @@ const AdvContribution = () => {
   // else, the contribution only matters once signed up.
   let state: string | null = null;
   if (!membership) {
-    if (canI?.sign) state = rulesRequired ? "notSignedQuiz" : "notSigned";
+    if (canI?.sign) {
+      state = !rulesRequired
+        ? "notSigned"
+        : contributionRequired
+        ? "notSignedQuizContribution"
+        : "notSignedQuiz";
+    }
   } else if (membership.rules?.required && !membership.rules.accepted_at) {
     state = "rulesQuiz";
   } else if (membership.contribution && membership.contribution.status !== "approved") {

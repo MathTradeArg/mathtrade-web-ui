@@ -1,5 +1,6 @@
 "use client";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
+import { PageContext } from "@/context/page";
 import useFetch from "@/hooks/useFetch";
 import { useStore } from "@/store";
 import { formatLocations } from "@/utils";
@@ -55,10 +56,24 @@ const useAdminPanel = () => {
     autoLoad: true,
   });
 
-  const afterSave = useCallback(() => {
-    setEditingId(null);
-    loadMathtrades();
-  }, [loadMathtrades]);
+  const { updateMathtrade } = useContext(PageContext);
+
+  const afterSave = useCallback(
+    (saved: any) => {
+      setEditingId(null);
+      loadMathtrades();
+      // If the admin edited the edition their own session is on, apply it to
+      // the session copy too; otherwise settings like rules_quiz_required or
+      // contribution_amount only show up after a re-login.
+      const { data, updateStore } = useStore.getState();
+      if (saved?.id && data?.mathtrade?.id === saved.id) {
+        const mathtrade = { ...data.mathtrade, ...saved };
+        updateStore("data", { ...data, mathtrade });
+        updateMathtrade(mathtrade);
+      }
+    },
+    [loadMathtrades, updateMathtrade]
+  );
 
   const [saveMathtrade, , savingMathtrade, errorSave] = useFetch({
     endpoint: "PATCH_MATHTRADE_ADMIN",
