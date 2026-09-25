@@ -5,6 +5,7 @@ import { GridContext } from "@/context/myWants/grid";
 import clsx from "clsx";
 import { colorTagStyles } from "@/utils/color";
 import ValueMini from "@/components/value/mini";
+import { getI18Ntext } from "@/i18n";
 import {
   cardKindBorderClass,
   resolveWantGroupKind,
@@ -12,7 +13,7 @@ import {
 
 const WantGroupLabelUI = ({ wantGroup = null }) => {
   const { setShowNoOptionsAdv } = useContext(GridContext);
-  const { name, type, tag, wants, value } = wantGroup || {};
+  const { name, type, tag, wants, value, otherTags } = wantGroup || {};
   const empty = !(wants?.length);
   const kind = wantGroup ? resolveWantGroupKind(wantGroup) : null;
 
@@ -38,9 +39,28 @@ const WantGroupLabelUI = ({ wantGroup = null }) => {
       )}
       style={tagStyle || undefined}
     >
-      <h4 className="cropped_1 text-xs font-bold" title={name}>
-        {`${name}${type === "tag" ? ` (${wants.length})` : ""}`}
-      </h4>
+      <div className="flex items-center gap-1 min-w-0">
+        <h4 className="cropped_1 text-xs font-bold" title={name}>
+          {`${name}${type === "tag" ? ` (${wants.length})` : ""}`}
+        </h4>
+        {otherTags?.length ? (
+          // Also in other tag sections: tiny dots, names on hover (MAT-136).
+          <span
+            className="flex items-center gap-[2px] shrink-0"
+            title={`${getI18Ntext("grid.alsoIn")}: ${otherTags
+              .map((t: any) => t.name)
+              .join(", ")}`}
+          >
+            {otherTags.map((t: any) => (
+              <span
+                key={t.id}
+                className="w-1.5 h-1.5 rounded-full border border-gray-400"
+                style={{ backgroundColor: t.color || "#fff" }}
+              />
+            ))}
+          </span>
+        ) : null}
+      </div>
       <div className="flex items-center gap-1">
         <ValueMini currentValue={value} />
         <div className="w-6">

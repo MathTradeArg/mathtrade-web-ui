@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import Icon from "@/components/icon";
 import useValue from "./useValue";
+import I18N, { getI18Ntext } from "@/i18n";
 import ValueEditor from "./editor";
 import {
   useFloating,
@@ -30,6 +31,8 @@ const Value = ({
     setValue,
     itemListId,
     canIEdit,
+    lockedByGroup,
+    mixed,
   } = useValue(type, itemIds, currentValue, groupId);
 
   const { refs, floatingStyles, context } = useFloating({
@@ -72,7 +75,15 @@ const Value = ({
         }}
       >
         <span>{value}</span>
-        {canIEdit ? (
+        {mixed ? (
+          <span
+            className="text-[11px] leading-none"
+            title={getI18Ntext("value.mixedGroup")}
+          >
+            ≠
+          </span>
+        ) : null}
+        {canIEdit && !lockedByGroup ? (
           <Icon type="edit" className="text-[11px] opacity-70" />
         ) : null}
       </button>
@@ -85,16 +96,22 @@ const Value = ({
             {...getFloatingProps()}
             className=" shadow-[0_1px_10px_rgba(0,0,0,0.2)] z-[999999] animate-fadein min-w-[200px] max-w-[300px] rounded-md flex bg-white"
           >
-            <ValueEditor
-              value={value}
-              setValue={setValue}
-              onClose={() => {
-                setIsOpen(false);
-              }}
-              itemListId={itemListId}
-              onChangeValue={onChange}
-              type={type}
-            />
+            {lockedByGroup ? (
+              <p className="p-3 text-sm">
+                <I18N id="value.lockedByGroup" values={[lockedByGroup.name]} />
+              </p>
+            ) : (
+              <ValueEditor
+                value={value}
+                setValue={setValue}
+                onClose={() => {
+                  setIsOpen(false);
+                }}
+                itemListId={itemListId}
+                onChangeValue={onChange}
+                type={type}
+              />
+            )}
           </div>
         </FloatingFocusManager>
       ) : null}

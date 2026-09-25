@@ -5,6 +5,20 @@ import { GameContext } from "@/context/game";
 import { TagContext } from "@/context/tag";
 import { valueToColor } from "./utils";
 
+// A group's score is the minimum of its items' (same as the backend's
+// ItemGroup.add_value); `mixed` flags groups whose items diverged.
+const groupScore = (group, myItemsInMT) => {
+  const values = (myItemsInMT || [])
+    .filter(({ id }) => group.item_ids.indexOf(id) >= 0)
+    .map(({ value }) => value)
+    .filter((v) => v !== null && v !== undefined);
+  if (!values.length) return { value: 0, mixed: false };
+  return {
+    value: values.reduce((min, v) => Math.min(min, v), 10),
+    mixed: new Set(values.map(Number)).size > 1,
+  };
+};
+
 const useValue = (type, itemIds, currentValue, groupId) => {
   /* ITEM CONTEXT **************************/
   const { item } = useContext(ItemContext);
@@ -27,6 +41,14 @@ const useValue = (type, itemIds, currentValue, groupId) => {
 
   const [value, setValue] = useState(0);
   const [itemListId, setItemListId] = useState([]);
+  const [mixed, setMixed] = useState(false);
+
+  // An item in one of my groups takes the group's score and is edited from
+  // the group (MAT-137). Items of other users are never in my groups.
+  const lockedByGroup = useMemo(() => {
+    if (type !== "item" || !item?.id) return null;
+    return (myGroups || []).find((g) => g.item_ids.indexOf(item.id) >= 0) || null;
+  }, [type, item, myGroups]);
   // const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -34,8 +56,13 @@ const useValue = (type, itemIds, currentValue, groupId) => {
     //setIsLoaded(true);
     if (type === "item") {
       const { id, value: valueItem } = item;
-      setValue(valueItem || 0);
-      setItemListId([id]);
+      if (lockedByGroup) {
+        setValue(groupScore(lockedByGroup, myItemsInMT).value);
+        setItemListId(lockedByGroup.item_ids);
+      } else {
+        setValue(valueItem || 0);
+        setItemListId([id]);
+      }
     }
     if (type === "game") {
       const { items, value: valueGame } = game;
@@ -61,25 +88,10 @@ const useValue = (type, itemIds, currentValue, groupId) => {
       const [group] = myGroups.filter(({ id }) => id === groupId);
 
       if (group) {
-        const { item_ids } = group;
-        setItemListId(item_ids);
-
-        const itemValues = myItemsInMT
-          .filter(({ id }) => {
-            return item_ids.indexOf(id) >= 0;
-          })
-          .map(({ value }) => {
-            return value;
-          })
-          .filter((v) => v !== null);
-        if (!itemValues.length) {
-          setValue(0);
-        } else {
-          const valueDef = itemValues.reduce((val, v) => {
-            return Math.min(val, v);
-          }, 10);
-          setValue(valueDef);
-        }
+        setItemListId(group.item_ids);
+        const score = groupScore(group, myItemsInMT);
+        setValue(score.value);
+        setMixed(score.mixed);
       }
     }
     if (type === "none") {
@@ -98,6 +110,7 @@ const useValue = (type, itemIds, currentValue, groupId) => {
     groupId,
     myGroups,
     myItemsInMT,
+    lockedByGroup,
   ]);
 
   const backgroundColor = useMemo(() => {
@@ -112,6 +125,8 @@ const useValue = (type, itemIds, currentValue, groupId) => {
     setValue,
     itemListId,
     canIEdit: canI.offer || canI.want,
+    lockedByGroup,
+    mixed,
   };
 };
 
