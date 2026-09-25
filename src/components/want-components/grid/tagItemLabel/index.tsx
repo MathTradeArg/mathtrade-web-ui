@@ -5,39 +5,30 @@ import { PageContext } from "@/context/page";
 import useFetch from "@/hooks/useFetch";
 import I18N, { getI18Ntext } from "@/i18n";
 import PreviewerItem from "@/components/previewerItem";
+import { replaceWant } from "@/utils/replaceWant";
 
 /* Info row of an item under an expanded tag in the wants grid. The ticks
  * live on the tag row; this row says whether the item is wanted and lets
  * you want it (add it to the tag) or stop wanting it, right here. */
 const TagItemLabel = ({ row }: { row: any }) => {
-  const { item, color, wanted, wantedElsewhere, tagId, tagWantId } = row;
+  const { item, color, wanted, wantedElsewhere, tagId } = row;
   const { setMyWants, canI } = useContext(PageContext);
 
-  const apply = useCallback(
-    (nowWanted: boolean) => {
-      setMyWants((wants: any[]) =>
-        wants.map((w) => {
-          if (w.id !== tagWantId) return w;
-          const others = (w.wants || []).filter((itm: any) => itm.id !== item.id);
-          return {
-            ...w,
-            wants: nowWanted ? [...others, { id: item.id, title: item.title }] : others,
-          };
-        })
-      );
-    },
-    [setMyWants, tagWantId, item]
+  // The backend returns the updated tag want (full data): swap it in.
+  const afterLoad = useCallback(
+    (updated: any) => setMyWants((wants: any[]) => replaceWant(wants, updated)),
+    [setMyWants]
   );
 
   const [add, , adding, errorAdd] = useFetch({
     endpoint: "POST_TAG_CONSOLIDATE",
     method: "POST",
-    afterLoad: useCallback(() => apply(true), [apply]),
+    afterLoad,
   });
   const [remove, , removing, errorRemove] = useFetch({
     endpoint: "POST_TAG_UNCONSOLIDATE",
     method: "POST",
-    afterLoad: useCallback(() => apply(false), [apply]),
+    afterLoad,
   });
   const busy = adding || removing;
   const params = { urlParams: [tagId], params: { item_id: item.id } };

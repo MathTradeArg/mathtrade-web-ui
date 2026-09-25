@@ -71,6 +71,20 @@ const GridUI = () => {
             </thead>
             <tbody>
               {wantList.map((wantGroup, j) => {
+                if (wantGroup.isSection) {
+                  return (
+                    <tr key={wantGroup._key} className="border-spacing-0">
+                      <td
+                        colSpan={myItemList.length}
+                        className="border-spacing-0 m-0 p-0"
+                      >
+                        <div className="sticky left-0 w-64 h-6 flex items-center px-2 text-[10px] font-bold uppercase tracking-wide text-gray-600 bg-gray-100 border-b border-r border-gray-300">
+                          <I18N id={`grid.section.${wantGroup.sectionType}`} />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                }
                 if (wantGroup.isTagItem) {
                   // Info row of an expanded tag: the item is wanted through
                   // the tag, so the ticks live on the tag row above.

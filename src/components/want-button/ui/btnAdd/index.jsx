@@ -3,7 +3,6 @@ import {
   useState,
   useContext,
   useEffect,
-  useMemo,
   useRef,
 } from "react";
 import { PageContext } from "@/context/page";
@@ -17,6 +16,7 @@ import InnerButton from "@/components/button/inner-button";
 import Icon from "@/components/icon";
 import I18N from "@/i18n";
 import ErrorAlert from "@/components/errorAlert";
+import useWantedElsewhere from "../../hooks/useWantedElsewhere";
 
 const BtnAdd = () => {
   /* PAGE CONTEXT **********************************************/
@@ -31,11 +31,9 @@ const BtnAdd = () => {
   /* end PAGE CONTEXT */
 
   /* ITEM CONTEXT **********************************************/
-  const { item, otherWantGroups } = useContext(ItemContext);
-
-  const inOtherGroups = useMemo(() => {
-    return otherWantGroups && otherWantGroups.length > 0;
-  }, [otherWantGroups]);
+  const { item } = useContext(ItemContext);
+  const wantedElsewhere = useWantedElsewhere();
+  const inOtherGroups = !!wantedElsewhere;
   /* end ITEM CONTEXT */
 
   /* GAME CONTEXT **********************************************/
@@ -182,7 +180,7 @@ const BtnAdd = () => {
       {inOtherGroups ? (
         <div className="text-sm mb-3 text-red-500">
           <p className="text-red-600 mb-2">
-            <I18N id="wantEditor.IsItemInOther.item" />
+            <I18N id={`wantEditor.IsItemInOther.${wantedElsewhere}`} />
           </p>
           <p className="text-left text-gray-700 text-xs leading-snug">
             <I18N id="wantEditor.IsItemInOther.why" />

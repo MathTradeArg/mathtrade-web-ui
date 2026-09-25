@@ -16,6 +16,7 @@ const ItemTagList = () => {
     loadingTags,
     canIEdit,
     notice,
+    tagWant,
   } = useItemTagList();
 
   return isOwned || isSameBGGId ? null : (
@@ -59,10 +60,34 @@ const ItemTagList = () => {
           </div>
         );
       })}
-      {notice ? (
+      {notice === "untagged" ? (
         <p className="w-full text-xs text-sky-800 bg-sky-50 rounded px-2 py-1">
           <I18N id="tagWant.untaggedStillWanted" />
         </p>
+      ) : null}
+      {notice === "moved" ? (
+        <div className="w-full text-xs text-sky-800 bg-sky-50 rounded px-2 py-1 space-y-1">
+          <p>
+            <I18N id="tagWant.movedIntoTag" />
+          </p>
+          {tagWant ? (
+            <p>
+              <I18N
+                id={`tagWant.movedIntoTag.${
+                  tagWant.dup_protection ? "dupOn" : "dupOff"
+                }`}
+              />
+            </p>
+          ) : null}
+          {tagWant && !tagWant.matched_items?.length ? (
+            <p className="text-red-700">
+              <I18N id="tagWant.movedIntoTag.noOffer" />
+            </p>
+          ) : null}
+          <p>
+            <I18N id="tagWant.movedIntoTag.confirm" />
+          </p>
+        </div>
       ) : null}
       {/* An item has at most one tag: once tagged, no "+ Agregar etiqueta". */}
       {canIEdit && !tagCollection.current.length ? (

@@ -68,12 +68,14 @@ const WantGroupLabelUI = ({ wantGroup = null }) => {
         ) : null}
         {/* What kind of want this row is: the same game can be wanted as a
             game (any copy), as a specific copy, or through a tag. */}
-        <span
-          className="text-[8px] font-bold uppercase tracking-wide rounded px-1 bg-white/80 border border-gray-300 text-gray-600 shrink-0"
-          title={getI18Ntext(`grid.wantType.${type}.help`)}
-        >
-          <I18N id={`grid.wantType.${type}`} />
-        </span>
+        {wantGroup._showTypeBadge ? (
+          <span
+            className="text-[8px] font-bold uppercase tracking-wide rounded px-1 bg-white/80 border border-gray-300 text-gray-600 shrink-0"
+            title={getI18Ntext(`grid.wantType.${type}.help`)}
+          >
+            <I18N id={`grid.wantType.${type}`} />
+          </span>
+        ) : null}
         <h4 className="cropped_1 text-xs font-bold" title={name}>
           {`${name}${type === "tag" ? ` (${wants.length})` : ""}`}
         </h4>
