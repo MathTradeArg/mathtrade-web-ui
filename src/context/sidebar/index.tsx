@@ -10,9 +10,10 @@ export const SidebarContext = createContext({
   closeSidebar: (_value?: any) => {},
   openSidebar: () => {},
   // What the sidebar should do once opened from outside it (e.g. "newGroup"
-  // opens the new-group editor); the consumer clears it after acting on it.
-  intent: null as string | null,
-  setIntent: (_value: string | null) => {},
+  // opens the new-group editor, { type: "newTag", itemId } the new-tag
+  // editor for that item); the consumer clears it after acting on it.
+  intent: null as any,
+  setIntent: (_value: any) => {},
 });
 
 export const SidebarContextProvider = ({ name = null, children = null }) => {
@@ -45,7 +46,7 @@ export const SidebarContextProvider = ({ name = null, children = null }) => {
     setVisibleSidebar(true);
   }, []);
 
-  const [intent, setIntent] = useState<string | null>(null);
+  const [intent, setIntent] = useState<any>(null);
 
   useEffect(() => {
     if (name) {

@@ -74,7 +74,8 @@ const AddTag = ({
                 type="button"
                 className="flex items-center gap-1 text-primary text-xs font-semibold py-1 px-2 w-full text-left hover:underline"
                 onMouseDown={() => {
-                  setIntent("newTag");
+                  // Create the tag with this item already in it.
+                setIntent({ type: "newTag", itemId });
                   openSidebar();
                 }}
               >

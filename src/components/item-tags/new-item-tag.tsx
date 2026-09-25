@@ -7,12 +7,14 @@ import ItemTagEditor from "./item-tag-editor";
 
 const NewItemTag = () => {
   const [visibleEdit, setVisibleEdit] = useState(false);
+  const [initialItemIds, setInitialItemIds] = useState<any[]>([]);
   const { intent, setIntent } = useContext(SidebarContext);
 
   // "Crear etiqueta…" from an item card opens the filters panel with this
-  // editor already open.
+  // editor already open, and the new tag is created with that item in it.
   useEffect(() => {
-    if (intent === "newTag") {
+    if (intent?.type === "newTag") {
+      setInitialItemIds(intent.itemId ? [intent.itemId] : []);
       setVisibleEdit(true);
       setIntent(null);
     }
@@ -20,8 +22,10 @@ const NewItemTag = () => {
 
   return visibleEdit ? (
     <ItemTagEditor
+      initialItemIds={initialItemIds}
       onClose={() => {
         setVisibleEdit(false);
+        setInitialItemIds([]);
       }}
       className="mt-2"
     />

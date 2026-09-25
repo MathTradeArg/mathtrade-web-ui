@@ -4,7 +4,7 @@ import useFetch from "@/hooks/useFetch";
 import { useOptions } from "@/store";
 import { getRandomColor } from "@/utils/color";
 
-const useTagEditor = (tag, onClose) => {
+const useTagEditor = (tag, onClose, initialItemIds = []) => {
   /* PAGE CONTEXT **********************************************/
   const { setItemTags } = useContext(PageContext);
   /* end PAGE CONTEXT *********************************************/
@@ -114,11 +114,11 @@ const useTagEditor = (tag, onClose) => {
         });
       } else {
         postMyItemTag({
-          params: { name, color, items: [] },
+          params: { name, color, items: initialItemIds },
         });
       }
     },
-    [tag, name, color, putMyItemTag, postMyItemTag]
+    [tag, name, color, putMyItemTag, postMyItemTag, initialItemIds]
   );
 
   const onDelete = useCallback(
