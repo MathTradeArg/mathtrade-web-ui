@@ -1005,6 +1005,8 @@
   "wantEditor.title.EditWant": "Editar Mis Deseos",
   "wants.SeeAll": "Ver todos mis deseos",
   "wantview.InchangeOf": "A cambio de",
+  "wantview.InchangeOfOne": "A cambio de uno de estos",
+  "wantview.InchangeOfSome": "A cambio de algunos de estos",
   "wantview.IwantToReceive": "Quiero recibir",
   "wantview.LastCommitmentDay": "Comprometido el día:",
   "wantview.NotCommitmentYet": "Todavía no has comprometido tus deseos.<br />Debés hacerlo para poder participar.",

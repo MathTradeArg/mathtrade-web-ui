@@ -11,7 +11,16 @@ const VisualSectionUI = ({ wantGroup = {}, myItemList = [] }) => {
         <I18N id="wantview.IwantToReceive" />
       </h3>
       <h3 className="col-start-3 row-start-1 text-caption font-bold text-gray-500 mb-2 tracking-wide">
-        <I18N id="wantview.InchangeOf" />
+        {/* With duplicate protection you give at most one of the listed
+            items; without it you may give several (same wording as the
+            want editor). */}
+        <I18N
+          id={
+            (wantGroup as any)?.dup_protection === false
+              ? "wantview.InchangeOfSome"
+              : "wantview.InchangeOfOne"
+          }
+        />
       </h3>
       <div className="col-start-1 row-start-2 min-w-0 sticky top-14 self-start">
         <WantGroupUI wantGroup={wantGroup} />
