@@ -181,7 +181,12 @@ const BtnAdd = () => {
       <ErrorAlert error={error} />
       {inOtherGroups ? (
         <div className="text-sm mb-3 text-red-500">
-          <I18N id="wantEditor.IsItemInOther.item" />
+          <p className="text-red-600 mb-2">
+            <I18N id="wantEditor.IsItemInOther.item" />
+          </p>
+          <p className="text-left text-gray-700 text-xs leading-snug">
+            <I18N id="wantEditor.IsItemInOther.why" />
+          </p>
         </div>
       ) : null}
       {notSelectedGame ? (
