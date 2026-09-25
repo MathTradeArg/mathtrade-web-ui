@@ -5,12 +5,14 @@ import { ItemContext } from "@/context/item";
 
 const useItemTagList = () => {
   /* PAGE CONTEXT **********************************************/
-  const { itemTags, setItemTags, setMyWants, canI } = useContext(PageContext);
+  const { itemTags, setItemTags, setMyWants, canI, setMustConfirm } =
+    useContext(PageContext);
   /* end PAGE CONTEXT */
 
   /* ITEM CONTEXT **********************************************/
-  const { item, wantedViaTag } = useContext(ItemContext);
-  const [notice, setNotice] = useState(false);
+  const { item, wantedViaTag, wantGroup, tagWant } = useContext(ItemContext);
+  // Which notice to show after a tag change: "untagged" | "moved" | "" (none).
+  const [notice, setNotice] = useState("");
 
   const { id: itemId, isOwned, isSameBGGId } = item;
   /* end ITEM CONTEXT */
@@ -51,22 +53,28 @@ const useItemTagList = () => {
   });
   // A ref, not state: it is set right before the PUT and read in its
   // afterLoad, which would otherwise see a stale value.
-  const untaggedWanted = useRef(false);
+  const pendingNotice = useRef(false);
 
   const afterLoad = useCallback(() => {
     // My own tags are inherently bounded to one user's own entries - request
     // the max page size so they aren't silently truncated at the default (50).
     getTagList({ params: { page_size: 200 } });
-    if (untaggedWanted.current) {
-      untaggedWanted.current = false;
+    // Tagging an item wanted on its own moves it into the tag's want
+    // (backend): same reload, and the member has to commit again.
+    if (pendingNotice.current) {
+      if (pendingNotice.current === "moved") setMustConfirm(true);
+      setNotice(pendingNotice.current);
+      pendingNotice.current = false;
       loadMyWants({ params: { page_size: 200 } });
-      setNotice(true);
     }
-  }, [getTagList, loadMyWants]);
+  }, [getTagList, loadMyWants, setMustConfirm]);
 
   useEffect(() => {
     if (!notice) return undefined;
-    const timer = setTimeout(() => setNotice(false), 8000);
+    const timer = setTimeout(
+      () => setNotice(""),
+      notice === "moved" ? 20000 : 8000
+    );
     return () => clearTimeout(timer);
   }, [notice]);
 
@@ -78,13 +86,17 @@ const useItemTagList = () => {
 
   const updateTag = useCallback(
     (id, params, { removingThisItem = false } = {}) => {
-      if (removingThisItem && wantedViaTag) untaggedWanted.current = true;
+      if (removingThisItem && wantedViaTag) pendingNotice.current = "untagged";
+      const tagging = (params?.items || []).some((i) => `${i}` === `${itemId}`);
+      if (!removingThisItem && tagging && wantGroup) {
+        pendingNotice.current = "moved";
+      }
       putTag({
         urlParams: [id],
         params,
       });
     },
-    [putTag, wantedViaTag]
+    [putTag, wantedViaTag, wantGroup, itemId]
   );
 
   const tagCollection = useMemo(() => {
@@ -113,6 +125,7 @@ const useItemTagList = () => {
     loadingTags,
     canIEdit: canI.want || canI.offer,
     notice,
+    tagWant,
   };
 };
 
