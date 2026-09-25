@@ -88,6 +88,7 @@
   "MyData.btn.SignOutToMathTrade.Confirm": "Sí, salir",
   "MyData.btn.SignToMathTrade": "Inscribirme al Math Trade",
   "MyData.btn.UpdateData": "Actualizar mis datos",
+  "MyData.locked.afterWants": "Ya cerró la etapa de deseos: <strong>no podés cambiar tu ciudad ni si vas al evento</strong>, porque con eso se arma a dónde se mandan tus juegos. Si necesitás cambiarlo sí o sí, escribile a la organización.",
   "MyData.modifyData.lead": "Asegurate de que la <strong>ciudad</strong> desde la que participás es la correcta. Si vivís en AMBA, <strong>la asistencia al encuentro presencial es obligatoria</strong>:",
   "MyData.title.SignOutToMathTrade": "¿Salir del Math Trade?",
   "MyData.title.SignOutToMathTrade.lead": "Luego podrás volver a inscribirte.",
