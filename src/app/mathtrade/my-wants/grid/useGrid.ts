@@ -120,13 +120,20 @@ const useGrid = () => {
     const order = (filters?.order || "type").replace("-", "");
     if (order !== "type" || !tags.length) return wantList;
 
+    // Tags are for items only: a game want is already its own grouping (all
+    // copies with the same BGG id), so it never goes under a tag even if one
+    // of its copies is tagged. Only the tag's own want and item wants whose
+    // item carries the tag are listed under it.
     const tagItemIds = tags.map((tag: any) => new Set(idsOf(tag.items)));
-    const tagsOfWant = (want: any) =>
-      tags.filter((tag: any, i: number) =>
-        want.type === "tag"
-          ? (want.tag?.id ?? want.tag) === tag.id
-          : idsOf(want.wants).some((id) => tagItemIds[i].has(id))
+    const tagsOfWant = (want: any) => {
+      if (want.type === "tag") {
+        return tags.filter((tag: any) => (want.tag?.id ?? want.tag) === tag.id);
+      }
+      if (want.type !== "item") return [];
+      return tags.filter((tag: any, i: number) =>
+        idsOf(want.wants).some((id) => tagItemIds[i].has(id))
       );
+    };
 
     const wantTags = new Map(wantList.map((w: any) => [w.id, tagsOfWant(w)]));
     const result: any[] = [];
