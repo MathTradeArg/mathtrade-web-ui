@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { PageContext } from "@/context/page";
 import I18N from "@/i18n";
 import Calendar from "@/components/calendar";
-import Videohelp from "./videohelp";
+import WhatIsMT from "@/components/whatIsMT";
 import Status from "./status";
 import Glossary from "./glossary";
 import Iconshelp from "./iconshelp";
@@ -30,7 +30,9 @@ const HomeContent = () => {
           </section>
         </>
       ) : null}
-      <Videohelp />
+      <div className="mb-8 bg-white p-5 rounded-xl shadow-lg">
+        <WhatIsMT />
+      </div>
       <h2 className="text-center font-bold text-2xl py-5">
         <I18N id="quickhelp.title" />
       </h2>
