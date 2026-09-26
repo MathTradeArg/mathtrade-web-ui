@@ -1,6 +1,5 @@
 "use client";
 import { lazy } from "react";
-import clsx from "clsx";
 import useResults from "./useResults";
 import UserSelector from "@/components/results/userSelector";
 import Downloads from "../statistics/currentMT/downloads";
@@ -9,6 +8,7 @@ import Dynamic from "@/components/dynamic";
 import WantsResults from "@/components/results/wantsOffered";
 import ListToolbar from "@/components/list-toolbar";
 import I18N from "@/i18n";
+import { SegmentButton, SegmentedGroup } from "@/components/segmented";
 
 const ResultsVisual = lazy(() => import("@/components/results/visual"));
 const ResultsTable = lazy(() => import("@/components/results/table"));
@@ -22,22 +22,11 @@ const ViewPill = ({
   active?: boolean;
   onClick: () => void;
   labelId: string;
-}) => {
-  return (
-    <button
-      type="button"
-      className={clsx(
-        "h-8 px-3 rounded-full border text-caption font-bold transition-colors",
-        active
-          ? "bg-primary/10 border-primary/40 text-primary"
-          : "bg-white border-gray-200 text-gray-500 hover:text-gray-800"
-      )}
-      onClick={onClick}
-    >
-      <I18N id={labelId} />
-    </button>
-  );
-};
+}) => (
+  <SegmentButton active={active} onClick={onClick} small>
+    <I18N id={labelId} />
+  </SegmentButton>
+);
 
 export default function ResultsUI() {
   const { screenViewResults, setScreenViewResults, loading, MathTradeResults } =
@@ -60,7 +49,7 @@ export default function ResultsUI() {
           ) : null
         }
         trailing={
-          <>
+          <SegmentedGroup>
             <ViewPill
               active={screenViewResults === 0}
               onClick={() => setScreenViewResults(0)}
@@ -76,7 +65,7 @@ export default function ResultsUI() {
               onClick={() => setScreenViewResults(2)}
               labelId="results.screen.received"
             />
-          </>
+          </SegmentedGroup>
         }
       />
 
