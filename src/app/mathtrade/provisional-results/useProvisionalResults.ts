@@ -8,35 +8,22 @@ export type ProvisionalItem = {
   membership?: any;
 };
 
-export type ProvisionalTrade = {
-  id: number;
-  item_from?: ProvisionalItem | null;
-  item_to?: ProvisionalItem | null;
-  membership_from?: any;
-  membership_to?: any;
-};
-
-export type ProvisionalRun = {
-  id: number;
-  label: string;
-  published_at?: string | null;
-  results: ProvisionalTrade[];
-};
-
+// One row per item the member offers: what they'd receive in each of the
+// runs they took part in (numbered 1..n; the runs can't be told apart).
 export type ProvisionalSummaryRow = {
   item: ProvisionalItem;
-  outcomes: { run_id: number; received: ProvisionalItem | null }[];
+  outcomes: { run: number; received: ProvisionalItem | null }[];
 };
 
 export type ProvisionalResultsPayload = {
   self_excluded?: boolean;
   can_self_exclude?: boolean;
-  runs: ProvisionalRun[];
+  runs_count: number;
   summary: ProvisionalSummaryRow[];
 };
 
 const emptyPayload: ProvisionalResultsPayload = {
-  runs: [],
+  runs_count: 0,
   summary: [],
 };
 
@@ -48,7 +35,7 @@ const useProvisionalResults = () => {
   });
 
   const payload = useMemo(() => {
-    if (!data || !Array.isArray(data.runs)) {
+    if (!data || typeof data.runs_count !== "number") {
       return emptyPayload;
     }
     return data as ProvisionalResultsPayload;
@@ -58,7 +45,7 @@ const useProvisionalResults = () => {
     reload: getData,
     loading,
     error,
-    runs: payload.runs,
+    runsCount: payload.runs_count,
     summary: payload.summary,
   };
 };

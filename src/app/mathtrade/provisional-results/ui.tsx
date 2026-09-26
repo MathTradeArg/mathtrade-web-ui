@@ -4,13 +4,12 @@ import ErrorAlert from "@/components/errorAlert";
 import { LoadingBox } from "@/components/loading";
 import useProvisionalResults from "./useProvisionalResults";
 import ProvisionalSummary from "./summary";
-import ProvisionalRuns from "./runs";
 import ProvisionalExclude from "./exclude";
 
 const ProvisionalResultsUI = () => {
-  const { loading, error, runs, summary } = useProvisionalResults();
+  const { loading, error, runsCount, summary } = useProvisionalResults();
 
-  if (loading && !runs.length) {
+  if (loading && !runsCount) {
     return (
       <div className="relative min-h-48">
         <LoadingBox loading />
@@ -21,12 +20,11 @@ const ProvisionalResultsUI = () => {
   return (
     <div className="relative">
       <ErrorAlert error={error} />
-      {!runs.length ? (
+      {!runsCount ? (
         <EmptyList visible icon="status-box" message="provisional.none" />
       ) : (
         <>
           <ProvisionalSummary rows={summary} />
-          <ProvisionalRuns runs={runs} />
           <LoadingBox loading={loading} transparent />
         </>
       )}
