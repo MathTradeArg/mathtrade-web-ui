@@ -8,7 +8,8 @@ import ProvisionalSummary from "./summary";
 import ProvisionalExclude from "./exclude";
 
 const ProvisionalResultsUI = () => {
-  const { loading, error, runsCount, summary } = useProvisionalResults();
+  const { loading, error, runsCount, summary, viewingMember } =
+    useProvisionalResults();
 
   if (loading && !runsCount) {
     return (
@@ -20,6 +21,26 @@ const ProvisionalResultsUI = () => {
 
   return (
     <div className="relative">
+      {viewingMember ? (
+        <p className="mb-4 rounded-lg bg-warning/10 border border-warning/40 px-4 py-2 text-sm text-gray-800">
+          <I18N
+            id="provisional.viewingMember"
+            values={[
+              `${viewingMember.first_name} ${viewingMember.last_name} (${viewingMember.username})`,
+              viewingMember.self_excluded_at
+                ? new Date(viewingMember.self_excluded_at).toLocaleString(
+                    "es-AR",
+                    {
+                      timeZone: "America/Argentina/Buenos_Aires",
+                      dateStyle: "short",
+                      timeStyle: "short",
+                    }
+                  )
+                : "-",
+            ]}
+          />
+        </p>
+      ) : null}
       {/* What these are, in plain words. Deliberately says nothing about how
           the runs are built: members must not be able to tell them apart. */}
       <section className="mb-6 rounded-xl bg-primary/5 border border-primary/20 p-4">
@@ -45,7 +66,8 @@ const ProvisionalResultsUI = () => {
           <LoadingBox loading={loading} transparent />
         </>
       )}
-      <ProvisionalExclude />
+      {/* Read-only when an admin looks at someone else's results. */}
+      {viewingMember ? null : <ProvisionalExclude />}
     </div>
   );
 };

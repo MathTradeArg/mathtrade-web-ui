@@ -130,6 +130,11 @@ export const PRIVATE_ROUTES = {
     path: privateRoot + "/admin/contributions",
     enabled: "onlyForAdmin",
   },
+  ADMIN_SELF_EXCLUDED: {
+    title: "adminSelfExcluded",
+    path: privateRoot + "/admin/self-excluded",
+    enabled: "onlyForAdmin",
+  },
   ADMIN_RULES_QUESTIONS: {
     title: "adminRulesQuestions",
     path: privateRoot + "/admin/rules-questions",
