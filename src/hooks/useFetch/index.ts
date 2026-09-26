@@ -18,7 +18,10 @@ const useFetch = ({
   reloadValue = null,
 } = {}) => {
   const signOut = useSignOut();
-  const { mathtrade } = useStore((state) => state.data);
+  // Only the id: the edition object is replaced on every tab-focus refresh
+  // (PageContext), and depending on it re-ran every autoLoad fetch on the
+  // page — which, among others, wiped unsaved changes in My wants.
+  const storedMathtradeId = useStore((state) => state.data?.mathtrade?.id);
 
   const [data, setData] = useState(initialState || null);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -47,7 +50,7 @@ const useFetch = ({
         path,
         urlParams: defaultUrlParams.concat(urlParams),
         params,
-        mathtradeId: mathtradeId || mathtrade?.id || 0,
+        mathtradeId: mathtradeId || storedMathtradeId || 0,
       });
       setLoading(false);
 
@@ -76,7 +79,7 @@ const useFetch = ({
       afterLoad,
       afterError,
       defaultUrlParams,
-      mathtrade,
+      storedMathtradeId,
       signOut,
     ]
   );
