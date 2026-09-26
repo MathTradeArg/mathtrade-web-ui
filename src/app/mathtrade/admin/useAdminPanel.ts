@@ -46,6 +46,38 @@ const toISO = (value?: string) => {
   return d.toISOString();
 };
 
+export const VENUE_FIELDS = ["venue_name", "venue_address", "venue_map_url"];
+
+// Form values → API params, shared by editing and creating. Creating never
+// sends active/admin_only: the backend always creates inactive + admin-only.
+export const buildParams = (
+  formProps: Record<string, any>,
+  mode: "edit" | "create"
+) => {
+  const params: Record<string, any> = {
+    name: formProps.name,
+    rules_quiz_required: formProps.rules_quiz_required,
+  };
+  if (mode === "edit") {
+    params.active = formProps.active;
+    params.admin_only = formProps.admin_only;
+  }
+  if (formProps.location) params.location = formProps.location;
+  // Blank clears it: no contribution required for this edition.
+  params.contribution_amount = parseAmount(formProps.contribution_amount);
+  // Blank clears the venue (the site then shows none).
+  VENUE_FIELDS.forEach((field) => {
+    params[field] = (formProps[field] || "").trim();
+  });
+  // A cleared date is left out instead of sent as "" (the backend keeps the
+  // stored value instead of erroring on an empty-string date).
+  DATE_FIELDS.forEach((field) => {
+    const iso = toISO(formProps[field]);
+    if (iso) params[field] = iso;
+  });
+  return params;
+};
+
 const useAdminPanel = () => {
   const locations = useStore((state) => state.locations);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -86,23 +118,34 @@ const useAdminPanel = () => {
   // value instead of erroring on an empty-string date.
   const submitEdit = useCallback(
     (id: number, formProps: Record<string, any>) => {
-      const params: Record<string, any> = {
-        name: formProps.name,
-        active: formProps.active,
-        admin_only: formProps.admin_only,
-        rules_quiz_required: formProps.rules_quiz_required,
-      };
-      if (formProps.location) params.location = formProps.location;
-      // Blank clears it: no contribution required for this edition.
-      params.contribution_amount = parseAmount(formProps.contribution_amount);
-      DATE_FIELDS.forEach((field) => {
-        const iso = toISO(formProps[field]);
-        if (iso) params[field] = iso;
-      });
-      saveMathtrade({ urlParams: [id], params });
+      saveMathtrade({ urlParams: [id], params: buildParams(formProps, "edit") });
     },
     [saveMathtrade]
   );
+
+  /* CREATE ************************************************/
+  const [creating, setCreating] = useState(false);
+  const afterCreate = useCallback(
+    (created: any) => {
+      setCreating(false);
+      loadMathtrades();
+      // Straight into its editor: the rulebook is uploaded there.
+      if (created?.id) setEditingId(created.id);
+    },
+    [loadMathtrades]
+  );
+  const [createMathtrade, , savingCreate, errorCreate] = useFetch({
+    endpoint: "POST_MATHTRADE_ADMIN",
+    method: "POST",
+    afterLoad: afterCreate,
+  });
+  const submitCreate = useCallback(
+    (formProps: Record<string, any>) => {
+      createMathtrade({ params: buildParams(formProps, "create") });
+    },
+    [createMathtrade]
+  );
+  /* end CREATE ************************************************/
 
   const [uploadRulebook, , uploadingRulebook, errorRulebook] = useFetch({
     endpoint: "POST_MATHTRADE_RULEBOOK",
@@ -132,6 +175,11 @@ const useAdminPanel = () => {
     submitRulebook,
     uploadingRulebook,
     errorRulebook,
+    creating,
+    setCreating,
+    submitCreate,
+    savingCreate,
+    errorCreate,
   };
 };
 

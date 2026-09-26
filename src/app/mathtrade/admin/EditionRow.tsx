@@ -1,24 +1,16 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import I18N from "@/i18n";
-import { Form, InputContainer, Label, Input, Select, Switch } from "@/components/form";
 import Button from "@/components/button";
 import ErrorAlert from "@/components/errorAlert";
 import { LoadingBox } from "@/components/loading";
 import { mathtradeRulebookPDFurl } from "@/config/rulebook";
-import { DATE_FIELDS, toLocalInput } from "./useAdminPanel";
+import EditionForm from "./EditionForm";
+import ConfirmModal from "@/components/confirmModal";
 import ContributionAccounts from "./ContributionAccounts";
 
 const baseURL = process.env.BASE_URL;
 
-const DATE_LABELS: Record<string, string> = {
-  start_date: "adminPanel.field.startDate",
-  freeze_geek_date: "adminPanel.field.freezeGeekDate",
-  freeze_wants_date: "adminPanel.field.freezeWantsDate",
-  provisional_results_date: "adminPanel.field.provisionalResultsDate",
-  show_results_date: "adminPanel.field.showResultsDate",
-  meeting_date: "adminPanel.field.meetingDate",
-};
 
 type Mathtrade = {
   id: number;
@@ -49,6 +41,8 @@ type EditionRowProps = {
   onUploadRulebook: (id: number, file: File) => void;
   uploadingRulebook: boolean;
   errorRulebook: any;
+  // Name of the edition that's active today, for the activation warning.
+  activeName?: string | null;
 };
 
 const EditionRow = ({
@@ -62,8 +56,23 @@ const EditionRow = ({
   onUploadRulebook,
   uploadingRulebook,
   errorRulebook,
+  activeName = null,
 }: EditionRowProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Activating an edition switches the whole site to it (login, rulebook,
+  // logistics) and deactivates the current one: confirm first.
+  const [pendingActivation, setPendingActivation] = useState<Record<
+    string,
+    any
+  > | null>(null);
+  const submit = (formProps: Record<string, any>) => {
+    if (formProps.active && !mathtrade.active) {
+      setPendingActivation(formProps);
+      return;
+    }
+    onSubmitEdit(mathtrade.id, formProps);
+  };
 
   return (
     <div className="border border-stroke rounded-lg p-4 mb-4">
@@ -101,88 +110,15 @@ const EditionRow = ({
 
       {editing ? (
         <div className="relative mt-4 pt-4 border-t border-stroke">
-          <Form
-            formatTypes={{
-              active: "boolean",
-              admin_only: "boolean",
-              rules_quiz_required: "boolean",
-            }}
-            onSubmit={(formProps) => onSubmitEdit(mathtrade.id, formProps)}
-          >
-            <InputContainer>
-              <Label text="adminPanel.field.name" name="name" />
-              <Input name="name" data={{ name: mathtrade.name }} />
-            </InputContainer>
-
-            <InputContainer>
-              <Label text="form.Location" name="location" />
-              <Select
-                name="location"
-                data={{ location: mathtrade.location?.id }}
-                options={locationOptions}
-              />
-            </InputContainer>
-
-            <InputContainer className="mb-4">
-              <Switch name="active" data={{ active: !!mathtrade.active }}>
-                <I18N id="adminPanel.field.active" />
-              </Switch>
-            </InputContainer>
-
-            <InputContainer className="mb-4">
-              <Switch name="admin_only" data={{ admin_only: !!mathtrade.admin_only }}>
-                <I18N id="adminPanel.field.adminOnly" />
-              </Switch>
-            </InputContainer>
-
-            <InputContainer className="mb-4">
-              <Switch
-                name="rules_quiz_required"
-                data={{ rules_quiz_required: !!mathtrade.rules_quiz_required }}
-              >
-                <I18N id="adminPanel.field.rulesQuizRequired" />
-              </Switch>
-            </InputContainer>
-
-            <InputContainer>
-              <Label
-                text="adminPanel.contribution.amount"
-                name="contribution_amount"
-              />
-              {/* Text, not number: a number input silently changes on mouse
-                  wheel / arrow keys, which is too easy to do by accident on
-                  a money field. */}
-              <Input
-                name="contribution_amount"
-                placeholder="adminPanel.contribution.amountPlaceholder"
-                data={{ contribution_amount: mathtrade.contribution_amount ?? "" }}
-              />
-            </InputContainer>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {DATE_FIELDS.map((field) => (
-                <InputContainer key={field}>
-                  <Label text={DATE_LABELS[field]} name={field} />
-                  <Input
-                    type="datetime-local"
-                    name={field}
-                    data={{ [field]: toLocalInput(mathtrade[field]) }}
-                  />
-                </InputContainer>
-              ))}
-            </div>
-
-            <ErrorAlert error={errorSave} />
-
-            <div className="flex items-center gap-2 pt-2">
-              <Button type="submit" disabled={saving}>
-                <I18N id="btn.Save" />
-              </Button>
-              <Button type="button" outline onClick={onToggleEdit}>
-                <I18N id="btn.Cancel" />
-              </Button>
-            </div>
-          </Form>
+          <EditionForm
+            mode="edit"
+            initial={mathtrade}
+            onSubmit={submit}
+            onCancel={onToggleEdit}
+            saving={saving}
+            error={errorSave}
+            locationOptions={locationOptions}
+          />
 
           <div className="mt-5 pt-4 border-t border-stroke">
             {mathtrade.rulebook_url ? (
@@ -215,6 +151,25 @@ const EditionRow = ({
           </div>
 
           <ContributionAccounts mathtradeId={mathtrade.id} />
+
+          <ConfirmModal
+            isOpen={!!pendingActivation}
+            onCancel={() => setPendingActivation(null)}
+            onConfirm={() => {
+              const formProps = pendingActivation;
+              setPendingActivation(null);
+              if (formProps) onSubmitEdit(mathtrade.id, formProps);
+            }}
+            title="adminPanel.activate.title"
+            titleValues={[mathtrade.name]}
+            description={
+              activeName
+                ? "adminPanel.activate.warning"
+                : "adminPanel.activate.warningNoCurrent"
+            }
+            descriptionValues={[mathtrade.name, activeName || ""]}
+            confirmId="adminPanel.activate.confirm"
+          />
 
           <LoadingBox loading={saving || uploadingRulebook} transparent />
         </div>
