@@ -10,10 +10,30 @@ import ErrorAlert from "@/components/errorAlert";
 import { PUBLIC_ROUTES } from "@/config/routes";
 import Link from "next/link";
 
+// Accepted with or without capitals and accent: "Autoexclusión",
+// "autoexclusion", "AUTOEXCLUSIÓN"…
+const CONFIRM_WORD = "autoexclusion";
+const normalizeWord = (text: string) =>
+  text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+
 const ProvisionalExclude = () => {
   const { canI } = useContext(PageContext);
   const updateStore = useStore((state) => state.updateStore);
   const [open, setOpen] = useState(false);
+  // Two steps: "¿Confirmás?" (No / Sí), then typing the word.
+  const [step, setStep] = useState<"ask" | "type">("ask");
+  const [typed, setTyped] = useState("");
+  const confirmed = normalizeWord(typed) === CONFIRM_WORD;
+
+  const close = useCallback(() => {
+    setOpen(false);
+    setStep("ask");
+    setTyped("");
+  }, []);
 
   const afterLoad = useCallback(() => {
     const current = useStore.getState().data;
@@ -24,8 +44,8 @@ const ProvisionalExclude = () => {
         self_excluded: true,
       },
     });
-    setOpen(false);
-  }, [updateStore]);
+    close();
+  }, [updateStore, close]);
 
   const [selfExclude, , loading, error] = useFetch({
     endpoint: "POST_SELF_EXCLUDE",
@@ -50,7 +70,7 @@ const ProvisionalExclude = () => {
       </Button>
       <Modal
         isOpen={open}
-        onClose={() => setOpen(false)}
+        onClose={close}
         size="sm"
         className="py-8 px-6 w-full"
       >
@@ -67,14 +87,44 @@ const ProvisionalExclude = () => {
           </Link>
           .
         </p>
-        <Button
-          type="button"
-          color="danger"
-          disabled={loading}
-          onClick={() => selfExclude({ params: {} })}
-        >
-          <I18N id="provisional.exclude.modal.btn" />
-        </Button>
+        {step === "ask" ? (
+          <div className="flex flex-wrap gap-3">
+            <Button type="button" color="cancel" outline onClick={close}>
+              <I18N id="provisional.exclude.modal.no" />
+            </Button>
+            <Button type="button" color="danger" onClick={() => setStep("type")}>
+              <I18N id="provisional.exclude.modal.btn" />
+            </Button>
+          </div>
+        ) : (
+          <div>
+            <label className="block text-sm text-gray-800 mb-2">
+              <I18N id="provisional.exclude.modal.typeLabel" />
+            </label>
+            <input
+              type="text"
+              value={typed}
+              onChange={(e) => setTyped(e.target.value)}
+              autoFocus
+              autoComplete="off"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:outline-none focus:border-danger"
+              placeholder="autoexclusión"
+            />
+            <div className="flex flex-wrap gap-3">
+              <Button type="button" color="cancel" outline onClick={close}>
+                <I18N id="provisional.exclude.modal.no" />
+              </Button>
+              <Button
+                type="button"
+                color="danger"
+                disabled={!confirmed || loading}
+                onClick={() => selfExclude({ params: {} })}
+              >
+                <I18N id="provisional.exclude.modal.confirm" />
+              </Button>
+            </div>
+          </div>
+        )}
       </Modal>
     </div>
   );
