@@ -5,6 +5,7 @@ import { GridContext } from "@/context/myWants/grid";
 import { useOptions } from "@/store";
 import { normalizeString } from "@/utils";
 import useFetch from "@/hooks/useFetch";
+import { visibleWants } from "@/utils/visibleWants";
 
 // My own tags are few; one page covers them. Module-level so useFetch's
 // autoLoad doesn't refetch on every render.
@@ -40,13 +41,13 @@ const useGrid = () => {
 
   /* WANTLIST **********************************************/
   const wantList = useMemo(() => {
-    let myWantsFiltered = [...myWants];
+    let myWantsFiltered = visibleWants(myWants);
 
     const filtersKeyword = filters?.keyword || null;
 
     if (filtersKeyword) {
       const filtersKeywordNormalized = normalizeString(filtersKeyword);
-      myWantsFiltered = [...myWants].filter((w) => {
+      myWantsFiltered = myWantsFiltered.filter((w) => {
         return normalizeString(w.name).indexOf(filtersKeywordNormalized) >= 0;
       });
     }

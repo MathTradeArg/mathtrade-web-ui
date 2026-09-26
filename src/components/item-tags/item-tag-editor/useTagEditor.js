@@ -24,6 +24,10 @@ const useTagEditor = (tag, onClose, initialItemIds = []) => {
   /* FORM *********************************** */
   const [name, setName] = useState(tag?.name || "");
   const [color, setColor] = useState(tag?.color || getRandomColor());
+  // The tag's want: at most one game of the whole tag (default) or several.
+  const [dupProtection, setDupProtection] = useState(
+    tag?.dup_protection ?? true
+  );
   /* end FORM *********************************** */
 
   /* ITEM TAGS *********************************************/
@@ -109,16 +113,29 @@ const useTagEditor = (tag, onClose, initialItemIds = []) => {
           urlParams: [id],
           params: {
             ...tagClone,
-            ...{ name, color },
+            ...{ name, color, dup_protection: dupProtection },
           },
         });
       } else {
         postMyItemTag({
-          params: { name, color, items: initialItemIds },
+          params: {
+            name,
+            color,
+            items: initialItemIds,
+            dup_protection: dupProtection,
+          },
         });
       }
     },
-    [tag, name, color, putMyItemTag, postMyItemTag, initialItemIds]
+    [
+      tag,
+      name,
+      color,
+      dupProtection,
+      putMyItemTag,
+      postMyItemTag,
+      initialItemIds,
+    ]
   );
 
   const onDelete = useCallback(
@@ -138,6 +155,8 @@ const useTagEditor = (tag, onClose, initialItemIds = []) => {
     setName,
     color,
     setColor,
+    dupProtection,
+    setDupProtection,
     loading: loadingMyTags || loadingPut || loadingPost || loadingDelete,
     error: errorPut || errorPost,
     onCancel,

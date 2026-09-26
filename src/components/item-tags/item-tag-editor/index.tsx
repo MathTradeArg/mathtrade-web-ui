@@ -23,6 +23,8 @@ const ItemTagEditor = ({
     setName,
     color,
     setColor,
+    dupProtection,
+    setDupProtection,
     loading,
     error,
     onCancel,
@@ -79,6 +81,22 @@ const ItemTagEditor = ({
           />
         </label>
       </div>
+      <label className="flex items-start gap-2 text-xs mt-2 cursor-pointer">
+        <input
+          type="checkbox"
+          className="mt-0.5"
+          checked={dupProtection}
+          onChange={(e) => setDupProtection(e.target.checked)}
+        />
+        <span>
+          <span className="font-semibold block">
+            <I18N id="tagRow.dup.switch" />
+          </span>
+          <span className="text-gray-600">
+            <I18N id="tagRow.dup.help" />
+          </span>
+        </span>
+      </label>
       <div className="flex items-center justify-end gap-2 text-sm mt-2">
         <button
           type="button"
