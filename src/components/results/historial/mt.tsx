@@ -1,6 +1,5 @@
 "use client";
 import { lazy } from "react";
-import clsx from "clsx";
 import { ResultsContextProvider } from "@/context/results";
 import Dynamic from "@/components/dynamic";
 import useMT from "./useMT";
@@ -10,6 +9,7 @@ import EmptyList from "@/components/emptyList";
 import I18N from "@/i18n";
 import UserSelector from "@/components/results/userSelector";
 import ListToolbar from "@/components/list-toolbar";
+import { SegmentButton, SegmentedGroup } from "@/components/segmented";
 
 const ResultsVisual = lazy(() => import("@/components/results/visual"));
 const ResultsTable = lazy(() => import("@/components/results/table"));
@@ -22,22 +22,11 @@ const ViewPill = ({
   active?: boolean;
   onClick: () => void;
   labelId: string;
-}) => {
-  return (
-    <button
-      type="button"
-      className={clsx(
-        "h-8 px-3 rounded-full border text-caption font-bold transition-colors",
-        active
-          ? "bg-primary/10 border-primary/40 text-primary"
-          : "bg-white border-gray-200 text-gray-500 hover:text-gray-800"
-      )}
-      onClick={onClick}
-    >
-      <I18N id={labelId} />
-    </button>
-  );
-};
+}) => (
+  <SegmentButton active={active} onClick={onClick} small>
+    <I18N id={labelId} />
+  </SegmentButton>
+);
 
 const MtResultUI = ({ mt }: { mt: { id: number } }) => {
   const {
@@ -66,7 +55,7 @@ const MtResultUI = ({ mt }: { mt: { id: number } }) => {
           ) : null
         }
         trailing={
-          <>
+          <SegmentedGroup>
             <ViewPill
               active={screenViewResults === 0}
               onClick={() => setScreenViewResults(0)}
@@ -77,7 +66,7 @@ const MtResultUI = ({ mt }: { mt: { id: number } }) => {
               onClick={() => setScreenViewResults(1)}
               labelId="results.screen.grid"
             />
-          </>
+          </SegmentedGroup>
         }
       />
       {screenViewResults === 0 ? (

@@ -1,5 +1,6 @@
 import I18N from "@/i18n";
 import clsx from "clsx";
+import { SegmentButton, SegmentedGroup } from "@/components/segmented";
 
 const Tabs = ({
   list = [],
@@ -11,42 +12,35 @@ const Tabs = ({
   toLeft = false,
 }) => {
   return (
-    <menu
+    <div
       className={clsx(
-        "flex flex-wrap pt-1",
-        {
-          "text-2xl justify-center": !min,
-          "justify-center": !toLeft,
-        },
+        "flex py-2",
+        { "justify-center": !toLeft },
         className
       )}
     >
-      {list?.map((name, k) => {
-        return (
-          <button
-            className={clsx("relative px-6 py-1 border-b-4 transition-colors", {
-              "border-want cursor-default font-bold": k === value && !min,
-              "border-transparent text-gray-400 hover:text-gray-900":
-                k !== value && !min,
-              "border-primary cursor-default font-bold": k === value && min,
-              "border-transparent text-gray-600 hover:text-gray-900":
-                k !== value && min,
-            })}
-            key={name}
-            onClick={() => {
-              if (onChange) onChange(k);
-            }}
-          >
-            <I18N id={name} />
-            {highlighted === k ? (
-              <div className="absolute top-0 right-0 bg-red-600 text-white leading-none font-bold uppercase text-[8px] px-1 py-[2px] rounded">
-                Nuevo
-              </div>
-            ) : null}
-          </button>
-        );
-      })}
-    </menu>
+      <SegmentedGroup>
+        {list?.map((name, k) => {
+          return (
+            <SegmentButton
+              key={name}
+              active={k === value}
+              small={min}
+              onClick={() => {
+                if (onChange && k !== value) onChange(k);
+              }}
+            >
+              <I18N id={name} />
+              {highlighted === k ? (
+                <span className="absolute -top-1.5 -right-1 bg-red-600 text-white leading-none font-bold uppercase text-[8px] px-1 py-[2px] rounded">
+                  Nuevo
+                </span>
+              ) : null}
+            </SegmentButton>
+          );
+        })}
+      </SegmentedGroup>
+    </div>
   );
 };
 
