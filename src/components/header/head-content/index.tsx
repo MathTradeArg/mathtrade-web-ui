@@ -62,6 +62,16 @@ const HeadContent = ({
         }
       )}
       {...floatingProps}
+      // The panel lives inside its trigger's wrapper, which carries the
+      // floating-ui click toggle: a click inside the panel (e.g. the
+      // notification type tabs) bubbled up to it and closed the panel.
+      onClick={(e) => {
+        const handler = floatingProps.onClick as
+          | ((event: typeof e) => void)
+          | undefined;
+        handler?.(e);
+        e.stopPropagation();
+      }}
     >
       {!isRight ? (
         <div className="absolute top-[-16px] right-2 z-raised  w-0 h-0 ml-auto  border-8 border-t-transparent  border-l-transparent border-r-transparent border-b-white lg:block hidden" />
