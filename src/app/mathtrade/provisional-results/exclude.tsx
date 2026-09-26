@@ -27,12 +27,15 @@ const ProvisionalExclude = () => {
   // Two steps: "¿Confirmás?" (No / Sí), then typing the word.
   const [step, setStep] = useState<"ask" | "type">("ask");
   const [typed, setTyped] = useState("");
+  // Optional, doesn't change anything about the self-exclusion.
+  const [reason, setReason] = useState("");
   const confirmed = normalizeWord(typed) === CONFIRM_WORD;
 
   const close = useCallback(() => {
     setOpen(false);
     setStep("ask");
     setTyped("");
+    setReason("");
   }, []);
 
   const afterLoad = useCallback(() => {
@@ -98,6 +101,19 @@ const ProvisionalExclude = () => {
           </div>
         ) : (
           <div>
+            <label className="block text-sm text-gray-800 mb-1">
+              <I18N id="provisional.exclude.modal.reasonLabel" />
+            </label>
+            <p className="text-xs text-gray-600 mb-2">
+              <I18N id="provisional.exclude.modal.reasonHelp" />
+            </p>
+            <textarea
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              maxLength={1000}
+              rows={3}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:outline-none focus:border-primary"
+            />
             <label className="block text-sm text-gray-800 mb-2">
               <I18N id="provisional.exclude.modal.typeLabel" />
             </label>
@@ -118,7 +134,9 @@ const ProvisionalExclude = () => {
                 type="button"
                 color="danger"
                 disabled={!confirmed || loading}
-                onClick={() => selfExclude({ params: {} })}
+                onClick={() =>
+                  selfExclude({ params: reason.trim() ? { reason: reason.trim() } : {} })
+                }
               >
                 <I18N id="provisional.exclude.modal.confirm" />
               </Button>

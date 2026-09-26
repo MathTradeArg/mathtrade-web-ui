@@ -132,6 +132,7 @@ const endpoints = {
   GET_MT_RESULTS: "api/mathtrades/$[mathtradeId]/results/",
   GET_MT_RESULTS_HISTORIAL: "api/mathtrades/$[1]/results/",
   GET_PROVISIONAL_RESULTS: "api/mathtrades/$[mathtradeId]/provisional-results/",
+  GET_SELF_EXCLUDED: "api/mathtrades/$[mathtradeId]/self-excluded/",
   POST_SELF_EXCLUDE: "api/mathtrades/$[mathtradeId]/self-exclude/",
 
   // IMAGES
