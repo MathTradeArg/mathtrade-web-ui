@@ -95,7 +95,7 @@ const Value = ({
             ref={refs.setFloating}
             style={{ ...floatingStyles, zIndex: Z.popover }}
             {...getFloatingProps()}
-            className=" shadow-[0_1px_10px_rgba(0,0,0,0.2)] z-[999999] animate-fadein min-w-[200px] max-w-[300px] rounded-md flex bg-white"
+            className=" shadow-[0_1px_10px_rgba(0,0,0,0.2)] z-popover animate-fadein min-w-[200px] max-w-[300px] rounded-md flex bg-white"
           >
             {lockedByGroup ? (
               <p className="p-3 text-sm">
