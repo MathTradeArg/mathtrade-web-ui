@@ -122,7 +122,7 @@ const CartButton = ({
 
       {showFloatNum ? (
         <>
-          <div className="fixed z-[24000] bg-want text-white font-bold text-center text-[9px] leading-[16px] h-[16px] w-[16px] rounded-full num-float-cart">
+          <div className="fixed z-panel bg-want text-white font-bold text-center text-[9px] leading-[16px] h-[16px] w-[16px] rounded-full num-float-cart">
             1
           </div>
           <style

@@ -21,7 +21,7 @@ const Header = () => {
 
   return (
     <nav
-      className={clsx("z-[9999] w-full left-0 top-0 lg:hidden", {
+      className={clsx("z-nav w-full left-0 top-0 lg:hidden", {
         fixed: pageType !== "wants-grid",
         absolute: pageType === "wants-grid",
       })}

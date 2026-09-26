@@ -71,14 +71,14 @@ const WantMiniCard = ({
       style={tagStyle || undefined}
     >
       {empty ? (
-        <div className="absolute top-0 left-0 w-full bg-red-600 text-white text-center z-20 py-1 px-2 text-[10px] font-semibold">
+        <div className="absolute top-0 left-0 w-full bg-red-600 text-white text-center z-raised py-1 px-2 text-[10px] font-semibold">
           <I18N id="noOptionsInWant" />
         </div>
       ) : null}
       {onRemove ? (
         <button
           type="button"
-          className="absolute top-1.5 right-1.5 z-20 w-4 h-4 rounded-full bg-danger text-white text-[10px] leading-none flex items-center justify-center"
+          className="absolute top-1.5 right-1.5 z-raised w-4 h-4 rounded-full bg-danger text-white text-[10px] leading-none flex items-center justify-center"
           title={getI18Ntext("wantview.RemoveItems")}
           onClick={onRemove}
         >
@@ -110,7 +110,7 @@ const WantMiniCard = ({
             </span>
           </button>
         ) : null}
-        <div className="absolute left-1.5 right-1.5 bottom-1.5 z-10 flex items-center justify-between pointer-events-none">
+        <div className="absolute left-1.5 right-1.5 bottom-1.5 z-raised flex items-center justify-between pointer-events-none">
           <div className="pointer-events-auto">{preview}</div>
           <ValueMini currentValue={value} />
         </div>

@@ -15,6 +15,7 @@ import {
   useInteractions,
   FloatingFocusManager,
 } from "@floating-ui/react";
+import { Z } from "@/config/zIndex";
 
 const Value = ({
   type,
@@ -92,7 +93,7 @@ const Value = ({
         <FloatingFocusManager context={context} modal={false}>
           <div
             ref={refs.setFloating}
-            style={{ ...floatingStyles, zIndex: 9999999 }}
+            style={{ ...floatingStyles, zIndex: Z.popover }}
             {...getFloatingProps()}
             className=" shadow-[0_1px_10px_rgba(0,0,0,0.2)] z-[999999] animate-fadein min-w-[200px] max-w-[300px] rounded-md flex bg-white"
           >

@@ -18,7 +18,7 @@ const List = () => {
           />
         );
       })}
-      <LoadingBox loading={loading} min zIndex={20} transparent />
+      <LoadingBox loading={loading} min transparent />
     </div>
   );
 };

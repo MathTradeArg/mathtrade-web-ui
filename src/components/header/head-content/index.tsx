@@ -2,6 +2,7 @@
 import Icon from "@/components/icon";
 import clsx from "clsx";
 import type { CSSProperties, ReactNode } from "react";
+import { Z } from "@/config/zIndex";
 
 type HeadContentProps = {
   children: ReactNode;
@@ -45,11 +46,11 @@ const HeadContent = ({
       // panel behind the lg:visible class below (MAT-113 prod regression).
       style={{
         ...floatingStyles,
-        zIndex: 60,
+        zIndex: Z.panel,
       }}
       className={clsx(
-        "max-lg:animate-faderight max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:w-full max-lg:max-w-full max-lg:h-full max-lg:z-[25000]",
-        "lg:z-[60] lg:w-auto lg:max-w-min lg:h-auto lg:flex lg:flex-col lg:overflow-hidden",
+        "max-lg:animate-faderight max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:w-full max-lg:max-w-full max-lg:h-full max-lg:z-panel",
+        "lg:z-panel lg:w-auto lg:max-w-min lg:h-auto lg:flex lg:flex-col lg:overflow-hidden",
         {
           "max-lg:hidden": !visibleMobile,
           "max-lg:block": visibleMobile,
@@ -60,7 +61,7 @@ const HeadContent = ({
       {...floatingProps}
     >
       {!isRight ? (
-        <div className="absolute top-[-16px] right-2 z-[12]  w-0 h-0 ml-auto  border-8 border-t-transparent  border-l-transparent border-r-transparent border-b-white lg:block hidden" />
+        <div className="absolute top-[-16px] right-2 z-raised  w-0 h-0 ml-auto  border-8 border-t-transparent  border-l-transparent border-r-transparent border-b-white lg:block hidden" />
       ) : null}
       <button
         className="absolute top-0 right-0 w-10 h-10 text-gray-600 lg:hidden"

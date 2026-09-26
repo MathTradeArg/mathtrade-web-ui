@@ -9,7 +9,7 @@
 [data-tooltip]::before,
 [data-tooltip]::after {
   display: block;
-  z-index: 9999;
+  z-index: $z-tooltip;
   position: absolute;
   bottom: 100%;
   left: 50%;

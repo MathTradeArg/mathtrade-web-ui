@@ -61,7 +61,7 @@ const SearchBGG = ({
         )}
 
         {visiblePad ? (
-          <div className="absolute  top-full left-0 w-full max-h-56 pb-1 bg-white shadow-xl z-10 border overflow-auto">
+          <div className="absolute  top-full left-0 w-full max-h-56 pb-1 bg-white shadow-xl z-popover border overflow-auto">
             <ul className="text-sm">
               {list.map((elem) => {
                 const { bgg_id, nameComp, expansion } = elem;

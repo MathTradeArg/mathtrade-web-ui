@@ -30,7 +30,7 @@ const AsyncSelect = ({ options, value, onChange, disabled = false }) => {
       </button>
 
       {isOpen && !disabled && (
-        <ul className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+        <ul className="absolute z-popover mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
           {options.map((option) => (
             <li
               key={option.value}

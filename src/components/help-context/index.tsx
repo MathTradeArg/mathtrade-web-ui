@@ -16,6 +16,7 @@ import {
 } from "@floating-ui/react";
 import I18N from "@/i18n";
 import clsx from "clsx";
+import { Z } from "@/config/zIndex";
 
 type HelpContextProps = {
   id: string;
@@ -79,7 +80,7 @@ const HelpContext = ({ id, variant = "pill" }: HelpContextProps) => {
           <FloatingFocusManager context={context} modal={false}>
             <div
               ref={refs.setFloating}
-              style={{ ...floatingStyles, zIndex: 9999 }}
+              style={{ ...floatingStyles, zIndex: Z.popover }}
               {...getFloatingProps()}
               className={clsx(
                 "shadow-[0_1px_10px_rgba(0,0,0,0.2)] animate-fadein rounded-md flex",

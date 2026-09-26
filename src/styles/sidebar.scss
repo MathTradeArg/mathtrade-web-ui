@@ -55,7 +55,7 @@
 @media screen and (max-width: 1023px) {
   .sidebar-aside {
     position: fixed;
-    z-index: 70;
+    z-index: $z-panel;
     width: 100%;
     height: 100dvh;
     top: 0;
@@ -71,7 +71,7 @@
   }
 
   // Dialogflow's FAB is position:fixed in shadow DOM and can sit above the
-  // Más sheet / filter overlay even when the React wrapper is z-40.
+  // Más sheet / filter overlay even with its React wrapper on a lower layer.
   body.mt-more-open df-messenger,
   body:has(.sidebar-aside.visibleMobile) df-messenger {
     visibility: hidden !important;

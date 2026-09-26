@@ -33,7 +33,7 @@ const MainMenu = () => {
         lg:animate-none
         animate-fadeleft
         lg:overflow-y-visible lg:overflow-x-visible
-        fixed top-0 left-0 w-full max-w-full h-full z-[25000] lg:py-0 py-10 overflow-y-auto overflow-x-hidden bg-white `,
+        fixed top-0 left-0 w-full max-w-full h-full z-panel lg:py-0 py-10 overflow-y-auto overflow-x-hidden bg-white `,
           {
             hidden: !visibleMobileMenu,
             block: visibleMobileMenu,

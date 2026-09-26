@@ -44,7 +44,7 @@ const AddTag = ({
         <I18N id="itemList.Tags.AddTag" />
       </button>
       {visible && !loading ? (
-        <div className="absolute top-[112%] z-50 bg-white shadow-[0_4px_16px_rgba(0,0,0,0.15)] min-w-full rounded-lg border border-gray-200">
+        <div className="absolute top-[112%] z-popover bg-white shadow-[0_4px_16px_rgba(0,0,0,0.15)] min-w-full rounded-lg border border-gray-200">
           <div className="p-2 overflow-y-auto max-h-48">
             {options.map((tag) => {
               const { id, color, name, items } = tag;

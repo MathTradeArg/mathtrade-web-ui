@@ -48,7 +48,7 @@ const MoreSheet = ({
     <div
       id="mobile-more-sheet"
       className={clsx(
-        "lg:hidden fixed inset-x-0 top-0 z-[60]",
+        "lg:hidden fixed inset-x-0 top-0 z-panel",
         aboveTabBar,
         open ? "pointer-events-auto" : "pointer-events-none"
       )}

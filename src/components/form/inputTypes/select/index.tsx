@@ -12,6 +12,7 @@ import {
   size as floatingSize,
   FloatingPortal,
 } from "@floating-ui/react";
+import { Z } from "@/config/zIndex";
 
 const Select = ({
   name = "",
@@ -196,7 +197,7 @@ const Select = ({
           <FloatingPortal>
             <div
               ref={refs.setFloating}
-              style={{ ...floatingStyles, zIndex: 9999 }}
+              style={{ ...floatingStyles, zIndex: Z.popover }}
               className={clsx(
                 "z-[9999] bg-white shadow-[0_6px_20px_rgba(5,66,93,0.1),0_26px_40px_rgba(8,52,82,0.1)] py-2 overflow-y-auto animate-fadedown",
                 { withGroup }
