@@ -1,5 +1,4 @@
 "use client";
-import { useCallback, useState } from "react";
 import HeadContent from "../head-content";
 import HeadButton from "../head-button";
 import useHoverPanel from "../head-content/useHoverPanel";
@@ -8,6 +7,7 @@ import I18N from "@/i18n";
 import clsx from "clsx";
 import TimeLine from "./timeline";
 import { fadeLabelClass } from "@/components/sidebar/fadeLabel";
+import useExclusiveMobilePanel from "@/components/header/head-content/useExclusiveMobilePanel";
 
 type TimelineButtonProps = {
   // "row" renders an icon + label row, for the sidebar's utility row.
@@ -24,11 +24,7 @@ const TimelineButton = ({
   tone = "dark",
   collapsed = false,
 }: TimelineButtonProps = {}) => {
-  const [visibleMobile, setVisibleMobile] = useState(false);
-
-  const toggleMobile = useCallback(() => {
-    setVisibleMobile((v) => !v);
-  }, []);
+  const { visibleMobile, toggleMobile } = useExclusiveMobilePanel("timeline");
 
   const {
     refs,
