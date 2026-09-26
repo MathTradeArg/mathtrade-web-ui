@@ -49,17 +49,26 @@ const Calendar = ({ compact = false }: { compact?: boolean }) => {
   if (!milestones.length) return null;
 
   return (
-    <ol className="relative border-l-2 border-gray-200 ml-2">
-      {milestones.map(({ key, title, color, venue, date, state }) => (
+    <ol>
+      {milestones.map(({ key, title, color, venue, date, state }, i) => (
         <li
           key={key}
-          className={clsx("relative pl-5", compact ? "pb-3" : "pb-5", {
+          className={clsx("relative pl-7", compact ? "pb-3" : "pb-5", {
             "opacity-50": state === "past",
           })}
         >
+          {/* The line runs from this dot to the next one, so it ends at
+              the last dot instead of running on past the last text. */}
+          {i < milestones.length - 1 ? (
+            <span
+              aria-hidden="true"
+              className="absolute left-[7px] top-5 -bottom-1 w-0.5 bg-gray-200"
+            />
+          ) : null}
           <span
+            aria-hidden="true"
             className={clsx(
-              "absolute -left-[9px] top-1 w-4 h-4 rounded-full ring-4 ring-white",
+              "absolute left-0 top-1 w-4 h-4 rounded-full ring-4 ring-white",
               DOT_COLOR[color] || "bg-gray-400"
             )}
           />
