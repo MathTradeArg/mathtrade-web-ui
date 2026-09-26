@@ -1,44 +1,68 @@
 "use client";
-import I18N, { getI18Ntext } from "@/i18n";
-import WantMiniCard from "@/components/want-components/mini-card";
-import { resolveItemKind } from "@/components/badgeType/cardKind";
-import type { ProvisionalSummaryRow } from "./useProvisionalResults";
+import clsx from "clsx";
+import I18N from "@/i18n";
+import Thumbnail from "@/components/thumbnail";
+import { cardKindBorderClass, resolveItemKind } from "@/components/badgeType/cardKind";
+import type { ProvisionalItem, ProvisionalSummaryRow } from "./useProvisionalResults";
 
-// Titles come from other members' items and the sentence is rendered as
-// HTML (for the bold parts): escape them.
-const escapeHtml = (text: string) =>
-  text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+const coverOf = (item?: ProvisionalItem | null) =>
+  item?.elements?.[0]?.element?.thumbnail || "";
 
-// "1 vez X" / "3 veces X" / "1 vez no lo cambiaste…" / "2 veces no lo…":
-// the singular strings have no count placeholder.
-const times = (count: number, what: string, noTrade = false) => {
-  const one = count === 1;
-  const id = `provisional.summary.${noTrade ? "noTrade" : "times"}.${
-    one ? "one" : "many"
-  }`;
-  const values = noTrade ? (one ? [] : [count]) : one ? [what] : [count, what];
-  return getI18Ntext(id, values);
-};
+const TimesChip = ({ count }: { count: number }) => (
+  <span className="inline-block rounded-full bg-primary/10 text-primary text-xs font-bold px-2 py-0.5">
+    {/* "1 vez" has no placeholder: pass the count only to "$$$ veces". */}
+    <I18N
+      id={`provisional.tile.times.${count === 1 ? "one" : "many"}`}
+      values={count === 1 ? [] : [count]}
+    />
+  </span>
+);
 
-// "a, b y c"
-const joinSpanish = (parts: string[]) =>
-  parts.length <= 1
-    ? parts.join("")
-    : `${parts.slice(0, -1).join(", ")} ${getI18Ntext(
-        "provisional.summary.and"
-      )} ${parts[parts.length - 1]}`;
+// One result: a game this item got in some of the runs, and how many times.
+const ResultTile = ({ item, count }: { item: ProvisionalItem; count: number }) => (
+  <div
+    className={clsx(
+      "flex flex-col rounded-lg border border-gray-200 overflow-hidden bg-white",
+      cardKindBorderClass(resolveItemKind(item))
+    )}
+  >
+    <div className="relative h-20 bg-gray-100 shrink-0">
+      <Thumbnail
+        fill
+        contain
+        elements={[{ thumbnail: coverOf(item) }]}
+        className="w-full h-full"
+      />
+    </div>
+    <div className="flex-1 flex flex-col justify-between gap-1.5 p-2">
+      <p
+        className="text-xs font-semibold leading-snug line-clamp-2"
+        title={item.title || ""}
+      >
+        {item.title}
+      </p>
+      <div>
+        <TimesChip count={count} />
+      </div>
+    </div>
+  </div>
+);
 
-// Per item: "Por tu X: en 5 corridas te salió 3 veces A, 1 vez B y 1 vez no
-// lo cambiaste por nada". The runs themselves are never shown apart.
-const SummaryRow = ({ row }: { row: ProvisionalSummaryRow }) => {
+// The runs where the item didn't trade.
+const NoTradeTile = ({ count }: { count: number }) => (
+  <div className="flex flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-gray-300 bg-gray-50 p-2 text-center min-h-[8.5rem]">
+    <p className="text-xs font-semibold text-gray-600">
+      <I18N id="provisional.tile.noTrade" />
+    </p>
+    <TimesChip count={count} />
+  </div>
+);
+
+// One card per offered game, with a card for each thing it got across the
+// runs the member took part in. All cards share the grid row height.
+const SummaryCard = ({ row }: { row: ProvisionalSummaryRow }) => {
   const { item, outcomes } = row;
-  const first = item?.elements?.[0]?.element;
-  const counts = new Map<string, { title: string; count: number }>();
+  const counts = new Map<string, { item: ProvisionalItem; count: number }>();
   let noTrade = 0;
 
   outcomes.forEach((outcome) => {
@@ -47,42 +71,59 @@ const SummaryRow = ({ row }: { row: ProvisionalSummaryRow }) => {
       return;
     }
     const key = String(outcome.received.id);
-    const prev = counts.get(key) || {
-      title: escapeHtml(outcome.received.title || ""),
-      count: 0,
-    };
+    const prev = counts.get(key) || { item: outcome.received, count: 0 };
     prev.count += 1;
     counts.set(key, prev);
   });
-
-  const title = escapeHtml(item?.title || "");
-  const received = Array.from(counts.values())
-    .sort((a, b) => b.count - a.count)
-    .map(({ count, title: what }) => times(count, what));
-  const sentence = received.length
-    ? getI18Ntext("provisional.summary.sentence", [
-        title,
-        outcomes.length,
-        joinSpanish(noTrade ? [...received, times(noTrade, "", true)] : received),
-      ])
-    : getI18Ntext("provisional.summary.never", [title, outcomes.length]);
+  const received = Array.from(counts.values()).sort((a, b) => b.count - a.count);
 
   return (
-    <div className="flex gap-3 items-start py-3 border-b border-gray-200 last:border-0">
-      <WantMiniCard
-        title={item?.title || ""}
-        elements={[{ thumbnail: first?.thumbnail, name: first?.name || item?.title }]}
-        kind={resolveItemKind(item)}
-        badgeType="item"
-        badgeSubtype={first?.game?.type || 1}
-      />
-      <div className="min-w-0 pt-1">
-        <p
-          className="text-sm text-gray-700"
-          dangerouslySetInnerHTML={{ __html: sentence }}
-        />
+    <article
+      className={clsx(
+        "h-full flex flex-col bg-white rounded-xl shadow-lg overflow-hidden",
+        cardKindBorderClass(resolveItemKind(item))
+      )}
+    >
+      <div className="flex gap-3 p-4 border-b border-gray-200">
+        <div className="relative w-20 h-20 shrink-0 rounded-md bg-gray-100 overflow-hidden">
+          <Thumbnail
+            fill
+            contain
+            elements={[{ thumbnail: coverOf(item) }]}
+            className="w-full h-full"
+          />
+        </div>
+        <div className="min-w-0">
+          <p className="text-xs text-gray-500 font-semibold">
+            <I18N id="provisional.card.yours" />
+          </p>
+          <h3
+            className="font-bold text-base leading-snug line-clamp-3"
+            title={item?.title || ""}
+          >
+            {item?.title}
+          </h3>
+        </div>
       </div>
-    </div>
+      <div className="flex-1 p-4">
+        <p className="text-sm font-semibold text-gray-700 mb-2">
+          <I18N
+            id={
+              received.length
+                ? "provisional.card.got"
+                : "provisional.card.never"
+            }
+            values={[outcomes.length]}
+          />
+        </p>
+        <div className="grid grid-cols-2 gap-2">
+          {received.map(({ item: got, count }) => (
+            <ResultTile key={got.id} item={got} count={count} />
+          ))}
+          {noTrade ? <NoTradeTile count={noTrade} /> : null}
+        </div>
+      </div>
+    </article>
   );
 };
 
@@ -93,12 +134,12 @@ const ProvisionalSummary = ({ rows = [] }: { rows?: ProvisionalSummaryRow[] }) =
 
   return (
     <section className="mb-8">
-      <h2 className="text-base font-bold mb-2">
+      <h2 className="text-base font-bold mb-3">
         <I18N id="provisional.summary.title" />
       </h2>
-      <div className="bg-white">
+      <div className="grid gap-6 auto-rows-fr [grid-template-columns:repeat(auto-fill,minmax(300px,1fr))]">
         {rows.map((row) => (
-          <SummaryRow key={row.item.id} row={row} />
+          <SummaryCard key={row.item.id} row={row} />
         ))}
       </div>
     </section>
