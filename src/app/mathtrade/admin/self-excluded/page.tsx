@@ -15,6 +15,7 @@ type SelfExcludedRow = {
   last_name: string;
   location: string | null;
   self_excluded_at: string;
+  reason: string;
   items_count: number;
 };
 
@@ -62,6 +63,7 @@ const AdminSelfExcludedPage = () => {
                     <th className="py-2 pr-4"><I18N id="adminSelfExcluded.col.city" /></th>
                     <th className="py-2 pr-4"><I18N id="adminSelfExcluded.col.date" /></th>
                     <th className="py-2 pr-4 text-right"><I18N id="adminSelfExcluded.col.items" /></th>
+                    <th className="py-2 pr-4"><I18N id="adminSelfExcluded.col.reason" /></th>
                     <th className="py-2" />
                   </tr>
                 </thead>
@@ -79,6 +81,15 @@ const AdminSelfExcludedPage = () => {
                         {formatDate(row.self_excluded_at)}
                       </td>
                       <td className="py-2 pr-4 text-right">{row.items_count}</td>
+                      <td className="py-2 pr-4 min-w-[14rem] max-w-md text-gray-700">
+                        {row.reason ? (
+                          <span className="whitespace-pre-line">{row.reason}</span>
+                        ) : (
+                          <span className="text-gray-400 italic">
+                            <I18N id="adminSelfExcluded.noReason" />
+                          </span>
+                        )}
+                      </td>
                       <td className="py-2 text-right">
                         <Link
                           href={`${PRIVATE_ROUTES.PROVISIONAL_RESULTS.path}?member=${row.user_id}`}
