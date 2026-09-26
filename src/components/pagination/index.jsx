@@ -25,14 +25,14 @@ const Pagination = ({ type = "item", count }) => {
       {showPrevPage ? (
         <button
           type="button"
-          className="w-7 h-7 leading-none text-center border rounded-full border-gray-200 text-gray-500 hover:bg-primary hover:border-primary hover:text-white"
+          className="w-9 h-9 leading-none text-center border rounded-full border-gray-300 text-gray-600 hover:bg-primary hover:border-primary hover:text-white"
           title={getI18Ntext("pagination.PrevPage")}
           onClick={prevPage}
         >
-          <Icon type="arrow-left" className="text-sm" />
+          <Icon type="arrow-left" className="text-lg" />
         </button>
       ) : null}
-      <div className="h-[34px] px-2.5 rounded-full border border-gray-200 bg-white flex items-center text-caption font-semibold text-gray-900">
+      <div className="h-9 px-2.5 rounded-full border border-gray-200 bg-white flex items-center text-caption font-semibold text-gray-900">
         {total > 1 ? (
           <Form
             onSubmit={(d) => {
@@ -60,11 +60,11 @@ const Pagination = ({ type = "item", count }) => {
       {notShowNextPage ? null : (
         <button
           type="button"
-          className="w-7 h-7 leading-none text-center rounded-full bg-primary text-white hover:bg-sky-700"
+          className="w-9 h-9 leading-none text-center rounded-full bg-primary text-white hover:bg-sky-700"
           title={getI18Ntext("pagination.NextPage")}
           onClick={nextPage}
         >
-          <Icon type="arrow-right" className="text-sm" />
+          <Icon type="arrow-right" className="text-lg" />
         </button>
       )}
     </div>

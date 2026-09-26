@@ -237,6 +237,9 @@ const useMyData = () => {
     acceptTyC,
     setAcceptTyC,
     canOut: canI.offer,
+    // Same window as the backend (IsMembershipEditable): the city decides
+    // where your games are shipped, so it's locked once wants close.
+    canEditMembership: membership === null || canI.offer || canI.want,
     contribution: membership?.contribution || null,
     contributionAmount: mathtrade?.contribution_amount || null,
     mathtradeId: mathtrade?.id || null,

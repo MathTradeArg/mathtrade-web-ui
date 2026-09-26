@@ -47,6 +47,7 @@ const MyDataPage = () => {
     acceptTyC,
     setAcceptTyC,
     canOut,
+    canEditMembership,
     contribution,
     contributionAmount,
     mathtradeId,
@@ -121,6 +122,7 @@ const MyDataPage = () => {
                           name="location"
                           data={{ location: currentLocation?.id }}
                           options={locations}
+                          disabledInput={!canEditMembership}
                           //loading={loadingLocations}
                           onChange={changeCurrentLocation}
                           icon="location"
@@ -142,7 +144,7 @@ const MyDataPage = () => {
                           data={{
                             event_attendance: currentEventAttendance,
                           }}
-                          disabled={isMandatoryAttendance}
+                          disabled={isMandatoryAttendance || !canEditMembership}
                         >
                           <I18N id="MyData.InPerson.labelSwitch" />
                           <Question
@@ -191,11 +193,18 @@ const MyDataPage = () => {
                       </div>
                     )}
 
+                    {canEditMembership ? null : (
+                      <p className="text-center text-sm text-gray-700 bg-gray-100 rounded px-3 py-2 mb-2">
+                        <I18N id="MyData.locked.afterWants" />
+                      </p>
+                    )}
                     <div className="text-center pb-3 pt-4">
                       <Button
                         ariaLabel="btn.Save"
                         className="px-5"
-                        disabled={!isMembership && !acceptTyC}
+                        disabled={
+                          (!isMembership && !acceptTyC) || !canEditMembership
+                        }
                       >
                         <I18N
                           id={`MyData.btn.${
