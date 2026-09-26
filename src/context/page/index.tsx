@@ -186,8 +186,12 @@ const PageContextProvider = ({ children = null }) => {
       const now = Date.now();
       if (now - lastRefreshRef.current < MIN_REFRESH_INTERVAL_MS) return;
       lastRefreshRef.current = now;
-      refreshMathtrade({ mathtradeId });
+      // stats: the counters (games/items/participants) come with it; without
+      // it the backend sends them as 0 and would overwrite them.
+      refreshMathtrade({ mathtradeId, params: { stats: true } });
     };
+    // Also once on load, so the home has the counters without its own call.
+    onFocusRegain();
     document.addEventListener("visibilitychange", onFocusRegain);
     window.addEventListener("focus", onFocusRegain);
     return () => {

@@ -88,7 +88,13 @@ const useMyData = () => {
   });
   const storedMathtradeId = mathtrade?.id;
   useEffect(() => {
-    if (storedMathtradeId) refreshMathtrade({ mathtradeId: storedMathtradeId });
+    // stats: otherwise the backend sends the counters as 0 and they'd be
+    // overwritten in the store (the home shows them).
+    if (storedMathtradeId)
+      refreshMathtrade({
+        mathtradeId: storedMathtradeId,
+        params: { stats: true },
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storedMathtradeId]);
   // END REFRESH MATHTRADE ***************************************

@@ -6,7 +6,7 @@ import Videohelp from "./videohelp";
 import Status from "./status";
 import Glossary from "./glossary";
 import Iconshelp from "./iconshelp";
-import Pills from "./pills";
+import EditionCard from "./editionCard";
 import Referral from "@/components/referral";
 
 const HomeContent = () => {
@@ -18,10 +18,10 @@ const HomeContent = () => {
     <div className="px-8 pt-8 pb-5">
       {mathtrade && Object.keys(mathtrade).length > 0 ? (
         <>
-          <div className="mb-8">
+          <EditionCard />
+          <div className="mb-6">
             <Referral />
           </div>
-          <Pills />
           <section className="mb-6 bg-white p-5 rounded-xl shadow-lg">
             <h2 className="font-bold text-xl mb-4">
               <I18N id="timeline.header" />
