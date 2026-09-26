@@ -13,6 +13,7 @@ import { useContext } from "react";
 import { GotoTopContext } from "@/context/goto-top";
 import { PageContext } from "@/context/page";
 import useSidebarNav from "@/components/sidebar/useSidebarNav";
+import LeavePageGuard from "@/components/leave-page-guard";
 
 const Footer = () => {
   const { emptyWants, enabledBtn, changesCount, onClick, loading } =
@@ -24,11 +25,15 @@ const Footer = () => {
   const updateFilters = useOptions((state) => state.updateFilters);
   const showClearHint = Boolean(!isUserEarlyPay && filters?.keyword);
 
+  // Ask before leaving with unsaved changes (links, back, refresh).
+  const leaveGuard = <LeavePageGuard when={changesCount > 0} />;
+
   if (emptyWants) {
-    return null;
+    return leaveGuard;
   }
   return (
     <>
+      {leaveGuard}
       {loading ? null : (
         <div
           className={clsx(

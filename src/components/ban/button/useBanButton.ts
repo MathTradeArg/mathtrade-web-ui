@@ -1,4 +1,4 @@
-import { useCallback, useContext, useMemo } from "react";
+import { useCallback, useContext, useMemo, useState } from "react";
 import { ItemContext } from "@/context/item";
 import { GameContext } from "@/context/game";
 import { PageContext } from "@/context/page";
@@ -6,7 +6,7 @@ import { useOptions } from "@/store";
 import useFetch from "@/hooks/useFetch";
 
 const useBanButton = (type = "item") => {
-  const { forceReloadPage } = useContext(PageContext);
+  const { forceReloadPage, myWants } = useContext(PageContext);
   const updateFilters = useOptions((state) => state.updateFilters);
 
   const {
@@ -14,6 +14,9 @@ const useBanButton = (type = "item") => {
     showAsIgnored: showAsIgnoredItem,
     setShowAsIgnored: setShowAsIgnoredItem,
     setBanId: setBanIdItem,
+    wantGroup,
+    otherWantGroups,
+    wantedViaTag,
   } = useContext(ItemContext);
   const {
     game,
@@ -88,6 +91,34 @@ const useBanButton = (type = "item") => {
     afterLoad: afterLoadUnban,
   });
 
+  // Ignoring something you want doesn't delete the want, but the export
+  // skips it: warn before, so nobody ignores a wanted game by accident.
+  const isWanted = useMemo(() => {
+    if (type === "item") {
+      return !!wantGroup || !!otherWantGroups?.length || !!wantedViaTag;
+    }
+    if (!game) return false;
+    const copyIds = new Set((game.items || []).map(({ id }) => `${id}`));
+    return (myWants || []).some(
+      (w) =>
+        (w.type === "game" &&
+          game.bgg_id &&
+          `${w.bgg_id}` === `${game.bgg_id}`) ||
+        (w.wants || []).some(({ id }) => copyIds.has(`${id}`))
+    );
+  }, [type, wantGroup, otherWantGroups, wantedViaTag, game, myWants]);
+
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
+  const ban = useCallback(() => {
+    if (type === "item") {
+      banElement({ params: { type: "I", identity: item?.id } });
+    }
+    if (type === "game") {
+      banElement({ params: { type: "G", identity: game?.bgg_id } });
+    }
+  }, [item, game, type, banElement]);
+
   const onClick = useCallback(
     (e) => {
       e.preventDefault();
@@ -97,21 +128,30 @@ const useBanButton = (type = "item") => {
         return;
       }
 
-      if (type === "item") {
-        banElement({ params: { type: "I", identity: item?.id } });
+      if (isWanted) {
+        setConfirmOpen(true);
+        return;
       }
-      if (type === "game") {
-        banElement({ params: { type: "G", identity: game?.bgg_id } });
-      }
+      ban();
     },
-    [item, game, type, banElement, unbanElement, ban_id]
+    [ban, unbanElement, ban_id, isWanted]
   );
+
+  const onConfirm = useCallback(() => {
+    setConfirmOpen(false);
+    ban();
+  }, [ban]);
+
+  const onCancel = useCallback(() => setConfirmOpen(false), []);
 
   return {
     showAsIgnored: showAsIgnoredItem || showAsIgnoredGame,
     onClick,
     loading: loadingBanElement || loadingUnBanElement,
     ban_id,
+    confirmOpen,
+    onConfirm,
+    onCancel,
   };
 };
 

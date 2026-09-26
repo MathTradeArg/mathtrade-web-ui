@@ -3,7 +3,6 @@ import { PageContext } from "@/context/page";
 import { MyWantsContext } from "@/context/myWants/all";
 import useFetch from "@/hooks/useFetch";
 import { processChanges } from "./utils";
-import { useLeavePageConfirmation } from "@/hooks/useLeavePageConfirmation";
 import { GotoTopContext } from "@/context/goto-top";
 
 const useFooter = () => {
@@ -62,8 +61,6 @@ const useFooter = () => {
   const enabledBtn = useMemo(() => {
     return canI.want && changesCount > 0;
   }, [changesCount, canI]);
-
-  useLeavePageConfirmation(changesCount > 0);
 
   const onClick = useCallback(() => {
     const want_groups = processChanges(myWants, changes);
