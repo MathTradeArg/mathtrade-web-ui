@@ -67,12 +67,6 @@ const EditionCard = () => {
 
   if (!status) return null;
 
-  const counters = [
-    { value: mathtrade.games_count, id: "results.pill.game" },
-    { value: mathtrade.items_count, id: "results.pill.item" },
-    { value: mathtrade.users_count, id: "results.pill.user" },
-  ];
-
   return (
     <section className="mb-6 bg-white p-5 rounded-xl shadow-lg">
       <h2 className="font-bold text-2xl mb-2">{mathtrade.name}</h2>
@@ -82,23 +76,11 @@ const EditionCard = () => {
       {nextStep ? (
         <Link
           href={nextStep.path}
-          className="inline-block rounded-full bg-primary text-white font-semibold px-5 py-2 hover:opacity-90 mb-5"
+          className="inline-block rounded-full bg-primary text-white font-semibold px-5 py-2 hover:opacity-90"
         >
           <I18N id={`home.edition.next.${nextStep.id}`} />
         </Link>
       ) : null}
-      <div className="grid grid-cols-3 gap-3 border-t border-gray-200 pt-4 text-center">
-        {counters.map(({ value, id }) => (
-          <div key={id}>
-            <div className="text-2xl font-bold text-gray-900">
-              {value ? value.toLocaleString("es-AR") : "-"}
-            </div>
-            <div className="text-xs text-gray-600">
-              <I18N id={id} />
-            </div>
-          </div>
-        ))}
-      </div>
     </section>
   );
 };
