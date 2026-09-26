@@ -6,7 +6,7 @@ import { HOME_ENTRY, PRIMARY_NAV, type NavEntry } from "@/config/nav";
 import { PRIVATE_ROUTES } from "@/config/routes";
 import { formatDateString } from "@/utils/dateUtils";
 
-const COLLAPSE_KEY = "sidebar_mainNav_collapsed";
+export const COLLAPSE_KEY = "sidebar_mainNav_collapsed";
 const DEFAULT_KEYS = ["MY_COLLECTION", "STATS"];
 
 // These require an accepted Membership in the active mathtrade to be usable at all.
