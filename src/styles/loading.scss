@@ -24,11 +24,14 @@ $left-diff: $top-diff;
   }
 
   // Page loading: blurs the whole content area (the viewport right of the
-  // sidebar, top to bottom), not just the section's box. Below the sidebar,
-  // its panels and the mobile tab bar (z 50-70), which stay usable.
+  // sidebar, top to bottom), not just the section's box — including the
+  // lists' sticky filter bar (z-50). Below the sidebar and its panels
+  // (z 60-70). On mobile it stops above the bottom tab bar, so the tab bar
+  // stays usable.
   &.page {
     position: fixed;
-    z-index: 40;
+    z-index: 55;
+    bottom: calc(3.5rem + env(safe-area-inset-bottom));
     border-radius: 0;
     padding-top: 0;
     place-content: center;
@@ -38,6 +41,7 @@ $left-diff: $top-diff;
     // Same breakpoint as the sidebar (Tailwind lg); widths set inline.
     @media (min-width: 1024px) {
       left: var(--sidebar-w, 260px);
+      bottom: 0;
     }
   }
 
