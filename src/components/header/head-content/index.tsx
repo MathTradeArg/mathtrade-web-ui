@@ -50,9 +50,9 @@ const HeadContent = ({
       }}
       className={clsx(
         // Mobile: full screen. The !important beats floating-ui's inline
-        // position/top/left/transform (computed for the desktop flyout),
-        // which otherwise shifted the panel off the viewport.
-        "max-lg:animate-faderight max-lg:!fixed max-lg:!inset-0 max-lg:![transform:none] max-lg:w-full max-lg:max-w-full max-lg:h-full max-lg:z-panel",
+        // position/top/left/transform/max-height (computed for the desktop
+        // flyout), which otherwise shifted and cut the panel.
+        "max-lg:animate-faderight max-lg:!fixed max-lg:!inset-0 max-lg:![transform:none] max-lg:!max-h-none max-lg:w-full max-lg:max-w-full max-lg:h-full max-lg:z-panel",
         "lg:z-panel lg:w-auto lg:max-w-min lg:h-auto lg:flex lg:flex-col lg:overflow-hidden",
         {
           "max-lg:hidden": !visibleMobile,
