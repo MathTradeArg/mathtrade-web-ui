@@ -7,7 +7,7 @@ import Link from "next/link";
 import I18N from "@/i18n";
 import PoweredByBGG from "@/components/poweredByBgg";
 
-const navList = [PUBLIC_ROUTES.MEDIA, PUBLIC_ROUTES.TERMS_CONDITIONS];
+const navList = [PUBLIC_ROUTES.TERMS_CONDITIONS];
 
 const Footer = () => {
   /* PAGE CONTEXT **********************************************/
