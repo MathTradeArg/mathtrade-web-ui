@@ -90,6 +90,20 @@ const HelpButton = ({
           >
             <I18N id="menu.Faqs" />
           </Link>
+          <Link
+            href={`${PRIVATE_ROUTES.FAQS.path}#glosario`}
+            className="block leading-10 hover:bg-sky-200 text-center border-t"
+            onClick={toggleMobile}
+          >
+            <I18N id="help.glossary" />
+          </Link>
+          <Link
+            href={`${PRIVATE_ROUTES.FAQS.path}#estados`}
+            className="block leading-10 hover:bg-sky-200 text-center border-t"
+            onClick={toggleMobile}
+          >
+            <I18N id="help.statuses" />
+          </Link>
           <a
             href={PUBLIC_ROUTES.TERMS_CONDITIONS.path}
             target="_blank"
