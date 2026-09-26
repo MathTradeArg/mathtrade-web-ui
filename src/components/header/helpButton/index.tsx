@@ -7,7 +7,7 @@ import I18N from "@/i18n";
 import Link from "next/link";
 import clsx from "clsx";
 import { PRIVATE_ROUTES, PUBLIC_ROUTES } from "@/config/routes";
-import { rulebookPDFurl, instructPDFurl } from "@/config/rulebook";
+import { rulebookPDFurl } from "@/config/rulebook";
 import { fadeLabelClass } from "@/components/sidebar/fadeLabel";
 
 const baseURL = process.env.BASE_URL;
@@ -90,14 +90,20 @@ const HelpButton = ({
           >
             <I18N id="menu.Faqs" />
           </Link>
-          <a
-            href={baseURL + instructPDFurl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href={`${PRIVATE_ROUTES.FAQS.path}#glosario`}
             className="block leading-10 hover:bg-sky-200 text-center border-t"
+            onClick={toggleMobile}
           >
-            <I18N id="title.Instruct" />
-          </a>
+            <I18N id="help.glossary" />
+          </Link>
+          <Link
+            href={`${PRIVATE_ROUTES.FAQS.path}#estados`}
+            className="block leading-10 hover:bg-sky-200 text-center border-t"
+            onClick={toggleMobile}
+          >
+            <I18N id="help.statuses" />
+          </Link>
           <a
             href={PUBLIC_ROUTES.TERMS_CONDITIONS.path}
             target="_blank"
@@ -123,15 +129,6 @@ const HelpButton = ({
             <span>
               <I18N id={`menu.${PRIVATE_ROUTES.MEMARDIUMS.title}`} />
             </span>
-          </Link>
-          <Link
-            href={PUBLIC_ROUTES.MEDIA.path}
-            className="leading-10 hover:bg-sky-200 text-center border-t flex item-center justify-center font-bold"
-            onClick={toggleMobile}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <I18N id={`${PUBLIC_ROUTES.MEDIA.title}`} />
           </Link>
         </div>
       </HeadContent>

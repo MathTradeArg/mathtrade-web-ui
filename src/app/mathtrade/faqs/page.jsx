@@ -7,6 +7,8 @@ import useFaqs from "./useFaqs";
 import Faq from "@/components/faq";
 import ErrorAlert from "@/components/errorAlert";
 import { getI18Ntext } from "@/i18n";
+import Glossary from "@/components/help/glossary";
+import Status from "@/components/help/status";
 
 export default function MyAccount() {
   /* PAGE CONTEXT **********************************************/
@@ -25,6 +27,20 @@ export default function MyAccount() {
       <SectionCommon loading={loading}>
         <div className="py-8">
           <div className="mx-auto max-w-4xl">
+            {/* Reference help (was the home's "quick help"); the Help menu
+                links straight to these anchors. */}
+            <section
+              id="glosario"
+              className="scroll-mt-6 mb-6 bg-white p-5 rounded-xl shadow-lg"
+            >
+              <Glossary />
+            </section>
+            <section
+              id="estados"
+              className="scroll-mt-6 mb-8 bg-white p-5 rounded-xl shadow-lg"
+            >
+              <Status />
+            </section>
             <div className="text-center mb-6">
               <input
                 type="text"

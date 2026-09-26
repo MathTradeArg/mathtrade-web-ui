@@ -2,4 +2,3 @@
 export const rulebookPDFurl = "api/mathtrades/rulebook/";
 export const mathtradeRulebookPDFurl = (mathtradeId) =>
   `api/mathtrades/${mathtradeId}/rulebook/`;
-export const instructPDFurl = "media/Instructivo-MT-Argentina.pdf";

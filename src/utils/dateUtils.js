@@ -72,3 +72,31 @@ export const todayString = () => {
     minute: "2-digit",
   }).format(date);
 };
+
+// Edition dates are shown in Argentina's time, the organization's reference,
+// whatever the browser's time zone is.
+const AR_TIME_ZONE = "America/Argentina/Buenos_Aires";
+
+export const formatMilestoneDate = (dateString) => {
+  const date = dateString ? new Date(dateString) : null;
+  if (!date || Number.isNaN(date.getTime())) return null;
+
+  const parts = new Intl.DateTimeFormat("es-AR", {
+    timeZone: AR_TIME_ZONE,
+    weekday: "long",
+    day: "2-digit",
+    month: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  })
+    .formatToParts(date)
+    .reduce((obj, { type, value }) => ({ ...obj, [type]: value }), {});
+
+  const weekday = parts.weekday || "";
+  return {
+    weekday: weekday.charAt(0).toUpperCase() + weekday.slice(1),
+    dayMonth: `${parts.day}/${parts.month}`,
+    time: `${parts.hour}:${parts.minute}`,
+  };
+};

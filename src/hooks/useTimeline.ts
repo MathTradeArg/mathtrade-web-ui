@@ -1,6 +1,6 @@
 import { useContext, useMemo } from "react";
 import { PageContext } from "@/context/page";
-import { formatDateString } from "@/utils/dateUtils";
+import { formatMilestoneDate } from "@/utils/dateUtils";
 import { meetingAddress } from "@/config/meetingAddress";
 
 const MILESTONE_TEXT: Record<
@@ -34,31 +34,57 @@ const MILESTONE_TEXT: Record<
   },
 };
 
+export type MilestoneState = "past" | "next" | "future";
+
+export type Milestone = {
+  key: string;
+  title: string;
+  color: number;
+  meetingAddress?: typeof meetingAddress;
+  dateRaw: string;
+  time: number;
+  date: { weekday: string; dayMonth: string; time: string };
+  state: MilestoneState;
+};
+
+// The edition's stages, sorted by date. "today" is compared with real
+// timestamps (not date strings), so it's right in any time zone.
 const useTimeline = () => {
   const { mathtrade } = useContext(PageContext);
 
-  const milestones = useMemo(() => {
+  return useMemo(() => {
     if (!mathtrade) {
-      return [];
+      return { milestones: [] as Milestone[], next: null };
     }
+    const now = Date.now();
 
-    return Object.entries(MILESTONE_TEXT)
-      .filter(([key]) => {
-        if (key === "provisional_results_date") {
-          return Boolean(mathtrade[key]);
-        }
-        return true;
-      })
+    const sorted = Object.entries(MILESTONE_TEXT)
       .map(([key, value]) => {
-        return {
-          ...value,
-          dateRaw: mathtrade[key],
-          ...formatDateString(mathtrade[key]),
-        };
-      });
-  }, [mathtrade]);
+        const dateRaw = mathtrade[key];
+        const time = dateRaw ? new Date(dateRaw).getTime() : NaN;
+        return { key, ...value, dateRaw, time };
+      })
+      .filter(({ time }) => Number.isFinite(time))
+      .sort((a, b) => a.time - b.time);
 
-  return { milestones };
+    const nextIndex = sorted.findIndex(({ time }) => time > now);
+
+    const milestones: Milestone[] = sorted.map((m, i) => ({
+      ...m,
+      date: formatMilestoneDate(m.dateRaw)!,
+      state:
+        nextIndex < 0 || i < nextIndex
+          ? "past"
+          : i === nextIndex
+            ? "next"
+            : "future",
+    }));
+
+    return {
+      milestones,
+      next: nextIndex >= 0 ? milestones[nextIndex] : null,
+    };
+  }, [mathtrade]);
 };
 
 export default useTimeline;

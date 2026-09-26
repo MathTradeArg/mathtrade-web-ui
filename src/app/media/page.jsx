@@ -1,15 +1,8 @@
-"use client";
-import LayoutExternal from "@/components/layoutExternal";
-import I18N from "@/i18n";
+import { redirect } from "next/navigation";
+import { PUBLIC_ROUTES } from "@/config/routes";
 
-const MediaPage = () => {
-  return (
-    <LayoutExternal title="MT.title" subtitle="media.Title">
-      <div className="text-center">
-        Muy pronto va a estar disponible este contenido.
-      </div>
-    </LayoutExternal>
-  );
-};
-
-export default MediaPage;
+// "Contenido para medios" had no content since 2025-07; the links to it were
+// removed. Kept as a redirect so old links still land somewhere.
+export default function MediaPage() {
+  redirect(PUBLIC_ROUTES.DEFAULT.path);
+}

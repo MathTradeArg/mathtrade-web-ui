@@ -6,9 +6,6 @@ import { linksToHelp } from "@/config/linksToHelp";
 import { useContext, useEffect } from "react";
 import { PageContext } from "@/context/page";
 import HomeContent from "./homeContent";
-import { instructPDFurl } from "@/config/rulebook";
-
-const baseURL = process.env.BASE_URL;
 
 export default function HomePage() {
   /* PAGE CONTEXT **********************************************/
@@ -39,15 +36,6 @@ export default function HomePage() {
           className="underline underline-offset-2"
         >
           <I18N id="home.welcome.telegram" />
-        </a>
-        <span className="opacity-60 mx-1">·</span>
-        <a
-          href={baseURL + instructPDFurl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline underline-offset-2"
-        >
-          <I18N id="home.welcome.instructivo" />
         </a>
       </PageHeader>
       <SectionCommon>
