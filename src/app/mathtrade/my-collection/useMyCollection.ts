@@ -75,15 +75,26 @@ const useMyCollection = () => {
     reloadValue,
   });
 
-  const elementIdListOffered = useMemo(() => {
-    return (myItemsInMT || []).reduce((arr: string[], { elements }: any = {}) => {
-      (elements || []).forEach(({ element }: any = {}) => {
-        if (element?.id != null) {
-          arr.push(`${element.id}`);
-        }
-      });
-      return arr;
-    }, []);
+  // Element id → the Math Trade item that offers it (and how many elements
+  // that item has: withdrawing a combo withdraws all of them).
+  const offeredByElementId = useMemo(() => {
+    return (myItemsInMT || []).reduce(
+      (
+        map: Record<string, { itemId: number; elementsCount: number }>,
+        { id, elements }: any = {}
+      ) => {
+        (elements || []).forEach(({ element }: any = {}) => {
+          if (element?.id != null) {
+            map[`${element.id}`] = {
+              itemId: id,
+              elementsCount: (elements || []).length,
+            };
+          }
+        });
+        return map;
+      },
+      {}
+    );
   }, [myItemsInMT]);
 
   // END My Items in MathTrade ********************************************
@@ -121,19 +132,17 @@ const useMyCollection = () => {
   const elementsInCollection = useMemo(() => {
     if (
       elementsInCollectionRaw.length === 0 ||
-      elementIdListOffered.length === 0
+      Object.keys(offeredByElementId).length === 0
     ) {
       return elementsInCollectionRaw;
     }
 
-    return elementsInCollectionRaw.map((element: any = {}) => {
-      const elementOffered = elementIdListOffered.indexOf(`${element.id}`) >= 0;
-      return {
-        ...element,
-        offered: elementOffered,
-      };
-    });
-  }, [elementsInCollectionRaw, elementIdListOffered]);
+    return elementsInCollectionRaw.map((element: any = {}) => ({
+      ...element,
+      // Truthy when offered: which item offers it, for "Retirar".
+      offered: offeredByElementId[`${element.id}`] || false,
+    }));
+  }, [elementsInCollectionRaw, offeredByElementId]);
 
   const elementList = useMemo(() => {
     const keyword = filters_collection?.keyword || "";

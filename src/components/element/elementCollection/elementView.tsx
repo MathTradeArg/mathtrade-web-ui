@@ -5,6 +5,7 @@ import I18N from "@/i18n";
 import ButtonAlert from "@/components/buttonAlert";
 import InnerButton from "@/components/button/inner-button";
 import useDeleteElement from "./useDeleteElement";
+import useWithdrawFromMT from "./useWithdrawFromMT";
 import { LoadingBox } from "@/components/loading";
 import ErrorAlert from "@/components/errorAlert";
 import Question from "@/components/question";
@@ -113,6 +114,23 @@ const ElementView = ({
   // MAT-131: only while the offer window is open, and only for a copy not
   // already offered — matches showEdition's own offer-window awareness.
   const canAddToMT = showAddToMT && !insideItem && canI.offer && !offered;
+
+  // The reverse, same place: withdraw the item that offers this copy. Allowed
+  // while offering and during wants, like from the offered items; during
+  // wants every want involving it is deleted (the warning says so).
+  const offeredItem =
+    offered && typeof offered === "object" ? (offered as any) : null;
+  const canWithdraw =
+    showAddToMT && !insideItem && !!offeredItem && (canI.offer || canI.want);
+  const {
+    withdraw,
+    loading: withdrawing,
+    error: withdrawError,
+  } = useWithdrawFromMT(offeredItem?.itemId);
+  const isCombo = (offeredItem?.elementsCount || 0) > 1;
+  const withdrawDescription = `description.DeleteItem${isCombo ? ".combo" : ""}${
+    canI.want ? ".wants" : ""
+  }`;
 
   return (
     <div
@@ -236,8 +254,21 @@ const ElementView = ({
           </div>
         </div>
 
-        {showEdition || canAddToMT ? (
+        {showEdition || canAddToMT || canWithdraw ? (
           <div className="flex items-center gap-1 flex-wrap border-t border-black/10 text-gray-600 pt-3">
+            {canWithdraw ? (
+              <ButtonAlert
+                className="border border-red-300 text-red-700 px-4 py-1 rounded-full font-bold text-sm hover:bg-red-50 transition-colors"
+                title="title.DeleteItem"
+                description={withdrawDescription}
+                onClick={withdraw}
+              >
+                <InnerButton>
+                  <Icon type={withdrawing ? "loading" : "trash"} />
+                  <I18N id="btn.DeleteItem" />
+                </InnerButton>
+              </ButtonAlert>
+            ) : null}
             {canAddToMT ? (
               <button
                 className="bg-want text-white px-5 py-1 rounded-full font-bold text-sm hover:bg-emerald-700 transition-colors"
@@ -275,6 +306,7 @@ const ElementView = ({
           </div>
         ) : null}
         <ErrorAlert error={error} className="mb-0" />
+        <ErrorAlert error={withdrawError} />
         {extraContent || null}
       </div>
       <LoadingBox loading={loading} min />

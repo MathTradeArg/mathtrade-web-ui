@@ -1248,6 +1248,8 @@
   "title.DeleteItem": "¿Retirar este ejemplar del Math Trade?",
   "description.DeleteItem": "Deja de estar ofrecido en este Math Trade, pero sigue en tu ludoteca.",
   "description.DeleteItem.wants": "Deja de estar ofrecido en este Math Trade, pero sigue en tu ludoteca. También se eliminan todos los deseos que lo involucran: los tuyos y los de otros usuarios. En esta etapa no vas a poder volver a ofrecerlo.",
+  "description.DeleteItem.combo": "Es parte de un combo: se retira el combo entero. Deja de estar ofrecido en este Math Trade, pero todo sigue en tu ludoteca.",
+  "description.DeleteItem.combo.wants": "Es parte de un combo: se retira el combo entero. Deja de estar ofrecido en este Math Trade, pero todo sigue en tu ludoteca. También se eliminan todos los deseos que lo involucran: los tuyos y los de otros usuarios. En esta etapa no vas a poder volver a ofrecerlo.",
   "element.Offered": "Ofrecido",
   "myOfferPreviousMathtrades.page.link": "<b>OFERTAR</b> ejemplares desde tu último Math Trade.",
   "new": "Nuevo",
