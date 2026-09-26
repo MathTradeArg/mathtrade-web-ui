@@ -3,6 +3,7 @@ import { PageContext } from "@/context/page";
 import { MyWantsContext } from "@/context/myWants/all";
 import { useOptions } from "@/store";
 import { normalizeString } from "@/utils";
+import { visibleWants } from "@/utils/visibleWants";
 
 const orders = {
   game: 0,
@@ -22,12 +23,12 @@ const useWantToItem = () => {
   const filters = useOptions((state) => state.filters_wants);
 
   const wantList = useMemo(() => {
-    let myWantsFiltered = [...(myWants || [])];
+    let myWantsFiltered = visibleWants(myWants);
     const filtersKeyword = filters?.keyword || null;
 
     if (filtersKeyword) {
       const filtersKeywordNormalized = normalizeString(filtersKeyword);
-      myWantsFiltered = [...myWants].filter((w) => {
+      myWantsFiltered = myWantsFiltered.filter((w) => {
         return normalizeString(w.name).indexOf(filtersKeywordNormalized) >= 0;
       });
     }

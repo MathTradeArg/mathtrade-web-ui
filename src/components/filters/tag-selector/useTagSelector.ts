@@ -45,6 +45,7 @@ const useTagSelector = () => {
 
   return {
     tagOptions,
+    itemTags: itemTags || [],
     data: { tag: tagSelected ? `${tagSelected}` : "" },
     canIEdit: canI.offer || canI.want,
   };

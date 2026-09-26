@@ -3,9 +3,18 @@ import clsx from "clsx";
 import Icon from "@/components/icon";
 import { getI18Ntext } from "@/i18n";
 import useBanButton from "./useBanButton";
+import ConfirmModal from "@/components/confirmModal";
 
 const BanButtonUI = ({ className = "", type = "item" }) => {
-  const { showAsIgnored, onClick, loading, ban_id } = useBanButton(type);
+  const {
+    showAsIgnored,
+    onClick,
+    loading,
+    ban_id,
+    confirmOpen,
+    onConfirm,
+    onCancel,
+  } = useBanButton(type);
   const isActive = showAsIgnored || ban_id;
 
   return (
@@ -30,6 +39,14 @@ const BanButtonUI = ({ className = "", type = "item" }) => {
           <span>{getI18Ntext(ban_id ? "unban" : "ban.UserItems")}</span>
         </button>
       </div>
+      <ConfirmModal
+        isOpen={confirmOpen}
+        onCancel={onCancel}
+        onConfirm={onConfirm}
+        title={`ban.confirm.${type}.title`}
+        description={`ban.confirm.${type}.wanted`}
+        confirmId="ban.confirm.yes"
+      />
     </div>
   );
 };

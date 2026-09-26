@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useContext } from "react";
+import { useCallback, useMemo, useContext, useState } from "react";
 import useFetch from "@/hooks/useFetch";
 import { PageContext } from "@/context/page";
 import { useOptions } from "@/store";
@@ -60,18 +60,31 @@ const useUserBanRow = (user, userBans, setUserBans) => {
     return userBans[user.id] || null;
   }, [user, userBans]);
 
+  // Ignoring someone is explained before it's done: your wants on their
+  // items stop counting, but they can still receive something of yours.
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
   const onClick = useCallback(() => {
     if (ban_id) {
       unbanUser({ urlParams: [ban_id] });
     } else {
-      const params = { type: "U", identity: user?.id };
-      banUser({ params });
+      setConfirmOpen(true);
     }
-  }, [user, ban_id, banUser, unbanUser]);
+  }, [ban_id, unbanUser]);
+
+  const onConfirm = useCallback(() => {
+    setConfirmOpen(false);
+    banUser({ params: { type: "U", identity: user?.id } });
+  }, [user, banUser]);
+
+  const onCancel = useCallback(() => setConfirmOpen(false), []);
 
   return {
     ban_id,
     onClick,
+    confirmOpen,
+    onConfirm,
+    onCancel,
     loading: loadingBan || loadingUnBan,
   };
 };
