@@ -114,7 +114,7 @@ const GraphCanvas = ({ elements, selectedNodeId }) => {
         wheelSensitivity={1.8}
         maxZoom={3}
       />
-      <div className="absolute z-50 top-1 left-4 text-xs text-gray-700 text-center mb-5 text-balance px-3 py-1 bg-white/80 rounded-full">
+      <div className="absolute z-raised top-1 left-4 text-xs text-gray-700 text-center mb-5 text-balance px-3 py-1 bg-white/80 rounded-full">
         Usá la rueda del mouse para hacer zoom. Arrastrá para mover el gráfico.
       </div>
     </div>

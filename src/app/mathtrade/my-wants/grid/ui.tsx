@@ -41,7 +41,7 @@ const GridUI = () => {
       >
         {readyToRender ? (
           <table className="grid-table">
-            <thead className="sticky z-50 top-0 bg-white">
+            <thead className="sticky z-sticky top-0 bg-white">
               <tr className="border-spacing-0">
                 {myItemList.map((myItem, k) => {
                   return k === 0 ? (
@@ -95,7 +95,7 @@ const GridUI = () => {
                         k === 0 ? (
                           <td
                             key={k}
-                            className="border-spacing-0 m-0 p-0 sticky z-40 left-0"
+                            className="border-spacing-0 m-0 p-0 sticky z-raised left-0"
                           >
                             <TagItemLabel row={wantGroup} />
                           </td>
@@ -118,7 +118,7 @@ const GridUI = () => {
                     {myItemList.map((myItem, k) => {
                       return k === 0 ? (
                         <td
-                          className="border-spacing-0 m-0 p-0 sticky z-40 left-0"
+                          className="border-spacing-0 m-0 p-0 sticky z-raised left-0"
                           key={k}
                         >
                           <WantGroupLabel

@@ -1,6 +1,7 @@
 "use client";
 import { useContext, useEffect } from "react";
 import { PageContext } from "@/context/page";
+import { Z } from "@/config/zIndex";
 
 // Shown on desktop only (see the wrapper below): on phones the floating
 // icon covered content and was in the way.
@@ -22,7 +23,9 @@ const ChatBoxButton = () => {
         icon.style.right = "20px";
         icon.style.width = ICON_SIZE;
         icon.style.height = ICON_SIZE;
-        icon.style.zIndex = "45";
+        // Floating help: above the content, below page action bars (Mis deseos
+        // footer) so it never covers "Guardar".
+        icon.style.zIndex = `${Z.sticky}`;
         icon.querySelectorAll("img, svg").forEach((el) => {
           el.style.maxWidth = "100%";
           el.style.maxHeight = "100%";
@@ -39,7 +42,7 @@ const ChatBoxButton = () => {
   }, []);
 
   return (
-    <div className="relative z-40 hidden lg:block">
+    <div className="relative z-sticky hidden lg:block">
       <df-messenger
         chat-icon="https:&#x2F;&#x2F;www.mathtrade.com.ar&#x2F;chatbox.png"
         intent="WELCOME"

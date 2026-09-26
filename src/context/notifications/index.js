@@ -1,5 +1,6 @@
-import { createContext, useState, useCallback, useContext } from "react";
+import { createContext, useState, useContext } from "react";
 import { PageContext } from "../page";
+import useExclusiveMobilePanel from "@/components/header/head-content/useExclusiveMobilePanel";
 
 export const NotificationsContext = createContext({
   itemNotifUnread: 0,
@@ -26,11 +27,9 @@ export const NotificationsContextProvider = ({ children }) => {
   //
   const [adminNotifUnread, setAdminNotifUnread] = useState(0);
   //
-  const [visibleMobile, setVisibleMobile] = useState(false);
-
-  const toggleMobile = useCallback(() => {
-    setVisibleMobile((v) => !v);
-  }, []);
+  // Full-screen panel on mobile: opening it closes the other panels.
+  const { visibleMobile, toggleMobile } =
+    useExclusiveMobilePanel("notifications");
 
   return (
     <NotificationsContext.Provider

@@ -51,7 +51,7 @@ const MyGroupsInItemUI = ({ className }) => {
           ) : null}
         </button>
         {visible && canIEdit && (
-          <div className="animate-fadedown absolute z-50 bg-white shadow-[0_3px_8px_rgba(0,0,0,0.3)] border border-gray-300 min-w-full pt-2">
+          <div className="animate-fadedown absolute z-popover bg-white shadow-[0_3px_8px_rgba(0,0,0,0.3)] border border-gray-300 min-w-full pt-2">
             {groupAdded ? (
               <div className="p-1">
                 <div

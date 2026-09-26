@@ -65,7 +65,7 @@ const CommentEditor = () => {
         </div>
         <ErrorAlert error={errors} />
       </Form>
-      <LoadingBox loading={loading} min zIndex={20} />
+      <LoadingBox loading={loading} min />
     </div>
   );
 };

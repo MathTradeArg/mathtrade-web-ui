@@ -1,5 +1,4 @@
 "use client";
-import { useCallback, useState } from "react";
 import HeadContent from "../head-content";
 import useHoverPanel from "../head-content/useHoverPanel";
 import Icon from "@/components/icon";
@@ -9,6 +8,7 @@ import clsx from "clsx";
 import { PRIVATE_ROUTES, PUBLIC_ROUTES } from "@/config/routes";
 import { rulebookPDFurl } from "@/config/rulebook";
 import { fadeLabelClass } from "@/components/sidebar/fadeLabel";
+import useExclusiveMobilePanel from "@/components/header/head-content/useExclusiveMobilePanel";
 
 const baseURL = process.env.BASE_URL;
 
@@ -27,11 +27,7 @@ const HelpButton = ({
   tone = "dark",
   collapsed = false,
 }: HelpButtonProps = {}) => {
-  const [visibleMobile, setVisibleMobile] = useState(false);
-
-  const toggleMobile = useCallback(() => {
-    setVisibleMobile((v) => !v);
-  }, []);
+  const { visibleMobile, toggleMobile } = useExclusiveMobilePanel("help");
 
   const {
     refs,

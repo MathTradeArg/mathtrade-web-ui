@@ -99,7 +99,7 @@ const PhotoGallery = ({
       {currentImageId !== null ? (
         <>
           <style>{"body{overflow:hidden !important}"}</style>
-          <div className="fixed z-[1999] w-screen h-screen overflow-hidden left-0 top-0">
+          <div className="fixed z-modal w-screen h-screen overflow-hidden left-0 top-0">
             <div className="relative flex items-center justify-center h-screen w-screen px-2 animate-dialog-in">
               <div
                 className="absolute w-full h-full backdrop-blur-sm bg-[rgba(213,220,226,0.7)] left-0 top-0"

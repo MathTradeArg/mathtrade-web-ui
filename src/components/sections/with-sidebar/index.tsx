@@ -45,7 +45,7 @@ export const Sidebar = ({
     >
       <div
         className={clsx(
-          "bg-white lg:sticky lg:top-0 lg:h-screen overflow-x-hidden sidebar-aside-inner z-20 flex flex-col border-r border-gray-200",
+          "bg-white lg:sticky lg:top-0 lg:h-screen overflow-x-hidden sidebar-aside-inner z-sticky flex flex-col border-r border-gray-200",
           {
             "lg:rounded-tl-main": !topNotRounded,
           }

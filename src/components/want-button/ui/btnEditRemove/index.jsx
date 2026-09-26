@@ -167,7 +167,7 @@ const BtnEditRemove = () => {
       {showSuccessAlert ? (
         <SuccessAlert
           text="want.updated"
-          className="fixed left-1/2 -translate-x-1/2 bottom-6 z-50 shadow-lg w-fit"
+          className="fixed left-1/2 -translate-x-1/2 bottom-6 z-nav shadow-lg w-fit"
         />
       ) : null}
       <ErrorAlert error={error} />

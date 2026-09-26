@@ -1,13 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useSignOut from "@/hooks/useSignOut";
+import useExclusiveMobilePanel from "@/components/header/head-content/useExclusiveMobilePanel";
 
 const useHeaderAccount = () => {
   const [show, setShow] = useState(false);
-  const [visibleMobile, setVisibleMobile] = useState(false);
-
-  const toggleMobile = useCallback(() => {
-    setVisibleMobile((v) => !v);
-  }, []);
+  const { visibleMobile, toggleMobile } = useExclusiveMobilePanel("account");
 
   const signOut = useSignOut();
 

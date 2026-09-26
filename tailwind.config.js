@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 const colors = require("tailwindcss/colors");
+const { Z } = require("./src/config/zIndex");
 
 module.exports = {
   content: [
@@ -98,6 +99,10 @@ module.exports = {
     },
 
     extend: {
+      // Named stacking layers (src/config/zIndex.js): z-raised, z-sticky…
+      zIndex: Object.fromEntries(
+        Object.entries(Z).map(([name, value]) => [name, `${value}`])
+      ),
       fontSize: {
         // Semantic type scale, additive to Tailwind's default text-xs..text-9xl.
         caption: ["11px", { lineHeight: "14px", fontWeight: "500" }],

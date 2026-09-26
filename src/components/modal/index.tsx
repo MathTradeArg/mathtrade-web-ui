@@ -13,7 +13,7 @@ const Modal = ({
   return isOpen ? (
     <>
       <style>{"body{overflow:hidden !important}"}</style>
-      <dialog className="fixed z-[99999] w-screen h-screen block overflow-x-hidden overflow-y-auto text-inherit font-[inherit] leading-[inherit] bg-transparent m-0 p-0 border-0 left-0 top-0">
+      <dialog className="fixed z-modal w-screen h-screen block overflow-x-hidden overflow-y-auto text-inherit font-[inherit] leading-[inherit] bg-transparent m-0 p-0 border-0 left-0 top-0">
         <div className="w-full min-h-full flex flex-col justify-center relative sm:p-2.5">
           <div
             className="absolute w-full h-full backdrop-blur-sm bg-[rgba(213,220,226,0.7)] left-0 top-0 sm:block hidden animate-dialog-in"
@@ -33,7 +33,7 @@ const Modal = ({
             {canNotClose ? null : (
               <button
                 type="button"
-                className="absolute z-50 top-2 right-2 w-8 h-8 leading-none text-center bg-white/60 text-[gray] rounded-full transition-[color] duration-[0.1s] text-xl"
+                className="absolute z-raised top-2 right-2 w-8 h-8 leading-none text-center bg-white/60 text-[gray] rounded-full transition-[color] duration-[0.1s] text-xl"
                 onClick={onClose}
               >
                 <Icon />

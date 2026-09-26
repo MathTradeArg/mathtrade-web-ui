@@ -52,7 +52,7 @@ const WantListVisual2 = ({ item = null }) => {
       </div>
       {addOpen && wantsToAdd.length > 0 && canIwant ? (
         <div
-          className="bg-white mt-4 sm:p-4 p-3 border border-gray-200 rounded-xl relative z-10"
+          className="bg-white mt-4 sm:p-4 p-3 border border-gray-200 rounded-xl relative z-raised"
           ref={addPadRef}
         >
           <div className="flex flex-wrap sm:gap-3 gap-2">

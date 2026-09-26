@@ -38,7 +38,8 @@ const SliderSign = () => {
   }, [last]);
 
   return (
-    <div className="absolute top-0 left-0 bg-black opacity-30  shadow-[inset_2px_0_10px_rgba(0,0,0,0.2)]  w-full h-full overflow-hidden">
+    // isolate: the slides' z-10/30/40 only order them among themselves.
+    <div className="absolute top-0 left-0 isolate bg-black opacity-30  shadow-[inset_2px_0_10px_rgba(0,0,0,0.2)]  w-full h-full overflow-hidden">
       {list.map((f, k) => {
         return (
           <Image
