@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { PageContext } from "@/context/page";
 import I18N from "@/i18n";
-import Timeline from "./timeline";
+import Calendar from "@/components/calendar";
 import Videohelp from "./videohelp";
 import Status from "./status";
 import Glossary from "./glossary";
@@ -22,7 +22,12 @@ const HomeContent = () => {
             <Referral />
           </div>
           <Pills />
-          <Timeline />
+          <section className="mb-6 bg-white p-5 rounded-xl shadow-lg">
+            <h2 className="font-bold text-xl mb-4">
+              <I18N id="timeline.header" />
+            </h2>
+            <Calendar />
+          </section>
         </>
       ) : null}
       <Videohelp />
