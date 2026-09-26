@@ -634,6 +634,8 @@
   "menu.stage.new": "Inicia en",
   "menu.stage.days": "$$$ días",
   "menu.stage.1day": "1 día",
+  "menu.stage.hours": "$$$ horas",
+  "menu.stage.1hour": "1 hora",
   "menu.stage.today": "hoy",
   "menu.MyWants": "Mis Deseos",
   "menu.locked.wants.today": "Se habilita cuando termine la etapa de Ofertas (hoy)",
