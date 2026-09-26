@@ -1,7 +1,8 @@
 "use client";
 import I18N, { getI18Ntext } from "@/i18n";
-import WantMiniCard from "@/components/want-components/mini-card";
-import { resolveItemKind } from "@/components/badgeType/cardKind";
+import Thumbnail from "@/components/thumbnail";
+import clsx from "clsx";
+import { cardKindBorderClass, resolveItemKind } from "@/components/badgeType/cardKind";
 import type { ProvisionalSummaryRow } from "./useProvisionalResults";
 
 // Titles come from other members' items and the sentence is rendered as
@@ -55,34 +56,46 @@ const SummaryRow = ({ row }: { row: ProvisionalSummaryRow }) => {
     counts.set(key, prev);
   });
 
-  const title = escapeHtml(item?.title || "");
   const received = Array.from(counts.values())
     .sort((a, b) => b.count - a.count)
     .map(({ count, title: what }) => times(count, what));
   const sentence = received.length
     ? getI18Ntext("provisional.summary.sentence", [
-        title,
         outcomes.length,
         joinSpanish(noTrade ? [...received, times(noTrade, "", true)] : received),
       ])
-    : getI18Ntext("provisional.summary.never", [title, outcomes.length]);
+    : getI18Ntext("provisional.summary.never", [outcomes.length]);
 
+  // One card per offered item; all cards share the grid row height, so short
+  // sentences don't make a card smaller than the rest.
   return (
-    <div className="flex gap-3 items-start py-3 border-b border-gray-200 last:border-0">
-      <WantMiniCard
-        title={item?.title || ""}
-        elements={[{ thumbnail: first?.thumbnail, name: first?.name || item?.title }]}
-        kind={resolveItemKind(item)}
-        badgeType="item"
-        badgeSubtype={first?.game?.type || 1}
-      />
-      <div className="min-w-0 pt-1">
+    <article
+      className={clsx(
+        "h-full flex flex-col bg-white rounded-xl shadow-lg overflow-hidden",
+        cardKindBorderClass(resolveItemKind(item))
+      )}
+    >
+      <div className="relative h-40 bg-gray-100 shrink-0">
+        <Thumbnail
+          fill
+          contain
+          elements={[{ thumbnail: first?.thumbnail || "" }]}
+          className="w-full h-full"
+        />
+      </div>
+      <div className="flex-1 flex flex-col gap-2 p-4">
+        <h3
+          className="font-bold text-base leading-snug line-clamp-2 min-h-[2.75rem]"
+          title={item?.title || ""}
+        >
+          {item?.title}
+        </h3>
         <p
           className="text-sm text-gray-700"
           dangerouslySetInnerHTML={{ __html: sentence }}
         />
       </div>
-    </div>
+    </article>
   );
 };
 
@@ -93,10 +106,10 @@ const ProvisionalSummary = ({ rows = [] }: { rows?: ProvisionalSummaryRow[] }) =
 
   return (
     <section className="mb-8">
-      <h2 className="text-base font-bold mb-2">
+      <h2 className="text-base font-bold mb-3">
         <I18N id="provisional.summary.title" />
       </h2>
-      <div className="bg-white">
+      <div className="grid gap-6 auto-rows-fr [grid-template-columns:repeat(auto-fill,minmax(280px,1fr))]">
         {rows.map((row) => (
           <SummaryRow key={row.item.id} row={row} />
         ))}
