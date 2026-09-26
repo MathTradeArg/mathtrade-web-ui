@@ -852,7 +852,7 @@
   "provisional.intro.title": "¿Qué son los resultados provisorios?",
   "provisional.intro.what": "Antes de los resultados finales hacemos varias simulaciones del Math Trade con los deseos comprometidos. Acá ves, para cada juego que ofrecés, qué te tocaría recibir en esas simulaciones y cuántas veces salió cada cosa.",
   "provisional.intro.final": "<strong>No son los resultados finales:</strong> el resultado final puede salir distinto. Sirven para que veas si te gustan tus posibles cambios y para detectar algún deseo que cargaste por error.",
-  "provisional.intro.exclude": "Si algo no te sirve, podés autoexcluirte antes de que salgan los finales, pero <strong>tiene consecuencias</strong>: perdés el depósito, no participás de la edición siguiente y en la que vuelvas podés ofrecer hasta 5 ítems.",
+  "provisional.intro.exclude": "Si detectás algún error, podés autoexcluirte antes de que salgan los finales, pero <strong>tiene consecuencias</strong>: perdés el depósito, no participás de la edición siguiente y en la que vuelvas podés ofrecer hasta 5 ítems.",
   "provisional.none": "Todavía no hay resultados provisorios publicados.",
   "provisional.card.yours": "Tu juego",
   "provisional.card.got": "En $$$ corridas te salió:",
