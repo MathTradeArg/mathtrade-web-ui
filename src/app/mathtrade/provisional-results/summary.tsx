@@ -1,7 +1,8 @@
 "use client";
 import clsx from "clsx";
-import I18N from "@/i18n";
+import I18N, { getI18Ntext } from "@/i18n";
 import Thumbnail from "@/components/thumbnail";
+import StatusBadge from "@/components/status-badge";
 import { cardKindBorderClass, resolveItemKind } from "@/components/badgeType/cardKind";
 import type { ProvisionalItem, ProvisionalSummaryRow } from "./useProvisionalResults";
 
@@ -9,7 +10,7 @@ const coverOf = (item?: ProvisionalItem | null) =>
   item?.elements?.[0]?.element?.thumbnail || "";
 
 const TimesChip = ({ count }: { count: number }) => (
-  <span className="inline-block rounded-full bg-primary/10 text-primary text-xs font-bold px-2 py-0.5">
+  <span className="inline-block shrink-0 whitespace-nowrap rounded-full bg-primary/10 text-primary text-xs font-bold px-2 py-0.5">
     {/* "1 vez" has no placeholder: pass the count only to "$$$ veces". */}
     <I18N
       id={`provisional.tile.times.${count === 1 ? "one" : "many"}`}
@@ -18,15 +19,18 @@ const TimesChip = ({ count }: { count: number }) => (
   </span>
 );
 
-// One result: a game this item got in some of the runs, and how many times.
+// One result: what this item got in some of the runs, and how many times.
+// It shows exactly which copy it is (edition, language, publisher, year,
+// box and components condition, the owner's comment) so a wrong language or
+// edition can be spotted — but not who gives it.
 const ResultTile = ({ item, count }: { item: ProvisionalItem; count: number }) => (
   <div
     className={clsx(
-      "flex flex-col rounded-lg border border-gray-200 overflow-hidden bg-white",
+      "flex gap-3 rounded-lg border border-gray-200 bg-white p-2",
       cardKindBorderClass(resolveItemKind(item))
     )}
   >
-    <div className="relative h-20 bg-gray-100 shrink-0">
+    <div className="relative w-16 h-16 shrink-0 rounded bg-gray-100 overflow-hidden">
       <Thumbnail
         fill
         contain
@@ -34,23 +38,62 @@ const ResultTile = ({ item, count }: { item: ProvisionalItem; count: number }) =
         className="w-full h-full"
       />
     </div>
-    <div className="flex-1 flex flex-col justify-between gap-1.5 p-2">
-      <p
-        className="text-xs font-semibold leading-snug line-clamp-2"
-        title={item.title || ""}
-      >
-        {item.title}
-      </p>
-      <div>
+    <div className="min-w-0 flex-1">
+      <div className="flex items-start justify-between gap-2">
+        <p className="min-w-0 text-sm font-semibold leading-snug" title={item.title || ""}>
+          {item.title}
+        </p>
         <TimesChip count={count} />
       </div>
+      {(item.elements || []).map((copy: any) => {
+        const edition = copy?.element || {};
+        const facts = [
+          edition.name,
+          edition.language,
+          edition.publisher,
+          edition.year,
+        ].filter(Boolean);
+        return (
+          <div key={copy.id} className="mt-1.5 text-xs text-gray-600">
+            {(item.elements || []).length > 1 ? (
+              <p className="font-semibold text-gray-800">
+                {edition.game?.primary_name}
+              </p>
+            ) : null}
+            {facts.length ? (
+              <p>
+                <span className="font-semibold">
+                  <I18N id="provisional.tile.edition" />
+                </span>{" "}
+                {facts.join(" · ")}
+              </p>
+            ) : null}
+            <div className="flex flex-wrap items-center gap-1 mt-1">
+              <StatusBadge
+                status={copy.box_status}
+                type="box"
+                label={getI18Ntext("provisional.tile.box")}
+                noTooltip
+              />
+              <StatusBadge
+                status={copy.component_status}
+                label={getI18Ntext("provisional.tile.components")}
+                noTooltip
+              />
+            </div>
+            {copy.comment ? (
+              <p className="mt-1 italic">“{copy.comment}”</p>
+            ) : null}
+          </div>
+        );
+      })}
     </div>
   </div>
 );
 
 // The runs where the item didn't trade.
 const NoTradeTile = ({ count }: { count: number }) => (
-  <div className="flex flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-gray-300 bg-gray-50 p-2 text-center min-h-[8.5rem]">
+  <div className="flex flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-gray-300 bg-gray-50 p-3 text-center">
     <p className="text-xs font-semibold text-gray-600">
       <I18N id="provisional.tile.noTrade" />
     </p>
@@ -116,7 +159,7 @@ const SummaryCard = ({ row }: { row: ProvisionalSummaryRow }) => {
             values={[outcomes.length]}
           />
         </p>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="flex flex-col gap-2">
           {received.map(({ item: got, count }) => (
             <ResultTile key={got.id} item={got} count={count} />
           ))}
