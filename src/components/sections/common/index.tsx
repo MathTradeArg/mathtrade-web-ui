@@ -1,5 +1,5 @@
 "use client";
-import { LoadingBox } from "@/components/loading";
+import { PageLoading } from "@/components/loading";
 import Wrapper from "@/components/wrapper";
 import clsx from "clsx";
 
@@ -20,7 +20,7 @@ const SectionCommon = ({
         })}
       >
         {children}
-        <LoadingBox loading={loading} transparent />
+        <PageLoading loading={loading} />
       </section>
     </Wrapper>
   );

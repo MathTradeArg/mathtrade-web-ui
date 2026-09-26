@@ -1,5 +1,5 @@
 "use client";
-import { LoadingBox } from "@/components/loading";
+import { PageLoading } from "@/components/loading";
 import clsx from "clsx";
 import Icon from "../../icon";
 import { useContext, type ReactNode } from "react";
@@ -127,7 +127,7 @@ const SectionWithSidebar = ({
           )}
         >
           {children}
-          <LoadingBox loading={loading} transparent />
+          <PageLoading loading={loading} />
         </section>
       </Wrapper>
     </SidebarContextProvider>

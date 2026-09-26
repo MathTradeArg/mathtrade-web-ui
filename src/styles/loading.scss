@@ -13,14 +13,32 @@ $left-diff: $top-diff;
   // Above the page content, below the sidebar (60), its panels (60-70) and
   // the filters aside (20): loading a section must not cover them.
   z-index: 15;
-  // No backdrop blur: it also applied to the "transparent" variant (what
-  // pages use), blurring a section-sized rectangle that looked broken.
   background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(2px);
   border-radius: 10px;
   animation-duration: 0.2s;
 
   &.transparent {
     background-color: transparent;
+    backdrop-filter: none;
+  }
+
+  // Page loading: blurs the whole content area (the viewport right of the
+  // sidebar, top to bottom), not just the section's box. Below the sidebar,
+  // its panels and the mobile tab bar (z 50-70), which stay usable.
+  &.page {
+    position: fixed;
+    z-index: 40;
+    border-radius: 0;
+    padding-top: 0;
+    place-content: center;
+    background-color: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(3px);
+
+    // Same breakpoint as the sidebar (Tailwind lg); widths set inline.
+    @media (min-width: 1024px) {
+      left: var(--sidebar-w, 260px);
+    }
   }
 
   &.min {
