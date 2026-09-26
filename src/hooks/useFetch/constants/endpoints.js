@@ -112,6 +112,7 @@ const endpoints = {
 
   // MATHTRADE: ADMIN PANEL
   PATCH_MATHTRADE_ADMIN: "api/mathtrades/$[1]/",
+  POST_MATHTRADE_ADMIN: "api/mathtrades/",
   POST_MATHTRADE_RULEBOOK: "api/mathtrades/$[1]/rulebook/",
   GET_CONTRIBUTION_ACCOUNTS: "api/mathtrades/$[1]/contribution-accounts/",
   POST_CONTRIBUTION_ACCOUNT: "api/mathtrades/$[1]/contribution-accounts/",

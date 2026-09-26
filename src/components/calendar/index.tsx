@@ -2,7 +2,7 @@
 import clsx from "clsx";
 import Icon from "@/components/icon";
 import I18N from "@/i18n";
-import useTimeline from "@/hooks/useTimeline";
+import useTimeline, { Venue } from "@/hooks/useTimeline";
 
 const DOT_COLOR: Record<number, string> = {
   1: "bg-sky-500",
@@ -11,28 +11,33 @@ const DOT_COLOR: Record<number, string> = {
   4: "bg-orange-600",
 };
 
-const MeetingAddressCard = ({
-  meetingAddress,
-}: {
-  meetingAddress: { name: string; address: string; location: string; url: string };
-}) => {
-  const { name, address, location, url } = meetingAddress;
-  return (
-    <a
-      href={url}
-      rel="noreferrer nofollow"
-      target="_blank"
-      className="mt-1 flex gap-2 bg-primary/10 border border-primary text-sky-900 p-2 rounded-lg w-fit hover:opacity-80 transition-opacity"
-    >
+const VenueCard = ({ venue }: { venue: Venue }) => {
+  const { name, address, url } = venue;
+  const content = (
+    <>
       <div className="text-xl">
         <Icon type="map" />
       </div>
       <div className="text-xs pr-1">
         <h5 className="font-bold">{name}</h5>
-        <p>{address}</p>
-        <p>{location}</p>
+        {address ? <p>{address}</p> : null}
       </div>
+    </>
+  );
+  const className =
+    "mt-1 flex gap-2 bg-primary/10 border border-primary text-sky-900 p-2 rounded-lg w-fit";
+  // Linked to the map only when the edition has a map link.
+  return url ? (
+    <a
+      href={url}
+      rel="noreferrer nofollow"
+      target="_blank"
+      className={`${className} hover:opacity-80 transition-opacity`}
+    >
+      {content}
     </a>
+  ) : (
+    <div className={className}>{content}</div>
   );
 };
 
@@ -45,7 +50,7 @@ const Calendar = ({ compact = false }: { compact?: boolean }) => {
 
   return (
     <ol className="relative border-l-2 border-gray-200 ml-2">
-      {milestones.map(({ key, title, color, meetingAddress, date, state }) => (
+      {milestones.map(({ key, title, color, venue, date, state }) => (
         <li
           key={key}
           className={clsx("relative pl-5", compact ? "pb-3" : "pb-5", {
@@ -75,9 +80,7 @@ const Calendar = ({ compact = false }: { compact?: boolean }) => {
           >
             <I18N id={title} />
           </div>
-          {meetingAddress ? (
-            <MeetingAddressCard meetingAddress={meetingAddress} />
-          ) : null}
+          {venue ? <VenueCard venue={venue} /> : null}
         </li>
       ))}
     </ol>
