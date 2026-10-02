@@ -6,17 +6,44 @@ import SectionCommon from "@/components/sections/common";
 import ErrorAlert from "@/components/errorAlert";
 import EmptyList from "@/components/emptyList";
 import ConfirmModal from "@/components/confirmModal";
-import I18N from "@/i18n";
+import I18N, { getI18Ntext } from "@/i18n";
 import useFetch from "@/hooks/useFetch";
 import { PRIVATE_ROUTES } from "@/config/routes";
 
 type Person = { id: number; first_name: string; last_name: string } | null;
+
+type ItemElement = {
+  name: string;
+  thumbnail: string | null;
+  box_status: string;
+  component_status: string;
+  comment: string;
+  images: string;
+};
+
+type ItemDetail = {
+  id: number;
+  title: string;
+  owner: (Person & { username: string }) | null;
+  location: string | null;
+  elements: ItemElement[];
+} | null;
+
+type ReportComment = {
+  id: number;
+  user_info: Person;
+  comment: string;
+  created: string;
+};
 
 type ReportRow = {
   id: number;
   user: Person;
   reported_user: Person;
   item_title: string | null;
+  item_detail: ItemDetail;
+  images: string | null;
+  comments: ReportComment[];
   assigned_trade_code: string | number | null;
   box_number: number | null;
   box_origin_name: string | null;
@@ -35,6 +62,33 @@ const FILTERS = [
 
 const fullName = (person: Person) =>
   person ? `${person.first_name} ${person.last_name}`.trim() : "-";
+
+// Comma-separated photo URLs (report and copy photos), as thumbnails that
+// open the full photo.
+const Photos = ({ images }: { images?: string | null }) => {
+  const urls = (images || "").split(",").map((url) => url.trim()).filter(Boolean);
+  if (!urls.length) return null;
+  return (
+    <div className="flex flex-wrap gap-2 mt-2">
+      {urls.map((url) => (
+        <a key={url} href={url} target="_blank" rel="noreferrer">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={url}
+            alt=""
+            className="w-20 h-20 object-cover rounded border border-gray-200 hover:opacity-80"
+          />
+        </a>
+      ))}
+    </div>
+  );
+};
+
+const Label = ({ id }: { id: string }) => (
+  <div className="text-xs font-bold uppercase text-gray-500 mb-1">
+    <I18N id={id} />
+  </div>
+);
 
 // Admins only (route "onlyForAdmin"): the edition's item, user and box
 // reports, the same ones volunteers see in the logistics app.
@@ -100,55 +154,14 @@ const AdminReportsPage = () => {
             <EmptyList visible icon="status-box" message="adminReports.none" />
           ) : null}
           {list.length ? (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-left text-gray-500 border-b border-gray-200">
-                    <th className="py-2 pr-4"><I18N id="adminReports.col.date" /></th>
-                    <th className="py-2 pr-4"><I18N id="adminReports.col.by" /></th>
-                    <th className="py-2 pr-4"><I18N id="adminReports.col.what" /></th>
-                    <th className="py-2 pr-4"><I18N id="adminReports.col.comment" /></th>
-                    <th className="py-2 pr-4"><I18N id="adminReports.col.state" /></th>
-                    <th className="py-2" />
-                  </tr>
-                </thead>
-                <tbody>
-                  {list.map((row) => (
-                    <tr key={row.id} className="border-b border-gray-100 align-top">
-                      <td className="py-2 pr-4 whitespace-nowrap">{row.created}</td>
-                      <td className="py-2 pr-4">{fullName(row.user)}</td>
-                      <td className="py-2 pr-4 min-w-[12rem]">
-                        {row.item_title ? (
-                          <div>
-                            <span className="text-gray-500"><I18N id="adminReports.item" />: </span>
-                            {row.assigned_trade_code ? `${row.assigned_trade_code} - ` : ""}
-                            {row.item_title}
-                          </div>
-                        ) : null}
-                        {row.reported_user ? (
-                          <div>
-                            <span className="text-gray-500"><I18N id="adminReports.user" />: </span>
-                            {fullName(row.reported_user)}
-                          </div>
-                        ) : null}
-                        {row.box_number ? (
-                          <div className="text-xs text-gray-600">
-                            <I18N
-                              id="adminReports.box"
-                              values={[row.box_number, row.box_origin_name || "-", row.box_destination_name || "-"]}
-                            />
-                          </div>
-                        ) : null}
-                        {row.found_in_box_number ? (
-                          <div className="text-xs text-green-700">
-                            <I18N id="adminReports.foundIn" values={[row.found_in_box_number]} />
-                          </div>
-                        ) : null}
-                      </td>
-                      <td className="py-2 pr-4 min-w-[14rem] max-w-md text-gray-700 whitespace-pre-line">
-                        {row.comment || "-"}
-                      </td>
-                      <td className="py-2 pr-4 whitespace-nowrap">
+            <div className="flex flex-col gap-4">
+              {list.map((row) => (
+                <article key={row.id} className="border border-gray-200 rounded-lg p-4 bg-white">
+                  <header className="flex flex-wrap items-start justify-between gap-3 mb-3">
+                    <div className="text-sm">
+                      <span className="font-semibold">#{row.id}</span> · {row.created} ·{" "}
+                      <I18N id="adminReports.col.by" />: <strong>{fullName(row.user)}</strong>
+                      <div className="mt-1">
                         {row.resolved_at ? (
                           <span className="text-green-700">
                             <I18N id="adminReports.resolvedAt" values={[row.resolved_at]} />
@@ -158,29 +171,117 @@ const AdminReportsPage = () => {
                             <I18N id="adminReports.open" />
                           </span>
                         )}
-                      </td>
-                      <td className="py-2 text-right whitespace-nowrap">
-                        {!row.resolved_at ? (
-                          <button
-                            type="button"
-                            onClick={() => resolveReport({ urlParams: [row.id] })}
-                            className="rounded-full bg-primary text-white text-xs font-semibold px-3 py-1.5 hover:opacity-90 mr-2"
-                          >
-                            <I18N id="adminReports.resolve" />
-                          </button>
-                        ) : null}
+                      </div>
+                    </div>
+                    <div className="whitespace-nowrap">
+                      {!row.resolved_at ? (
                         <button
                           type="button"
-                          onClick={() => setToDelete(row.id)}
-                          className="text-xs text-red-600 underline"
+                          onClick={() => resolveReport({ urlParams: [row.id] })}
+                          className="rounded-full bg-primary text-white text-xs font-semibold px-3 py-1.5 hover:opacity-90 mr-2"
                         >
-                          <I18N id="adminReports.delete" />
+                          <I18N id="adminReports.resolve" />
                         </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                      ) : null}
+                      <button
+                        type="button"
+                        onClick={() => setToDelete(row.id)}
+                        className="text-xs text-red-600 underline"
+                      >
+                        <I18N id="adminReports.delete" />
+                      </button>
+                    </div>
+                  </header>
+
+                  <section className="mb-3">
+                    <Label id="adminReports.col.comment" />
+                    <p className="text-sm whitespace-pre-line">{row.comment || "-"}</p>
+                    <Photos images={row.images} />
+                  </section>
+
+                  {row.item_detail ? (
+                    <section className="mb-3 rounded-md bg-gray-50 p-3">
+                      <Label id="adminReports.item" />
+                      <div className="text-sm mb-2">
+                        <strong>
+                          {row.assigned_trade_code ? `${row.assigned_trade_code} - ` : ""}
+                          {row.item_detail.title}
+                        </strong>
+                        {row.item_detail.owner ? (
+                          <>
+                            {" · "}
+                            <I18N id="adminReports.owner" />: {fullName(row.item_detail.owner)} (
+                            {row.item_detail.owner.username})
+                          </>
+                        ) : null}
+                        {row.item_detail.location ? ` · ${row.item_detail.location}` : ""}
+                      </div>
+                      {row.item_detail.elements.map((element, k) => (
+                        <div key={k} className="flex gap-3 py-2 border-t border-gray-200 first:border-t-0">
+                          {element.thumbnail ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={element.thumbnail}
+                              alt=""
+                              className="w-14 h-14 object-contain shrink-0"
+                            />
+                          ) : null}
+                          <div className="text-sm min-w-0">
+                            <div className="font-semibold">{element.name}</div>
+                            <div className="text-xs text-gray-600">
+                              <I18N id="adminReports.boxStatus" />: {getI18Ntext(`statusType.box.${element.box_status}`)}
+                              {" · "}
+                              <I18N id="adminReports.componentStatus" />:{" "}
+                              {getI18Ntext(`statusType.components.${element.component_status}`)}
+                            </div>
+                            {element.comment ? (
+                              <p className="text-gray-700 whitespace-pre-line mt-1">{element.comment}</p>
+                            ) : null}
+                            <Photos images={element.images} />
+                          </div>
+                        </div>
+                      ))}
+                    </section>
+                  ) : row.item_title ? (
+                    <section className="mb-3 text-sm">
+                      <Label id="adminReports.item" />
+                      {row.item_title}
+                    </section>
+                  ) : null}
+
+                  {row.reported_user ? (
+                    <section className="mb-3 text-sm">
+                      <Label id="adminReports.user" />
+                      {fullName(row.reported_user)}
+                    </section>
+                  ) : null}
+
+                  {row.box_number ? (
+                    <section className="mb-3 text-sm">
+                      <I18N
+                        id="adminReports.box"
+                        values={[row.box_number, row.box_origin_name || "-", row.box_destination_name || "-"]}
+                      />
+                      {row.found_in_box_number ? (
+                        <div className="text-xs text-green-700">
+                          <I18N id="adminReports.foundIn" values={[row.found_in_box_number]} />
+                        </div>
+                      ) : null}
+                    </section>
+                  ) : null}
+
+                  {row.comments?.length ? (
+                    <section className="text-sm border-t border-gray-200 pt-2">
+                      <Label id="adminReports.thread" />
+                      {row.comments.map((c) => (
+                        <p key={c.id} className="mb-1">
+                          <strong>{fullName(c.user_info)}</strong> ({c.created}): {c.comment}
+                        </p>
+                      ))}
+                    </section>
+                  ) : null}
+                </article>
+              ))}
             </div>
           ) : null}
           <ConfirmModal
