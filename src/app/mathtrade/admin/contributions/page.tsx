@@ -21,7 +21,7 @@ const RejectModal = ({
 }: {
   row: ContributionRow | null;
   onClose: () => void;
-  onReject: (row: ContributionRow, reason: string) => void;
+  onReject: (row: ContributionRow, reason: string, resubmit: boolean) => void;
 }) => {
   const [reason, setReason] = useState("");
   return (
@@ -48,15 +48,30 @@ const RejectModal = ({
             <Button
               type="button"
               color="danger"
+              outline
               disabled={!reason.trim()}
               onClick={() => {
-                onReject(row, reason.trim());
+                onReject(row, reason.trim(), true);
                 setReason("");
               }}
             >
-              <I18N id="adminContributions.reject" />
+              <I18N id="adminContributions.rejectResubmit" />
+            </Button>
+            <Button
+              type="button"
+              color="danger"
+              disabled={!reason.trim()}
+              onClick={() => {
+                onReject(row, reason.trim(), false);
+                setReason("");
+              }}
+            >
+              <I18N id="adminContributions.rejectFinal" />
             </Button>
           </div>
+          <p className="text-xs text-gray-500 mt-3 text-center">
+            <I18N id="adminContributions.rejectHelp" />
+          </p>
         </div>
       ) : null}
     </Modal>
@@ -145,7 +160,15 @@ const ContributionsReviewPage = () => {
                     {row.reviewed_by ? ` · ${row.reviewed_by}` : ""}
                   </p>
                   {row.status === "rejected" && row.rejection_reason ? (
-                    <p className="text-danger">{row.rejection_reason}</p>
+                    <p className="text-danger">
+                      {row.rejection_reason}
+                      {!row.resubmit_allowed ? (
+                        <strong>
+                          {" "}
+                          (<I18N id="adminContributions.final" />)
+                        </strong>
+                      ) : null}
+                    </p>
                   ) : null}
                 </div>
                 <div className="flex flex-wrap items-center gap-2">

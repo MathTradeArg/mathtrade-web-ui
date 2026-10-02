@@ -79,10 +79,16 @@ const AdvContribution = () => {
     state = "rulesQuiz";
   } else if (membership.contribution && membership.contribution.status !== "approved") {
     state = membership.contribution.status; // missing | pending | rejected
+    // Deadline passed, or a final rejection: nothing left to do but know it.
+    if (state !== "pending" && membership.contribution.can_upload === false) {
+      state = "closed";
+    }
   }
   if (!state) return null;
   const deadline =
-    state === "missing" || state === "rejected" ? contributionDeadline(mathtrade) : "";
+    state === "missing" || state === "rejected"
+      ? contributionDeadline(membership?.contribution?.upload_until)
+      : "";
 
   return (
     <Wrapper className="mt-main">

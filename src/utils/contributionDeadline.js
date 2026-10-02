@@ -1,9 +1,9 @@
 import { formatDateString } from "@/utils/dateUtils";
 
-// Receipts are accepted until loading ends (backend contribution_window_open):
-// "03/10 a las 23:59", or "" when the edition has no end of loading.
-export const contributionDeadline = (mathtrade) => {
-  if (!mathtrade?.freeze_geek_date) return "";
-  const { dateObj, hour } = formatDateString(mathtrade.freeze_geek_date);
+// "19/10 a las 23:59" for the receipt deadline the backend sends
+// (membership.contribution.upload_until), or "" when there's none.
+export const contributionDeadline = (uploadUntil) => {
+  if (!uploadUntil) return "";
+  const { dateObj, hour } = formatDateString(uploadUntil);
   return `${dateObj.day}/${dateObj.month} a las ${hour}`;
 };

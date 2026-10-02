@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import copy from "copy-text-to-clipboard";
 import I18N, { getI18Ntext } from "@/i18n";
@@ -8,7 +8,6 @@ import Button from "@/components/button";
 import ErrorAlert from "@/components/errorAlert";
 import { LoadingBox } from "@/components/loading";
 import useFetch from "@/hooks/useFetch";
-import { PageContext } from "@/context/page";
 import { contributionDeadline } from "@/utils/contributionDeadline";
 import { openAuthenticatedFile } from "@/hooks/useFetch/utils";
 
@@ -153,7 +152,6 @@ const ContributionBox = ({
   mathtradeId,
   onChanged,
 }) => {
-  const { mathtrade } = useContext(PageContext);
   if (!isMembership) {
     if (!contributionAmount) return null;
     return (
@@ -178,9 +176,12 @@ const ContributionBox = ({
   }
 
   if (!contribution) return null;
-  const { amount, account, status, rejection_reason, id } = contribution;
-  const deadline = contributionDeadline(mathtrade);
+  const { amount, account, status, rejection_reason, id, can_upload, upload_until, resubmit_allowed } =
+    contribution;
+  const deadline = contributionDeadline(upload_until);
   const needsReceipt = status === "missing" || status === "rejected";
+  // Can't send one now: the deadline passed, or the rejection was final.
+  const closed = needsReceipt && can_upload === false;
 
   return (
     <div className={clsx("border rounded-lg p-4 mb-6", STATUS_STYLE[status])}>
@@ -194,7 +195,18 @@ const ContributionBox = ({
           <I18N id="contribution.rejectionReason" /> {rejection_reason}
         </p>
       ) : null}
-      {needsReceipt ? (
+      {closed ? (
+        <p className="font-semibold mb-3">
+          <I18N
+            id={
+              status === "rejected" && resubmit_allowed === false
+                ? "contribution.finalRejection"
+                : "contribution.closed"
+            }
+          />
+        </p>
+      ) : null}
+      {needsReceipt && !closed ? (
         <>
           {deadline ? (
             <p className="font-semibold mb-3">
