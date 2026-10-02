@@ -41,11 +41,13 @@ const RejectModal = ({
             placeholder={getI18Ntext("adminContributions.reasonPlaceholder")}
             onChange={(e) => setReason(e.target.value)}
           />
-          <div className="flex items-center justify-center gap-3">
-            <Button type="button" color="cancel" outline onClick={onClose}>
+          {/* Stacked: three buttons don't fit side by side in a small modal. */}
+          <div className="flex flex-col items-stretch gap-2">
+            <Button block type="button" color="cancel" outline onClick={onClose}>
               <I18N id="btn.Cancel" />
             </Button>
             <Button
+              block
               type="button"
               color="danger"
               outline
@@ -58,6 +60,7 @@ const RejectModal = ({
               <I18N id="adminContributions.rejectResubmit" />
             </Button>
             <Button
+              block
               type="button"
               color="danger"
               disabled={!reason.trim()}
