@@ -9,6 +9,11 @@ const MILESTONE_TEXT: Record<string, { title: string; color: number }> = {
     title: "timeline.start",
     color: 1,
   },
+  // Optional: only shown when the edition sets it.
+  signup_close_date: {
+    title: "timeline.signupClose",
+    color: 1,
+  },
   freeze_geek_date: {
     title: "timeline.geek",
     color: 1,
