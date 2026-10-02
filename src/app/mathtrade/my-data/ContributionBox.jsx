@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import copy from "copy-text-to-clipboard";
 import I18N, { getI18Ntext } from "@/i18n";
@@ -8,6 +8,8 @@ import Button from "@/components/button";
 import ErrorAlert from "@/components/errorAlert";
 import { LoadingBox } from "@/components/loading";
 import useFetch from "@/hooks/useFetch";
+import { PageContext } from "@/context/page";
+import { contributionDeadline } from "@/utils/contributionDeadline";
 import { openAuthenticatedFile } from "@/hooks/useFetch/utils";
 
 export const formatAmount = (amount) => {
@@ -151,6 +153,7 @@ const ContributionBox = ({
   mathtradeId,
   onChanged,
 }) => {
+  const { mathtrade } = useContext(PageContext);
   if (!isMembership) {
     if (!contributionAmount) return null;
     return (
@@ -176,6 +179,7 @@ const ContributionBox = ({
 
   if (!contribution) return null;
   const { amount, account, status, rejection_reason, id } = contribution;
+  const deadline = contributionDeadline(mathtrade);
   const needsReceipt = status === "missing" || status === "rejected";
 
   return (
@@ -192,6 +196,11 @@ const ContributionBox = ({
       ) : null}
       {needsReceipt ? (
         <>
+          {deadline ? (
+            <p className="font-semibold mb-3">
+              <I18N id="contribution.deadline" values={[deadline]} />
+            </p>
+          ) : null}
           <p className="text-sm text-gray-600 mb-3">
             <I18N id="contribution.explanation" />
           </p>

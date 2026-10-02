@@ -10,6 +10,7 @@ import I18N from "@/i18n";
 import { PRIVATE_ROUTES } from "@/config/routes";
 import Icon from "@/components/icon";
 import Wrapper from "@/components/wrapper";
+import { contributionDeadline } from "@/utils/contributionDeadline";
 
 const MIN_REFRESH_INTERVAL_MS = 60 * 1000;
 
@@ -80,6 +81,8 @@ const AdvContribution = () => {
     state = membership.contribution.status; // missing | pending | rejected
   }
   if (!state) return null;
+  const deadline =
+    state === "missing" || state === "rejected" ? contributionDeadline(mathtrade) : "";
 
   return (
     <Wrapper className="mt-main">
@@ -97,6 +100,12 @@ const AdvContribution = () => {
           <I18N id="AdvContribution.link" />
         </Link>
         .
+        {deadline ? (
+          <>
+            {" "}
+            <I18N id="AdvContribution.deadline" values={[deadline]} />
+          </>
+        ) : null}
         <button
           type="button"
           className="absolute top-1 right-1 w-6 h-6"
