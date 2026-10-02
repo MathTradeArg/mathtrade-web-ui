@@ -122,6 +122,11 @@ const endpoints = {
   PUT_CONTRIBUTION_ACCOUNT: "api/mathtrades/$[1]/contribution-accounts/$[2]/",
   DELETE_CONTRIBUTION_ACCOUNT: "api/mathtrades/$[1]/contribution-accounts/$[2]/",
 
+  // FAVORITES (games, per user, across editions)
+  GET_FAVORITES: "api/favorites/games/",
+  POST_FAVORITE: "api/favorites/games/",
+  DELETE_FAVORITE: "api/favorites/games/$[1]/",
+  IMPORT_FAVORITES_BGG: "api/favorites/games/import-bgg/",
   // BAN
   GET_BANS: "api/bans/users/",
   POST_BAN: "api/bans/",
@@ -167,7 +172,7 @@ const endpoints = {
   ADMIN_GET_REPORTS: "api/reports/",
   ADMIN_RESOLVE_REPORT: "api/reports/$[1]/resolve/",
   ADMIN_DELETE_REPORT: "api/reports/$[1]/",
-  QUIT_REPORT: "api/reports/$[1]",
+  QUIT_REPORT: "api/reports/$[1]/",
 
   // https://api.mathtrade.com.ar/api/mathtrades/1/user-want-groups/
   // https://api.mathtrade.com.ar/api/mathtrades/1/user-want-groups/1/
