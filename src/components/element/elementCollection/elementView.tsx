@@ -99,7 +99,7 @@ const ElementView = ({
   const titleColorClass = cardKind === "expansion" ? "text-gameExpansion" : "";
 
   const filledDots = Math.min(5, Math.max(0, Math.round(weight || 0)));
-  const boxSize = boxSizesValues[box_size ?? boxSizeIdToReview];
+  const boxSize = box_size !== null ? boxSizesValues[box_size] : null;
 
   const showEdition = useMemo(() => {
     if (insideItem) {
@@ -292,12 +292,15 @@ const ElementView = ({
             {showEdition ? (
               <>
                 <button
-                  className="bg-primary text-white px-5 py-1 rounded-full font-bold text-sm hover:bg-sky-800  transition-colors"
+                  className={clsx(
+                    "text-white px-5 py-1 rounded-full font-bold text-sm transition-colors",
+                    box_size === null ? "bg-amber-500 hover:bg-amber-600" : "bg-primary hover:bg-sky-800"
+                  )}
                   onClick={toggleEditingMode}
                 >
                   <InnerButton>
                     <Icon type="edit" />
-                    <I18N id="element.Edit" />
+                    {box_size === null ? "Completar Información" : <I18N id="element.Edit" />}
                   </InnerButton>
                 </button>
                 <ButtonAlert
