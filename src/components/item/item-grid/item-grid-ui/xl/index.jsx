@@ -35,7 +35,7 @@ const ItemXL = ({
           <ItemGridHeader onChangeValue={onChangeValue} hideTags={hideTags} />
           {onToggleExpanse ? (
             <button
-              className="absolute top-1 right-1 aspect-square w-7 opacity-50 hover:opacity-100"
+              className="absolute top-1 right-1 aspect-square w-7 flex items-center justify-center opacity-50 hover:opacity-100"
               onClick={onToggleExpanse}
             >
               <div data-tooltip={getI18Ntext("minimize")}>
