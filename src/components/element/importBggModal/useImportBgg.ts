@@ -48,8 +48,8 @@ const useImportBgg = ({ onClose, onSuccess }) => {
       name: g.primary_name,
       thumbnail: g.thumbnail,
       language: g.version_language || "",
-      publisher: "",
-      year: g.year_published || "",
+      publisher: g.version_publisher || "",
+      year: g.version_year || "",
       box_size: null,
     }));
 
