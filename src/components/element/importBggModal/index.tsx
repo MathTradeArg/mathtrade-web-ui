@@ -84,7 +84,10 @@ const ImportBggModal = ({
                         <div className="text-xs mt-1">
                           {game.version_name ? (
                             <span className="text-gray-500">
-                              {game.version_name}{game.version_language ? ` (${game.version_language})` : ""}
+                              {game.version_name}
+                              {game.version_language ? ` (${game.version_language})` : ""}
+                              {game.version_publisher ? ` • ${game.version_publisher}` : ""}
+                              {game.version_year ? ` • ${game.version_year}` : ""}
                             </span>
                           ) : (
                             <span className="text-red-500 font-medium">sin edición cargada</span>
