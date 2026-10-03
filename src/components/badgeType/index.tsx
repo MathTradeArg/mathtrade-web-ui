@@ -65,13 +65,11 @@ const BadgeType = ({
       {subtype === 3 && !isComboBadge ? (
         <Icon type="other" className="shrink-0" />
       ) : null}
-      <span className="truncate">
-        {isComboBadge ? (
-          getI18Ntext("element-type-badge-0")
-        ) : (
-          <I18N id={`cart.wantGroup.type.${type}.${subtype || 1}`} />
-        )}
-      </span>
+      {isComboBadge ? (
+        getI18Ntext("element-type-badge-0")
+      ) : (
+        <I18N id={`cart.wantGroup.type.${type}.${subtype || 1}`} />
+      )}
     </div>
   );
 };

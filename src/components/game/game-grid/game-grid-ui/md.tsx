@@ -92,7 +92,7 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
         </div>
 
         <div className="grow min-w-0 py-3.5 px-4 flex flex-col gap-2.5 items-start">
-          <div className="flex items-center justify-between gap-2 w-full">
+          <div className="flex flex-wrap items-center justify-between gap-2 w-full">
             <BadgeType
               type="game"
               subtype={notGame ? 3 : typeNum || 1}
