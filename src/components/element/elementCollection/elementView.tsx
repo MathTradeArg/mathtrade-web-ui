@@ -113,7 +113,7 @@ const ElementView = ({
 
   // MAT-131: only while the offer window is open, and only for a copy not
   // already offered — matches showEdition's own offer-window awareness.
-  const canAddToMT = showAddToMT && !insideItem && canI.offer && !offered;
+  const canAddToMT = showAddToMT && !insideItem && canI.offer && !offered && box_size !== null;
 
   // The reverse, same place: withdraw the item that offers this copy. Allowed
   // while offering and during wants, like from the offered items; during
@@ -158,7 +158,14 @@ const ElementView = ({
         {header}
 
         <div className="flex items-center justify-between gap-2">
-          <BadgeType type="item" subtype={typeNum || 1} />
+          <div className="flex items-center gap-2">
+            <BadgeType type="item" subtype={typeNum || 1} />
+            {box_size === null ? (
+              <div className="bg-red-100 text-red-700 font-bold text-[10px] px-2 py-[2px] rounded uppercase whitespace-nowrap">
+                <I18N id="myOffer.item.missingInfo" />
+              </div>
+            ) : null}
+          </div>
           {offered ? (
             <div className="shrink-0 uppercase font-bold bg-gray-800 text-white text-[10px] px-3 py-[3px] rounded-full whitespace-nowrap">
               <I18N id="element.Offered" />

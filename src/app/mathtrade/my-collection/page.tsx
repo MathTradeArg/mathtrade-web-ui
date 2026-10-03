@@ -21,6 +21,8 @@ import TourDemo from "@/tours/demo/TourDemo";
 import { demoElement } from "@/tours/demo/demoData";
 import ImportBggModal from "@/components/element/importBggModal";
 import { PageContext } from "@/context/page";
+import OptionChips from "@/components/filters/optionChips";
+import { getI18Ntext } from "@/i18n";
 
 const collectionFaq = {
   question: "collectionFaq.question",
@@ -82,9 +84,27 @@ const MyCollectionPage = () => {
                 />
               }
               extra={
-                canI.offer ? (
-                  <HelpContext id="howToOfferCollection" />
-                ) : null
+                <div className="flex items-center gap-4">
+                  {canI.offer ? (
+                    <HelpContext id="howToOfferCollection" />
+                  ) : null}
+                  <OptionChips
+                    filterType="collection"
+                    name="ready"
+                    allowEmpty
+                    emptyLabel={getI18Ntext("myOffer.filter.ready.all")}
+                    options={[
+                      {
+                        value: "ready",
+                        text: getI18Ntext("myOffer.filter.ready.ready"),
+                      },
+                      {
+                        value: "missing",
+                        text: getI18Ntext("myOffer.filter.ready.missing"),
+                      },
+                    ]}
+                  />
+                </div>
               }
               sort={<OrderBy type="collection" options={optionsOrder} />}
             />
