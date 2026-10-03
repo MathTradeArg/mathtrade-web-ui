@@ -19,7 +19,7 @@ const useImportBgg = ({ onClose, onSuccess }) => {
   });
 
   useEffect(() => {
-    getBggCollection({ queryParams: { inCollection: true } });
+    getBggCollection({ params: { inCollection: true } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -43,10 +43,10 @@ const useImportBgg = ({ onClose, onSuccess }) => {
 
     const payload = gamesToImport.map((g: any) => ({
       bgg_id: g.bgg_id,
-      type: g.type === "boardgame" || g.typeNum === 1 ? 1 : 2, 
+      type: g.type,
       bgg_version_id: "other",
       name: g.primary_name,
-      thumbnail: g.game_thumbnail,
+      thumbnail: g.thumbnail,
       language: "",
       publisher: "",
       year: g.year_published || "",

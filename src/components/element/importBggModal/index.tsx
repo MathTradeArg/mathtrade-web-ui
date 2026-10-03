@@ -38,8 +38,10 @@ const ImportBggModal = ({
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6 bg-white">
-          <LoadingBox loading={isProcessing} min>
+        <div className="flex-1 overflow-y-auto p-6 bg-white relative">
+          <LoadingBox loading={isProcessing} min zIndex={10} />
+          
+          <div className={isProcessing ? "opacity-50 pointer-events-none" : ""}>
             <p className="text-gray-500 mb-6">
               Seleccioná los juegos que querés agregar a tu ludoteca. Se cargarán con <strong>falta de información</strong> para que luego puedas completar el tamaño de caja, edición e idioma.
             </p>
@@ -68,13 +70,13 @@ const ImportBggModal = ({
                     >
                       <div className="flex-shrink-0 w-16 h-16">
                         <Thumbnail
-                          elements={[{ thumbnail: game.game_thumbnail, title: game.primary_name }]}
+                          elements={[{ thumbnail: game.thumbnail, name: game.primary_name }]}
                           className="rounded-lg w-full h-full object-cover"
                         />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <BadgeType size="compact" type="item" subtype={game.typeNum || (game.type === "boardgame" ? 1 : 2)} />
+                          <BadgeType size="compact" type="item" subtype={game.type} />
                         </div>
                         <h3 className="text-sm font-bold text-gray-800 truncate" title={game.primary_name}>
                           {game.primary_name}
@@ -97,7 +99,7 @@ const ImportBggModal = ({
                 })}
               </div>
             )}
-          </LoadingBox>
+          </div>
         </div>
 
         {/* Footer */}
