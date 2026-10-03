@@ -77,7 +77,7 @@ const FavoriteButton = ({ type = "game", className = "" }) => {
           onClick={onClick}
           disabled={adding || removing}
         >
-          <Icon type={active ? "star" : "star-o"} className="text-[13px]" />
+          <Icon type={active ? "star" : "star-o"} className="text-[16px]" />
         </button>
       </div>
     </div>
