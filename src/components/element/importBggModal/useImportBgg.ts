@@ -44,10 +44,10 @@ const useImportBgg = ({ onClose, onSuccess }) => {
     const payload = gamesToImport.map((g: any) => ({
       bgg_id: g.bgg_id,
       type: g.type,
-      bgg_version_id: "other",
+      bgg_version_id: g.version_id ? String(g.version_id) : "other",
       name: g.primary_name,
       thumbnail: g.thumbnail,
-      language: "",
+      language: g.version_language || "",
       publisher: "",
       year: g.year_published || "",
       box_size: null,
