@@ -5,7 +5,7 @@ const nextConfig = {
   env: {
     PAUSED_SITE: "no",
     //
-    API_TEST_MODE: "no",
+    API_TEST_MODE: "yes",
     BASE_URL_TEST: "http://localhost:8000/",
     BASE_URL: "https://api.mathtrade.com.ar/",
     //
