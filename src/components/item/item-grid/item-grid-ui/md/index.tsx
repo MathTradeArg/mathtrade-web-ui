@@ -33,7 +33,7 @@ const ItemMD = ({ onToggleExpanse }: ItemMDProps) => {
         </div>
       ) : null}
       {isOwned && staffObservation ? (
-        <div className="mx-3 mt-2 rounded border border-amber-300 bg-amber-50 px-2 py-1.5 text-[11px] text-amber-950">
+        <div className="mx-3 mt-2 min-w-0 max-w-full rounded border border-amber-300 bg-amber-50 px-2 py-1.5 text-[11px] leading-snug text-amber-950 break-words">
           <span className="font-semibold">
             <I18N id="myOffer.staffObservation.title" />
           </span>
