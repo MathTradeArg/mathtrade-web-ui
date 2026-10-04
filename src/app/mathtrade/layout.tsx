@@ -9,16 +9,9 @@ import AdvCompromise from "@/components/header/advCompromise";
 import AdvSelfExcluded from "@/components/header/advSelfExcluded";
 import AdvContribution from "@/components/header/advContribution";
 import AdvSolidario from "@/components/header/advSolidario";
-import dynamic from "next/dynamic";
+import PrivateEnvironmentNoSSR from "@/environments/private/no-ssr";
 import EarlyPayPopup from "@/components/earlyPayPopup";
 import type { ReactNode } from "react";
-
-const PrivateEnvironmentNoSSR = dynamic(
-  () => import("@/environments/private"),
-  {
-    ssr: false,
-  }
-);
 
 export default function MathTradeLayout({ children }: { children: ReactNode }) {
   return (
