@@ -11,7 +11,6 @@ import I18N from "@/i18n";
 import Icon from "@/components/icon";
 import BanUsers from "@/components/ban/users";
 import UnignoreAll from "@/components/ban/unignore-all";
-import ClearAllScores from "@/components/value/clear-all";
 import HelpContext from "@/components/help-context";
 import FilterBlock from "../block";
 import TypeChips from "../typeChips";
@@ -134,7 +133,6 @@ const FiltersForGames = () => {
           <InputContainer className="mb-0">
             <Label text="filter.Value" name="value" size="sm" />
             <RangeTwo data={data} name="value" />
-            <ClearAllScores scope="others" />
           </InputContainer>
           <InputContainer className="mb-0">
             <Label text="filter.Rating.geek" name="rate" size="sm" />
