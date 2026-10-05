@@ -82,6 +82,7 @@ const useBanUserList = () => {
         return {
           id,
           avatar,
+          first_name,
           name: `${first_name} ${last_name}`,
           last_name,
           location: location?.name || "-",
