@@ -1,12 +1,12 @@
 import clsx from "clsx";
+import { cardSurfaceClass } from "@/components/badgeType/cardKind";
 
 const ElementWrapperInside = ({ children, padded = true, className = "" }) => {
   return (
     <div
       className={clsx(
-        // min-w-0/max-w-full: my-offer row cards (150px thumb + content) used
-        // to grow past the viewport; without a bound, flex children never wrap.
-        "bg-white rounded-lg border border-gray-400 min-w-0 max-w-full w-full",
+        "bg-white rounded-lg border border-gray-400",
+        cardSurfaceClass,
         {
           "p-4": padded,
         },
