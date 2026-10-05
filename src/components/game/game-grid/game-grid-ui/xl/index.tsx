@@ -166,7 +166,7 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
             ) : null}
 
             {showBGGstats ? (
-              <div className="flex flex-wrap gap-1.5 min-w-0 max-w-full">
+              <div className="flex flex-wrap gap-1.5 items-center min-w-0 max-w-full">
                 <BGGPlayers
                   bestPlayers={bestPlayers}
                   minPlayers={minPlayers}
