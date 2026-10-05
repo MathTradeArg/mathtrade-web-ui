@@ -27,6 +27,10 @@ type Mathtrade = {
     approved: number;
     rejected: number;
   } | null;
+  quiz_counts?: {
+    passed: number;
+    missing: number;
+  } | null;
   [key: string]: any;
 };
 
@@ -104,6 +108,14 @@ const EditionRow = ({
               mathtrade.contribution_counts.rejected,
               mathtrade.contribution_counts.missing,
             ]}
+          />
+        </p>
+      ) : null}
+      {mathtrade.quiz_counts ? (
+        <p className="text-sm text-gray-600 mt-1">
+          <I18N
+            id="adminPanel.quiz.counts"
+            values={[mathtrade.quiz_counts.passed, mathtrade.quiz_counts.missing]}
           />
         </p>
       ) : null}

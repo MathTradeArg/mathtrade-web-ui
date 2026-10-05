@@ -84,6 +84,8 @@ const RejectModal = ({
   );
 };
 
+const STATUS_FILTERS = ["pending", "missing", "approved", "rejected", ""];
+
 const ContributionsReviewPage = () => {
   const {
     mathtrades,
@@ -95,6 +97,7 @@ const ContributionsReviewPage = () => {
     setAccount,
     accounts,
     contributions,
+    contributionCounts,
     loading,
     error,
     approve,
@@ -104,11 +107,27 @@ const ContributionsReviewPage = () => {
     viewReceipt,
   } = useContributionsReview();
 
+  const showingMissing = status === "missing";
+
   return (
     <>
       <PageHeader title="title.AdminContributions" variant="minimal" />
       <SectionCommon loading={loading}>
         <div className="md:px-7 px-3 py-7">
+          {contributionCounts ? (
+            <p className="text-sm text-gray-600 mb-4">
+              <I18N
+                id="adminPanel.contribution.counts"
+                values={[
+                  contributionCounts.approved,
+                  contributionCounts.pending,
+                  contributionCounts.rejected,
+                  contributionCounts.missing,
+                ]}
+              />
+            </p>
+          ) : null}
+
           <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 mb-5 w-full min-w-0 max-w-full">
             <select
               className={selectClass}
@@ -125,8 +144,8 @@ const ContributionsReviewPage = () => {
               ))}
             </select>
             <select className={selectClass} value={status} onChange={(e) => setStatus(e.target.value)}>
-              {["pending", "approved", "rejected", ""].map((value) => (
-                <option key={value} value={value}>
+              {STATUS_FILTERS.map((value) => (
+                <option key={value || "all"} value={value}>
                   {getI18Ntext(`adminContributions.filter.${value || "all"}`)}
                 </option>
               ))}
@@ -140,7 +159,10 @@ const ContributionsReviewPage = () => {
               ))}
             </select>
             <p className="text-sm text-gray-600 shrink-0">
-              <I18N id="adminContributions.count" values={[contributions.length]} />
+              <I18N
+                id={showingMissing ? "adminContributions.missingCount" : "adminContributions.count"}
+                values={[contributions.length]}
+              />
             </p>
           </div>
 
@@ -148,56 +170,66 @@ const ContributionsReviewPage = () => {
 
           {contributions.length === 0 && !loading ? (
             <p className="text-gray-500">
-              <I18N id="adminContributions.empty" />
+              <I18N id={showingMissing ? "adminContributions.missingEmpty" : "adminContributions.empty"} />
             </p>
           ) : null}
 
-          {contributions.map((row) => (
-            <div key={row.id} className="border border-stroke rounded-lg p-4 mb-3">
-              <div className="flex flex-wrap items-start justify-between gap-3 min-w-0">
-                <div className="text-sm min-w-0 max-w-full break-words">
-                  <p className="font-bold text-base break-words">
-                    {row.first_name} {row.last_name}{" "}
-                    <span className="font-normal text-gray-500">({row.bgg_user})</span>
-                  </p>
-                  <p className="break-words">{row.email}{row.location ? ` · ${row.location}` : ""}</p>
-                  <p className="break-words">
-                    {formatAmount(row.amount)} → {row.account.holder_name} ({row.account.alias})
-                  </p>
-                  <p className="text-gray-500">
-                    <I18N id={`adminContributions.status.${row.status}`} /> · {formatDate(row.submitted_at)}
-                    {row.reviewed_by ? ` · ${row.reviewed_by}` : ""}
-                  </p>
-                  {row.status === "rejected" && row.rejection_reason ? (
-                    <p className="text-danger">
-                      {row.rejection_reason}
-                      {!row.resubmit_allowed ? (
-                        <strong>
-                          {" "}
-                          (<I18N id="adminContributions.final" />)
-                        </strong>
-                      ) : null}
+          {contributions.map((row) => {
+            const rowKey = row.id ?? `missing-${row.user_id ?? row.email}`;
+            const isMissing = row.status === "missing";
+            return (
+              <div key={rowKey} className="border border-stroke rounded-lg p-4 mb-3">
+                <div className="flex flex-wrap items-start justify-between gap-3 min-w-0">
+                  <div className="text-sm min-w-0 max-w-full break-words">
+                    <p className="font-bold text-base break-words">
+                      {row.first_name} {row.last_name}{" "}
+                      <span className="font-normal text-gray-500">({row.bgg_user})</span>
                     </p>
-                  ) : null}
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <Button sm outline type="button" onClick={() => viewReceipt(row)}>
-                    <I18N id="adminContributions.viewReceipt" />
-                  </Button>
-                  {row.status === "pending" ? (
-                    <>
-                      <Button sm type="button" onClick={() => approve(row)}>
-                        <I18N id="adminContributions.approve" />
+                    <p className="break-words">{row.email}{row.location ? ` · ${row.location}` : ""}</p>
+                    {row.account ? (
+                      <p className="break-words">
+                        {row.amount != null ? `${formatAmount(row.amount)} → ` : ""}
+                        {row.account.holder_name} ({row.account.alias})
+                      </p>
+                    ) : null}
+                    <p className="text-gray-500">
+                      <I18N id={`adminContributions.status.${row.status}`} />
+                      {!isMissing && row.submitted_at ? ` · ${formatDate(row.submitted_at)}` : ""}
+                      {row.reviewed_by ? ` · ${row.reviewed_by}` : ""}
+                    </p>
+                    {row.status === "rejected" && row.rejection_reason ? (
+                      <p className="text-danger">
+                        {row.rejection_reason}
+                        {!row.resubmit_allowed ? (
+                          <strong>
+                            {" "}
+                            (<I18N id="adminContributions.final" />)
+                          </strong>
+                        ) : null}
+                      </p>
+                    ) : null}
+                  </div>
+                  {!isMissing ? (
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Button sm outline type="button" onClick={() => viewReceipt(row)}>
+                        <I18N id="adminContributions.viewReceipt" />
                       </Button>
-                      <Button sm type="button" color="danger" onClick={() => setRejecting(row)}>
-                        <I18N id="adminContributions.reject" />
-                      </Button>
-                    </>
+                      {row.status === "pending" ? (
+                        <>
+                          <Button sm type="button" onClick={() => approve(row)}>
+                            <I18N id="adminContributions.approve" />
+                          </Button>
+                          <Button sm type="button" color="danger" onClick={() => setRejecting(row)}>
+                            <I18N id="adminContributions.reject" />
+                          </Button>
+                        </>
+                      ) : null}
+                    </div>
                   ) : null}
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </SectionCommon>
       <RejectModal row={rejecting} onClose={() => setRejecting(null)} onReject={reject} />
