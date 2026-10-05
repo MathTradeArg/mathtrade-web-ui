@@ -13,7 +13,11 @@ import { ElementContext } from "@/context/element";
 import { PageContext } from "@/context/page";
 import { useContext, useMemo, type ReactNode } from "react";
 import BadgeType from "@/components/badgeType";
-import { resolveCardKind, cardKindBorderClass } from "@/components/badgeType/cardKind";
+import {
+  resolveCardKind,
+  cardKindBorderClass,
+  cardSurfaceClass,
+} from "@/components/badgeType/cardKind";
 import useBGGdata from "@/components/bggInfo/useBGGdata";
 import BGGratings from "@/components/bggInfo/ratings";
 import BGGlink from "@/components/bggInfo/bggLink";
@@ -142,7 +146,8 @@ const ElementView = ({
   return (
     <div
       className={clsx(
-        "relative -m-4 flex-1 flex min-w-0 max-w-full w-full rounded-lg",
+        "relative -m-4 flex-1 flex rounded-lg",
+        cardSurfaceClass,
         isRow ? "flex-row" : "flex-col",
         cardKindBorderClass(cardKind)
       )}
