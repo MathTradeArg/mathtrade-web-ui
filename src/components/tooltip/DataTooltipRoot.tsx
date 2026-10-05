@@ -39,7 +39,7 @@ const readTip = (el: HTMLElement): TipState | null => {
 /**
  * Renders every `data-tooltip` bubble in a fixed FloatingPortal.
  * CSS ::before/::after tooltips clip inside cardSurfaceClass
- * (overflow-x-hidden); portaling keeps the same attribute API without
+ * (overflow-x-clip); portaling keeps the same attribute API without
  * that clipping.
  */
 const Bubble = ({ tip }: { tip: TipState }) => {

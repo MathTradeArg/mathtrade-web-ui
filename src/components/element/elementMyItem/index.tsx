@@ -23,7 +23,7 @@ const ElementMyItem = ({
   return (
     <ElementWrapperInside
       // Unpadded so ElementView's tint fills the card edge. The old
-      // p-4 + ElementView -m-4 cancel was clipped by overflow-x-hidden
+      // p-4 + ElementView -m-4 cancel was clipped by overflow-x-clip
       // on cardSurfaceClass and left a white gutter inside the border.
       padded={false}
       bordered={forAddElement ? true : bordered}

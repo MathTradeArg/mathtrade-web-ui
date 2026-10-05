@@ -62,9 +62,14 @@ export const cardKindBorderClass = (kind: CardKind, edge: 4 | 6 = 6) =>
 
 /* Bounds every card chrome: content wraps/clips inside the white card box,
  * not the page/viewport. Apply on the element that paints the card surface
- * (wrapper, offer-grid shell, my-offer article, previewer shell, …). */
+ * (wrapper, offer-grid shell, my-offer article, previewer shell, …).
+ *
+ * Use overflow-x: clip (not hidden). Per CSS Overflow, overflow-x: hidden
+ * with overflow-y: visible computes y to auto — each card becomes a nested
+ * vertical scrollport and steals touch/wheel from the list/page. clip
+ * still clips the x axis without creating a scroll container. */
 export const cardSurfaceClass =
-  "min-w-0 max-w-full w-full overflow-x-hidden";
+  "min-w-0 max-w-full w-full overflow-x-clip";
 
 type WantGroupLike = {
   type?: string;

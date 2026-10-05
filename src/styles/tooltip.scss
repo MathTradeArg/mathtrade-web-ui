@@ -1,6 +1,6 @@
 /* Tooltip bubbles are rendered by DataTooltipRoot (FloatingPortal +
  * position:fixed). The old ::before/::after approach clipped inside any
- * ancestor with overflow-x-hidden — including cardSurfaceClass shells —
+ * ancestor with overflow-x-clip — including cardSurfaceClass shells —
  * so Geek/Avg help, Chip, Question, etc. lost the left edge of the bubble.
  *
  * Keep the attribute API (`data-tooltip` / `data-placement`); only the
