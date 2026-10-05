@@ -11,7 +11,6 @@ import useApplyToggleFilter from "../useApplyToggleFilter";
 import I18N, { getI18Ntext } from "@/i18n";
 import BanUsers from "@/components/ban/users";
 import UnignoreAll from "@/components/ban/unignore-all";
-import ClearAllScores from "@/components/value/clear-all";
 import Icon from "@/components/icon";
 import HelpContext from "@/components/help-context";
 import FilterBlock from "../block";
@@ -169,7 +168,6 @@ const FiltersForItems = () => {
               <HelpContext id="whatIsThis.value.item" variant="link" />
             </div>
             <RangeTwo data={data} name="value" />
-            <ClearAllScores scope="others" />
           </InputContainer>
 
           <div>
