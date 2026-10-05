@@ -1,8 +1,8 @@
 import I18N from "@/i18n";
 import useBanUserList from "./useBanUserList";
 import Table from "@/components/table";
-import columns from "./columns";
 import getColumns from "./columns";
+import { banUserSearchText } from "./banUserSearchText";
 
 const BanUserList = ({ onClose }) => {
   const { userList, userBans, setUserBans, loading, error } = useBanUserList();
@@ -22,9 +22,7 @@ const BanUserList = ({ onClose }) => {
           columns={getColumns(userBans, setUserBans)}
           loading={loading}
           error={error}
-          searchValuesFunc={(user) => {
-            return `${user?.first_name || ""} ${user?.last_name || ""}`;
-          }}
+          searchValuesFunc={banUserSearchText}
           downloadExcel="participantes-ignorados"
         />
       </div>
