@@ -41,7 +41,7 @@ const ItemUI = ({ tourAnchor = undefined }) => {
     <article
       data-tour={tourAnchor}
       className={clsx(
-        "relative mb-6",
+        "relative mb-6 min-w-0 max-w-full",
         isCombo
           ? clsx("rounded-lg p-3 shadow-md", cardKindBorderClass("combo"))
           : showsAsPlainCard
