@@ -1,13 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactElement } from "react";
 import { pdf } from "@react-pdf/renderer";
 import Doc from "./doc/Doc";
-import {
-  canvasHeight,
-  canvasWidth,
-  elementPerPage,
-  jpegQuality,
-} from "./config";
-import { drawTag } from "./renderer/utils";
+import { elementPerPage } from "./config";
+import PageContent from "./renderer/PageContent";
 import type { Tag } from "./types";
 
 export type LabelsPdfState =
@@ -16,44 +11,11 @@ export type LabelsPdfState =
   | { status: "ready"; drawn: number; total: number; url: string }
   | { status: "error"; drawn: number; total: number; url: null };
 
-const COLS = 2;
-
 // Lets the browser paint the progress between pages.
 const nextTick = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
 
-// Draws one A4 page (up to 4 labels) on a throwaway canvas and returns it as
-// a JPEG blob. A fresh canvas per page keeps drawTag's context state from
-// leaking between pages, and its backing store is released right after.
-const drawPage = async (tags: Tag[]): Promise<Blob> => {
-  const canvas = document.createElement("canvas");
-  canvas.width = canvasWidth;
-  canvas.height = canvasHeight;
-  const ctx = canvas.getContext("2d");
-  // JPEG has no alpha: paint the page white or it comes out black.
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "#000000";
-
-  const rows = Math.ceil(elementPerPage / COLS);
-  const width = Math.round(canvasWidth / COLS);
-  const height = Math.round(canvasHeight / rows);
-  tags.forEach((tag, k) => {
-    const col = k % COLS;
-    const row = Math.floor(k / COLS);
-    drawTag(tag, ctx, width, height, col * width, row * height);
-  });
-
-  const blob = await new Promise<Blob | null>((resolve) =>
-    canvas.toBlob(resolve, "image/jpeg", jpegQuality)
-  );
-  canvas.width = 0;
-  canvas.height = 0;
-  if (!blob) throw new Error("canvas.toBlob returned null");
-  return blob;
-};
-
 // Builds the labels PDF exactly once per `tags` array (keep it referentially
-// stable): pages are drawn one by one, the PDF is rendered once with
+// stable): page nodes are assembled one by one, the PDF is rendered once with
 // react-pdf's pdf().toBlob() outside React's render, and the blob URL is
 // shared by the preview and the download. The URL is revoked when `tags`
 // changes or the component unmounts; a superseded run is abandoned.
@@ -73,12 +35,15 @@ const useLabelsPdf = (tags: Tag[]): LabelsPdfState => {
     setState({ status: "drawing", drawn: 0, total: pageCount, url: null });
 
     const run = async () => {
-      let pages: Blob[] = [];
+      const pages: ReactElement[] = [];
       for (let p = 0; p < pageCount; p++) {
         await nextTick();
         if (cancelled) return;
         pages.push(
-          await drawPage(tags.slice(p * elementPerPage, (p + 1) * elementPerPage))
+          <PageContent
+            key={p}
+            tags={tags.slice(p * elementPerPage, (p + 1) * elementPerPage)}
+          />
         );
         if (cancelled) return;
         setState({ status: "drawing", drawn: p + 1, total: pageCount, url: null });
@@ -87,8 +52,6 @@ const useLabelsPdf = (tags: Tag[]): LabelsPdfState => {
       await nextTick();
       if (cancelled) return;
       const blob = await pdf(<Doc pages={pages} />).toBlob();
-      // The page images are inside the PDF now; drop them.
-      pages = [];
       if (cancelled) return;
       url = URL.createObjectURL(blob);
       setState({ status: "ready", drawn: pageCount, total: pageCount, url });
