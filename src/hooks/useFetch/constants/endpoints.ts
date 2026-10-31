@@ -226,21 +226,6 @@ const endpoints = {
   POST_VOTACION: "api/surveys/answers/",
   GET_VOTACION_RESULTS: "api/surveys/results/",
 
-  // LOGISTICS
-  LOGISTICS_GET_ITEMS: "api/logistics/items/",
-  LOGISTICS_GET_BOXES: "api/logistics/boxes/",
-  LOGISTICS_OPEN_BOX: "api/logistics/boxes/open/",
-  LOGISTICS_PUT_BOX: "api/logistics/boxes/$[1]/",
-  LOGISTICS_DELETE_BOX: "api/logistics/boxes/$[1]/",
-  LOGISTICS_ADD_BOX_ITEM: "api/logistics/boxes/$[1]/items/",
-  LOGISTICS_REMOVE_BOX_ITEM: "api/logistics/boxes/$[1]/items/$[2]/",
-  LOGISTICS_CLOSE_BOX: "api/logistics/boxes/$[1]/close/",
-  //
-  LOGISTICS_GET_TRACKINGS: "api/logistics/trackings/",
-  LOGISTICS_POST_TRACKING: "api/logistics/trackings/",
-  LOGISTICS_PUT_TRACKING: "api/logistics/trackings/$[1]/",
-  LOGISTICS_DELETE_TRACKING: "api/logistics/trackings/$[1]/",
-
   BGG_GET_USER: "api/bgg/user/$[1]/",
   BGG_GET_GAMES: "api/bgg/games/",
   BGG_GET_GAME: "api/bgg/games/$[1]/",
