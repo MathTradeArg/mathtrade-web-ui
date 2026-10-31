@@ -4,6 +4,7 @@ import Avatar from "@/components/avatar";
 import Icon from "@/components/icon";
 import Link from "next/link";
 import { PRIVATE_ROUTES } from "@/config/routes";
+import { LOGISTICS_CITY_URL } from "@/config/logistics";
 import I18N from "@/i18n";
 import useHeaderAccount from "./useHeaderAccount";
 import HeadContent from "../head-content";
@@ -124,13 +125,15 @@ const AccountMenuButton = ({
               <I18N id="title.MyAccount" />
             </Link>
             {isReferrer ? (
-              <Link
-                href={PRIVATE_ROUTES.REFERRALS_AREA.path}
+              <a
+                href={LOGISTICS_CITY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center justify-center gap-1 leading-10 hover:bg-sky-200 font-bold"
                 onClick={toggleMobile}
               >
                 <I18N id="title.referrals-area" />
-              </Link>
+              </a>
             ) : null}
             {user?.math_admin ? (
               <Link
