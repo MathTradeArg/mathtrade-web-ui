@@ -1,6 +1,6 @@
-// One label, in the shape main's drawTag has always drawn.
+// One label, as TagLabel has always laid it out for print.
 export type Tag = {
-  id: string; // 4-digit trade code
+  id: string; // trade code, at least 5 digits
   name: string; // item title, cropped
   from: string; // "Nombre Apellido (Ciudad)"
   to: string; // "Nombre Apellido (Ciudad)"

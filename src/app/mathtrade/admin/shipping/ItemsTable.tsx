@@ -4,7 +4,7 @@ import { KindBadge, LocName } from "./RoutesTable";
 import type { ShippingItem, ShippingPerson } from "./types";
 
 export const tradeCode = (code: number | null) =>
-  code == null ? "0000" : formatTradeCode(code);
+  code == null ? "00000" : formatTradeCode(code);
 
 export const fullName = (person: ShippingPerson) =>
   `${person.first_name} ${person.last_name}`.trim();
