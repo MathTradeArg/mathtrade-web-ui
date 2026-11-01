@@ -7,8 +7,9 @@ import Previewer from "@/components/previewer";
 import {
   resolveItemKind,
 } from "@/components/badgeType/cardKind";
+import { formatTradeCode } from "@/utils/tradeCode";
 
-const ItemChangeUI = () => {
+const ItemChangeUI = ({ code = null }: { code?: number | null }) => {
   const { item } = useContext(ItemContext);
   const { customMathtradeId } = useContext(ResultsContext);
   const { isCombo, elements, title } = item || {};
@@ -20,7 +21,11 @@ const ItemChangeUI = () => {
   }
 
   return (
-    <WantMiniCard
+    <div className="min-w-0">
+      {code ? (
+        <p className="mb-1 font-mono text-xs font-semibold tabular-nums">{formatTradeCode(code)}</p>
+      ) : null}
+      <WantMiniCard
       fill
       title={title}
       elements={[
@@ -37,13 +42,14 @@ const ItemChangeUI = () => {
         />
       }
     />
+    </div>
   );
 };
 
-const ItemChange = ({ item = null }: { item?: any }) => {
+const ItemChange = ({ item = null, code = null }: { item?: any; code?: number | null }) => {
   return item ? (
     <ItemContextProvider itemRaw={item}>
-      <ItemChangeUI />
+      <ItemChangeUI code={code} />
     </ItemContextProvider>
   ) : null;
 };

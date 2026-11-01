@@ -48,6 +48,10 @@ export type TradeRow = {
   assigned_trade_code: number;
   delivered: boolean;
   received: boolean;
+  // Label numbers of the copies, once labels are published. The code lives on
+  // the trade that gives the copy, so the one you receive is another row's.
+  item_to_code?: number | null;
+  item_from_code?: number | null;
 };
 
 const memberOf = (summary: ResultsSummary, userId: number | null | undefined) =>
@@ -94,6 +98,27 @@ export function toTradeRows(
         received: false,
       };
     });
+}
+
+// The label number of each given copy. A user's received copy is item_to on
+// the other person's trade, which is in the full summary.
+export function labelCodesByItem(summary: ResultsSummary): Map<number, number> {
+  const codes = new Map<number, number>();
+  for (const trade of summary.trades) {
+    if (trade.item_to != null && trade.assigned_trade_code) {
+      codes.set(trade.item_to, trade.assigned_trade_code);
+    }
+  }
+  return codes;
+}
+
+export function attachLabelCodes(summary: ResultsSummary, rows: TradeRow[]): TradeRow[] {
+  const codes = labelCodesByItem(summary);
+  return rows.map((row) => ({
+    ...row,
+    item_to_code: row.item_to ? codes.get(row.item_to.id) ?? null : null,
+    item_from_code: row.item_from ? codes.get(row.item_from.id) ?? null : null,
+  }));
 }
 
 // delivered/received from results/?user= rows, matched by trade id.

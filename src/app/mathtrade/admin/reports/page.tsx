@@ -11,6 +11,7 @@ import I18N, { getI18Ntext } from "@/i18n";
 import useFetch from "@/hooks/useFetch";
 import { PRIVATE_ROUTES } from "@/config/routes";
 import { whatsappLink } from "@/utils/whatsapp";
+import { formatTradeCode } from "@/utils/tradeCode";
 import { AdminUserName, useAdminUser } from "@/components/adminUserModal";
 import { ReplyBox } from "@/components/item/item-my/item-ui/reportThread";
 import { PageContext } from "@/context/page";
@@ -310,7 +311,7 @@ const AdminReportsPage = () => {
                 setShowModalPreview(true);
               }}
             >
-              {row.assigned_trade_code ? `${row.assigned_trade_code} - ` : ""}
+              {row.assigned_trade_code ? `${formatTradeCode(row.assigned_trade_code)} - ` : ""}
               {row.item_detail.title}
             </button>
             {row.edited_after_report ? (

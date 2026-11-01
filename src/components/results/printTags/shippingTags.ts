@@ -1,4 +1,5 @@
 import { cropWord } from "@/utils/text";
+import { formatTradeCode } from "@/utils/tradeCode";
 import type {
   ShippingItem,
   ShippingLoc,
@@ -20,7 +21,7 @@ export const shippingItemToTag = (
   const isHub = (loc: ShippingLoc | null) => hubId != null && loc?.id === hubId;
   const viaHub = isHub(via) || isHub(destination) || isHub(origin);
   return {
-    id: String(code || 0).padStart(4, "0"),
+    id: formatTradeCode(code || 0),
     name: cropWord(title, 40),
     from: person(giver),
     to: person(receiver),
