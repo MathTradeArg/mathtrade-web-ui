@@ -21,7 +21,7 @@ export const shippingItemToTag = (
   const viaHub =
     kind !== "local" && (isHub(via) || isHub(destination) || isHub(origin));
   return {
-    id: String(code || 0).padStart(4, "0"),
+    id: String(code || 0).padStart(5, "0"),
     name: cropWord(title, 40),
     from: person(giver),
     to: person(receiver),
