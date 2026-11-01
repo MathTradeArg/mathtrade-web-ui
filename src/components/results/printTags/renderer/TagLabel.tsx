@@ -18,7 +18,7 @@ const cellW = Math.round(canvasWidth / COLS);
 
 const mesaH = 100 * K;
 const sideHex = 130 * K;
-const textW = cellW;
+const textW = cellW - 10 * K;
 const shapeW = cellW - 2 * padShape;
 
 const Fitted = ({
