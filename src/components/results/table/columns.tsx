@@ -9,13 +9,16 @@ import Previewer from "@/components/previewer";
 import Chip from "@/components/chip";
 import { NewUserBadge, useAdminUser } from "@/components/adminUserModal";
 import { maskReceivedItem } from "@/config/jokeGame";
+import { formatTradeCode } from "@/utils/tradeCode";
 
 const ItemChangeUI = ({
   delivered = false,
   received = false,
+  code = null,
 }: {
   delivered?: boolean;
   received?: boolean;
+  code?: number | null;
 }) => {
   const { item } = useContext(ItemContext);
   const { title, elements } = item || {};
@@ -29,6 +32,9 @@ const ItemChangeUI = ({
         className="w-8 rounded-md shrink-0"
         contain
       />
+      {code ? (
+        <span className="shrink-0 font-mono text-xs font-semibold tabular-nums">{formatTradeCode(code)}</span>
+      ) : null}
       <h4 className="text-body font-semibold line-clamp-2 cursor-default min-w-0" title={title}>
         {title}
       </h4>
@@ -50,18 +56,23 @@ const ItemChangeUI = ({
   );
 };
 
+const titled = (code: number | null | undefined, title: string) =>
+  code ? `${formatTradeCode(code)} - ${title}` : title;
+
 const ItemChange = ({
   item = null,
   delivered = false,
   received = false,
+  code = null,
 }: {
   item?: any;
   delivered?: boolean;
   received?: boolean;
+  code?: number | null;
 }) => {
   return item ? (
     <ItemContextProvider itemRaw={item}>
-      <ItemChangeUI delivered={delivered} received={received} />
+      <ItemChangeUI delivered={delivered} received={received} code={code} />
     </ItemContextProvider>
   ) : null;
 };
@@ -97,10 +108,12 @@ const columns = [
         <ItemChange
           item={maskReceivedItem(item_from)}
           received={result?.received}
+          code={result?.item_from_code}
         />
       );
     },
-    excel: ({ item_from }) => maskReceivedItem(item_from)?.title || "-",
+    excel: (result) =>
+      titled(result?.item_from_code, maskReceivedItem(result?.item_from)?.title || "-"),
   },
   {
     header: "result.table.member_from",
@@ -121,9 +134,9 @@ const columns = [
     sort: (a, b, dir) =>
       a?.item_to?.title < b?.item_to?.title ? -1 * dir : dir,
     render: (result, item_to) => {
-      return <ItemChange item={item_to} delivered={result?.delivered} />;
+      return <ItemChange item={item_to} delivered={result?.delivered} code={result?.item_to_code} />;
     },
-    excel: ({ item_to }) => item_to?.title || "-",
+    excel: ({ item_to, item_to_code }) => titled(item_to_code, item_to?.title || "-"),
   },
   {
     header: "result.table.member_to",

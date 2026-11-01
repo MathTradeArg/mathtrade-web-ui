@@ -1,8 +1,10 @@
 import I18N from "@/i18n";
+import { formatTradeCode } from "@/utils/tradeCode";
 import { KindBadge, LocName } from "./RoutesTable";
 import type { ShippingItem, ShippingPerson } from "./types";
 
-export const tradeCode = (code: number | null) => String(code || 0).padStart(4, "0");
+export const tradeCode = (code: number | null) =>
+  code == null ? "00000" : formatTradeCode(code);
 
 export const fullName = (person: ShippingPerson) =>
   `${person.first_name} ${person.last_name}`.trim();

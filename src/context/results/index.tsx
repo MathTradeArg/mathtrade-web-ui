@@ -1,4 +1,4 @@
-import { useContext, createContext, useMemo, useState } from "react";
+import { useContext, createContext, useMemo, useState, type ReactNode } from "react";
 import { PageContext } from "@/context/page";
 
 export const ResultsContext = createContext({
@@ -13,9 +13,17 @@ export const ResultsContext = createContext({
   //
   MathTradeResults: null,
   setMathTradeResults: (_results?: any) => {},
+  // Label numbers show in Visual and Grilla only after the labels are published.
+  showTradeCodes: false,
 });
 
-export const ResultsContextProvider = ({ children }) => {
+export const ResultsContextProvider = ({
+  children,
+  showTradeCodes = false,
+}: {
+  children: ReactNode;
+  showTradeCodes?: boolean;
+}) => {
   /* PAGE CONTEXT *****************************************/
   const { userId } = useContext(PageContext);
   /* end PAGE CONTEXT *****************************************/
@@ -50,6 +58,7 @@ export const ResultsContextProvider = ({ children }) => {
         //
         MathTradeResults,
         setMathTradeResults,
+        showTradeCodes,
       }}
     >
       {children}

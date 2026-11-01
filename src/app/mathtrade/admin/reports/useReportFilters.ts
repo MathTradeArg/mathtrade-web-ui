@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { normalizeString } from "@/utils/text";
+import { formatTradeCode } from "@/utils/tradeCode";
 import { isInternal, type Person, type ReportRow } from "./reportTypes";
 
 // The reports list isn't paginated (`GET reports/?event=1` returns the whole
@@ -32,6 +33,7 @@ const searchText = (row: ReportRow) =>
       row.game_name,
       row.item_detail?.title,
       row.assigned_trade_code,
+      row.assigned_trade_code ? formatTradeCode(row.assigned_trade_code) : "",
       ...(row.item_detail?.elements || []).map((element) => element.name),
       name(row.item_detail?.owner || null),
       row.item_owner?.name,

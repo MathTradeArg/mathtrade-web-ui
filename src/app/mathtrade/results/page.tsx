@@ -58,7 +58,7 @@ export default function Results() {
       </Wrapper>
       <SectionCommon topNotRounded>
         {tabView === 0 ? (
-          <ResultsContextProvider>
+          <ResultsContextProvider showTradeCodes={!!labels?.published}>
             <Dynamic>
               <ResultsUI />
             </Dynamic>

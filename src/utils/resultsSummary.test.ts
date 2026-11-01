@@ -1,7 +1,7 @@
 // Run with: node --test src/utils/resultsSummary.test.ts
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { toTradeRows, applyDeliveryStatus, type ResultsSummary } from "./resultsSummary.ts";
+import { toTradeRows, applyDeliveryStatus, attachLabelCodes, type ResultsSummary } from "./resultsSummary.ts";
 
 const member = (id: number) => ({ id, first_name: `U${id}`, last_name: "L", location: { name: "CABA" }, avatar: null });
 
@@ -59,6 +59,14 @@ test("string and number userId give the same rows", () => {
 test("null summary or user gives []", () => {
   assert.deepEqual(toTradeRows(null, 1), []);
   assert.deepEqual(toTradeRows(summary, null), []);
+});
+
+test("attachLabelCodes uses the giving trade of each copy", () => {
+  const rows = attachLabelCodes(summary, toTradeRows(summary, 1));
+  assert.equal(rows[0].item_to_code, 1);
+  assert.equal(rows[0].item_from_code, 1);
+  assert.equal(rows[1].item_to_code, 2);
+  assert.equal(rows[1].item_from_code, null);
 });
 
 test("applyDeliveryStatus merges by id; unknown ids stay false", () => {

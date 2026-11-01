@@ -33,7 +33,7 @@ const ChangeSection = ({
         </h3>
 
         <div className="col-start-1 row-start-2 min-w-0 h-full">
-          <ItemChange item={maskReceivedItem(item_from)} />
+          <ItemChange item={maskReceivedItem(item_from)} code={result?.item_from_code} />
         </div>
         <div className="col-start-2 row-start-2 self-center">
           <FlowArrow tone="want" />
@@ -45,7 +45,7 @@ const ChangeSection = ({
           <FlowArrow tone="give" />
         </div>
         <div className="col-start-5 row-start-2 min-w-0 h-full">
-          <ItemChange item={item_to} />
+          <ItemChange item={item_to} code={result?.item_to_code} />
         </div>
 
         {received || delivered ? (

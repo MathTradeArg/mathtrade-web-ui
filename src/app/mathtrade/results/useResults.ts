@@ -5,6 +5,7 @@ import useFetch from "@/hooks/useFetch";
 import {
   toTradeRows,
   applyDeliveryStatus,
+  attachLabelCodes,
   type ResultsSummary,
 } from "@/utils/resultsSummary";
 
@@ -31,6 +32,7 @@ const useResults = () => {
     currentUserId,
     setMathTradeResults,
     MathTradeResults,
+    showTradeCodes,
   } = useContext(ResultsContext);
   const currentUser = contextUser as ResultsUser | null;
 
@@ -123,13 +125,12 @@ const useResults = () => {
 
   useEffect(() => {
     if (hasResults && summary) {
-      setMathTradeResults(
-        applyDeliveryStatus(toTradeRows(summary, currentUserId), deliveryStatus)
-      );
+      const rows = applyDeliveryStatus(toTradeRows(summary, currentUserId), deliveryStatus);
+      setMathTradeResults(showTradeCodes ? attachLabelCodes(summary, rows) : rows);
     } else {
       setMathTradeResults(null);
     }
-  }, [setMathTradeResults, hasResults, summary, currentUserId, deliveryStatus]);
+  }, [setMathTradeResults, hasResults, summary, currentUserId, deliveryStatus, showTradeCodes]);
 
   return {
     MathTradeResults,
