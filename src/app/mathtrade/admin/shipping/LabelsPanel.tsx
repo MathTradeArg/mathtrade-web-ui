@@ -28,7 +28,7 @@ const LabelsPanel = ({
   hubId?: number | null;
   labelsFor?: string | null;
 }) => {
-  const [includeLocal, setIncludeLocal] = useState(false);
+  const [includeLocal, setIncludeLocal] = useState(true);
   const [openFor, setOpenFor] = useState<Tag[] | null>(null);
 
   const tags = useMemo(
