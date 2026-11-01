@@ -9,7 +9,7 @@ import {
 import { canvasWidth, elementPerPage } from "../config";
 import type { Tag } from "../types";
 import { fitLine } from "./fitLine";
-import { styles, px, K, pad, padInt, padShape } from "./styles";
+import { styles, px, K, padShape } from "./styles";
 
 type Style = Styles[string];
 
