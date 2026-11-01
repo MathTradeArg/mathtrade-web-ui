@@ -16,10 +16,9 @@ export const shippingItemToTag = (
   item: ShippingItem,
   hubId: number | null
 ): Tag => {
-  const { code, title, giver, receiver, origin, via, destination, kind } = item;
+  const { code, title, giver, receiver, origin, via, destination } = item;
   const isHub = (loc: ShippingLoc | null) => hubId != null && loc?.id === hubId;
-  const viaHub =
-    kind !== "local" && (isHub(via) || isHub(destination) || isHub(origin));
+  const viaHub = isHub(via) || isHub(destination) || isHub(origin);
   return {
     id: String(code || 0).padStart(4, "0"),
     name: cropWord(title, 40),
@@ -30,6 +29,6 @@ export const shippingItemToTag = (
     altLocation: destination
       ? `${destination.name}, ${destination.province}`
       : "-",
-    isAMBA: kind !== "local" && isHub(destination),
+    isAMBA: isHub(destination),
   };
 };

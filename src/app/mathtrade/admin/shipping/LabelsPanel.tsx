@@ -14,7 +14,7 @@ const PrintTags = dynamic(() => import("@/components/results/printTags"), {
 });
 
 // Shipping labels (PDF) for the items of one origin or one sender (what that
-// member sees in "Mis etiquetas", with local trades left out). Nothing is
+// member sees in "Mis etiquetas", with local trades included by default). Nothing is
 // generated until "Ver etiquetas": PrintTags is mounted only after the click,
 // and only for the exact `tags` it was opened for, so any change of filter,
 // of the include-local checkbox or of tab (which unmounts this panel) hides
@@ -28,7 +28,7 @@ const LabelsPanel = ({
   hubId?: number | null;
   labelsFor?: string | null;
 }) => {
-  const [includeLocal, setIncludeLocal] = useState(false);
+  const [includeLocal, setIncludeLocal] = useState(true);
   const [openFor, setOpenFor] = useState<Tag[] | null>(null);
 
   const tags = useMemo(
