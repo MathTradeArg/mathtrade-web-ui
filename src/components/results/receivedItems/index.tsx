@@ -5,6 +5,7 @@ import ModalReceivedItem from "./modal";
 import { LoadingBox } from "@/components/loading";
 import ErrorAlert from "@/components/errorAlert";
 import Item from "./item";
+import DeliveryReportModal from "./deliveryReport/DeliveryReportModal";
 import { maskReceivedItem } from "@/config/jokeGame";
 
 const ReceivedItems = () => {
@@ -17,6 +18,10 @@ const ReceivedItems = () => {
     onOpenReceived,
     itemData,
     setReloadData,
+    reportTarget,
+    openReport,
+    closeReport,
+    reloadReports,
   } = useReceivedItems();
 
   return (
@@ -30,7 +35,7 @@ const ReceivedItems = () => {
         </p>
         <ErrorAlert error={error} />
         <div className="flex flex-col gap-5 min-h-96 relative">
-          {results.map(({ received, item_from, idResult }) => {
+          {results.map(({ received, item_from, idResult, deliveryReport }: any) => {
             return (
               <Item
                 key={item_from?.id}
@@ -38,6 +43,8 @@ const ReceivedItems = () => {
                 idResult={idResult}
                 received={received}
                 onOpenReceived={onOpenReceived}
+                deliveryReport={deliveryReport}
+                onOpenReport={openReport}
               />
             );
           })}
@@ -49,6 +56,11 @@ const ReceivedItems = () => {
         onClose={toggleModal}
         itemData={itemData}
         setReloadData={setReloadData}
+      />
+      <DeliveryReportModal
+        target={reportTarget}
+        onClose={closeReport}
+        onChanged={reloadReports}
       />
     </>
   );

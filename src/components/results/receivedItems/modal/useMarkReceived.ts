@@ -1,7 +1,11 @@
 import useFetch from "@/hooks/useFetch";
 import { useCallback } from "react";
 
-const useMarkReceived = (itemData, onClose, setReloadData) => {
+const useMarkReceived = (
+  itemData: any,
+  onClose?: () => void,
+  setReloadData?: () => void
+) => {
   const afterLoad = useCallback(() => {
     if (setReloadData) setReloadData();
     if (onClose) onClose();

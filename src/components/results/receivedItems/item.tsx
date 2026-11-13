@@ -11,17 +11,27 @@ import {
   cardKindBorderClass,
   cardSurfaceClass,
 } from "@/components/badgeType/cardKind";
+import {
+  reportActionFor,
+  type DeliveryReportRow,
+} from "@/utils/deliveryReports";
+import type { DeliveryReportTarget } from "./deliveryReport/DeliveryReportModal";
 
 const ItemUI = ({
   received = false,
   onOpenReceived = (_value?: any) => {},
   idResult = null,
+  deliveryReport = null,
+  onOpenReport = (_target: DeliveryReportTarget) => {},
 }: {
   received?: boolean;
   onOpenReceived?: (value?: any) => void;
   idResult?: any;
+  deliveryReport?: DeliveryReportRow | null;
+  onOpenReport?: (target: DeliveryReportTarget) => void;
 }) => {
   const { item } = useContext(ItemContext);
+  const reportAction = reportActionFor(received, deliveryReport);
   const { elements, title } = item;
 
   return (
@@ -60,6 +70,30 @@ const ItemUI = ({
           )}
         </div>
       </div>
+      {reportAction !== "none" ? (
+        <div className="flex justify-end bg-white/70 px-3 pb-3 text-sm">
+          <button
+            type="button"
+            className="flex gap-1 items-center py-1 px-3 rounded-md border border-yellow-600 text-yellow-700 font-bold transition-colors hover:bg-yellow-50"
+            onClick={() =>
+              onOpenReport(
+                reportAction === "view" && deliveryReport
+                  ? { title, reportId: deliveryReport.id }
+                  : { title, idResult }
+              )
+            }
+          >
+            <Icon type="report" />
+            <I18N
+              id={
+                reportAction === "view"
+                  ? "deliveryReport.view"
+                  : "deliveryReport.btn"
+              }
+            />
+          </button>
+        </div>
+      ) : null}
     </article>
   );
 };
@@ -69,11 +103,15 @@ const Item = ({
   received = false,
   onOpenReceived = (_value?: any) => {},
   idResult = null,
+  deliveryReport = null,
+  onOpenReport = (_target: DeliveryReportTarget) => {},
 }: {
   itemRaw?: any;
   received?: boolean;
   onOpenReceived?: (value?: any) => void;
   idResult?: any;
+  deliveryReport?: DeliveryReportRow | null;
+  onOpenReport?: (target: DeliveryReportTarget) => void;
 }) => {
   return (
     <ItemContextProvider itemRaw={itemRaw}>
@@ -81,6 +119,8 @@ const Item = ({
         received={received}
         onOpenReceived={onOpenReceived}
         idResult={idResult}
+        deliveryReport={deliveryReport}
+        onOpenReport={onOpenReport}
       />
     </ItemContextProvider>
   );

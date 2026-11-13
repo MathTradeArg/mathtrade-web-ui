@@ -4,7 +4,17 @@ import useMarkReceived from "./useMarkReceived";
 import ErrorAlert from "@/components/errorAlert";
 import { LoadingBox } from "@/components/loading";
 
-const ModalReceivedItem = ({ isOpen, onClose, itemData, setReloadData }) => {
+const ModalReceivedItem = ({
+  isOpen,
+  onClose,
+  itemData,
+  setReloadData,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  itemData: any;
+  setReloadData: () => void;
+}) => {
   const { postReceived, loading, error } = useMarkReceived(
     itemData,
     onClose,

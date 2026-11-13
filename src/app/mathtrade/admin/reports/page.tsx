@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Button from "@/components/button";
 import clsx from "clsx";
 import PageHeader from "@/components/pageHeader";
@@ -16,6 +16,9 @@ import { AdminUserName, useAdminUser } from "@/components/adminUserModal";
 import { ReplyBox } from "@/components/item/item-my/item-ui/reportThread";
 import { PageContext } from "@/context/page";
 import { useStore } from "@/store";
+import Tabs from "@/components/tabs";
+import DeliveryReportsTab from "./deliveryReports/DeliveryReportsTab";
+import { DELIVERY_REPORT_PARAM } from "@/utils/deliveryReports";
 import { isInternal, type Person, type ReportRow } from "./reportTypes";
 import useReportFilters, { STATUSES, type Shared, type Source } from "./useReportFilters";
 import { REPORT_PARAM, clearReportParam } from "@/components/reportModal/useReportFromUrl";
@@ -76,7 +79,7 @@ const Label = ({ id }: { id: string }) => (
 
 // Admins only (route "onlyForAdmin"): the edition's item, user and box
 // reports, the same ones volunteers see in the logistics app.
-const AdminReportsPage = () => {
+const ItemReportsView = ({ tabs }: { tabs: ReactNode }) => {
   const { isNewUser } = useAdminUser();
   const { setItemPreviewId, setShowModalPreview } = useContext(PageContext);
   // The edition in course: a deep-linked report outside the list is only
@@ -467,6 +470,7 @@ const AdminReportsPage = () => {
               <I18N id="adminReports.back" />
             </Button>
           </div>
+          {tabs}
 
           {/* Filter bar: status (with counts) and owner-activity toggles. */}
           <div className="flex flex-wrap items-center gap-2 mb-3">
@@ -621,6 +625,27 @@ const AdminReportsPage = () => {
       </SectionCommon>
     </>
   );
+};
+
+// Two tabs: the copy/user/box reports (as always) and the delivery reports
+// ("Entregas"). ?delivery_report=<id> (the admin's link from the email)
+// lands on the second one.
+const AdminReportsPage = () => {
+  const [tab, setTab] = useState<number | null>(null);
+  useEffect(() => {
+    const fromLink = new URLSearchParams(window.location.search).has(DELIVERY_REPORT_PARAM);
+    setTab(fromLink ? 1 : 0);
+  }, []);
+  if (tab === null) return null;
+  const tabs = (
+    <Tabs
+      list={["adminReports.tab.items", "adminReports.tab.deliveries"]}
+      value={tab}
+      onChange={setTab}
+      toLeft
+    />
+  );
+  return tab === 0 ? <ItemReportsView tabs={tabs} /> : <DeliveryReportsTab tabs={tabs} />;
 };
 
 export default AdminReportsPage;

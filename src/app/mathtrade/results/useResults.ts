@@ -8,6 +8,7 @@ import {
   attachLabelCodes,
   type ResultsSummary,
 } from "@/utils/resultsSummary";
+import { DELIVERY_REPORT_PARAM } from "@/utils/deliveryReports";
 
 const defaultScreenViewResults = 0;
 
@@ -37,7 +38,12 @@ const useResults = () => {
   const currentUser = contextUser as ResultsUser | null;
 
   useEffect(() => {
-    setScreenViewResults(defaultScreenViewResults);
+    // The link in a delivery report email lands on the "received" view,
+    // where the report modal reads the same parameter.
+    const fromReportLink = new URLSearchParams(window.location.search).has(
+      DELIVERY_REPORT_PARAM
+    );
+    setScreenViewResults(fromReportLink ? 2 : defaultScreenViewResults);
   }, [currentUser]);
   /* end RESULTS CONTEXT *****************************************/
 
