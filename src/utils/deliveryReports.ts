@@ -84,3 +84,9 @@ export const nextReportToFetch = (
   lastFetched: number | null,
   wanted: number | null
 ): number | null => (wanted && wanted !== lastFetched ? wanted : null);
+
+// A result row can come without item_from (e.g. the item was removed); the
+// item card cannot render a null item, so those rows are left out of the list.
+export const renderableReceived = <T extends { item_from?: unknown }>(
+  rows: T[] | null | undefined
+): T[] => (rows || []).filter((row) => Boolean(row?.item_from));

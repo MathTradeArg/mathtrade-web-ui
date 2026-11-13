@@ -4,6 +4,7 @@ import useFetch from "@/hooks/useFetch";
 import {
   DELIVERY_REPORT_PARAM,
   openReportsByItem,
+  renderableReceived,
   type DeliveryReportRow,
 } from "@/utils/deliveryReports";
 import type { DeliveryReportTarget } from "./deliveryReport/DeliveryReportModal";
@@ -68,14 +69,14 @@ const useReceivedItems = () => {
   // end DELIVERY REPORTS ********************************************
 
   const results = useMemo(() => {
-    return (resultsRaw?.results || []).map((result: any) => {
+    return renderableReceived<any>(resultsRaw?.results).map((result: any) => {
       const { received, item_from, id: idResult } = result;
 
       return {
         received,
         item_from,
         idResult,
-        deliveryReport: item_from?.id != null ? openReports[item_from.id] || null : null,
+        deliveryReport: item_from.id != null ? openReports[item_from.id] || null : null,
       };
     });
   }, [resultsRaw, openReports]);

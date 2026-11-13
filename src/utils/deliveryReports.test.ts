@@ -3,6 +3,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   nextReportToFetch,
+  renderableReceived,
   openReportsByItem,
   reportActionFor,
   splitPhotos,
@@ -82,4 +83,17 @@ test("nextReportToFetch fetches again for another id, and never without one", ()
   assert.equal(nextReportToFetch(4, 5), 5);
   assert.equal(nextReportToFetch(4, null), null);
   assert.equal(nextReportToFetch(null, null), null);
+});
+
+test("renderableReceived drops rows without item_from (a null item crashed the list)", () => {
+  const rows = [
+    { id: 1, received: false, item_from: { id: 10 } },
+    { id: 2, received: false, item_from: null },
+    { id: 3, received: true, item_from: undefined },
+    { id: 4, received: true, item_from: { id: 11 } },
+  ];
+  const out = renderableReceived(rows);
+  assert.deepEqual(out.map((r) => r.id), [1, 4]);
+  assert.ok(out.every((r) => r.item_from));
+  assert.deepEqual(renderableReceived(null), []);
 });
