@@ -32,14 +32,17 @@ export const ReplyBox = ({
   reportId,
   onSent,
   className = "",
+  endpoint = "POST_REPORT_COMMENT",
 }: {
   reportId: number;
   onSent?: () => void;
   className?: string;
+  // Other threads (delivery reports) post to their own comments endpoint.
+  endpoint?: string;
 }) => {
   const [text, setText] = useState("");
   const [send, , sending, error] = useFetch({
-    endpoint: "POST_REPORT_COMMENT",
+    endpoint,
     method: "POST",
     afterLoad: () => {
       setText("");
