@@ -2,6 +2,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  nextReportToFetch,
   openReportsByItem,
   reportActionFor,
   splitPhotos,
@@ -60,4 +61,25 @@ test("report action: none unless received, view when a report is open", () => {
   assert.equal(reportActionFor(false, row({})), "none");
   assert.equal(reportActionFor(true, null), "create");
   assert.equal(reportActionFor(true, row({})), "view");
+});
+
+// Bug: the modal's effect re-ran on every render (new fetch callback each time),
+// so GET delivery-reports/<id>/ fired in a loop and the spinner never settled.
+test("nextReportToFetch fetches a report id once, however many renders follow", () => {
+  let last: number | null = null;
+  let fetches = 0;
+  for (let render = 0; render < 50; render++) {
+    const id = nextReportToFetch(last, 4);
+    if (id !== null) {
+      fetches++;
+      last = id;
+    }
+  }
+  assert.equal(fetches, 1);
+});
+
+test("nextReportToFetch fetches again for another id, and never without one", () => {
+  assert.equal(nextReportToFetch(4, 5), 5);
+  assert.equal(nextReportToFetch(4, null), null);
+  assert.equal(nextReportToFetch(null, null), null);
 });

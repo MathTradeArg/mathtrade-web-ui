@@ -77,3 +77,10 @@ export const reportActionFor = (
 
 export const personName = (person?: DeliveryReportPerson | null): string =>
   person ? `${person.first_name} ${person.last_name}`.trim() : "-";
+
+// Which report the modal must fetch now: the wanted id only if it is not the
+// one already requested. Keeps the GET to once per id, whatever re-renders.
+export const nextReportToFetch = (
+  lastFetched: number | null,
+  wanted: number | null
+): number | null => (wanted && wanted !== lastFetched ? wanted : null);

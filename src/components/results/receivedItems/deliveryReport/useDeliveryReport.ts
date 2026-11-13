@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import useFetch from "@/hooks/useFetch";
-import type { DeliveryReportRow } from "@/utils/deliveryReports";
+import { nextReportToFetch, type DeliveryReportRow } from "@/utils/deliveryReports";
 
 // One delivery report from the receiver's side: create it from the user's own
 // trade (idResult), or load, comment on (via ReplyBox) and close an existing
@@ -18,15 +18,21 @@ const useDeliveryReport = ({
 
   const [load, , loadingReport, errorLoad] = useFetch({
     endpoint: "GET_DELIVERY_REPORT",
-    afterLoad: (data: DeliveryReportRow) => setReport(data),
+    afterLoad: setReport,
   });
   const reload = useCallback(() => {
     if (reportId) load({ urlParams: [reportId] });
   }, [load, reportId]);
 
+  // Once per id: useFetch's `load` changes identity when its callbacks do, and
+  // depending on it re-fetched in a loop (the spinner never settled).
+  const lastFetched = useRef<number | null>(null);
   useEffect(() => {
+    const id = nextReportToFetch(lastFetched.current, reportId);
+    if (id === null) return;
+    lastFetched.current = id;
     setReport(null);
-    if (reportId) load({ urlParams: [reportId] });
+    load({ urlParams: [id] });
   }, [load, reportId]);
 
   const [send, , sending, errorCreate] = useFetch({
