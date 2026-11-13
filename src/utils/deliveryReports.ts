@@ -90,3 +90,10 @@ export const nextReportToFetch = (
 export const renderableReceived = <T extends { item_from?: unknown }>(
   rows: T[] | null | undefined
 ): T[] => (rows || []).filter((row) => Boolean(row?.item_from));
+
+// Title shown in the report modal. The permalink opens with an empty target
+// title, so fall back to the game title carried by the loaded report.
+export const resolveReportTitle = (
+  targetTitle?: string | null,
+  report?: { item_title?: string | null } | null
+): string => (targetTitle || "").trim() || (report?.item_title || "").trim();

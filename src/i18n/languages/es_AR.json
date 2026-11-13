@@ -2080,6 +2080,7 @@
   "deliveryReport.btn": "Reportar problema",
   "deliveryReport.view": "Ver reporte",
   "deliveryReport.title": "Problema con \"$$$\"",
+  "deliveryReport.titleNoGame": "Problema con el juego",
   "deliveryReport.help": "Contanos qué pasó con el juego que recibiste y sumá al menos una foto. La otra persona y la organización van a ver tu reporte y pueden responderte.",
   "deliveryReport.comment": "¿Qué pasó?",
   "deliveryReport.photos": "Fotos",

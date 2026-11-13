@@ -10,6 +10,7 @@ import DeliveryReportThread from "@/components/deliveryReport/thread";
 import { resolveApiErrorMessage } from "@/utils/apiError";
 import {
   DELIVERY_REPORT_MAX_PHOTOS,
+  resolveReportTitle,
   splitPhotos,
   validateReportForm,
 } from "@/utils/deliveryReports";
@@ -129,10 +130,16 @@ const ModalBody = ({
     onChanged,
   });
 
+  const title = resolveReportTitle(target.title, report);
+
   return (
     <>
       <h2 className="text-center text-balance font-bold text-xl mb-4">
-        <I18N id="deliveryReport.title" values={[target.title || ""]} />
+        {title ? (
+          <I18N id="deliveryReport.title" values={[title]} />
+        ) : (
+          <I18N id="deliveryReport.titleNoGame" />
+        )}
       </h2>
       {isView || report ? (
         <>

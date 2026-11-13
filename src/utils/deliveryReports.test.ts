@@ -6,6 +6,7 @@ import {
   renderableReceived,
   openReportsByItem,
   reportActionFor,
+  resolveReportTitle,
   splitPhotos,
   validateReportForm,
   type DeliveryReportRow,
@@ -96,4 +97,16 @@ test("renderableReceived drops rows without item_from (a null item crashed the l
   assert.deepEqual(out.map((r) => r.id), [1, 4]);
   assert.ok(out.every((r) => r.item_from));
   assert.deepEqual(renderableReceived(null), []);
+});
+
+test("resolveReportTitle falls back to the loaded report's item title (permalink opens with an empty title)", () => {
+  assert.equal(resolveReportTitle("", { item_title: "Catan" }), "Catan");
+  assert.equal(resolveReportTitle(undefined, { item_title: " Catan " }), "Catan");
+  assert.equal(resolveReportTitle("Azul", { item_title: "Catan" }), "Azul");
+});
+
+test("resolveReportTitle returns '' when no title is known, so no empty quotes are rendered", () => {
+  assert.equal(resolveReportTitle("", null), "");
+  assert.equal(resolveReportTitle("", { item_title: "" }), "");
+  assert.equal(resolveReportTitle(null, undefined), "");
 });
