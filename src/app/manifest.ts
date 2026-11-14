@@ -1,14 +1,16 @@
+import type { MetadataRoute } from "next";
 import { DOCUMENT_TITLE, DOCUMENT_DESCRIPTION } from "@/config";
 
-export default function manifest() {
+export default function manifest(): MetadataRoute.Manifest {
+  // "title" and icon "density" are legacy fields missing from Next's Manifest type; kept as-is.
   return {
     title: DOCUMENT_TITLE,
     short_name: DOCUMENT_TITLE,
     description: DOCUMENT_DESCRIPTION,
     start_url: "/",
     display: "standalone",
-    background_color: "#FFFFFF",
-    theme_color: "#FFFFFF",
+    background_color: "#fffaf0",
+    theme_color: "#fffaf0",
     icons: [
       {
         src: "/favicon/android-icon-36x36.png",
@@ -47,5 +49,5 @@ export default function manifest() {
         density: "4.0",
       },
     ],
-  };
+  } as unknown as MetadataRoute.Manifest;
 }

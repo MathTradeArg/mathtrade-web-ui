@@ -39,6 +39,26 @@ const mainFont = localFont({
   ],
 });
 
+const displayFont = localFont({
+  src: [
+    {
+      path: "./fonts/bricolage-grotesque-latin-600-normal.woff2",
+      weight: "600",
+      style: "normal",
+    },
+  ],
+  variable: "--font-display",
+  display: "swap",
+  fallback: [
+    "ui-rounded",
+    "-apple-system",
+    "BlinkMacSystemFont",
+    "Segoe UI",
+    "Roboto",
+    "sans-serif",
+  ],
+});
+
 export const metadata: Metadata = {
   title: DOCUMENT_TITLE,
   description: DOCUMENT_DESCRIPTION,
@@ -105,7 +125,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FFFFFF",
+  themeColor: "#fffaf0",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -113,7 +133,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="es" className={displayFont.variable}>
       <body className={mainFont.className}>
         <ConsoleBufferInit />
         <SentryUser />
