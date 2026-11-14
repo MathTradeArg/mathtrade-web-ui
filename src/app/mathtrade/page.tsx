@@ -24,7 +24,7 @@ export default function HomePage() {
           href={linksToHelp.video}
           target="_blank"
           rel="noopener noreferrer"
-          className="underline underline-offset-2"
+          className="underline underline-offset-2 font-semibold text-brand-ink"
         >
           <I18N id="home.welcome.video" />
         </a>
@@ -33,7 +33,7 @@ export default function HomePage() {
           href={linksToHelp.telegram}
           target="_blank"
           rel="noopener noreferrer"
-          className="underline underline-offset-2"
+          className="underline underline-offset-2 font-semibold text-brand-ink"
         >
           <I18N id="home.welcome.telegram" />
         </a>

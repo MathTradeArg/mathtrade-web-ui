@@ -38,6 +38,7 @@ const MyItemsPage = () => {
     <>
       <PageHeader
         variant="compact"
+        tone="peach"
         title="title.MyItems"
         helpId="page.myOffer"
         alert={canI?.want ? <I18N id="collection.offerClosed.wants" /> : null}

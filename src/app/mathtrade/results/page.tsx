@@ -48,6 +48,7 @@ export default function Results() {
     <>
       <PageHeader
         variant="compact"
+        tone="lilac"
         title="title.Results"
         helpId="page.results"
       />

@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import Pill from "@/components/pill";
 import I18N from "@/i18n";
 
-const PillsStats = ({ data }) => {
+const PillsStats = ({ data }: { data?: any }) => {
   const { percentUsers, percentItems } = useMemo(() => {
     if (!data?.users_count || !data?.items_count) {
       return {
@@ -27,7 +27,8 @@ const PillsStats = ({ data }) => {
           <Pill
             value={data?.games_count || 0}
             label="results.pill.game"
-            className="bg-teal-500"
+            color="mint"
+            art="die"
           />
         </div>
 
@@ -35,8 +36,8 @@ const PillsStats = ({ data }) => {
           <Pill
             value={data?.item_trades || 0}
             label="stats.pill.item"
-            color="item"
-            className="bg-sky-500"
+            color="sky"
+            art="meeple"
             footer={
               <I18N
                 id="stats.pill.item.footer"
@@ -50,7 +51,8 @@ const PillsStats = ({ data }) => {
             <Pill
               value={data?.users_trading}
               label="results.pill.user.commit"
-              className="bg-orange-600"
+              color="peach"
+              art="meeple"
               footer={
                 <I18N
                   id="stats.pill.user.footer"
@@ -62,7 +64,8 @@ const PillsStats = ({ data }) => {
             <Pill
               value={data?.users_count || "-"}
               label="results.pill.user"
-              className="bg-orange-600"
+              color="peach"
+              art="meeple"
             />
           )}
         </div>

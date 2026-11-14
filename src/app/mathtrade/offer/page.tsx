@@ -18,6 +18,7 @@ const OfferPage = () => {
     <>
       <PageHeader
         variant="compact"
+        tone="pink"
         title="title.OfferGames"
         helpId="page.offer"
         alert={screenOfferView === 1 ? <I18N id="alert.duplicateCopies" /> : undefined}

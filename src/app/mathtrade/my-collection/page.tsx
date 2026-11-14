@@ -57,6 +57,7 @@ const MyCollectionPage = () => {
     <>
       <PageHeader
         variant="compact"
+        tone="sun"
         title="title.MyCollection"
         helpId="page.myCollection"
         alert={

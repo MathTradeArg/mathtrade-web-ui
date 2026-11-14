@@ -27,7 +27,8 @@ const PillsResults = () => {
           <Pill
             value={mathtrade?.games_count || 0}
             label="results.pill.game"
-            className="bg-teal-500"
+            color="mint"
+            art="die"
           />
         </div>
 
@@ -35,15 +36,16 @@ const PillsResults = () => {
           <Pill
             value={mathtrade?.items_count || 0}
             label="results.pill.item"
-            color="item"
-            className="bg-sky-500"
+            color="sky"
+            art="meeple"
           />
         </div>
         <div className="md:w-1/3 md:mb-0 mb-6">
           <Pill
             value={userParticipantsValues.count}
             label="results.pill.user.commit"
-            className="bg-orange-600"
+            color="peach"
+            art="meeple"
             footer={
               <I18N
                 id="stats.pill.user.footer"
