@@ -13,6 +13,7 @@ import { useStore } from "@/store";
 import { AdminUserName } from "@/components/adminUserModal";
 import CopyLinkButton from "@/components/previewer/modal/copyLinkButton";
 import ReportThread from "@/components/item/item-my/item-ui/reportThread";
+import ReportStatusPill from "@/components/reportCommon/ReportStatusPill";
 import { closeReport, useReportModalState } from "./reportModalStore";
 import { adminReportPath, focusAdminReport } from "./adminReportFocus";
 import useReportFromUrl, {
@@ -101,10 +102,10 @@ const ReportDetail = ({ reportId }: { reportId: number }) => {
     : "";
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex min-w-0 flex-col gap-3">
       <div className="flex flex-wrap items-center gap-2 text-sm">
         {report.resolved_at ? (
-          <span className="rounded-full bg-green-100 px-2.5 py-0.5 font-semibold text-green-900">
+          <ReportStatusPill open={false}>
             <I18N id="reportView.resolved" values={[report.resolved_at]} />
             {report.resolution === "withdrawn" ? (
               <>
@@ -112,11 +113,11 @@ const ReportDetail = ({ reportId }: { reportId: number }) => {
                 <I18N id="adminReports.resolution.withdrawn" />
               </>
             ) : null}
-          </span>
+          </ReportStatusPill>
         ) : (
-          <span className="rounded-full bg-amber-100 px-2.5 py-0.5 font-semibold text-amber-900">
+          <ReportStatusPill open>
             <I18N id="reportView.open" />
-          </span>
+          </ReportStatusPill>
         )}
         {report.internal ? (
           <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-700">
