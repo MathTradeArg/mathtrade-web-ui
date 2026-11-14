@@ -55,7 +55,7 @@ const Pagination = ({ type = "item", count }) => {
         ) : (
           <span>1</span>
         )}
-        <span className="text-gray-500 whitespace-nowrap">{` / ${total}`}</span>
+        <span className="text-gray-600 whitespace-nowrap">{` / ${total}`}</span>
       </div>
       {notShowNextPage ? null : (
         <button

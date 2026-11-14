@@ -116,7 +116,7 @@ const FiltersForItems = () => {
       </FilterBlock>
 
       <details className="border-t border-line pt-2">
-        <summary className="cursor-pointer text-sm font-semibold text-gray-500">
+        <summary className="cursor-pointer text-sm font-semibold text-gray-600">
           <I18N id="filter.more" />
         </summary>
         <div className="pt-3 flex flex-col gap-4">
@@ -151,7 +151,7 @@ const FiltersForItems = () => {
 
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-xs font-semibold text-gray-500">
+              <span className="text-xs font-semibold text-gray-600">
                 <I18N id="ban.btn-filter.label.item" />
               </span>
               <HelpContext id="whatIsThis.ban.item" variant="link" />
@@ -187,7 +187,7 @@ const FiltersForItems = () => {
           </InputContainer>
 
           <div>
-            <div className="text-xs font-semibold text-gray-500 mb-1.5">
+            <div className="text-xs font-semibold text-gray-600 mb-1.5">
               <I18N id="filter.box.Status" />
             </div>
             <OptionChips
@@ -200,7 +200,7 @@ const FiltersForItems = () => {
           </div>
 
           <div>
-            <div className="text-xs font-semibold text-gray-500 mb-1.5">
+            <div className="text-xs font-semibold text-gray-600 mb-1.5">
               <I18N id="filter.components.Status" />
             </div>
             <OptionChips
@@ -214,7 +214,7 @@ const FiltersForItems = () => {
 
           {dependencyList.length ? (
             <div>
-              <div className="text-xs font-semibold text-gray-500 mb-1.5">
+              <div className="text-xs font-semibold text-gray-600 mb-1.5">
                 <I18N id="filter.Dependency" />
               </div>
               <OptionChips
@@ -241,7 +241,7 @@ const FiltersForItems = () => {
 
           {bestPlayersList.length ? (
             <div>
-              <div className="text-xs font-semibold text-gray-500 mb-1.5">
+              <div className="text-xs font-semibold text-gray-600 mb-1.5">
                 <I18N id="filter.BestPlayers" />
               </div>
               <OptionChips
@@ -254,7 +254,7 @@ const FiltersForItems = () => {
           ) : null}
 
           <div>
-            <div className="text-xs font-semibold text-gray-500 mb-1.5">
+            <div className="text-xs font-semibold text-gray-600 mb-1.5">
               <I18N id="filter.Players" />
             </div>
             <OptionChips

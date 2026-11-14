@@ -76,7 +76,7 @@ const FiltersForGames = () => {
         <TypeChips type="game" options={typeList} />
         {dependencyList.length ? (
           <div className="mt-3">
-            <div className="text-xs font-semibold text-gray-500 mb-1.5">
+            <div className="text-xs font-semibold text-gray-600 mb-1.5">
               <I18N id="filter.Dependency" />
             </div>
             <OptionChips
@@ -90,7 +90,7 @@ const FiltersForGames = () => {
       </FilterBlock>
 
       <details className="border-t border-line pt-2">
-        <summary className="cursor-pointer text-sm font-semibold text-gray-500">
+        <summary className="cursor-pointer text-sm font-semibold text-gray-600">
           <I18N id="filter.more" />
         </summary>
         <div className="pt-3 flex flex-col gap-4">
@@ -125,7 +125,7 @@ const FiltersForGames = () => {
 
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-xs font-semibold text-gray-500">
+              <span className="text-xs font-semibold text-gray-600">
                 <I18N id="ban.btn-filter.label.game" />
               </span>
               <HelpContext id="whatIsThis.ban.game" variant="link" />
@@ -171,7 +171,7 @@ const FiltersForGames = () => {
 
           {bestPlayersList.length ? (
             <div>
-              <div className="text-xs font-semibold text-gray-500 mb-1.5">
+              <div className="text-xs font-semibold text-gray-600 mb-1.5">
                 <I18N id="filter.BestPlayers" />
               </div>
               <OptionChips
@@ -184,7 +184,7 @@ const FiltersForGames = () => {
           ) : null}
 
           <div>
-            <div className="text-xs font-semibold text-gray-500 mb-1.5">
+            <div className="text-xs font-semibold text-gray-600 mb-1.5">
               <I18N id="filter.Players" />
             </div>
             <OptionChips

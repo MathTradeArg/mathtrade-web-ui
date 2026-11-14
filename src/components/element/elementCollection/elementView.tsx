@@ -238,7 +238,7 @@ const ElementView = ({
         </h3>
 
         {titleLink ? null : (
-          <div className="italic text-gray-500 font-bold text-caption -mt-1.5">
+          <div className="italic text-gray-600 font-bold text-caption -mt-1.5">
             <I18N id="element-type-badge-3" />
           </div>
         )}
@@ -428,7 +428,7 @@ const ElementView = ({
                   type="button"
                   disabled
                   aria-describedby={`offered-locked-${element.id}`}
-                  className="text-gray-500 font-bold px-5 py-1 text-sm cursor-not-allowed"
+                  className="text-gray-600 font-bold px-5 py-1 text-sm cursor-not-allowed"
                 >
                   <InnerButton>
                     <Icon type="trash" />

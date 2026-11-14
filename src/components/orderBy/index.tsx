@@ -44,7 +44,7 @@ const OrderBy = ({
         </select>
         <Icon
           type="chevron-down"
-          className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-gray-500"
+          className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-gray-600"
         />
       </div>
       <button

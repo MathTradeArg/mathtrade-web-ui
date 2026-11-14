@@ -16,12 +16,12 @@ const FilterBlock = ({
   return (
     <section data-tour={tourAnchor}>
       {titleId ? (
-        <h3 className="m-0 mb-1.5 text-xs font-semibold text-gray-500">
+        <h3 className="m-0 mb-1.5 text-xs font-semibold text-gray-600">
           <I18N id={titleId} />
         </h3>
       ) : null}
       {hintId ? (
-        <p className="m-0 mb-2 text-xs text-gray-500">
+        <p className="m-0 mb-2 text-xs text-gray-600">
           <I18N id={hintId} />
         </p>
       ) : null}

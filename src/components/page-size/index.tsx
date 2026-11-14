@@ -50,7 +50,7 @@ const PageSize = ({ type = "item" }) => {
           </option>
         ))}
       </select>
-      <span className="text-gray-500 whitespace-nowrap">
+      <span className="text-gray-600 whitespace-nowrap">
         <I18N id="elementsPerPage.short" />
       </span>
     </label>

@@ -34,7 +34,7 @@ const ListSearch = ({
       data-tour={tourAnchor}
       className="flex w-full min-w-0 items-center gap-2 rounded-full border border-line bg-surface px-2.5 h-[34px]"
     >
-      <Icon type="search" className="shrink-0 text-sm text-gray-500" />
+      <Icon type="search" className="shrink-0 text-sm text-gray-600" />
       <input
         autoComplete="off"
         type="search"
