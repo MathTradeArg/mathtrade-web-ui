@@ -17,7 +17,7 @@ const MobileSort = ({ columns, sort, setSort }: Props) => {
   const directionLabel = getI18Ntext(desc ? "orderBy.Descent" : "orderBy.Ascent");
 
   return (
-    <div className="sm:hidden flex items-center h-[34px] rounded-full border border-gray-200 overflow-hidden bg-white shrink-0 max-w-full">
+    <div className="sm:hidden flex items-center h-[34px] rounded-full border border-line overflow-hidden bg-surface shrink-0 max-w-full">
       <div className="relative min-w-0">
         <select
           className="appearance-none bg-transparent text-caption font-semibold text-gray-900 h-[34px] pl-3 pr-7 outline-none cursor-pointer max-w-full"
@@ -48,7 +48,7 @@ const MobileSort = ({ columns, sort, setSort }: Props) => {
       </div>
       <button
         type="button"
-        className="h-[34px] px-3 border-l border-gray-200 bg-gray-100 text-gray-800 flex items-center justify-center hover:bg-gray-200 disabled:opacity-40"
+        className="h-[34px] px-3 border-l border-line bg-surface-strong text-gray-800 flex items-center justify-center hover:bg-line disabled:opacity-40"
         disabled={!sort}
         onClick={() => sort && setSort({ key: sort.key, dir: desc ? "asc" : "desc" })}
         title={directionLabel}

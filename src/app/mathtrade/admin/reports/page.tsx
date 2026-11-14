@@ -38,7 +38,7 @@ const shareErrorKey = (error: any): string => {
 };
 
 const selectClass =
-  "border border-stroke rounded-md p-2 text-sm bg-white w-full sm:w-auto max-w-full min-w-0";
+  "border border-line rounded-md p-2 text-sm bg-surface w-full sm:w-auto max-w-full min-w-0";
 
 // Same quick filter buttons as the admin users page.
 const quickButton = (active: boolean) =>
@@ -46,7 +46,7 @@ const quickButton = (active: boolean) =>
     "rounded-full text-sm font-semibold px-4 py-1.5 border",
     active
       ? "bg-primary text-white border-primary"
-      : "bg-white text-primary border-primary hover:bg-primary/10"
+      : "bg-surface text-primary border-primary hover:bg-primary/10"
   );
 
 const fullName = (person: Person) =>

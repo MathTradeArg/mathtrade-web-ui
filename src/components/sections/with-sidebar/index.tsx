@@ -59,7 +59,7 @@ export const Sidebar = ({
           </strong>
           <button
             type="button"
-            className="w-9 h-9 rounded-[10px] bg-gray-100 text-gray-800 flex items-center justify-center hover:bg-gray-200"
+            className="w-9 h-9 rounded-[10px] bg-surface text-gray-800 flex items-center justify-center hover:bg-surface-strong"
             onClick={closeSidebar}
             aria-label={getI18Ntext("filter.close")}
           >

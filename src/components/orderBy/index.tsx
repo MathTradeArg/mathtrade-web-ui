@@ -26,7 +26,7 @@ const OrderBy = ({
   );
 
   return (
-    <div className="flex items-center h-[34px] rounded-full border border-gray-200 overflow-hidden bg-white shrink-0">
+    <div className="flex items-center h-[34px] rounded-full border border-line overflow-hidden bg-surface shrink-0">
       <div className="relative">
         <select
           name="order"
@@ -49,7 +49,7 @@ const OrderBy = ({
       </div>
       <button
         type="button"
-        className="h-[34px] min-w-[4.5rem] px-2 border-l border-gray-200 bg-gray-100 text-gray-800 flex items-center justify-center gap-1 hover:bg-gray-200"
+        className="h-[34px] min-w-[4.5rem] px-2 border-l border-line bg-surface-strong text-gray-800 flex items-center justify-center gap-1 hover:bg-line"
         onClick={toggleDesc}
         title={`${directionLabel}. ${getI18Ntext("orderBy.Direction.help")}`}
         aria-label={directionLabel}

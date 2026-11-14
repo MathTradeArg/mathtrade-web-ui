@@ -32,7 +32,7 @@ const ListSearch = ({
   return (
     <label
       data-tour={tourAnchor}
-      className="flex w-full min-w-0 items-center gap-2 rounded-full border border-gray-200 bg-gray-100 px-2.5 h-[34px]"
+      className="flex w-full min-w-0 items-center gap-2 rounded-full border border-line bg-surface px-2.5 h-[34px]"
     >
       <Icon type="search" className="shrink-0 text-sm text-gray-500" />
       <input

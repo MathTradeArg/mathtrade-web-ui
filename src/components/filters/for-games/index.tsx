@@ -89,7 +89,7 @@ const FiltersForGames = () => {
         ) : null}
       </FilterBlock>
 
-      <details className="border-t border-gray-200 pt-2">
+      <details className="border-t border-line pt-2">
         <summary className="cursor-pointer text-sm font-semibold text-gray-500">
           <I18N id="filter.more" />
         </summary>

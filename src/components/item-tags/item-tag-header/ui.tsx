@@ -19,7 +19,7 @@ const ItemTagHeaderUI = () => {
   } = useItemTagHeader();
 
   return showingBans || !tag ? null : (
-    <div className="px-3 md:px-4 py-2 border-b border-gray-200 bg-white flex flex-wrap items-center gap-3">
+    <div className="px-3 md:px-4 py-2 border-b border-line bg-surface-soft flex flex-wrap items-center gap-3">
       <span
         className="inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-semibold"
         style={colorTagStyles(tag.color)}

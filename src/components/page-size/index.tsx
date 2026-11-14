@@ -27,7 +27,7 @@ const PageSize = ({ type = "item" }) => {
   }, [type, filters_item, filters_game, filters_collection, filters_myoffer]);
 
   return (
-    <label className="flex items-center h-[34px] px-2.5 rounded-full border border-gray-200 bg-white text-caption font-semibold text-gray-900 shrink-0">
+    <label className="flex items-center h-[34px] px-2.5 rounded-full border border-line bg-surface text-caption font-semibold text-gray-900 shrink-0">
       <select
         name="page_size"
         className="bg-transparent outline-none cursor-pointer pr-0.5"
