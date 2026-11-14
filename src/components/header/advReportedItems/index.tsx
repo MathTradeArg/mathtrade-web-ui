@@ -91,7 +91,7 @@ const AdvReportedItems = () => {
   return (
     <Wrapper className="mt-main">
       <div
-        className="relative w-full max-w-full min-w-0 text-center text-sm sm:text-base leading-snug break-words p-2 pr-8 shadow-main rounded-main border border-amber-300 bg-amber-100 text-amber-950"
+        className="relative w-full max-w-full min-w-0 text-center text-sm sm:text-base leading-snug break-words p-2 pr-8 rounded-main border border-amber-300 bg-amber-100 text-amber-950"
         role="status"
       >
         <I18N id={plural ? "advReportedItems.many" : "advReportedItems.one"} values={[count]} />{" "}

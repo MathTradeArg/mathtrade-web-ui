@@ -76,7 +76,7 @@ const AdvContact = () => {
     <Wrapper className="mt-main">
       <div
         className={clsx(
-          "relative w-full max-w-full min-w-0 text-center text-sm sm:text-base leading-snug break-words p-2 pr-8 shadow-main rounded-main",
+          "relative w-full max-w-full min-w-0 text-center text-sm sm:text-base leading-snug break-words p-2 pr-8 rounded-main",
           state === "missing" ? "bg-red-600 text-white" : "bg-amber-100 text-amber-900"
         )}
       >

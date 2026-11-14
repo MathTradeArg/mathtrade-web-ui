@@ -42,7 +42,7 @@ export default function Statistics() {
     <>
       <Header />
       <Wrapper className="mb-1">
-        <div className="bg-white rounded-t-main shadow-main">
+        <div className="bg-surface-soft border border-line border-b-0 rounded-t-main">
           <Tabs
             list={["stats.screen.current", "stats.screen.historial"]}
             value={screenViewStats}

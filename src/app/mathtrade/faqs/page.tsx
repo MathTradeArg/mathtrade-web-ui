@@ -31,13 +31,13 @@ export default function MyAccount() {
                 links straight to these anchors. */}
             <section
               id="glosario"
-              className="scroll-mt-6 mb-6 bg-white p-5 rounded-xl shadow-lg"
+              className="scroll-mt-6 mb-6 bg-surface p-5 rounded-main"
             >
               <Glossary />
             </section>
             <section
               id="estados"
-              className="scroll-mt-6 mb-8 bg-white p-5 rounded-xl shadow-lg"
+              className="scroll-mt-6 mb-8 bg-surface p-5 rounded-main"
             >
               <Status />
             </section>

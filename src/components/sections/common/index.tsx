@@ -14,9 +14,10 @@ const SectionCommon = ({
   return (
     <Wrapper>
       <section
-        className={clsx("relative bg-white shadow-main", {
+        className={clsx("relative bg-surface-soft border border-line", {
           "rounded-main": !topNotRounded,
           "rounded-b-main": topNotRounded,
+          "border-t-0": topNotRounded,
         })}
       >
         {children}

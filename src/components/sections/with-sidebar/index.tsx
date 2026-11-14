@@ -47,13 +47,13 @@ export const Sidebar = ({
         className={clsx(
           // overflow-hidden + viewport height: only the filter form body scrolls,
           // so Filtrar/Limpiar stay pinned (desktop and mobile).
-          "bg-white lg:sticky lg:top-0 h-full max-h-dvh lg:h-dvh lg:max-h-dvh overflow-hidden sidebar-aside-inner z-sticky flex flex-col border-r border-gray-200",
+          "bg-surface-soft lg:sticky lg:top-0 h-full max-h-dvh lg:h-dvh lg:max-h-dvh overflow-hidden sidebar-aside-inner z-sticky flex flex-col border-r border-line",
           {
             "lg:rounded-tl-main": !topNotRounded,
           }
         )}
       >
-        <div className="flex items-center justify-between gap-2 px-3 h-[52px] border-b border-gray-200 shrink-0">
+        <div className="flex items-center justify-between gap-2 px-3 h-[52px] border-b border-line shrink-0">
           <strong className="text-sm font-semibold">
             <I18N id={titleId} />
           </strong>
@@ -123,9 +123,10 @@ const SectionWithSidebar = ({
       <Wrapper>
         <section
           className={clsx(
-            "relative min-w-0 max-w-full overflow-hidden bg-white shadow-main",
+            "relative min-w-0 max-w-full overflow-hidden bg-surface-soft border border-line",
             {
               "rounded-b-main": topNotRounded,
+              "border-t-0": topNotRounded,
               "rounded-main": !topNotRounded,
             },
             className

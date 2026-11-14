@@ -22,7 +22,7 @@ export default function SignLayout({ children }: { children: ReactNode }) {
             <LogoBig />
           </div>
 
-          <article className="relative bg-white rounded-xl shadow-xl md:px-11 px-4 md:pt-12 pt-10 sm:w-[450px]">
+          <article className="relative bg-white rounded-main shadow-xl md:px-11 px-4 md:pt-12 pt-10 sm:w-[450px]">
             {children}
             <div className="flex justify-center py-1.5 bg-gray-200 md:-mx-11 -mx-4 rounded-b-xl mt-2 border-t border-gray-300">
               <WhatIsMathTrade />

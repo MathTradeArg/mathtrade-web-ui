@@ -26,14 +26,14 @@ const HomeContent = () => {
           <UserQR />
           {/* Numbers and calendar side by side, both stacked. */}
           <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-6 mb-6">
-            <section className="bg-white p-5 rounded-xl shadow-lg">
+            <section className="bg-surface p-5 rounded-main">
               <h2 className="font-bold text-xl mb-4">
                 <I18N id="home.stats.title" />
               </h2>
               <EditionStats />
             </section>
             <section
-              className="bg-white p-5 rounded-xl shadow-lg"
+              className="bg-surface p-5 rounded-main"
               data-tour="home.calendar"
             >
               <h2 className="font-bold text-xl mb-4">
@@ -46,7 +46,7 @@ const HomeContent = () => {
         </>
       ) : null}
       <div
-        className="mb-8 bg-white p-5 rounded-xl shadow-lg"
+        className="mb-8 bg-surface p-5 rounded-main"
         data-tour="home.whatIs"
       >
         <WhatIsMT />

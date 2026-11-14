@@ -2,11 +2,13 @@ import { useEffect, useRef } from "react";
 import { crecimientoData } from "../data/estadisticas";
 import I18N, { getI18Ntext } from "@/i18n";
 
+declare const anychart: any;
+
 const Users = () => {
-  const graphRef = useRef(null);
+  const graphRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     let timer = setInterval(() => {
-      if (window.anychart && graphRef && graphRef.current) {
+      if ((window as any).anychart && graphRef && graphRef.current) {
         clearInterval(timer);
 
         graphRef.current.innerHTML = "";
@@ -42,7 +44,7 @@ const Users = () => {
   }, [graphRef]);
 
   return (
-    <div className="bg-white px-5 py-4 rounded-xl shadow-xl mb-6">
+    <div className="bg-surface px-5 py-4 rounded-main mb-6">
       <h3 className="font-bold text-lg mb-5 text-gray-500 text-balance">
         <I18N id="home.growing.Participants" />
       </h3>
