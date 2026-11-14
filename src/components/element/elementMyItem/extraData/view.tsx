@@ -45,7 +45,7 @@ const ExtraDataView = ({ toggleEditingMode }) => {
       {canI.offer ? (
         <div className="mt-3">
           <button
-            className="bg-primary text-white font-bold px-4 py-1 text-sm rounded-full hover:bg-sky-800  transition-colors"
+            className="bg-brand text-brand-ink font-bold px-4 py-1 text-sm rounded-full hover:brightness-95  transition-colors"
             onClick={toggleEditingMode}
           >
             <InnerButton>

@@ -64,20 +64,20 @@ const PhotoEditor = ({ image, setImage, onLoaded, setIsOpen }) => {
         </div>
         <div className="flex justify-center items-center bg-gray-900 p-3 gap-3  rounded-bl-lg rounded-br-lg">
           <button
-            className="bg-primary w-10 h-10 rounded-full text-white text-xl hover:opacity-60 transition-opacity"
+            className="bg-brand w-10 h-10 rounded-full text-brand-ink text-xl hover:brightness-95 transition-opacity"
             ref={buttonRotate}
           >
             <Icon type="rotate" />
           </button>
           <div className="w-[1px] h-8 bg-white opacity-30" />
           <button
-            className="bg-primary w-10 h-10 rounded-full text-white text-2xl hover:opacity-60 transition-opacity"
+            className="bg-brand w-10 h-10 rounded-full text-brand-ink text-2xl hover:brightness-95 transition-opacity"
             ref={buttonZoomOut}
           >
             <Icon type="zoomOut" />
           </button>
           <button
-            className="bg-primary w-10 h-10 rounded-full text-white text-2xl hover:opacity-60 transition-opacity"
+            className="bg-brand w-10 h-10 rounded-full text-brand-ink text-2xl hover:brightness-95 transition-opacity"
             ref={buttonZoomIn}
           >
             <Icon type="zoomIn" />
@@ -89,7 +89,7 @@ const PhotoEditor = ({ image, setImage, onLoaded, setIsOpen }) => {
         <ErrorAlert error={errors} />
         <button
           type="submit"
-          className=" text-white bg-primary font-bold text-lg px-7 py-1 rounded-full hover:bg-sky-700 hover:text-white transition-colors"
+          className=" text-brand-ink bg-brand font-bold text-lg px-7 py-1 rounded-full hover:brightness-95 transition-colors"
           onClick={loadImage}
         >
           <I18N id="photoUploader.edit.btn.LoadImage" />

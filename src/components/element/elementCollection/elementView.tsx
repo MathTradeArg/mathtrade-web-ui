@@ -371,8 +371,8 @@ const ElementView = ({
               <>
                 <button
                   className={clsx(
-                    "text-white px-5 py-1 rounded-full font-bold text-sm transition-colors",
-                    box_size === null ? "bg-amber-500 hover:bg-amber-600" : "bg-primary hover:bg-sky-800"
+                    "px-5 py-1 rounded-full font-bold text-sm transition-colors",
+                    box_size === null ? "bg-amber-500 text-white hover:bg-amber-600" : "bg-brand text-brand-ink hover:brightness-95"
                   )}
                   onClick={toggleEditingMode}
                 >

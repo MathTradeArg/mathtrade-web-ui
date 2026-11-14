@@ -16,7 +16,7 @@ const NewSinceNotice = ({ count = 0, onRefresh }) =>
       <button
         type="button"
         onClick={onRefresh}
-        className="rounded-full bg-primary text-white font-semibold px-4 py-1 hover:opacity-90"
+        className="rounded-full bg-brand text-brand-ink font-semibold px-4 py-1 hover:brightness-95"
       >
         <I18N id="newSince.refresh" />
       </button>

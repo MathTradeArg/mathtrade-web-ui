@@ -62,10 +62,10 @@ const AddElementToMyItemSelector = ({
 
       <button
         className={clsx(
-          " rounded-r-md text-white font-bold sm:px-6 px-3 py-3 sm:text-base text-2xl",
+          " rounded-r-md font-bold sm:px-6 px-3 py-3 sm:text-base text-2xl",
           {
-            "bg-primary": selectedElementId,
-            "bg-gray-300": !selectedElementId,
+            "bg-brand text-brand-ink": selectedElementId,
+            "bg-gray-300 text-white": !selectedElementId,
           }
         )}
         disabled={!selectedElementId}

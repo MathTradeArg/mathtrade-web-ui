@@ -39,6 +39,7 @@ const CommentEditor = () => {
             <InputContainer validate="content">
               <Input
                 name="content"
+                // @ts-expect-error rows is forwarded to the textarea by the untyped Input
                 rows={1}
                 placeholder="itemComments.editor.label.placeholder"
                 //disabled={loading}
@@ -56,7 +57,7 @@ const CommentEditor = () => {
             data-placement="left"
           >
             <button
-              className="bg-primary h-12 w-12 rounded-full text-white text-2xl grid place-items-center"
+              className="bg-brand h-12 w-12 rounded-full text-brand-ink text-2xl grid place-items-center"
               disabled={loading}
             >
               <Icon type="send" />

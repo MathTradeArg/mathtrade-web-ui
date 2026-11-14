@@ -66,7 +66,7 @@ const Referral = ({ floatingButton = false }) => {
           tabIndex={inView ? -1 : 0}
           className={clsx(
             "fixed z-nav left-1/2 -translate-x-1/2 bottom-[calc(var(--mt-tabbar-h)+0.75rem)] lg:bottom-6",
-            "inline-flex items-center gap-2 rounded-full bg-primary text-white shadow-xl px-5 py-2 text-sm font-semibold",
+            "inline-flex items-center gap-2 rounded-full bg-brand text-brand-ink shadow-xl px-5 py-2 text-sm font-semibold",
             "transition-all duration-500 ease-out motion-reduce:transition-none",
             inView
               ? "opacity-0 translate-y-10 scale-75 pointer-events-none"

@@ -135,7 +135,7 @@ const TagRowControls = ({ wantGroup }: { wantGroup: any }) => {
             <button
               type="button"
               disabled={saving || !name.trim()}
-              className="rounded-full bg-primary text-white text-sm px-4 py-1"
+              className="rounded-full bg-brand text-brand-ink text-sm px-4 py-1"
               onClick={() => save({ name: name.trim(), color, dup_protection: dup })}
             >
               <I18N id="btn.Save" />

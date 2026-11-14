@@ -44,7 +44,7 @@ const ContentDownload = () => {
         <p className="mb-4">
           <a
             href={stats.wants}
-            className="bg-primary block text-white py-2 px-6 text-lg text-center w-fit mx-auto rounded-full hover:opacity-80"
+            className="bg-brand block text-brand-ink py-2 px-6 text-lg text-center w-fit mx-auto rounded-full hover:brightness-95"
             download
             target="_blank"
           >
@@ -65,7 +65,7 @@ const ContentDownload = () => {
         <p className="mb-4">
           <a
             href={stats.results}
-            className="bg-primary block text-white py-2 px-6 text-lg text-center w-fit mx-auto rounded-full hover:opacity-80"
+            className="bg-brand block text-brand-ink py-2 px-6 text-lg text-center w-fit mx-auto rounded-full hover:brightness-95"
             download
             target="_blank"
           >

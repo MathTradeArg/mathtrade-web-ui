@@ -89,7 +89,7 @@ const HelpButton = ({
           {startCurrentTour ? (
             <button
               type="button"
-              className="block w-full leading-10 bg-primary hover:bg-sky-700 text-center font-semibold text-white border-b"
+              className="block w-full leading-10 bg-brand hover:brightness-95 text-center font-semibold text-brand-ink border-b"
               onClick={() => {
                 if (visibleMobile) toggleMobile();
                 onAction?.();

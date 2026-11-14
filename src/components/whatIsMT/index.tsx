@@ -11,7 +11,7 @@ const baseURL = process.env.BASE_URL;
 const STEPS = [1, 2, 3, 4, 5];
 
 const linkClass =
-  "inline-flex items-center gap-1 rounded-full border border-primary text-primary px-3 py-1 text-sm font-semibold hover:bg-primary hover:text-white transition-colors";
+  "inline-flex items-center gap-1 rounded-full border border-ink text-ink px-3 py-1 text-sm font-semibold hover:bg-ink hover:text-white transition-colors";
 
 // What a Math Trade is and how it works, with the rules to read. Shown on the
 // home and in the login's "¿Qué es el Math Trade?" (without the FAQ link:

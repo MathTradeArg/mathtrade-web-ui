@@ -248,7 +248,7 @@ const ItemReportsView = ({ tabs }: { tabs: ReactNode }) => {
             <button
               type="button"
               onClick={() => setToShare(row.id)}
-              className="rounded-full border border-primary text-primary text-xs font-semibold px-3 py-1.5 hover:bg-primary hover:text-white"
+              className="rounded-full border border-ink text-ink text-xs font-semibold px-3 py-1.5 hover:bg-ink hover:text-white"
             >
               <I18N id="adminReports.shareWithOwner" />
             </button>
@@ -257,7 +257,7 @@ const ItemReportsView = ({ tabs }: { tabs: ReactNode }) => {
             <button
               type="button"
               onClick={() => resolveReport({ urlParams: [row.id] })}
-              className="rounded-full bg-primary text-white text-xs font-semibold px-3 py-1.5 hover:opacity-90"
+              className="rounded-full bg-brand text-brand-ink text-xs font-semibold px-3 py-1.5 hover:brightness-95"
             >
               <I18N id="adminReports.resolve" />
             </button>

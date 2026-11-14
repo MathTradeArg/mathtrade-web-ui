@@ -7,7 +7,7 @@ const NewElementStep0 = ({ setStep, onOpenImportBgg }) => {
     <>
       <div className="text-center flex items-center justify-center gap-3">
         <button
-          className="border border-primary text-primary text-xs px-4 py-2 rounded-full hover:bg-primary hover:text-white transition-colors"
+          className="border border-ink text-ink text-xs px-4 py-2 rounded-full hover:bg-ink hover:text-white transition-colors"
           onClick={() => {
             setStep(1);
           }}

@@ -40,7 +40,7 @@ const VideoCta = () => (
       <p className="text-sm text-white/80 mt-1">
         <I18N id="videoCta.text" />
       </p>
-      <span className="inline-block mt-3 rounded-full bg-primary px-4 py-1.5 text-sm font-semibold group-hover:opacity-90">
+      <span className="inline-block mt-3 rounded-full bg-brand text-brand-ink px-4 py-1.5 text-sm font-semibold group-hover:brightness-95">
         <I18N id="videoCta.button" /> ↗
       </span>
     </div>

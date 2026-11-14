@@ -35,7 +35,7 @@ const EmptyList = ({
       {ctaText && ctaHref ? (
         <Link
           href={ctaHref}
-          className="inline-flex items-center gap-1.5 font-bold text-white bg-primary px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity"
+          className="inline-flex items-center gap-1.5 font-bold text-brand-ink bg-brand px-5 py-2.5 rounded-full hover:brightness-95 transition-opacity"
         >
           <I18N id={ctaText} />
         </Link>

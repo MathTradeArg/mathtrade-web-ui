@@ -49,7 +49,7 @@ const ItemUI = ({ afterAddItem = (_value?: any) => {} }) => {
         <div className="flex justify-center">
           <button
             type="button"
-            className="bg-primary text-white py-1 px-5 rounded-full shadow-md transition-colors hover:bg-sky-700 text-balance"
+            className="bg-brand text-brand-ink py-1 px-5 rounded-full shadow-md transition-colors hover:brightness-95 text-balance"
             onClick={addToMT}
           >
             <I18N id="addItemPreviousMT.btn" />

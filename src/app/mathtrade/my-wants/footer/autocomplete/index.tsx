@@ -49,7 +49,7 @@ const AutocompleteButton = () => {
             </button>
             <button
               type="button"
-              className="text-white bg-primary rounded-full py-2 px-5 hover:opacity-70 transition-opacity"
+              className="text-brand-ink bg-brand rounded-full py-2 px-5 hover:brightness-95 transition-opacity"
               onClick={onSubmit}
             >
               <I18N id="btn.YesAutocomplete" />

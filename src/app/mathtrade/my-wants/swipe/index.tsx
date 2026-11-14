@@ -159,7 +159,7 @@ const Swipe = ({ onOpenVisual = () => {} }: { onOpenVisual?: () => void }) => {
             </p>
             <button
               type="button"
-              className="h-9 px-4 rounded-full bg-primary text-white text-sm font-bold hover:opacity-90"
+              className="h-9 px-4 rounded-full bg-brand text-brand-ink text-sm font-bold hover:brightness-95"
               onClick={onOpenVisual}
             >
               <I18N id="swipe.commit.btn" />

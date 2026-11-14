@@ -51,7 +51,7 @@ const ValueEditor = ({
               <I18N id="btn.Cancel" />
             </button>
             <button
-              className="bg-primary hover:opacity-70 text-white rounded-full px-3 py-1"
+              className="bg-brand hover:brightness-95 text-brand-ink rounded-full px-3 py-1"
               disabled={loading}
               onClick={onClick}
             >

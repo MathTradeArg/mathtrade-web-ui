@@ -108,6 +108,7 @@ const ExtraDataEditor = ({
             <Question text="boxSizes.description" />
           </div>
 
+          {/* @ts-expect-error translateOptions has a default in the untyped .jsx RadioList */}
           <RadioList
             name="box_size"
             data={{ box_size }}
@@ -125,6 +126,7 @@ const ExtraDataEditor = ({
             required
             className="mb-3"
           />
+          {/* @ts-expect-error translateOptions has a default in the untyped .jsx RadioList */}
           <RadioList
             name="box_status"
             data={{ box_status }}
@@ -142,6 +144,7 @@ const ExtraDataEditor = ({
             className="mb-3"
           />
 
+          {/* @ts-expect-error translateOptions has a default in the untyped .jsx RadioList */}
           <RadioList
             name="component_status"
             data={{ component_status }}
@@ -198,7 +201,7 @@ const ExtraDataEditor = ({
         </button>
         <button
           type="submit"
-          className=" text-white bg-primary font-bold text-lg px-6 py-1 rounded-full hover:bg-sky-700 hover:text-white transition-colors"
+          className=" text-brand-ink bg-brand font-bold text-lg px-6 py-1 rounded-full hover:brightness-95 transition-colors"
         >
           <I18N
             id={

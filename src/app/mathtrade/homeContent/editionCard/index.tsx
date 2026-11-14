@@ -77,7 +77,7 @@ const EditionCard = () => {
         <Link
           href={nextStep.path}
           data-tour={nextStep.id === "sign" ? "home.signup" : undefined}
-          className="inline-block rounded-full bg-primary text-white font-semibold px-5 py-2 hover:opacity-90"
+          className="inline-block rounded-full bg-brand text-brand-ink font-semibold px-5 py-2 hover:brightness-95"
         >
           <I18N id={`home.edition.next.${nextStep.id}`} />
         </Link>

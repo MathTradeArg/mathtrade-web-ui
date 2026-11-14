@@ -25,7 +25,7 @@ const Pagination = ({ type = "item", count }) => {
       {showPrevPage ? (
         <button
           type="button"
-          className="w-9 h-9 leading-none text-center border rounded-full border-gray-300 text-gray-600 hover:bg-primary hover:border-primary hover:text-white"
+          className="w-9 h-9 leading-none text-center border rounded-full border-gray-300 text-gray-600 hover:bg-brand hover:border-brand hover:text-brand-ink"
           title={getI18Ntext("pagination.PrevPage")}
           onClick={prevPage}
         >
@@ -60,7 +60,7 @@ const Pagination = ({ type = "item", count }) => {
       {notShowNextPage ? null : (
         <button
           type="button"
-          className="w-9 h-9 leading-none text-center rounded-full bg-primary text-white hover:bg-sky-700"
+          className="w-9 h-9 leading-none text-center rounded-full bg-brand text-brand-ink hover:brightness-95"
           title={getI18Ntext("pagination.NextPage")}
           onClick={nextPage}
         >

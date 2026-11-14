@@ -3,6 +3,25 @@ import { getI18Ntext } from "@/i18n";
 import clsx from "clsx";
 import Link from "next/link";
 
+// Literal class strings so Tailwind can see them (no dynamic templates).
+const FILL: Record<string, string> = {
+  primary: "bg-brand text-brand-ink hover:brightness-95",
+  secondary: "bg-ink text-white hover:brightness-110",
+  cancel: "bg-cancel text-white",
+  danger: "bg-danger text-white hover:opacity-75",
+  want: "bg-want text-white hover:opacity-75",
+};
+const OUTLINE: Record<string, string> = {
+  primary: "border border-ink text-ink hover:bg-ink hover:text-white",
+  secondary: "border border-ink text-ink hover:bg-ink hover:text-white",
+  cancel: "border border-cancel text-cancel hover:bg-cancel hover:text-white",
+  danger: "border border-danger text-danger hover:bg-danger hover:text-white",
+  want: "border border-want text-want hover:bg-want hover:text-white",
+};
+// Disabled buttons keep the plain "cancel" colours with no hover.
+const DISABLED_FILL = "bg-cancel text-white";
+const DISABLED_OUTLINE = "border border-cancel text-cancel";
+
 const Button = ({
   tag = "button",
   type = "submit",
@@ -31,14 +50,13 @@ const Button = ({
       "w-[100%]": block,
       //
     },
-    outline ? "" : `bg-${colorBtn}`,
-    outline ? `text-${colorBtn}` : "text-white",
-    outline ? `border border-${colorBtn}` : "",
     disabled
-      ? ""
+      ? outline
+        ? DISABLED_OUTLINE
+        : DISABLED_FILL
       : outline
-      ? `hover:bg-${colorBtn} hover:text-white`
-      : "hover:opacity-75",
+      ? OUTLINE[colorBtn] ?? OUTLINE.primary
+      : FILL[colorBtn] ?? FILL.primary,
     sm
       ? "px-5 py-[2px] text-sm"
       : lg

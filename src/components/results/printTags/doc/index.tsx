@@ -41,7 +41,7 @@ const Viewer = ({
       <div className="py-5 text-center">
         <Tutorial />
         <a
-          className="inline-block bg-primary text-white py-3 px-7 text-2xl rounded-xl"
+          className="inline-block bg-brand text-brand-ink py-3 px-7 text-2xl rounded-xl"
           href={url}
           download={`${fileName}.pdf`}
         >

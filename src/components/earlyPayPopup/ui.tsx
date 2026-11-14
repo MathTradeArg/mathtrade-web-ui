@@ -51,7 +51,7 @@ const EarlyPayPopupUI = () => {
       <TextBox />
       <div className="flex justify-center">
         <button
-          className="bg-primary text-white font-bold px-8 py-2 text-xl rounded-full"
+          className="bg-brand text-brand-ink font-bold px-8 py-2 text-xl rounded-full"
           onClick={() => {
             const { status } = showModal;
             const earlyPayPopupList = options?.earlyPayPopupList || [];

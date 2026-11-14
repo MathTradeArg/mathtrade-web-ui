@@ -27,7 +27,7 @@ const XlsButtonBtn = ({ data, filename = "tabla", className }) => {
   return (
     <button
       className={clsx(
-        "bg-primary text-white hover:bg-sky-700 text-sm px-5 py-2 rounded-md flex items-center gap-1",
+        "bg-brand text-brand-ink hover:brightness-95 text-sm px-5 py-2 rounded-md flex items-center gap-1",
         className
       )}
       onClick={() => {
