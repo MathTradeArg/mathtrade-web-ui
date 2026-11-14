@@ -112,12 +112,12 @@ const ElementComplete = ({
           the button was covered and a tap never reached it. */}
       {header && !(item as { ban_id?: unknown } | null)?.ban_id ? (
         <ItemTagList
-          className="pointer-events-none relative z-20 -mt-5 mb-1 w-full justify-center px-3 [&>*]:pointer-events-auto"
+          className="pointer-events-none relative z-20 -mt-5 mb-1 w-full justify-center px-4 [&>*]:pointer-events-auto"
           onCover
         />
       ) : null}
 
-      <div className="grow min-w-0 py-3 px-4 flex flex-col gap-2.5 items-start">
+      <div className="grow min-w-0 py-3.5 px-4 flex flex-col gap-2.5 items-start">
         {header}
 
         <div className="flex flex-col gap-2 w-full items-end">

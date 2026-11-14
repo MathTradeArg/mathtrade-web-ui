@@ -42,12 +42,12 @@ const ItemUI = ({
         cardKindClass(resolveItemKind(item))
       )}
     >
-      <div className="flex flex-col gap-3 p-3">
+      <div className="flex flex-col gap-3 px-4 py-3.5">
         {elements.map((element: { id: string | number }) => {
           return <ElementComplete key={element.id} element={element} />;
         })}
       </div>
-      <div className="flex justify-between bg-white/50 rounded-b-card p-3 border-t border-black/10">
+      <div className="flex justify-between bg-white/50 rounded-b-card px-4 py-3.5 border-t border-black/10">
         <UserBox toLeft />
 
         <div className="min-w-0 max-w-full sm:w-[220px] sm:flex justify-end text-sm font-bold sm:pl-2">
@@ -71,7 +71,7 @@ const ItemUI = ({
         </div>
       </div>
       {reportAction !== "none" ? (
-        <div className="flex justify-end bg-white/50 px-3 pb-3 text-sm">
+        <div className="flex justify-end bg-white/50 px-4 pb-3.5 text-sm">
           <button
             type="button"
             className="flex gap-1 items-center py-1 px-3 rounded-md border border-yellow-600 text-yellow-700 font-bold transition-colors hover:bg-yellow-50"

@@ -40,7 +40,7 @@ const ItemXL = ({
         "shadow-[0_0_0_7px_rgba(255,0,0,1)]": ban_id,
       })}
     >
-      <div className="pt-2 px-3 pb-3">
+      <div className="pt-3.5 px-4 pb-3.5">
         <div className="pr-6">
           <ItemGridHeader
             onChangeValue={onChangeValue}
@@ -50,7 +50,7 @@ const ItemXL = ({
           />
           {onToggleExpanse ? (
             <button
-              className="absolute right-2 top-2 z-20 flex aspect-square w-7 items-center justify-center rounded-full border border-white/80 bg-white/80 text-gray-700 shadow-sm opacity-60 hover:opacity-100"
+              className="absolute right-3 top-3.5 z-20 flex aspect-square w-7 items-center justify-center rounded-full border border-white/80 bg-white/80 text-gray-700 shadow-sm opacity-60 hover:opacity-100"
               onClick={onToggleExpanse}
             >
               <div data-tooltip={getI18Ntext("minimize")} className="flex h-full w-full items-center justify-center">

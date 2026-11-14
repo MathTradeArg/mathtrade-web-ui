@@ -49,7 +49,7 @@ const ItemUI = ({ tourAnchor = undefined }: { tourAnchor?: string }) => {
         "relative mb-6",
         cardSurfaceClass,
         isCombo
-          ? clsx("p-3", cardKindClass("combo"))
+          ? clsx("p-4", cardKindClass("combo"))
           : showsAsPlainCard
           ? // The article is the card itself (same fill and border as the
             // grid cards) and the element renders bare inside it, so the
@@ -64,7 +64,7 @@ const ItemUI = ({ tourAnchor = undefined }: { tourAnchor?: string }) => {
         <div
           className={clsx(
             "min-w-0 max-w-full rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-950 break-words",
-            showsAsPlainCard ? "m-3" : "mb-3"
+            showsAsPlainCard ? "m-4" : "mb-3"
           )}
           role="status"
         >
@@ -113,7 +113,7 @@ const ItemUI = ({ tourAnchor = undefined }: { tourAnchor?: string }) => {
           );
         })}
         {showsAddElement ? (
-          <div className={clsx(showsAsPlainCard && "px-3 pb-3")}>
+          <div className={clsx(showsAsPlainCard && "px-4 pb-3.5")}>
             <Dynamic h={100}>
               <AddElementToMyItem />
             </Dynamic>

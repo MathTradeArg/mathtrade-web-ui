@@ -23,7 +23,7 @@ const ItemUI = ({ afterAddItem = (_value?: any) => {} }) => {
   return (
     <div
       className={clsx(
-        "relative pt-2 px-3 pb-3 mb-6 overflow-hidden",
+        "relative pt-3.5 px-4 pb-3.5 mb-6 overflow-hidden",
         cardSurfaceClass,
         cardKindClass(resolveItemKind(item))
       )}

@@ -37,12 +37,12 @@ const ItemMD = ({ onToggleExpanse }: ItemMDProps) => {
           element gets it inside the content column instead, so the cover
           reaches the card's top-left corner. */}
       {isCombo ? (
-        <div className="px-3 pt-2 pb-1">
+        <div className="px-4 pt-3.5 pb-1.5">
           <ItemGridHeader atCardTop copyLink />
         </div>
       ) : null}
       {isOwned && staffObservation ? (
-        <div className="mx-3 mt-2 min-w-0 max-w-full rounded border border-amber-300 bg-amber-50 px-2 py-1.5 text-[11px] leading-snug text-amber-950 break-words">
+        <div className="mx-4 mt-3.5 min-w-0 max-w-full rounded border border-amber-300 bg-amber-50 px-2 py-1.5 text-[11px] leading-snug text-amber-950 break-words">
           {/* from_staff false = another participant's report (anonymous to
               the owner; it doesn't keep the copy out of the corrida). */}
           <span className="font-semibold">
@@ -67,7 +67,7 @@ const ItemMD = ({ onToggleExpanse }: ItemMDProps) => {
 
       <div
         className={clsx("flex flex-col grow", {
-          "gap-2 px-3 mb-3": isCombo,
+          "gap-2 px-4 mb-3.5": isCombo,
         })}
       >
         {elements.map((element: { id: number | string }, k: number) => {
@@ -100,7 +100,7 @@ const ItemMD = ({ onToggleExpanse }: ItemMDProps) => {
         ) : null}
       </div>
 
-      <div className="flex items-center justify-between gap-3 px-4 py-2 min-w-0">
+      <div className="flex items-center justify-between gap-3 px-4 pt-2 pb-3.5 min-w-0">
         {commentsCount ? (
           <div className="text-[11px] font-bold text-ink/80 leading-tight min-w-0 truncate">
             <ItemCommentTitle />

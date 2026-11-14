@@ -191,7 +191,7 @@ const ElementView = ({
         />
       </div>
 
-      <div className="flex-1 min-w-0 p-4 flex flex-col gap-2.5">
+      <div className="flex-1 min-w-0 px-4 py-3.5 flex flex-col gap-2.5">
         {isRow ? null : header}
 
         <div className="flex flex-wrap items-center justify-between gap-2 min-w-0 w-full">
@@ -334,7 +334,7 @@ const ElementView = ({
         </div>
 
         {showEdition || canAddToMT || canWithdraw || offeredLocked ? (
-          <div className="flex items-center gap-1 flex-wrap border-t border-black/10 text-ink/80 pt-3">
+          <div className="flex items-center gap-1.5 flex-wrap border-t border-black/10 text-ink/80 pt-3">
             {canWithdraw ? (
               <ButtonAlert
                 className="border border-red-300 text-red-700 px-4 py-1 rounded-full font-bold text-sm hover:bg-red-50 transition-colors"

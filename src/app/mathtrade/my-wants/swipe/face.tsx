@@ -44,11 +44,11 @@ const SwipeFace = ({
           elements={[{ thumbnail: face.thumbnail, name: face.title }]}
           className="h-full rounded-none"
         />
-        <div className="absolute left-1.5 right-1.5 bottom-1.5 z-raised flex justify-end pointer-events-none">
+        <div className={clsx("absolute z-raised flex justify-end pointer-events-none", deck ? "left-3 right-3 bottom-3" : "left-2 right-2 bottom-2")}>
           <ValueMini currentValue={face.value} />
         </div>
       </div>
-      <div className={clsx("px-3 py-2 flex flex-col gap-1 min-w-0", deck ? "py-3" : "py-2")}>
+      <div className={clsx("flex flex-col gap-1.5 min-w-0", deck ? "px-4 py-3.5" : "px-3 py-2")}>
         <h3
           className={clsx(
             "font-bold leading-snug break-words",

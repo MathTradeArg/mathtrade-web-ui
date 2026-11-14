@@ -82,8 +82,8 @@ const WantMiniCard = ({
       {changed ? (
         <div
           className={clsx(
-            "absolute left-1.5 z-raised rounded-full bg-amber-400 text-amber-950 px-1.5 py-0.5 text-[10px] font-bold leading-none flex items-center gap-0.5 pointer-events-none",
-            empty ? "top-7" : "top-1.5"
+            "absolute left-2 z-raised rounded-full bg-amber-400 text-amber-950 px-1.5 py-0.5 text-[10px] font-bold leading-none flex items-center gap-0.5 pointer-events-none",
+            empty ? "top-8" : "top-2"
           )}
           title={getI18Ntext("myWants.changed.help")}
         >
@@ -94,7 +94,7 @@ const WantMiniCard = ({
       {onRemove ? (
         <button
           type="button"
-          className="absolute top-1.5 right-1.5 z-raised w-4 h-4 rounded-full bg-danger text-white text-[10px] leading-none flex items-center justify-center"
+          className="absolute top-2 right-2 z-raised w-4 h-4 rounded-full bg-danger text-white text-[10px] leading-none flex items-center justify-center"
           title={getI18Ntext("wantview.RemoveItems")}
           onClick={onRemove}
         >
@@ -126,12 +126,12 @@ const WantMiniCard = ({
             </span>
           </button>
         ) : null}
-        <div className="absolute left-1.5 right-1.5 bottom-1.5 z-raised flex items-center justify-between pointer-events-none">
+        <div className="absolute left-2 right-2 bottom-2 z-raised flex items-center justify-between pointer-events-none">
           <div className="pointer-events-auto">{preview}</div>
           <ValueMini currentValue={value} />
         </div>
       </div>
-      <div className="px-2 py-1.5 flex flex-col items-start gap-1 min-w-0 flex-1">
+      <div className="px-2 py-2 flex flex-col items-start gap-1.5 min-w-0 flex-1">
         <h4
           className="text-[11px] leading-[14px] font-bold line-clamp-3 sm:line-clamp-2 cursor-default w-full break-words"
           title={title}
