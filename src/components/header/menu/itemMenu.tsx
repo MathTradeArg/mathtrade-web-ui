@@ -46,7 +46,6 @@ const ItemMenu = ({ menuItem, currentPath, setVisibleMobileMenu }) => {
           "lg:text-white block text-sm leading-9 py-1 px-5 cursor-pointer",
 
           {
-            "bg-sky-600/70": isSubmenu && active === "myOffer",
             "bg-red-700/80": isSubmenu && active === "items",
             "bg-orange-600/80": isSubmenu && active === "offer",
             "bg-want/70": isSubmenu && active === "myWants",
@@ -74,7 +73,7 @@ const ItemMenu = ({ menuItem, currentPath, setVisibleMobileMenu }) => {
                   "block text-sm lg:leading-9 leading-7 py-1 hover:text-white transition",
                   {
                     "hover:bg-red-600": subname === "myOffer",
-                    "hover:bg-sky-700": subname === "items",
+                    "hover:bg-primary": subname === "items",
                     "hover:bg-orange-600": subname === "games",
                     "hover:bg-want": subname === "myWants",
                     "hover:bg-teal-600": subname === "results",

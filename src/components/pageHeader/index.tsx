@@ -80,10 +80,13 @@ const PageHeader = ({
                 </div>
               ) : null}
             </div>
-            <div className="hidden sm:flex items-end" aria-hidden>
-              <Meeple fill="#ffc700" className="w-[54px] h-[54px]" />
-              <Meeple fill="#ffffff" className="w-[72px] h-[72px] -ml-2.5" />
-              <Meeple fill="#2e294e" className="w-[54px] h-[54px] -ml-2.5" />
+            {/* The logo drawing is hand-tilted (~30deg); the same counter-
+                rotation on all three stands them upright, side by side with
+                no overlap and sharing the baseline. */}
+            <div className="hidden sm:flex items-end gap-1" aria-hidden>
+              <Meeple fill="#ffc700" className="w-[54px] h-[54px] rotate-[28deg]" />
+              <Meeple fill="#ffffff" className="w-[72px] h-[72px] rotate-[28deg]" />
+              <Meeple fill="#2e294e" className="w-[54px] h-[54px] rotate-[28deg]" />
             </div>
           </div>
         ) : toneConf ? (

@@ -28,7 +28,7 @@ const ShareText = ({ title = "", text = "", url = "" }) => {
       <div className="pt-2 flex items-center gap-2">
         <div className="relative">
           <button
-            className="bg-sky-500 text-white w-10 aspect-square rounded-md text-xl hover:bg-sky-700 transition-colors"
+            className="bg-brand text-brand-ink w-10 aspect-square rounded-md text-xl hover:brightness-95 transition"
             title={getI18Ntext("copy")}
             onClick={() => {
               const result = copy(text || url);
