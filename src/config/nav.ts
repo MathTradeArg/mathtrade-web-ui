@@ -66,6 +66,12 @@ export const PRIMARY_NAV: NavEntry[] = [
     mobilePrimary: true,
   },
   {
+    key: "MY_REPORTS",
+    path: PRIVATE_ROUTES.MY_REPORTS.path,
+    titleI18nKey: `menu.${PRIVATE_ROUTES.MY_REPORTS.title}`,
+    icon: "report",
+  },
+  {
     key: "RESULTS_HISTORIAL",
     path: PRIVATE_ROUTES.RESULTS_HISTORIAL.path,
     titleI18nKey: `menu.${PRIVATE_ROUTES.RESULTS_HISTORIAL.title}`,

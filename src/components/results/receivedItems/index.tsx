@@ -5,7 +5,7 @@ import ModalReceivedItem from "./modal";
 import { LoadingBox } from "@/components/loading";
 import ErrorAlert from "@/components/errorAlert";
 import Item from "./item";
-import DeliveryReportModal from "./deliveryReport/DeliveryReportModal";
+import DeliveryReportModal from "@/components/deliveryReport/DeliveryReportModal";
 import { maskReceivedItem } from "@/config/jokeGame";
 
 const ReceivedItems = () => {

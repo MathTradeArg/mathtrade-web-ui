@@ -2100,5 +2100,15 @@
   "deliveryReport.admin.none": "No hay reportes de entrega en esta lista.",
   "deliveryReport.admin.notFound": "No encontramos el reporte de entrega #$$$.",
   "deliveryReport.admin.prev": "Anterior",
-  "deliveryReport.admin.next": "Siguiente"
+  "deliveryReport.admin.next": "Siguiente",
+  "menu.myReports": "Mis reportes",
+  "title.MyReports": "Mis reportes",
+  "myReports.tab.made": "Hechos",
+  "myReports.tab.received": "Recibidos",
+  "myReports.kind.item": "Ejemplar",
+  "myReports.kind.delivery": "Entrega",
+  "myReports.empty.made": "No hiciste reportes en esta lista.",
+  "myReports.empty.received": "No recibiste reportes en esta lista.",
+  "myReports.help": "Acá ves los reportes que hiciste y los que te hicieron, de ejemplares y de entregas. Tocá uno para abrirlo.",
+  "myReports.error.load": "No pudimos cargar tus reportes. Probá de nuevo en un rato."
 }

@@ -192,6 +192,7 @@ const endpoints = {
 
   // DELIVERY REPORTS (problem with a received game)
   POST_DELIVERY_REPORT: "api/mathtrades/$[mathtradeId]/results/$[1]/delivery-report/",
+  GET_MY_REPORTS: "api/reports/mine/", // ?role=made|received
   GET_DELIVERY_REPORTS: "api/mathtrades/$[mathtradeId]/delivery-reports/",
   GET_DELIVERY_REPORT: "api/mathtrades/$[mathtradeId]/delivery-reports/$[1]/",
   POST_DELIVERY_REPORT_COMMENT: "api/mathtrades/$[mathtradeId]/delivery-reports/$[1]/comments/",
