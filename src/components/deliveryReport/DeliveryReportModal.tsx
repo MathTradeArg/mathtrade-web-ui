@@ -134,7 +134,7 @@ const ModalBody = ({
 
   return (
     <>
-      <h2 className="text-center text-balance font-bold text-xl mb-4">
+      <h2 className="min-w-0 break-words text-center text-balance font-bold text-xl mb-4">
         {title ? (
           <I18N id="deliveryReport.title" values={[title]} />
         ) : (

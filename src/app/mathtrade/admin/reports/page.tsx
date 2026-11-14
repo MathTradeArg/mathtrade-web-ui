@@ -14,6 +14,8 @@ import { whatsappLink } from "@/utils/whatsapp";
 import { formatTradeCode } from "@/utils/tradeCode";
 import { AdminUserName, useAdminUser } from "@/components/adminUserModal";
 import { ReplyBox } from "@/components/item/item-my/item-ui/reportThread";
+import ReportPhotos from "@/components/reportCommon/ReportPhotos";
+import ReportCommentCard from "@/components/reportCommon/ReportCommentCard";
 import { PageContext } from "@/context/page";
 import { useStore } from "@/store";
 import Tabs from "@/components/tabs";
@@ -49,27 +51,6 @@ const quickButton = (active: boolean) =>
 
 const fullName = (person: Person) =>
   person ? `${person.first_name} ${person.last_name}`.trim() : "-";
-
-// Comma-separated photo URLs (report and copy photos), as thumbnails that
-// open the full photo.
-const Photos = ({ images }: { images?: string | null }) => {
-  const urls = (images || "").split(",").map((url) => url.trim()).filter(Boolean);
-  if (!urls.length) return null;
-  return (
-    <div className="flex flex-wrap gap-2 mt-2">
-      {urls.map((url) => (
-        <a key={url} href={url} target="_blank" rel="noreferrer">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={url}
-            alt=""
-            className="w-20 h-20 object-cover rounded border border-gray-200 hover:opacity-80"
-          />
-        </a>
-      ))}
-    </div>
-  );
-};
 
 const Label = ({ id }: { id: string }) => (
   <div className="text-xs font-bold uppercase text-gray-500 mb-1">
@@ -262,12 +243,12 @@ const ItemReportsView = ({ tabs }: { tabs: ReactNode }) => {
             ) : null}
           </div>
         </div>
-        <div className="whitespace-nowrap">
+        <div className="flex flex-wrap gap-2">
           {isInternal(row) && !row.shared_with_owner_at ? (
             <button
               type="button"
               onClick={() => setToShare(row.id)}
-              className="rounded-full border border-primary text-primary text-xs font-semibold px-3 py-1.5 hover:bg-primary hover:text-white mr-2"
+              className="rounded-full border border-primary text-primary text-xs font-semibold px-3 py-1.5 hover:bg-primary hover:text-white"
             >
               <I18N id="adminReports.shareWithOwner" />
             </button>
@@ -276,7 +257,7 @@ const ItemReportsView = ({ tabs }: { tabs: ReactNode }) => {
             <button
               type="button"
               onClick={() => resolveReport({ urlParams: [row.id] })}
-              className="rounded-full bg-primary text-white text-xs font-semibold px-3 py-1.5 hover:opacity-90 mr-2"
+              className="rounded-full bg-primary text-white text-xs font-semibold px-3 py-1.5 hover:opacity-90"
             >
               <I18N id="adminReports.resolve" />
             </button>
@@ -296,8 +277,8 @@ const ItemReportsView = ({ tabs }: { tabs: ReactNode }) => {
 
       <section className="mb-3">
         <Label id="adminReports.col.comment" />
-        <p className="text-sm whitespace-pre-line">{row.comment || "-"}</p>
-        <Photos images={row.images} />
+        <p className="text-sm whitespace-pre-line break-words">{row.comment || "-"}</p>
+        <ReportPhotos urls={row.images} />
       </section>
 
       {row.item_detail ? (
@@ -368,7 +349,7 @@ const ItemReportsView = ({ tabs }: { tabs: ReactNode }) => {
                 />
               ) : null}
               <div className="text-sm min-w-0">
-                <div className="font-semibold">{element.name}</div>
+                <div className="font-semibold break-words">{element.name}</div>
                 <div className="text-xs text-gray-600">
                   <I18N id="adminReports.boxStatus" />: {getI18Ntext(`statusType.box.${element.box_status}`)}
                   {" · "}
@@ -376,9 +357,9 @@ const ItemReportsView = ({ tabs }: { tabs: ReactNode }) => {
                   {getI18Ntext(`statusType.components.${element.component_status}`)}
                 </div>
                 {element.comment ? (
-                  <p className="text-gray-700 whitespace-pre-line mt-1">{element.comment}</p>
+                  <p className="text-gray-700 whitespace-pre-line break-words mt-1">{element.comment}</p>
                 ) : null}
-                <Photos images={element.images} />
+                <ReportPhotos urls={element.images} />
               </div>
             </div>
           ))}
@@ -451,9 +432,14 @@ const ItemReportsView = ({ tabs }: { tabs: ReactNode }) => {
       <section className="text-sm border-t border-gray-200 pt-2">
         <Label id={row.comments?.length ? "adminReports.thread" : "adminReports.reply"} />
         {(row.comments || []).map((c) => (
-          <p key={c.id} className="mb-1">
-            <strong><AdminUserName userId={c.user_info?.id}>{fullName(c.user_info)}</AdminUserName></strong> ({c.created}): {c.comment}
-          </p>
+          <ReportCommentCard
+            key={c.id}
+            tone="gray"
+            className="mb-1"
+            name={<AdminUserName userId={c.user_info?.id}>{fullName(c.user_info)}</AdminUserName>}
+            date={c.created}
+            text={c.comment}
+          />
         ))}
         <ReplyBox reportId={row.id} onSent={reload} />
       </section>

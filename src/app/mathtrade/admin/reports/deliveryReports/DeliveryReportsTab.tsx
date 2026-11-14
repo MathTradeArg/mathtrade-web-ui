@@ -10,6 +10,7 @@ import I18N, { getI18Ntext } from "@/i18n";
 import useFetch from "@/hooks/useFetch";
 import { PRIVATE_ROUTES } from "@/config/routes";
 import { normalizeString } from "@/utils/text";
+import { formatReportDate } from "@/utils/reportDate";
 import DeliveryReportThread from "@/components/deliveryReport/thread";
 import {
   DELIVERY_REPORT_PARAM,
@@ -114,13 +115,13 @@ const DeliveryReportsTab = ({ tabs }: { tabs: ReactNode }) => {
       >
         <button
           type="button"
-          className="w-full text-left flex flex-wrap items-baseline justify-between gap-x-3"
+          className="w-full min-w-0 text-left flex flex-wrap items-baseline justify-between gap-x-3"
           aria-expanded={isOpen}
           onClick={() => setExpanded(isOpen && !forceOpen ? null : row.id)}
         >
-          <span>
-            <strong>#{row.id} {row.item_title}</strong>
-            <span className="block text-xs text-gray-600">
+          <span className="min-w-0">
+            <strong className="break-words">#{row.id} {row.item_title}</strong>
+            <span className="block text-xs text-gray-600 break-words">
               <I18N
                 id="deliveryReport.parties"
                 values={[personName(row.reporter), personName(row.reported)]}
@@ -128,7 +129,7 @@ const DeliveryReportsTab = ({ tabs }: { tabs: ReactNode }) => {
             </span>
           </span>
           <span className="text-xs text-gray-500">
-            {row.created} · <I18N id="deliveryReport.commentsCount" values={[row.comments.length]} />
+            {formatReportDate(row.created)} · <I18N id="deliveryReport.commentsCount" values={[row.comments.length]} />
           </span>
         </button>
         {isOpen ? (
@@ -197,7 +198,7 @@ const DeliveryReportsTab = ({ tabs }: { tabs: ReactNode }) => {
             <div className="flex flex-col gap-4">{list.map((row) => renderRow(row))}</div>
           )}
           {pages > 1 ? (
-            <div className="flex items-center justify-center gap-3 mt-5 text-sm">
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-5 text-sm">
               <Button type="button" sm outline disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
                 <I18N id="deliveryReport.admin.prev" />
               </Button>

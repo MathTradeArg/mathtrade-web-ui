@@ -7,7 +7,7 @@ import {
   renderableReceived,
   type DeliveryReportRow,
 } from "@/utils/deliveryReports";
-import type { DeliveryReportTarget } from "./deliveryReport/DeliveryReportModal";
+import type { DeliveryReportTarget } from "@/components/deliveryReport/DeliveryReportModal";
 
 const useReceivedItems = () => {
   const [modalOpen, setModalOpen] = useState(false);

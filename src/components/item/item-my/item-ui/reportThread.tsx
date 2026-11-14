@@ -6,6 +6,7 @@ import ErrorAlert from "@/components/errorAlert";
 import I18N, { getI18Ntext } from "@/i18n";
 import useFetch from "@/hooks/useFetch";
 import { resolveApiErrorMessage } from "@/utils/apiError";
+import ReportCommentCard from "@/components/reportCommon/ReportCommentCard";
 
 type ThreadComment = {
   id: number;
@@ -149,15 +150,13 @@ const ReportThread = ({
           {list.length ? (
             <ul className="flex flex-col gap-2">
               {list.map((c) => (
-                <li
-                  key={c.id}
-                  className="rounded-md border border-amber-200 bg-white px-2 py-1.5"
-                >
-                  <div className="flex flex-wrap items-baseline justify-between gap-x-2 text-xs">
-                    <strong>{fullName(c.user_info)}</strong>
-                    <span className="opacity-75">{c.created}</span>
-                  </div>
-                  <p className="mt-0.5 whitespace-pre-line break-words">{c.comment}</p>
+                <li key={c.id}>
+                  <ReportCommentCard
+                    tone="amber"
+                    name={fullName(c.user_info)}
+                    date={c.created}
+                    text={c.comment}
+                  />
                 </li>
               ))}
             </ul>
