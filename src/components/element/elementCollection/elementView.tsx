@@ -50,6 +50,8 @@ type ElementViewProps = {
   layout?: "poster" | "row";
   showAddToMT?: boolean;
   onAddToMT?: () => void;
+  // The parent already paints the card (fill, border, radius): skip them.
+  bare?: boolean;
 };
 
 const ElementView = ({
@@ -60,6 +62,7 @@ const ElementView = ({
   layout = "poster",
   showAddToMT = false,
   onAddToMT,
+  bare = false,
 }: ElementViewProps) => {
   const isRow = layout === "row";
   const { canI } = useContext(PageContext);
@@ -168,14 +171,16 @@ const ElementView = ({
         insideItem ? null : "-m-4",
         cardSurfaceClass,
         isRow ? "flex-row" : "flex-col",
-        cardKindClass(cardKind)
+        bare ? null : cardKindClass(cardKind)
       )}
     >
       <div
         className={clsx(
           "relative overflow-hidden",
           // Narrower thumb on phones so Geek/Avg + Complejidad + BGG fit.
-          isRow ? "w-[110px] sm:w-[150px] shrink-0" : "rounded-t-card"
+          isRow
+            ? "w-[110px] sm:w-[150px] shrink-0 rounded-l-card"
+            : "rounded-t-card"
         )}
       >
         <Thumbnail
@@ -187,7 +192,7 @@ const ElementView = ({
       </div>
 
       <div className="flex-1 min-w-0 p-4 flex flex-col gap-2.5">
-        {header}
+        {isRow ? null : header}
 
         <div className="flex flex-wrap items-center justify-between gap-2 min-w-0 w-full">
           <div className="flex flex-wrap items-center gap-2 min-w-0">
@@ -205,6 +210,12 @@ const ElementView = ({
               </Link>
             ) : null}
           </div>
+          {isRow && header ? (
+            // Item-level controls (score, groups, delete) share the badge
+            // row so the score pill is never alone on a line of its own; on a
+            // narrow card the whole block wraps below the badge.
+            <div className="flex-1 min-w-0 basis-44">{header}</div>
+          ) : null}
           {offered ? (
             <div className="shrink-0 uppercase font-bold bg-gray-800 text-white text-[10px] px-3 py-[3px] rounded-full whitespace-nowrap">
               <I18N id="element.Offered" />

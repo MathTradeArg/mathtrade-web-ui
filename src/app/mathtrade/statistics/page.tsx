@@ -41,7 +41,7 @@ export default function Statistics() {
   return (
     <>
       <Header />
-      <Wrapper className="mb-1">
+      <Wrapper>
         <div className="bg-surface-soft border border-line border-b-0 rounded-t-main">
           <Tabs
             list={["stats.screen.current", "stats.screen.historial"]}

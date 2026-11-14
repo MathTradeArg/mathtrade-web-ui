@@ -24,7 +24,7 @@ const AddElementToMyItemSelector = ({
   }, [myCollectionList, selectedElementId]);
 
   return (
-    <div className="flex items-center rounded-md shadow-md">
+    <div className="flex items-center rounded-md">
       <div className="grow bg-white rounded-l-md flex items-center">
         {elementSelected ? (
           <div className="w-12">

@@ -23,7 +23,7 @@ const ItemUI = ({ afterAddItem = (_value?: any) => {} }) => {
   return (
     <div
       className={clsx(
-        "relative shadow-md pt-2 px-3 pb-3 mb-6 overflow-hidden",
+        "relative pt-2 px-3 pb-3 mb-6 overflow-hidden",
         cardSurfaceClass,
         cardKindClass(resolveItemKind(item))
       )}
@@ -49,7 +49,7 @@ const ItemUI = ({ afterAddItem = (_value?: any) => {} }) => {
         <div className="flex justify-center">
           <button
             type="button"
-            className="bg-brand text-brand-ink py-1 px-5 rounded-full shadow-md transition-colors hover:brightness-95 text-balance"
+            className="bg-brand text-brand-ink py-1 px-5 rounded-full transition hover:brightness-95 text-balance"
             onClick={addToMT}
           >
             <I18N id="addItemPreviousMT.btn" />

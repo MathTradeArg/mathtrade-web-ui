@@ -21,7 +21,7 @@ const Grid = () => {
 
   return (
     <GridContextProvider>
-      <Wrapper className="mb-1">
+      <Wrapper>
         <div className="bg-surface-soft border border-line border-b-0 px-3 py-4">
           <CommitHeaderGrid />
         </div>

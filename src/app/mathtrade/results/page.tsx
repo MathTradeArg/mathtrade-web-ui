@@ -52,7 +52,7 @@ export default function Results() {
         title="title.Results"
         helpId="page.results"
       />
-      <Wrapper className="mb-1">
+      <Wrapper>
         <div className="bg-surface-soft border border-line border-b-0 rounded-t-main">
           <Tabs list={tabs} value={tabView} onChange={setTabView} />
         </div>

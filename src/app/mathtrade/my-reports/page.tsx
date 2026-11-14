@@ -65,7 +65,7 @@ export default function MyReports() {
           </span>
         }
       />
-      <Wrapper className="mb-1">
+      <Wrapper>
         <div className="bg-surface-soft border border-line border-b-0 rounded-t-main">
           <Tabs list={TABS} value={tab} onChange={setTab} />
         </div>

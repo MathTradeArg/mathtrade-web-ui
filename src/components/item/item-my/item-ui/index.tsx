@@ -7,6 +7,7 @@ import Dynamic from "@/components/dynamic";
 import {
   cardKindClass,
   cardSurfaceClass,
+  resolveItemKind,
 } from "@/components/badgeType/cardKind";
 import I18N from "@/i18n";
 import clsx from "clsx";
@@ -48,11 +49,13 @@ const ItemUI = ({ tourAnchor = undefined }: { tourAnchor?: string }) => {
         "relative mb-6",
         cardSurfaceClass,
         isCombo
-          ? clsx("p-3 shadow-md", cardKindClass("combo"))
+          ? clsx("p-3", cardKindClass("combo"))
           : showsAsPlainCard
-          ? // No p-3 here: padding inset the grey element fill from the
-            // outer border (white gutter). Pad only the add-combo footer.
-            "rounded-card border border-stroke"
+          ? // The article is the card itself (same fill and border as the
+            // grid cards) and the element renders bare inside it, so the
+            // add-combo footer shares that surface. No p-3: padding would
+            // inset the cover from the edge; only the footer is padded.
+            cardKindClass(resolveItemKind(item))
           : null
       )}
     >

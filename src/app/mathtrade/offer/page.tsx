@@ -23,7 +23,7 @@ const OfferPage = () => {
         helpId="page.offer"
         alert={screenOfferView === 1 ? <I18N id="alert.duplicateCopies" /> : undefined}
       />
-      <Wrapper className="mb-1">
+      <Wrapper>
         <div className="bg-surface-soft border border-line border-b-0 rounded-t-main" data-tour="offer.tabs">
           <Tabs
             list={["offer.screen.games", "offer.screen.items"]}

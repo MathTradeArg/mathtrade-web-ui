@@ -5,7 +5,13 @@ import Dynamic from "@/components/dynamic";
 
 const ExtraDataEditor = lazy(() => import("./editor"));
 
-const ElementMyItemExtraData = ({ forAddElement, onCancel }) => {
+const ElementMyItemExtraData = ({
+  forAddElement = false,
+  onCancel = undefined,
+}: {
+  forAddElement?: boolean;
+  onCancel?: () => void;
+}) => {
   // EDITING MODE *************************************/
   const [editingMode, setEditingMode] = useState(forAddElement);
   const toggleEditingMode = useCallback(() => {
@@ -15,7 +21,7 @@ const ElementMyItemExtraData = ({ forAddElement, onCancel }) => {
 
   return (
     <>
-      <div className="border border-gray-300 p-3 rounded-lg bg-gray-100 relative">
+      <div className="border border-line p-3 rounded-lg bg-white/60 relative">
         {editingMode ? (
           <Dynamic h={600}>
             <ExtraDataEditor
