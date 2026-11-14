@@ -3,7 +3,7 @@ import clsx from "clsx";
 import Thumbnail from "@/components/thumbnail";
 import BadgeType from "@/components/badgeType";
 import ValueMini from "@/components/value/mini";
-import { cardKindBorderClass } from "@/components/badgeType/cardKind";
+import { cardKindClass } from "@/components/badgeType/cardKind";
 import type { Face } from "./model";
 
 const SwipeFace = ({
@@ -19,9 +19,11 @@ const SwipeFace = ({
   return (
     <div
       className={clsx(
-        "relative rounded-2xl border border-gray-200 overflow-hidden flex flex-col min-w-0 w-full bg-white",
+        "relative overflow-hidden flex flex-col min-w-0 w-full",
         fill && "max-lg:flex-1 max-lg:min-h-0",
-        face.tagStyle ? null : cardKindBorderClass(face.kind, 4),
+        face.tagStyle
+          ? "rounded-card border border-gray-200"
+          : cardKindClass(face.kind),
         face.empty && "shadow-[inset_0_0_0_3px_red]",
         face.changed && "ring-2 ring-amber-400"
       )}

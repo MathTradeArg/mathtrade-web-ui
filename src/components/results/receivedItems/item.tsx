@@ -8,7 +8,7 @@ import Icon from "@/components/icon";
 import clsx from "clsx";
 import {
   resolveItemKind,
-  cardKindBorderClass,
+  cardKindClass,
   cardSurfaceClass,
 } from "@/components/badgeType/cardKind";
 import {
@@ -37,9 +37,9 @@ const ItemUI = ({
   return (
     <article
       className={clsx(
-        "transition-all relative mx-auto shadow-xl rounded-xl overflow-hidden",
+        "transition-all relative mx-auto shadow-xl overflow-hidden",
         cardSurfaceClass,
-        cardKindBorderClass(resolveItemKind(item))
+        cardKindClass(resolveItemKind(item))
       )}
     >
       <div className="flex flex-col gap-3 p-3">
@@ -47,7 +47,7 @@ const ItemUI = ({
           return <ElementComplete key={element.id} element={element} />;
         })}
       </div>
-      <div className="flex justify-between bg-white/70 rounded-b-[0.7em] p-3 border-t border-gray-200">
+      <div className="flex justify-between bg-white/70 rounded-b-[15px] p-3 border-t border-gray-200">
         <UserBox toLeft />
 
         <div className="min-w-0 max-w-full sm:w-[220px] sm:flex justify-end text-sm font-bold sm:pl-2">

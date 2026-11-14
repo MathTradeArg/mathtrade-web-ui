@@ -11,7 +11,7 @@ import ItemMD from "./md";
 import ItemXL from "./xl";
 import {
   resolveCardKind,
-  cardKindBorderClass,
+  cardKindClass,
   cardSurfaceClass,
 } from "@/components/badgeType/cardKind";
 
@@ -47,9 +47,9 @@ const ItemGridUI = ({ expanded, setExpanded }: ItemGridUIProps) => {
     >
       <div
         className={clsx(
-          "transition-[max-width] relative mx-auto rounded-lg",
+          "transition-[max-width] relative mx-auto",
           cardSurfaceClass,
-          cardKindBorderClass(cardKind),
+          cardKindClass(cardKind),
           {
             // Capped like the game card: a single-column viewport, or a list
             // with fewer items than the grid has tracks, should not blow one

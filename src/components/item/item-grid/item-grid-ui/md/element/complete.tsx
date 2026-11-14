@@ -90,7 +90,7 @@ const ElementComplete = ({
 
   return (
     <div className="flex flex-col grow">
-      <div className="relative overflow-hidden rounded-t-lg">
+      <div className="relative overflow-hidden rounded-t-card">
         <Thumbnail fill contain elements={[element]} className="w-full h-40" />
         <div
           className={clsx(
@@ -154,7 +154,7 @@ const ElementComplete = ({
               showHelp
             />
             <div className="flex flex-col gap-1">
-              <span className="text-caption text-gray-700 leading-none">
+              <span className="text-caption text-ink/80 leading-none">
                 <I18N id="element.BGG.weight" />
               </span>
               <div className="flex gap-1" title={`${weight} / 5`}>
@@ -208,7 +208,7 @@ const ElementComplete = ({
         ) : null}
 
         <div
-          className="mt-auto w-full text-caption text-gray-700"
+          className="mt-auto w-full text-caption text-ink/80"
           // The tooltip bubble lives on this wrapper, not on the truncated
           // <a> inside it — a truncate ancestor's overflow:hidden clips the
           // CSS tooltip pseudo-elements otherwise (MAT-116-style bug).

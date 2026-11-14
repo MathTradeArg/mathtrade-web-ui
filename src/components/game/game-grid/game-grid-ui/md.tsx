@@ -13,7 +13,7 @@ import ItemNoBGG from "./itemNoBgg";
 import BadgeType from "@/components/badgeType";
 import {
   resolveGameKind,
-  cardKindBorderClass,
+  cardKindClass,
   cardSurfaceClass,
 } from "@/components/badgeType/cardKind";
 import useBGGdata from "@/components/bggInfo/useBGGdata";
@@ -92,9 +92,9 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
   return (
     <div
       className={clsx(
-        "h-full rounded-lg transition-opacity relative flex flex-col",
+        "h-full transition-opacity relative flex flex-col",
         cardSurfaceClass,
-        cardKindBorderClass(cardKind),
+        cardKindClass(cardKind),
         {
           "opacity-30 pointer-events-none": showAsIgnored,
           "shadow-[0_0_0_7px_rgba(255,0,0,1)]": ban_id,
@@ -103,7 +103,7 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
     >
       <SelectTick id={bgg_id} disabledReason={disabledReason} />
       <div className="flex flex-col grow">
-        <div className="relative overflow-hidden rounded-t-lg">
+        <div className="relative overflow-hidden rounded-t-card">
           <Thumbnail
             fill
             contain
@@ -174,7 +174,7 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
                 showHelp
               />
               <div className="flex flex-col gap-1">
-                <span className="text-caption text-gray-700 leading-none">
+                <span className="text-caption text-ink/80 leading-none">
                   <I18N id="element.BGG.weight" />
                 </span>
                 <div className="flex gap-1" title={`${weight} / 5`}>
@@ -213,7 +213,7 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
             />
           ) : null}
 
-          <div className="mt-auto w-full text-caption text-gray-700 truncate">
+          <div className="mt-auto w-full text-caption text-ink/80 truncate">
             {itemCount} <I18N id={itemCount === 1 ? "game.item-num.1" : "game.item-num.more"} />
             {showBGGstats ? (
               <>

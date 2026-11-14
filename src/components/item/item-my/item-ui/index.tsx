@@ -5,7 +5,7 @@ import ElementMyItem from "@/components/element/elementMyItem";
 import HeaderItem from "./item-header";
 import Dynamic from "@/components/dynamic";
 import {
-  cardKindBorderClass,
+  cardKindClass,
   cardSurfaceClass,
 } from "@/components/badgeType/cardKind";
 import I18N from "@/i18n";
@@ -48,11 +48,11 @@ const ItemUI = ({ tourAnchor = undefined }: { tourAnchor?: string }) => {
         "relative mb-6",
         cardSurfaceClass,
         isCombo
-          ? clsx("rounded-lg p-3 shadow-md", cardKindBorderClass("combo"))
+          ? clsx("p-3 shadow-md", cardKindClass("combo"))
           : showsAsPlainCard
           ? // No p-3 here: padding inset the grey element fill from the
             // outer border (white gutter). Pad only the add-combo footer.
-            "rounded-lg border border-stroke"
+            "rounded-card border border-stroke"
           : null
       )}
     >

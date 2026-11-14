@@ -10,7 +10,7 @@ import { ItemContext } from "@/context/item";
 import clsx from "clsx";
 import {
   resolveItemKind,
-  cardKindBorderClass,
+  cardKindClass,
   cardSurfaceClass,
 } from "@/components/badgeType/cardKind";
 import { resolveApiErrorMessage } from "@/utils/apiError";
@@ -23,9 +23,9 @@ const ItemUI = ({ afterAddItem = (_value?: any) => {} }) => {
   return (
     <div
       className={clsx(
-        "relative rounded-lg shadow-md pt-2 px-3 pb-3 mb-6 overflow-hidden",
+        "relative shadow-md pt-2 px-3 pb-3 mb-6 overflow-hidden",
         cardSurfaceClass,
-        cardKindBorderClass(resolveItemKind(item))
+        cardKindClass(resolveItemKind(item))
       )}
     >
       <header className="flex items-center justify-between  gap-3 mb-2">

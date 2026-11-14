@@ -102,7 +102,7 @@ const ItemMD = ({ onToggleExpanse }: ItemMDProps) => {
 
       <div className="flex items-center justify-between gap-3 px-4 py-2 min-w-0">
         {commentsCount ? (
-          <div className="text-[11px] font-bold text-gray-600 leading-tight min-w-0 truncate">
+          <div className="text-[11px] font-bold text-ink/80 leading-tight min-w-0 truncate">
             <ItemCommentTitle />
           </div>
         ) : (

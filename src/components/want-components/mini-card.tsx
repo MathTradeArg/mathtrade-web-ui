@@ -6,7 +6,7 @@ import ValueMini from "@/components/value/mini";
 import Icon from "@/components/icon";
 import I18N, { getI18Ntext } from "@/i18n";
 import {
-  cardKindBorderClass,
+  cardKindClass,
   type CardKind,
 } from "@/components/badgeType/cardKind";
 import type { CSSProperties, ReactNode } from "react";
@@ -59,13 +59,13 @@ const WantMiniCard = ({
   return (
     <div
       className={clsx(
-        "relative rounded-lg border border-gray-200 min-w-0 max-w-full w-full overflow-x-hidden flex flex-col",
+        "relative min-w-0 max-w-full w-full overflow-x-hidden flex flex-col",
         fill
           ? "w-full h-full"
           : isAnchor
             ? "w-full sm:w-52"
             : "w-[8.5rem] sm:w-32",
-        tagStyle ? null : cardKindBorderClass(kind, 4),
+        tagStyle ? "rounded-card border border-gray-200" : cardKindClass(kind),
         {
           "shadow-[inset_0_0_0_3px_red]": empty,
           "ring-2 ring-amber-400": changed,

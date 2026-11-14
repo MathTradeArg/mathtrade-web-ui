@@ -17,7 +17,7 @@ import { useContext, useMemo, type ReactNode } from "react";
 import BadgeType from "@/components/badgeType";
 import {
   resolveCardKind,
-  cardKindBorderClass,
+  cardKindClass,
   cardSurfaceClass,
 } from "@/components/badgeType/cardKind";
 import useBGGdata from "@/components/bggInfo/useBGGdata";
@@ -31,9 +31,9 @@ import clsx from "clsx";
 import LanguagePills from "@/components/chip/languagePills";
 import EditionMeta from "@/components/element/editionMeta";
 
-const META_TEXT = "text-caption text-gray-700";
+const META_TEXT = "text-caption text-ink/80";
 const TAG_PILL =
-  "text-caption text-gray-800 bg-white/85 px-2.5 py-1 rounded-md";
+  "text-caption text-ink bg-white/75 px-2.5 py-1 rounded-md";
 
 type ElementViewProps = {
   toggleEditingMode?: () => void;
@@ -164,18 +164,18 @@ const ElementView = ({
         // Bleed into ElementWrapperOuter p-4 (ludoteca). Skip when the
         // parent is already unpadded (my-offer ElementMyItem) — -m-4
         // plus overflow-x-hidden on the wrapper clips into a white gutter.
-        "relative flex-1 flex rounded-lg",
+        "relative flex-1 flex",
         insideItem ? null : "-m-4",
         cardSurfaceClass,
         isRow ? "flex-row" : "flex-col",
-        cardKindBorderClass(cardKind)
+        cardKindClass(cardKind)
       )}
     >
       <div
         className={clsx(
           "relative overflow-hidden",
           // Narrower thumb on phones so Geek/Avg + Complejidad + BGG fit.
-          isRow ? "w-[110px] sm:w-[150px] shrink-0" : "rounded-t-lg"
+          isRow ? "w-[110px] sm:w-[150px] shrink-0" : "rounded-t-card"
         )}
       >
         <Thumbnail
@@ -323,7 +323,7 @@ const ElementView = ({
         </div>
 
         {showEdition || canAddToMT || canWithdraw || offeredLocked ? (
-          <div className="flex items-center gap-1 flex-wrap border-t border-black/10 text-gray-600 pt-3">
+          <div className="flex items-center gap-1 flex-wrap border-t border-black/10 text-ink/80 pt-3">
             {canWithdraw ? (
               <ButtonAlert
                 className="border border-red-300 text-red-700 px-4 py-1 rounded-full font-bold text-sm hover:bg-red-50 transition-colors"
