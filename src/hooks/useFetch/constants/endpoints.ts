@@ -8,6 +8,8 @@ const endpoints = {
   GET_USER: "api/users/",
   POST_TOUR_SEEN: "api/users/tours/$[1]/",
   PUT_USER: "api/users/",
+  GET_ADMIN_EMAIL_PREFERENCES: "api/users/admin-email-preferences/",
+  PUT_ADMIN_EMAIL_PREFERENCES: "api/users/admin-email-preferences/",
   GET_REFERRALS: "api/users/referral/",
   POST_REFERRAL: "api/users/referral/",
 
