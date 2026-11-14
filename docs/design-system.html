@@ -38,13 +38,13 @@
 
     /* ---- Identidad nueva (sección 28): sale del logo ---- */
     --id-canvas: #fffaf0;
-    --id-soft: #faf5e8;
-    --id-card: #f5f0e0;
-    --id-strong: #ebe6d6;
-    --id-line: #e4dcc8;
+    --id-soft: #f6eedc;
+    --id-card: #eee3ca;
+    --id-strong: #e0d3b5;
+    --id-line: #d3c4a2;
     --id-ink: #2e294e; /* azul noche del contorno del logo */
     --id-body: #3a3a3a;
-    --id-muted: #6a675f;
+    --id-muted: #5a574f;
     --id-celeste: #6cbfe3; /* celeste del logo */
     --id-sol: #ffc700; /* amarillo del sol, los meeples y los dados del logo */
     --id-peach: #ffb084;
@@ -861,7 +861,7 @@
   }
   .ph-help-link {
     font-size: var(--fs-body);
-    color: #0077a8; /* primary oscurecido para leer sobre crema */
+    color: #005f86; /* primary oscurecido para leer sobre crema */
     font-weight: 600;
     cursor: pointer;
     display: inline-flex;
@@ -1552,7 +1552,7 @@
     height: 34px; padding: 0 12px; border-radius: 999px;
     border: 1px solid color-mix(in srgb, var(--primary) 40%, var(--id-canvas));
     background: color-mix(in srgb, var(--primary) 8%, var(--id-canvas));
-    color: #0077a8; font-size: var(--fs-caption); font-weight: 700;
+    color: #005f86; font-size: var(--fs-caption); font-weight: 700;
     display: flex; align-items: center;
   }
   .want-dirty { font-size: var(--fs-caption); font-weight: 600; color: #92400e; }
@@ -1703,7 +1703,7 @@
   .fl-foot span { height: 36px; padding: 0 16px; border-radius: 999px; background: var(--id-celeste); color: var(--id-ink); display: inline-flex; align-items: center; }
   .fchip { display: inline-flex; align-items: center; gap: 4px; border-radius: 8px; padding: 4px 10px; font-size: 12px; font-weight: 600; }
   .fchip.is-off { background: var(--id-card); color: #4b5563; }
-  .fchip.is-soft { border: 1px solid var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--id-canvas)); color: #0077a8; }
+  .fchip.is-soft { border: 1px solid var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--id-canvas)); color: #005f86; }
   .fchip.is-on { background: var(--id-celeste); color: var(--id-ink); }
   .fchip.is-add { border: 1px dashed #9ca3af; color: #4b5563; }
   .fchip.is-active { background: var(--id-canvas); border: 1px solid var(--id-line); color: #374151; }
@@ -1785,7 +1785,7 @@
   .id-ph-tile svg { width: 26px; height: 26px; }
   .id-ph h3 { font-size: 32px; }
   .id-ph-meta { margin-left: auto; font-size: var(--fs-body); font-weight: 600; color: var(--id-muted); white-space: nowrap; }
-  .id-ph-help { font-size: var(--fs-body); font-weight: 600; color: #0077a8; text-decoration: underline; text-underline-offset: 3px; margin-top: 2px; }
+  .id-ph-help { font-size: var(--fs-body); font-weight: 600; color: #005f86; text-decoration: underline; text-underline-offset: 3px; margin-top: 2px; }
 
   /* welcome */
   .id-welcome { background: var(--id-celeste); color: var(--id-ink); border-radius: 24px; padding: 24px; display: flex; align-items: center; gap: 20px; overflow: hidden; }
@@ -1845,7 +1845,7 @@
     <h1>Sistema de diseño — Math Trade Argentina</h1>
     <p>v3 · 14/11/2026. Especificación objetivo de la identidad visual nueva, que sale del logo (sección 28). Los tokens viven en <code>tailwind.config.js</code>; cada componente nombra su archivo en <code>src/components</code>. Lo que todavía no existe en el código está marcado como tal.</p>
     <div class="impl-note"><b>Estado:</b> la identidad nueva está en implementación (QRSPI <code>2026-11-14-identidad-visual</code>). El código de <code>main</code> todavía tiene la versión anterior: fondo gris, tarjetas blancas con sombra, cards con borde lateral y degradé en la home. Este documento muestra cómo va a quedar; donde un valor cambió, se indica el que hoy tiene el código.</div>
-    <p style="margin-top:14px;"><a href="#identity" style="color:#0077a8; font-weight:600;">→ La decisión de identidad visual (sección 28)</a></p>
+    <p style="margin-top:14px;"><a href="#identity" style="color:#005f86; font-weight:600;">→ La decisión de identidad visual (sección 28)</a></p>
   </div>
 
   <section>
@@ -1864,12 +1864,12 @@
     <p class="section-desc" style="margin-bottom:16px;">El fondo de página es crema, no gris. Las superficies son crema sin sombra: se separan por tono y por un borde cálido. Hoy en el código el fondo es <code>#b7c3c7</code> y las superficies son blancas con <code>shadow-main</code>.</p>
     <div class="swatch-grid" style="margin-bottom:24px;">
       <div class="swatch"><div class="swatch-color" style="background:var(--id-canvas)"></div><div class="swatch-meta"><span class="swatch-name">lienzo</span><span class="swatch-hex">#fffaf0 · fondo de página</span></div></div>
-      <div class="swatch"><div class="swatch-color" style="background:var(--id-soft)"></div><div class="swatch-meta"><span class="swatch-name">surface-soft</span><span class="swatch-hex">#faf5e8 · secciones, tablas</span></div></div>
-      <div class="swatch"><div class="swatch-color" style="background:var(--id-card)"></div><div class="swatch-meta"><span class="swatch-name">surface-card</span><span class="swatch-hex">#f5f0e0 · header, card base</span></div></div>
-      <div class="swatch"><div class="swatch-color" style="background:var(--id-strong)"></div><div class="swatch-meta"><span class="swatch-name">surface-strong</span><span class="swatch-hex">#ebe6d6 · barras, cabeceras</span></div></div>
-      <div class="swatch"><div class="swatch-color" style="background:var(--id-line)"></div><div class="swatch-meta"><span class="swatch-name">borde cálido</span><span class="swatch-hex">#e4dcc8</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--id-soft)"></div><div class="swatch-meta"><span class="swatch-name">surface-soft</span><span class="swatch-hex">#f6eedc · secciones, tablas</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--id-card)"></div><div class="swatch-meta"><span class="swatch-name">surface-card</span><span class="swatch-hex">#eee3ca · header, card base</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--id-strong)"></div><div class="swatch-meta"><span class="swatch-name">surface-strong</span><span class="swatch-hex">#e0d3b5 · barras, cabeceras</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--id-line)"></div><div class="swatch-meta"><span class="swatch-name">borde cálido</span><span class="swatch-hex">#d3c4a2</span></div></div>
       <div class="swatch"><div class="swatch-color" style="background:var(--id-body)"></div><div class="swatch-meta"><span class="swatch-name">texto de cuerpo</span><span class="swatch-hex">#3a3a3a</span></div></div>
-      <div class="swatch"><div class="swatch-color" style="background:var(--id-muted)"></div><div class="swatch-meta"><span class="swatch-name">texto apagado</span><span class="swatch-hex">#6a675f</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--id-muted)"></div><div class="swatch-meta"><span class="swatch-name">texto apagado</span><span class="swatch-hex">#5a574f</span></div></div>
     </div>
 
     <div class="section-label">Pasteles de bloque</div>
@@ -1904,7 +1904,7 @@
     <div class="section-label" style="margin-top:28px;">Relleno de categoría de las cards</div>
     <p class="section-desc" style="margin-bottom:16px;">El color de la categoría llena la card, sin borde lateral. El juego base, que es la mayoría, queda en crema; expansión, combo y fuera de la BGG resaltan como excepciones. Los badges conservan su token sólido (el punto de cada muestra), así que cada categoría tiene dos señales. Hoy en el código el fondo es el token al 20% sobre blanco más un borde izquierdo de 6px (<code>cardKindBorderClass</code> en <code>badgeType/cardKind.ts</code>).</p>
     <div class="swatch-grid">
-      <div class="swatch"><div class="swatch-color" style="background:var(--id-card); display:flex; align-items:flex-end; padding:8px;"><span class="dot" style="background:var(--gameBase)"></span></div><div class="swatch-meta"><span class="swatch-name">base · <code>gameBase</code></span><span class="swatch-hex">#f5f0e0</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--id-card); display:flex; align-items:flex-end; padding:8px;"><span class="dot" style="background:var(--gameBase)"></span></div><div class="swatch-meta"><span class="swatch-name">base · <code>gameBase</code></span><span class="swatch-hex">#eee3ca</span></div></div>
       <div class="swatch"><div class="swatch-color" style="background:var(--id-sky); display:flex; align-items:flex-end; padding:8px;"><span class="dot" style="background:var(--gameExpansion)"></span></div><div class="swatch-meta"><span class="swatch-name">expansión · <code>gameExpansion</code></span><span class="swatch-hex">#b4bdf5</span></div></div>
       <div class="swatch"><div class="swatch-color" style="background:var(--id-lilac); display:flex; align-items:flex-end; padding:8px;"><span class="dot" style="background:var(--gameCombo)"></span></div><div class="swatch-meta"><span class="swatch-name">combo · <code>gameCombo</code></span><span class="swatch-hex">#c9b6f0</span></div></div>
       <div class="swatch"><div class="swatch-color" style="background:var(--id-mint); display:flex; align-items:flex-end; padding:8px;"><span class="dot" style="background:var(--gameOther)"></span></div><div class="swatch-meta"><span class="swatch-name">fuera de la BGG · <code>gameOther</code></span><span class="swatch-hex">#a4d4c5</span></div></div>
@@ -2030,7 +2030,7 @@
   <section>
     <div class="section-label">04 · PageHeader</div>
     <h2 class="section-title">Header de página — 3 variantes</h2>
-    <p class="section-desc"><code>src/components/pageHeader</code>. Una tarjeta crema (<code>#f5f0e0</code>, sin sombra, radio de 24px) que ocupa ≤ 80px. Hoy en el código es blanca con <code>rounded-main</code> de 16px y <code>shadow-main</code>. La explicación larga va en <code>HelpContext</code> y las advertencias en una alerta debajo del header, no adentro.</p>
+    <p class="section-desc"><code>src/components/pageHeader</code>. Una tarjeta crema (<code>#eee3ca</code>, sin sombra, radio de 24px) que ocupa ≤ 80px. Hoy en el código es blanca con <code>rounded-main</code> de 16px y <code>shadow-main</code>. La explicación larga va en <code>HelpContext</code> y las advertencias en una alerta debajo del header, no adentro.</p>
 
     <table class="ph-spec-table">
       <thead>
@@ -2214,7 +2214,7 @@
     <div class="note">
       <b>Props:</b> <code>variant</code> + <code>meta</code> + <code>helpId</code> / <code>help</code> + <code>alert</code> / <code>alertTone</code>. La alerta va debajo del header y tiene dos tonos: <code>danger</code> (default; <code>red-50</code>, borde <code>red-200</code>, texto <code>red-800</code>) para riesgo alto, como elegir dos copias del mismo juego, y <code>warning</code> (<code>orange-500</code> sólido, texto blanco) para una etapa o restricción, como la oferta cerrada en Yo ofrezco.
       <br/><br/>
-      <b>Sobre la ficha:</b> es el único lugar de la página donde aparece el color de la sección, además del ítem activo del menú. El link de ayuda sobre el crema usa un <code>primary</code> más oscuro (<code>#0077a8</code>) para que contraste. <br/><br/>
+      <b>Sobre la ficha:</b> es el único lugar de la página donde aparece el color de la sección, además del ítem activo del menú. El link de ayuda sobre el crema usa un <code>primary</code> más oscuro (<code>#005f86</code>) para que contraste. <br/><br/>
       <b>Sobre el lenguaje de alarma:</b> las mayúsculas y el "ATENCIÓN" no van en el header. Una aclaración de bajo riesgo ("cargar ≠ ofertar") va en la ayuda; el color crítico se reserva para cuando hay algo irreversible en juego.
     </div>
     <div class="page-frame" style="max-width:520px; margin-top:20px;">
@@ -3245,8 +3245,8 @@
         <tr><td>Fuente de texto</td><td>SF Pro Display, local (<code>src/app/fonts</code>): regular, bold y semibold itálica</td><td>Igual</td><td>Toda la app, cargada en <code>app/layout.tsx</code></td></tr>
         <tr><td>Fuente de títulos</td><td>Bricolage Grotesque 600, espaciado <code>-0.03em</code></td><td>SF Pro Display bold</td><td>Solo títulos de página, títulos de card y números grandes</td></tr>
         <tr><td>Fondo de página</td><td><code>#fffaf0</code></td><td><code>#b7c3c7</code> (<code>$bg-body</code>)</td><td><code>body</code>. Las superficies van en crema encima</td></tr>
-        <tr><td>Superficies</td><td>Crema <code>#faf5e8</code> / <code>#f5f0e0</code> / <code>#ebe6d6</code>, borde cálido <code>#e4dcc8</code></td><td>Blanco</td><td>Header de página, secciones, barras, cards base</td></tr>
-        <tr><td>Tinta</td><td>Azul noche <code>#2e294e</code></td><td>Negro</td><td>Títulos y opción activa del control segmentado. El texto de cuerpo es <code>#3a3a3a</code> y el apagado <code>#6a675f</code></td></tr>
+        <tr><td>Superficies</td><td>Crema <code>#f6eedc</code> / <code>#eee3ca</code> / <code>#e0d3b5</code>, borde cálido <code>#d3c4a2</code></td><td>Blanco</td><td>Header de página, secciones, barras, cards base</td></tr>
+        <tr><td>Tinta</td><td>Azul noche <code>#2e294e</code></td><td>Negro</td><td>Títulos y opción activa del control segmentado. El texto de cuerpo es <code>#3a3a3a</code> y el apagado <code>#5a574f</code></td></tr>
         <tr><td>Ancho máximo</td><td>1600px (<code>.wrapper</code>)</td><td>Igual</td><td>Contenido de cada página</td></tr>
         <tr><td>Radio de bloques y headers</td><td>24px</td><td><code>rounded-main</code>, 16px</td><td>Header de página, secciones, avisos, barras flotantes, footer</td></tr>
         <tr><td>Radio de cards</td><td>16px</td><td><code>rounded-lg</code>, 8px</td><td>Cards de juego y de ejemplar, barras de lista, cajas de aviso</td></tr>
@@ -3732,9 +3732,9 @@
     <p class="section-desc" style="margin-bottom:14px;">Tres colores salen del logo y mandan: celeste, azul noche y amarillo sol. El lienzo pasa a crema. Los otros colores de bloque son pasteles que acompañan y se usan en superficies grandes, nunca en texto ni en controles.</p>
     <div class="id-swatches">
       <div class="id-sw" style="background:var(--id-canvas);">canvas<small>#fffaf0</small></div>
-      <div class="id-sw" style="background:var(--id-soft);">surface-soft<small>#faf5e8</small></div>
-      <div class="id-sw" style="background:var(--id-card);">surface-card<small>#f5f0e0</small></div>
-      <div class="id-sw" style="background:var(--id-strong);">surface-strong<small>#ebe6d6</small></div>
+      <div class="id-sw" style="background:var(--id-soft);">surface-soft<small>#f6eedc</small></div>
+      <div class="id-sw" style="background:var(--id-card);">surface-card<small>#eee3ca</small></div>
+      <div class="id-sw" style="background:var(--id-strong);">surface-strong<small>#e0d3b5</small></div>
       <div class="id-sw on-dark" style="background:var(--id-ink);">azul noche · logo<small>#2e294e</small></div>
       <div class="id-sw" style="background:var(--id-celeste);">celeste · logo<small>#6cbfe3</small></div>
     </div>
@@ -3968,7 +3968,7 @@
       <thead><tr><th>Qué</th><th>Hoy en el código</th><th>Nuevo</th></tr></thead>
       <tbody>
         <tr><td>Fondo de página</td><td><code>$bg-body: #b7c3c7</code></td><td><code>#fffaf0</code></td></tr>
-        <tr><td>Superficies</td><td>Blanco + <code>shadow-main</code></td><td>Crema (<code>#faf5e8</code> / <code>#f5f0e0</code> / <code>#ebe6d6</code>), borde cálido <code>#e4dcc8</code>, sin sombra</td></tr>
+        <tr><td>Superficies</td><td>Blanco + <code>shadow-main</code></td><td>Crema (<code>#f6eedc</code> / <code>#eee3ca</code> / <code>#e0d3b5</code>), borde cálido <code>#d3c4a2</code>, sin sombra</td></tr>
         <tr><td>Radios</td><td>16px secciones, 8px cards</td><td>24px bloques y headers, 16px cards</td></tr>
         <tr><td>Fuente de títulos</td><td>SF Pro Display bold</td><td>Bricolage Grotesque 600, solo en <code>text-display</code>, <code>text-heading</code> y números grandes</td></tr>
         <tr><td>Botón primario</td><td><code>primary</code> <code>#009ddb</code>, texto blanco</td><td>Celeste del logo <code>#6cbfe3</code>, texto azul noche <code>#2e294e</code></td></tr>
