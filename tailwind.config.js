@@ -125,12 +125,12 @@ module.exports = {
         caption: ["11px", { lineHeight: "14px", fontWeight: "500" }],
         body: ["13px", { lineHeight: "18px", fontWeight: "400" }],
         "body-lg": ["15px", { lineHeight: "20px", fontWeight: "600" }],
-        heading: ["19px", { lineHeight: "24px", fontWeight: "700" }],
+        heading: ["19px", { lineHeight: "24px", fontWeight: "600", letterSpacing: "-0.01em" }],
         // Page titles. Fluid so a compact header stays ~56-72px on every
         // viewport instead of jumping from text-4xl to text-6xl.
         display: [
           "clamp(1.75rem, 1.3rem + 2vw, 2.5rem)",
-          { lineHeight: "1.15", fontWeight: "700" },
+          { lineHeight: "1.05", fontWeight: "600", letterSpacing: "-0.03em" },
         ],
       },
       borderRadius: {

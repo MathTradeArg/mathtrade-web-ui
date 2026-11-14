@@ -38,7 +38,7 @@ const SignUpPage = () => {
     <div className="pt-xs-5 pb-xs-4 px-xs-6 p-4">
       {isSuccess ? (
         <div className="text-center fade-in">
-          <h2 className="text-3xl font-bold mb-3">
+          <h2 className="font-display text-3xl font-semibold text-ink mb-3">
             <I18N id="register.ReadyTitle" />
           </h2>
           <p className="mb-5 text-gray-800">
@@ -55,7 +55,7 @@ const SignUpPage = () => {
       ) : (
         <>
           <div className="text-center">
-            <h1 className="text-3xl  font-bold mb-3">
+            <h1 className="font-display text-3xl font-semibold text-ink mb-3">
               <I18N id="register.Title" />
             </h1>
             <p className="mb-5 text-gray-400">
@@ -183,6 +183,7 @@ const SignUpPage = () => {
             </fieldset>
             <hr className="mb-5" />
             <InputContainer validate="terms_acceptance" className="mb-6">
+              {/* @ts-expect-error data/onChange are injected by InputContainer (untyped .jsx) */}
               <Checkbox
                 name="terms_acceptance"
                 required

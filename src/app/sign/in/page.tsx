@@ -39,7 +39,7 @@ const SignInContent = () => {
       ) : (
         <>
           <div className="text-center pb-2">
-            <h1 className="text-3xl  font-bold mb-2">
+            <h1 className="font-display text-3xl font-semibold text-ink mb-2">
               <I18N id="sign.Title" />
             </h1>
             <p className="text-gray-400">

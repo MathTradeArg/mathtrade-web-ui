@@ -19,7 +19,7 @@ const ForgotPasswordPage = () => {
       {step === 0 ? (
         <>
           <div className="text-center">
-            <h1 className="text-3xl  font-bold mb-3">
+            <h1 className="font-display text-3xl font-semibold text-ink mb-3">
               <I18N id="forgotPassword.title" />
             </h1>
             <p className="mb-5 text-gray-400">
@@ -65,7 +65,7 @@ const ForgotPasswordPage = () => {
         </>
       ) : (
         <div className="text-center">
-          <h3 className="text-3xl  font-bold mb-3">
+          <h3 className="font-display text-3xl font-semibold text-ink mb-3">
             <I18N id="forgotPassword.title2" />
           </h3>
 

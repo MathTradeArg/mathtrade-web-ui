@@ -21,7 +21,7 @@ const GroupsHint = () => {
       <HelpContext id="whatAreGroups" />
       <button
         type="button"
-        className="flex items-center gap-1 text-primary text-sm font-bold hover:underline"
+        className="flex items-center gap-1 text-link text-sm font-bold hover:underline"
         onClick={() => {
           setIntent("newGroup");
           openSidebar();

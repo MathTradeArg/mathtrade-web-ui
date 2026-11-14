@@ -138,7 +138,7 @@ const ElementComplete = ({
         >
           {/* Reserves both lines so the rows below stay aligned across cards
               in the same grid row — see game-grid-ui/md.tsx. */}
-          <h3 className="text-heading hover:opacity-70 leading-tight line-clamp-2 min-h-[2.5em] break-words">
+          <h3 className="text-heading font-display font-semibold tracking-[-0.01em] text-ink text-balance hover:opacity-70 leading-6 line-clamp-2 min-h-12 break-words">
             {title}
           </h3>
         </div>

@@ -98,7 +98,7 @@ const MyDataPage = () => {
             </div>
           ) : isMathtrade ? (
             <section className="max-w-lg mx-auto py-8 relative">
-              <h2 className=" text-balance text-center font-bold mb-5 text-3xl text-gray-600">
+              <h2 className=" text-balance text-center font-display font-semibold mb-5 text-3xl text-ink">
                 🎊 {mathtradeName} 🎉
               </h2>
               {(!isMembership && rulesRequired) || rulesPending ? (
@@ -195,7 +195,7 @@ const MyDataPage = () => {
                             href={PUBLIC_ROUTES.TERMS_CONDITIONS.path}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-primary underline hover:text-primary-hover"
+                            className="text-link underline hover:text-primary-hover"
                           >
                             <I18N id="title.TyC" />
                           </a>
@@ -204,7 +204,7 @@ const MyDataPage = () => {
                             href={baseURL + rulebookPDFurl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-primary underline hover:text-primary-hover"
+                            className="text-link underline hover:text-primary-hover"
                           >
                             <I18N id="title.Rulebook" />
                           </a>

@@ -17,7 +17,7 @@ const EditionStats = () => {
     <ul className="flex flex-col gap-4">
       {counters.map(({ value, id }) => (
         <li key={id} className="border-l-4 border-primary pl-3">
-          <div className="text-3xl font-bold text-gray-900 leading-none">
+          <div className="font-display text-3xl font-semibold leading-none text-ink">
             {value ? value.toLocaleString("es-AR") : "-"}
           </div>
           <div className="text-sm text-gray-600 mt-1">

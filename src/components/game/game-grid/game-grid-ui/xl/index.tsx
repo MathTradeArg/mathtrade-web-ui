@@ -134,7 +134,7 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
             </div>
 
             <h3
-              className={clsx("text-heading leading-tight w-full break-words", {
+              className={clsx("text-heading font-display font-semibold tracking-[-0.01em] text-ink text-balance leading-6 line-clamp-2 min-h-12 w-full break-words", {
                 "cursor-pointer": selecting,
               })}
               onClick={onSelectClick}
