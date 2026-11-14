@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Sistema de diseño — Math Trade Argentina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&display=swap" rel="stylesheet">
 <style>
   :root {
     /* ---- Tokens EXISTENTES en tailwind.config.js (reutilizados, no inventados) ---- */
@@ -22,22 +25,23 @@
     --gameExpansion: #1d4ed8; /* contenido: expansión — blue-700, no ámbar: #B45309 se leía como danger */
     --gameCombo: #5B21B6; /* contenido: combo (varios elementos en un ítem) — distinto de purple-600, que es un estado de trade (en disputa), no una categoría de contenido */
     --gameOther: #0f766e; /* contenido: fuera de la BGG — teal-700, cool and distinct from expansion blue and combo violet */
-    --purple-600: #9333ea; /* del set Tailwind YA habilitado (purple), no violet/fuchsia */
+    --purple-600: #9333ea; /* del set Tailwind habilitado (purple) */
     --purple-100: #f3e8ff;
 
     /* ---- Neutros de página ---- */
-    --bg-page: #eef1f2;
+    --bg-page: #eef1f2; /* fondo de este documento, más claro para leer */
+    --bg-app: #b7c3c7; /* fondo real de la app: $bg-body en src/styles/index.scss */
     --bg-card: #ffffff;
     --text-primary: #16181c;
     --text-muted: #5b6570;
     --border-soft: #dfe4e7;
 
-    /* ---- Tipografía: escala semántica existente + nivel display (nuevo) ---- */
+    /* ---- Tipografía: escala semántica (fontSize en tailwind.config.js) ---- */
     --fs-caption: 11px; --lh-caption: 14px; --fw-caption: 500;
     --fs-body: 13px; --lh-body: 18px; --fw-body: 400;
     --fs-body-lg: 15px; --lh-body-lg: 20px; --fw-body-lg: 600;
     --fs-heading: 19px; --lh-heading: 24px; --fw-heading: 700;
-    /* NUEVO — nivel que faltaba para títulos de página (hoy resuelto ad-hoc con text-4xl/text-6xl) */
+    /* Títulos de página: text-display */
     --fs-display: clamp(1.75rem, 1.3rem + 2vw, 2.5rem);
     --lh-display: 1.15;
     --fw-display: 700;
@@ -337,11 +341,13 @@
      differed by a 4px edge — and expansion's old amber sat next to
      out-of-BGG's yellow. 20% + a 6px left edge, with teal instead of
      yellow for "other", is the smallest mix that still reads as four
-     distinct families from across the grid. */
-  .game-card.is-base { border-left: 6px solid var(--gameBase); background: color-mix(in srgb, var(--gameBase) 20%, var(--bg-card)); }
-  .game-card.is-expansion { border-left: 6px solid var(--gameExpansion); background: color-mix(in srgb, var(--gameExpansion) 20%, var(--bg-card)); }
-  .game-card.is-combo { border-left: 6px solid var(--gameCombo); background: color-mix(in srgb, var(--gameCombo) 20%, var(--bg-card)); }
-  .game-card.is-other { border-left: 6px solid var(--gameOther); background: color-mix(in srgb, var(--gameOther) 20%, var(--bg-card)); }
+     distinct families from across the grid. The tint is the pre-mixed
+     solid from badgeType/cardKind.ts (token at 20% into #fff), not an
+     alpha utility: over the gray page a translucent tint comes out muddy. */
+  .game-card.is-base { border-left: 6px solid var(--gameBase); background: #d2d2d4; }
+  .game-card.is-expansion { border-left: 6px solid var(--gameExpansion); background: #d2dcf7; }
+  .game-card.is-combo { border-left: 6px solid var(--gameCombo); background: #ded3f0; }
+  .game-card.is-other { border-left: 6px solid var(--gameOther); background: #cfe4e2; }
 
   /* La portada se muestra completa (contain), nunca recortada: el arte de
      caja viene cuadrado, vertical y horizontal, y recortarlo a la forma de
@@ -494,10 +500,13 @@
     align-items: center;
     gap: 18px;
   }
+  .gc-ratings { display: flex; align-items: flex-start; gap: 8px; }
+  .gc-rating-col { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .gc-rating-col span { font-size: 10px; line-height: 1; font-weight: 500; color: #4b5563; }
   .gc-rating {
     width: 40px; height: 40px;
     border-radius: 50%;
-    background: var(--primary);
+    background: #1978b3;
     color: white;
     font-weight: 700;
     font-size: 15px;
@@ -523,9 +532,9 @@
   .gc-chip {
     font-size: var(--fs-caption);
     font-weight: 500;
-    color: var(--text-muted);
-    background: var(--colorMain);
-    padding: 4px 9px;
+    color: #1f2937;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 4px 10px;
     border-radius: 6px;
     display: inline-flex;
     align-items: center;
@@ -540,6 +549,14 @@
     color: #991b1b;
     font-weight: 700;
   }
+  /* Estado de caja y componentes (statusTone en config/statusTypes.ts) */
+  .gc-chip.is-good { background: #dcfce7; color: #166534; font-weight: 600; }
+  .gc-chip.is-used { background: #ffedd5; color: #9a3412; font-weight: 600; }
+  .gc-chip.is-none { background: #e5e7eb; color: #4b5563; font-weight: 600; }
+  .gc-chip.is-want { background: color-mix(in srgb, var(--want) 10%, white); color: #0a7a4d; font-weight: 700; }
+  .gc-chip.is-done { background: #e5e7eb; color: #1f2937; font-weight: 700; }
+  .gc-chip.is-admin { background: color-mix(in srgb, var(--purple-600) 20%, #14161a); color: #d8b4fe; }
+  .gc-chip.on-white { background: #f3f4f6; }
   .gc-boxsize-icon { display: flex; align-items: flex-end; gap: 2px; }
   .gc-boxsize-icon span {
     display: block;
@@ -686,7 +703,7 @@
 
   /* Simulated page chrome */
   .page-frame {
-    background: var(--bg-page);
+    background: var(--bg-app);
     border: 1px solid var(--border-soft);
     border-radius: 12px;
     overflow: hidden;
@@ -752,7 +769,9 @@
   /* DESPUÉS — compact */
   .ph-compact {
     background: var(--bg-card);
-    border-bottom: 1px solid var(--border-soft);
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.15);
+    margin: 14px;
     padding: 16px 20px 12px;
   }
   .ph-compact-row {
@@ -800,7 +819,9 @@
   /* minimal */
   .ph-minimal {
     background: var(--bg-card);
-    border-bottom: 1px solid var(--border-soft);
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.15);
+    margin: 14px;
     padding: 14px 20px;
   }
   .ph-minimal h2 {
@@ -814,7 +835,10 @@
   .ph-welcome {
     background: linear-gradient(135deg, #0369a1 0%, #7e22ce 100%);
     color: white;
-    padding: 20px 20px 16px;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.15);
+    margin: 14px;
+    padding: 20px;
   }
   .ph-welcome h2 {
     margin: 0;
@@ -905,20 +929,23 @@
     margin-bottom: 6px;
   }
 
-  /* Inline alert (Mis deseos) */
+  /* PageHeader alert. danger: red-50/red-200/red-800. warning: orange-500 sólido. */
   .ph-inline-alert {
-    background: color-mix(in srgb, var(--warning) 35%, white);
-    border-left: 3px solid #d97706;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    margin: -6px 14px 14px;
     padding: 10px 16px;
     font-size: var(--fs-body);
     line-height: 1.5;
-    color: #78350f;
+    color: #991b1b;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 12px;
     flex-wrap: wrap;
   }
+  .ph-inline-alert.is-warning { background: #f97316; border-color: #c2410c; color: white; font-weight: 600; }
   .ph-inline-alert strong { font-weight: 700; }
   .ph-inline-alert .ph-help-link { font-size: var(--fs-caption); }
 
@@ -1075,18 +1102,19 @@
     justify-content: space-between;
     gap: 16px;
     flex-wrap: wrap;
-    background: color-mix(in srgb, var(--warning) 22%, white);
-    border-top: 2px solid #d97706;
-    padding: 14px 20px;
-    box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 8px 16px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
   }
   .unsaved-footer-msg {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: var(--fs-body);
+    font-size: var(--fs-caption);
     font-weight: 600;
-    color: #78350f;
+    color: #b45309;
   }
   .unsaved-footer-msg svg { width: 18px; height: 18px; flex-shrink: 0; color: #d97706; }
   .unsaved-footer-actions { display: flex; align-items: center; gap: 14px; }
@@ -1102,12 +1130,47 @@
     font-size: var(--fs-body);
     font-weight: 700;
     color: white;
-    background: #d97706;
+    background: var(--want);
     border: none;
-    padding: 9px 18px;
+    height: 34px;
+    padding: 0 16px;
     border-radius: 999px;
     cursor: pointer;
   }
+  .unsaved-save.is-off { background: #e5e7eb; color: #9ca3af; cursor: default; }
+
+  /* ---- Piezas compartidas ---- */
+  .seg-group {
+    display: inline-flex; align-items: center; gap: 4px; padding: 4px;
+    border-radius: 999px; background: #f3f4f6; border: 1px solid #e5e7eb;
+  }
+  .seg-btn {
+    height: 36px; padding: 0 16px; border-radius: 999px;
+    font-size: 14px; font-weight: 600; color: #4b5563;
+    display: inline-flex; align-items: center;
+  }
+  .seg-btn.is-on { background: var(--primary); color: white; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+  .toast-mock {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #111827; color: white; border-radius: 16px;
+    padding: 8px 8px 8px 16px; font-size: 14px; font-weight: 600;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  }
+  .toast-mock .toast-action {
+    min-height: 44px; padding: 0 16px; border-radius: 999px;
+    display: inline-flex; align-items: center;
+    color: var(--primary); background: rgba(255,255,255,0.1);
+  }
+  .btn-mock {
+    display: inline-flex; align-items: center; border-radius: 999px;
+    padding: 12px 28px; font-size: 18px; color: white; background: var(--primary);
+    border: 1px solid transparent;
+  }
+  .btn-mock.is-outline { background: transparent; color: var(--primary); border-color: var(--primary); }
+  .btn-mock.is-sm { padding: 2px 20px; font-size: 14px; }
+  .btn-mock.is-off { background: var(--cancel); }
+  .shared-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .shared-row.on-dark { background: #14161a; padding: 12px; border-radius: 10px; display: inline-flex; }
 
   /* ---- Beige leftovers: inventory + mocks ---- */
   .beige-table { width: 100%; border-collapse: collapse; font-size: var(--fs-body); margin: 0 0 28px; }
@@ -1591,6 +1654,263 @@
   .want-axis.is-base { border-left-color: var(--gameBase); background: color-mix(in srgb, var(--gameBase) 16%, white); }
   .want-axis.is-expansion { border-left-color: var(--gameExpansion); background: color-mix(in srgb, var(--gameExpansion) 16%, white); }
   .want-axis.is-dark { background: #111827; color: white; border-color: #374151; }
+
+  /* ---- Secciones 18+ ---- */
+  .x-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .x-tint { background: #d2d2d4; padding: 12px; border-radius: 10px; display: inline-flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .x-white { background: white; padding: 14px; border-radius: 10px; border: 1px solid var(--border-soft); }
+  .x-cap { font-size: var(--fs-caption); color: var(--text-muted); margin: 4px 0 0; }
+  .x-box { background: var(--bg-card); border: 1px solid var(--border-soft); height: 56px; width: 120px; display: flex; align-items: center; justify-content: center; font-size: var(--fs-caption); color: var(--text-muted); }
+
+  /* shell */
+  .shell { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 20px; }
+  .side { background: #000; border-radius: 10px; padding: 8px; width: 244px; display: flex; flex-direction: column; gap: 2px; }
+  .side.is-collapsed { width: 68px; align-items: center; }
+  .side-top { display: flex; align-items: center; gap: 6px; color: white; font-weight: 700; font-size: 15px; height: 36px; }
+  .side-logo { width: 32px; height: 32px; border-radius: 50%; background: var(--logo); flex-shrink: 0; }
+  .side-toggle { margin-left: auto; width: 32px; height: 32px; border-radius: 10px; background: #1c1d21; color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+  .side-status { background: #1c1d21; border-radius: 10px; color: white; font-size: 12px; font-weight: 600; height: 36px; display: flex; align-items: center; gap: 8px; padding: 0 10px; margin: 8px 0 6px; }
+  .side-status i { color: var(--primary); font-style: normal; }
+  .side-group { font-size: 11px; font-weight: 600; color: #8a92a0; padding: 8px 10px 2px; }
+  .side-item { height: 36px; border-radius: 10px; padding: 0 10px; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: #c9ced4; }
+  .side-item b { width: 16px; height: 16px; border-radius: 4px; background: currentColor; opacity: .85; flex-shrink: 0; }
+  .side-item.is-on { background: var(--primary); color: white; }
+  .side.is-collapsed .side-item { padding: 0; width: 36px; justify-content: center; }
+  .phone { width: 300px; border: 1px solid var(--border-soft); border-radius: 14px; overflow: hidden; background: var(--bg-app); }
+  .phone-body { height: 70px; }
+  .tabbar { background: #000; display: flex; box-shadow: 0 -4px 16px rgba(0,0,0,0.2); }
+  .tabbar div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0; font-size: 10px; font-weight: 600; color: #b7bcc4; }
+  .tabbar div b { width: 16px; height: 16px; border-radius: 4px; background: currentColor; }
+  .tabbar div.is-on { color: var(--primary); }
+  .tabbar div.is-locked { color: #6b7280; }
+  .sheet { background: white; border-radius: 16px 16px 0 0; padding-bottom: 12px; box-shadow: 0 -8px 32px rgba(0,0,0,0.3); }
+  .sheet-grab { width: 36px; height: 4px; border-radius: 999px; background: #d1d5db; margin: 12px auto 4px; }
+  .sheet-h { font-size: 12px; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: .03em; padding: 8px 16px 4px; }
+  .sheet-i { padding: 12px 16px; font-size: 15px; font-weight: 500; display: flex; gap: 16px; align-items: center; }
+  .sheet-i b { width: 16px; height: 16px; border-radius: 4px; background: #9ca3af; }
+
+  /* header notices */
+  .adv { border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,0.15); padding: 8px 32px 8px 8px; text-align: center; font-size: 15px; line-height: 1.375; position: relative; margin-bottom: 10px; max-width: 720px; }
+  .adv::after { content: "×"; position: absolute; top: 4px; right: 10px; font-size: 18px; opacity: .7; }
+  .adv.is-red { background: #dc2626; color: white; }
+  .adv.is-amber { background: #fef3c7; color: #451a03; border: 1px solid #fcd34d; }
+  .adv.is-sky { background: #e0f2fe; color: #082f49; border: 1px solid #7dd3fc; }
+  .adv.is-pending { background: #0284c7; color: white; }
+
+  /* card controls */
+  .cc-round { width: 28px; height: 28px; border-radius: 50%; border: 1px solid #d1d5db; background: white; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; color: #6b7280; }
+  .cc-round.is-fav { color: var(--warning); }
+  .cc-pill { height: 28px; padding: 0 10px; border-radius: 999px; border: 1px solid #d1d5db; background: white; color: #4b5563; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+  .cc-pill.is-banned { color: #dc2626; background: #fef2f2; border-color: #fecaca; }
+  .cc-pill.is-picked { color: var(--primary); border-color: var(--primary); }
+  .cc-value { background: white; font-weight: 700; font-size: 13px; padding: 4px 10px; border-radius: 999px; border: 1px solid currentColor; box-shadow: 0 1px 2px rgba(0,0,0,.05); display: inline-flex; gap: 4px; align-items: center; }
+  .cc-value-mini { background: white; font-weight: 700; font-size: 9px; width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid currentColor; display: inline-flex; align-items: center; justify-content: center; }
+  .cc-bgg { display: inline-flex; align-items: center; background: var(--bggback); border-radius: 6px; padding-left: 4px; gap: 4px; color: white; font-weight: 700; font-size: 12px; }
+  .cc-bgg span { background: var(--bgg); border-radius: 0 6px 6px 0; width: 24px; text-align: center; padding: 2px; font-size: 14px; }
+  .cc-disc { border: 1px solid rgba(0,0,0,.1); background: rgba(255,255,255,.7); border-radius: 6px; padding: 6px 10px; font-size: var(--fs-caption); font-weight: 600; color: #374151; }
+  .scale { display: flex; gap: 4px; flex-wrap: wrap; }
+
+  /* want buttons */
+  .wb { border-radius: 999px; padding: 8px 20px; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
+  .wb.is-want { background: var(--want); color: white; }
+  .wb.is-off { background: #9ca3af; color: white; opacity: .6; }
+  .wb.is-ghost { border: 1px solid #d1d5db; color: #4b5563; }
+  .wb.is-in { color: var(--want); padding: 0; }
+  .wb.is-in u { color: #dc2626; font-weight: 400; text-decoration-color: #fca5a5; text-underline-offset: 2px; }
+
+  /* bulk */
+  .bulk-bar { display: inline-flex; align-items: center; gap: 8px; background: #111827; color: white; border-radius: 16px; padding: 8px 8px 8px 16px; font-size: 14px; font-weight: 600; box-shadow: 0 8px 32px rgba(0,0,0,0.35); }
+  .bulk-bar span { min-height: 44px; padding: 0 16px; border-radius: 999px; display: inline-flex; align-items: center; color: rgba(255,255,255,.8); }
+  .bulk-bar span.is-danger { background: var(--danger); color: white; }
+  .mode-btn { height: 34px; padding: 0 12px; border-radius: 999px; border: 1px solid #e5e7eb; background: white; font-size: var(--fs-caption); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+  .mode-btn.is-on { background: var(--primary); border-color: var(--primary); color: white; }
+
+  /* swipe */
+  .sw-wrap { display: flex; gap: 28px; flex-wrap: wrap; align-items: flex-start; }
+  .sw-card { width: 240px; border-radius: 16px; border: 1px solid #e5e7eb; background: white; overflow: hidden; position: relative; }
+  .sw-card .gc-cover { height: 150px; }
+  .sw-card-body { padding: 8px 12px 12px; font-size: var(--fs-body-lg); font-weight: 700; }
+  .sw-stamp { position: absolute; top: 16px; border: 3px solid; border-radius: 8px; padding: 2px 8px; font-size: 20px; font-weight: 900; text-transform: uppercase; letter-spacing: .03em; background: rgba(255,255,255,.6); }
+  .sw-stamp.is-yes { left: 16px; color: var(--want); transform: rotate(-12deg); }
+  .sw-stamp.is-no { right: 16px; color: var(--danger); transform: rotate(12deg); }
+  .sw-actions { display: flex; justify-content: center; gap: 20px; margin-top: 12px; }
+  .sw-btn { width: 56px; height: 56px; border-radius: 50%; color: white; font-size: 20px; display: flex; align-items: center; justify-content: center; }
+  .sw-btn.is-no { background: #f43f5e; }
+  .sw-btn.is-yes { background: var(--want); }
+
+  /* forms */
+  .f-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; margin-bottom: 20px; }
+  .f-label { display: inline-block; font-weight: 700; color: #4b5563; font-size: 16px; padding: 4px 0; }
+  .f-input { display: flex; }
+  .f-input i { width: 45px; border: 1px solid var(--stroke); border-right: 0; border-radius: 6px 0 0 6px; background: #f3f4f6; color: #6b7280; display: flex; align-items: center; justify-content: center; font-style: normal; }
+  .f-input div { flex: 1; border: 1px solid var(--stroke); border-radius: 6px; padding: 12px; font-size: 16px; background: white; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+  .f-input i + div { border-radius: 0 6px 6px 0; }
+  .f-input.is-focus div { border-color: var(--primary); box-shadow: 0 0 6px var(--primary); }
+  .f-input.is-off div { background: #e5e7eb; color: #6b7280; }
+  .f-error { color: var(--danger); font-size: 14px; margin-top: 2px; }
+  .f-alert { border-radius: 6px; padding: 12px; font-size: 14px; color: white; text-align: center; max-width: 420px; }
+  .f-alert.is-error { background: var(--danger); }
+  .f-alert.is-ok { background: #14b8a6; font-weight: 700; }
+  .f-switch { width: 36px; height: 20px; border-radius: 999px; background: #9ca3af; position: relative; display: inline-block; }
+  .f-switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: white; }
+  .f-switch.is-on { background: var(--primary); }
+  .f-switch.is-on::after { left: 18px; }
+  .f-range { height: 14px; width: 220px; border-radius: 999px; background: linear-gradient(to right, #fb0900, #ffca1c, #0aa516); position: relative; }
+  .f-range::after { content: ""; position: absolute; top: -3px; left: 150px; width: 20px; height: 20px; border-radius: 50%; background: var(--primary); box-shadow: inset 0 0 0 5px white, 0 1px 6px rgba(0,0,0,.3); }
+
+  /* overlays */
+  .ov-stage { background: rgba(213,220,226,.7); border-radius: 10px; padding: 28px; display: flex; justify-content: center; }
+  .ov-modal { background: white; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,.1); padding: 28px 24px 20px; width: 340px; text-align: center; position: relative; }
+  .ov-modal::after { content: "×"; position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,.6); color: gray; font-size: 20px; line-height: 32px; }
+  .ov-modal h4 { margin: 0 0 8px; font-size: 20px; font-weight: 700; }
+  .ov-modal p { margin: 0; font-size: 14px; color: #374151; }
+  .ov-actions { display: flex; justify-content: center; gap: 12px; padding-top: 16px; }
+  .ov-btn { border-radius: 999px; padding: 6px 24px; font-size: 16px; }
+  .ov-btn.is-cancel { border: 1px solid var(--cancel); color: var(--cancel); }
+  .ov-btn.is-danger { background: var(--danger); color: white; }
+  .ov-tip { display: inline-block; background: #222; color: white; font-size: 12px; font-weight: 500; line-height: 1.375; border-radius: 6px; padding: 6px 10px; max-width: 260px; box-shadow: 0 10px 15px -3px rgba(0,0,0,.1); }
+  .ov-tour { background: white; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.25); padding: 16px; width: 300px; color: #1f2937; }
+  .ov-tour b { display: block; font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .ov-tour p { margin: 0 0 12px; font-size: 14px; line-height: 1.45; }
+  .ov-tour-foot { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #6b7280; }
+  .ov-tour-foot span { margin-left: auto; border-radius: 999px; padding: 5px 12px; font-size: 13px; font-weight: 600; border: 1px solid #d1d5db; color: #374151; background: white; }
+  .ov-tour-foot span + span { margin-left: 0; background: var(--primary); border-color: var(--primary); color: white; }
+  .ov-demo { display: block; width: fit-content; background: #f59e0b; color: white; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding: 3px 12px; border-radius: 999px; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
+
+  /* filters */
+  .fl-aside { width: 260px; background: white; border: 1px solid #e5e7eb; border-radius: 16px 0 0 0; display: flex; flex-direction: column; }
+  .fl-head { height: 52px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 14px; font-weight: 600; }
+  .fl-head span { width: 36px; height: 36px; border-radius: 10px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; }
+  .fl-body { padding: 12px; display: flex; flex-direction: column; gap: 14px; }
+  .fl-title { font-size: 12px; font-weight: 600; color: #6b7280; margin: 0 0 6px; }
+  .fl-foot { border-top: 1px solid #e5e7eb; padding: 12px; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 14px; font-weight: 600; color: var(--primary); }
+  .fl-foot span { height: 36px; padding: 0 16px; border-radius: 999px; background: var(--primary); color: white; display: inline-flex; align-items: center; }
+  .fchip { display: inline-flex; align-items: center; gap: 4px; border-radius: 8px; padding: 4px 10px; font-size: 12px; font-weight: 600; }
+  .fchip.is-off { background: #f3f4f6; color: #4b5563; }
+  .fchip.is-soft { border: 1px solid var(--primary); background: color-mix(in srgb, var(--primary) 10%, white); color: var(--primary); }
+  .fchip.is-on { background: var(--primary); color: white; }
+  .fchip.is-add { border: 1px dashed #9ca3af; color: #4b5563; }
+  .fchip.is-active { background: white; border: 1px solid #e5e7eb; color: #374151; }
+
+  /* people, comments, reports */
+  .av { width: 36px; height: 36px; border-radius: 50%; background: var(--secondary); color: white; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 0 0 1px rgba(150,150,150,.5); flex-shrink: 0; }
+  .ub { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; line-height: 1.3; }
+  .ub small { display: block; color: var(--text-muted); font-size: 11px; }
+  .ub.is-new { background: #f5f3ff; border-radius: 6px; box-shadow: 0 0 0 4px #f5f3ff; }
+  .ub.is-new b { color: #6d28d9; }
+  .nub { display: inline-block; border-radius: 999px; background: #ede9fe; color: #5b21b6; font-size: 10px; font-weight: 600; padding: 2px 6px; }
+  .cm { position: relative; border-radius: 8px; border: 1px solid; padding: 8px 12px; font-size: 13px; max-width: 280px; }
+  .cm.is-other { background: #bae6fd; border-color: #38bdf8; }
+  .cm.is-mine { background: #99f6e4; border-color: #2dd4bf; margin-left: 60px; }
+  .rp-btn { display: inline-flex; align-items: center; gap: 4px; border: 1px solid #ca8a04; color: #a16207; border-radius: 999px; padding: 1px 6px; font-size: 10px; font-weight: 700; }
+  .rp-box { border: 1px solid #2dd4bf; border-radius: 8px; padding: 8px 12px; max-width: 320px; font-size: 12px; }
+  .rp-box b { display: block; font-size: 9px; }
+  .rp-box u { font-size: 11px; font-weight: 700; color: #0d9488; }
+  .nt { display: flex; gap: 12px; padding: 8px; border-bottom: 1px solid #d1d5db; font-size: 12px; max-width: 340px; background: white; }
+  .nt i { color: var(--primary); font-style: normal; }
+  .nt b { display: block; font-size: 10px; margin-bottom: 4px; }
+  .nt span { color: #4b5563; }
+  .pg { display: inline-flex; align-items: center; gap: 6px; }
+  .pg span { width: 36px; height: 36px; border-radius: 50%; border: 1px solid #d1d5db; color: #4b5563; display: inline-flex; align-items: center; justify-content: center; }
+  .pg span.is-next { background: var(--primary); border-color: var(--primary); color: white; }
+  .pg div { height: 36px; padding: 0 10px; border-radius: 999px; border: 1px solid #e5e7eb; background: white; display: inline-flex; align-items: center; font-size: var(--fs-caption); font-weight: 600; }
+  .pg-size { height: 34px; padding: 0 10px; border-radius: 999px; border: 1px solid #e5e7eb; background: white; display: inline-flex; align-items: center; font-size: var(--fs-caption); font-weight: 600; }
+  .tb { width: 100%; max-width: 560px; border-collapse: collapse; font-size: 14px; background: white; box-shadow: 0 10px 15px -3px rgba(0,0,0,.1); }
+  .tb th { text-align: left; padding: 8px; background: #f3f4f6; border-bottom: 1px solid #d1d5db; }
+  .tb td { padding: 8px; border-bottom: 1px solid #9ca3af; }
+
+  /* ---- 28 · Propuesta de identidad (inspirada en Clay) ---- */
+  .idn {
+    --id-canvas: #fffaf0;
+    --id-soft: #faf5e8;
+    --id-card: #f5f0e0;
+    --id-strong: #ebe6d6;
+    --id-line: #e4dcc8;
+    --id-ink: #2e294e; /* azul noche del contorno del logo */
+    --id-body: #3a3a3a;
+    --id-muted: #6a675f;
+    --id-celeste: #6cbfe3; /* celeste del logo */
+    --id-sol: #ffc700; /* amarillo del sol, los meeples y los dados del logo */
+    --id-peach: #ffb084;
+    --id-pink: #f29bb4;
+    --id-mint: #a4d4c5;
+    --id-lilac: #c9b6f0;
+    --id-sky: #b4bdf5;
+    --id-display: "Bricolage Grotesque", ui-rounded, "SF Pro Rounded", -apple-system, sans-serif;
+  }
+  .id-canvas { background: var(--id-canvas); border: 1px solid var(--id-line); border-radius: 24px; padding: 24px; color: var(--id-ink); }
+  .id-h { font-family: var(--id-display); font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; margin: 0; }
+  .id-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px; }
+  @media (max-width: 820px) { .id-pair { grid-template-columns: 1fr; } }
+  .id-tag { font-size: var(--fs-caption); font-weight: 700; letter-spacing: .04em; color: var(--text-muted); margin: 0 0 8px; }
+  .id-now { background: var(--bg-app); border-radius: 12px; padding: 16px; }
+  .id-new { background: var(--id-canvas); border: 1px solid var(--id-line); border-radius: 12px; padding: 16px; color: var(--id-ink); }
+
+  .id-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 12px; margin-bottom: 14px; }
+  .id-sw { border-radius: 16px; padding: 44px 12px 10px; font-size: var(--fs-caption); font-weight: 600; color: var(--id-ink); border: 1px solid rgba(0,0,0,.06); }
+  .id-sw small { display: block; font-weight: 500; opacity: .75; font-variant-numeric: tabular-nums; }
+  .id-sw.on-dark { color: white; }
+
+  .id-type { display: grid; grid-template-columns: 150px 1fr; gap: 6px 20px; align-items: baseline; }
+  .id-type span { font-size: var(--fs-caption); color: var(--id-muted); font-family: ui-monospace, Menlo, monospace; }
+
+  /* header de página */
+  .id-ph { background: var(--id-card); border-radius: 24px; padding: 16px 20px; display: flex; align-items: center; gap: 14px; }
+  .id-ph-tile { width: 48px; height: 48px; border-radius: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--id-ink); }
+  .id-ph-tile svg { width: 26px; height: 26px; }
+  .id-ph h3 { font-size: 32px; }
+  .id-ph-meta { margin-left: auto; font-size: var(--fs-body); font-weight: 600; color: var(--id-muted); white-space: nowrap; }
+  .id-ph-help { font-size: var(--fs-body); font-weight: 600; color: #0077a8; text-decoration: underline; text-underline-offset: 3px; margin-top: 2px; }
+
+  /* welcome */
+  .id-welcome { background: var(--id-celeste); color: var(--id-ink); border-radius: 24px; padding: 24px; display: flex; align-items: center; gap: 20px; overflow: hidden; }
+  .id-welcome h3 { font-size: 34px; }
+  .id-welcome p { margin: 8px 0 0; font-size: var(--fs-body-lg); }
+  .id-welcome a { color: var(--id-ink); font-weight: 600; text-underline-offset: 3px; }
+  .id-meeples { margin-left: auto; display: flex; align-items: flex-end; flex-shrink: 0; }
+  .id-meeples svg { width: 54px; height: 54px; margin-left: -10px; }
+  .id-meeples svg:nth-child(2) { width: 72px; height: 72px; }
+
+  /* cards */
+  .id-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 16px; }
+  .id-gc { border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; color: var(--id-ink); }
+  .id-gc .gc-cover { height: 120px; }
+  .id-gc-body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px; }
+  .id-gc h4 { font-size: 19px; line-height: 1.2; min-height: 2.4em; }
+  .id-badge { display: inline-flex; align-items: center; gap: 5px; width: fit-content; border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 700; letter-spacing: .04em; color: white; }
+  .id-gc.is-base { background: var(--id-card); }
+  .id-gc.is-expansion { background: var(--id-sky); }
+  .id-gc.is-combo { background: var(--id-lilac); }
+  .id-gc.is-other { background: var(--id-mint); }
+  .id-gc .gc-chip { background: rgba(255,255,255,.75); }
+  .now-gc { border-radius: 8px; overflow: hidden; }
+  .now-gc .gc-cover { height: 120px; }
+  .now-gc h4 { margin: 0; font-size: 19px; line-height: 1.2; min-height: 2.4em; font-weight: 700; }
+
+  /* botones */
+  .id-btn { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 20px; border-radius: 999px; font-size: 14px; font-weight: 600; }
+  .id-btn.is-ink { background: var(--id-celeste); color: var(--id-ink); }
+  .id-btn.is-line { background: var(--id-canvas); color: var(--id-ink); border: 1px solid var(--id-ink); }
+  .id-btn.is-want { background: var(--want); color: white; }
+  .id-btn.is-sm { height: 34px; padding: 0 14px; font-size: 13px; }
+  .id-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .id-bar { background: var(--id-canvas); border: 1px solid var(--id-line); border-radius: 16px; padding: 8px 12px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .id-search { flex: 1 1 160px; height: 34px; border-radius: 999px; background: var(--id-card); padding: 0 12px; display: flex; align-items: center; font-size: 13px; color: var(--id-muted); }
+  .id-seg { display: inline-flex; gap: 4px; padding: 4px; border-radius: 999px; background: var(--id-card); }
+  .id-seg span { height: 30px; padding: 0 14px; border-radius: 999px; display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; color: var(--id-muted); }
+  .id-seg span.is-on { background: var(--id-ink); color: white; }
+
+  /* bloques */
+  .id-blocks { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .id-block { border-radius: 24px; padding: 20px; color: var(--id-ink); display: flex; flex-direction: column; gap: 6px; min-height: 150px; }
+  .id-block b { font-family: var(--id-display); font-weight: 600; font-size: 44px; letter-spacing: -0.03em; line-height: 1; }
+  .id-block span { font-size: var(--fs-body-lg); font-weight: 600; }
+  .id-block svg { width: 40px; height: 40px; margin-top: auto; align-self: flex-end; opacity: .9; }
+  .id-empty { background: var(--id-card); border-radius: 24px; padding: 28px; text-align: center; }
+  .id-empty-art { display: flex; justify-content: center; align-items: flex-end; margin-bottom: 12px; }
+  .id-empty-art svg { width: 44px; height: 44px; margin: 0 -4px; }
+  .id-empty h4 { font-size: 24px; margin-bottom: 6px; }
+  .id-empty p { margin: 0 auto 16px; max-width: 320px; font-size: var(--fs-body); color: var(--id-body); }
 </style>
 </head>
 <body>
@@ -1598,13 +1918,14 @@
 
   <div class="doc-header">
     <h1>Sistema de diseño — Math Trade Argentina</h1>
-    <p>v1 · Estados de confianza, tipografía y paleta reutilizada. Cada decisión de color parte de lo que ya existe en tailwind.config.js — nada se inventa donde ya hay un token cumpliendo ese rol.</p>
+    <p>v2 · Referencia de lo que está implementado en web-ui, revisada contra el código el 14/11/2026. Los tokens viven en <code>tailwind.config.js</code>; cada componente nombra su archivo en <code>src/components</code>. Lo que todavía no existe en el código está marcado como tal.</p>
+    <p style="margin-top:10px;"><a href="#identity" style="color:var(--primary); font-weight:600;">→ Propuesta de identidad visual (sección 28)</a></p>
   </div>
 
   <section>
-    <div class="section-label">01 · Paleta existente</div>
-    <h2 class="section-title">Tokens de marca (sin cambios)</h2>
-    <p class="section-desc">Estos ya están en el sistema y no se tocan. El sistema de estados nuevo se construye alrededor de ellos, no encima.</p>
+    <div class="section-label">01 · Paleta</div>
+    <h2 class="section-title">Tokens de marca</h2>
+    <p class="section-desc">Colores propios definidos en <code>tailwind.config.js</code>. Del set de Tailwind están habilitados <code>gray</code>, <code>red</code>, <code>orange</code>, <code>amber</code>, <code>lime</code>, <code>green</code>, <code>rose</code>, <code>purple</code>, <code>indigo</code>, <code>sky</code>, <code>yellow</code>, <code>teal</code> y <code>violet</code>; cualquier otro (emerald, fuchsia…) no compila.</p>
     <div class="swatch-grid">
       <div class="swatch"><div class="swatch-color" style="background:var(--primary)"></div><div class="swatch-meta"><span class="swatch-name">primary</span><span class="swatch-hex">#009ddb</span></div></div>
       <div class="swatch"><div class="swatch-color" style="background:var(--secondary)"></div><div class="swatch-meta"><span class="swatch-name">secondary</span><span class="swatch-hex">#d0637c</span></div></div>
@@ -1621,15 +1942,36 @@
       <div class="swatch"><div class="swatch-color" style="background:var(--purple-600)"></div><div class="swatch-meta"><span class="swatch-name">purple-600</span><span class="swatch-hex">#9333ea</span></div></div>
       <div class="swatch"><div class="swatch-color" style="background:var(--stroke)"></div><div class="swatch-meta"><span class="swatch-name">stroke</span><span class="swatch-hex">#bbc6ce</span></div></div>
     </div>
+
+    <div class="section-label" style="margin-top:28px;">Tinte de categoría de las cards</div>
+    <p class="section-desc" style="margin-bottom:16px;">El fondo de cada card es el token de su categoría al 20% sobre blanco, guardado como color sólido en <code>badgeType/cardKind.ts</code> (<code>cardKindBorderClass</code>). No es una utilidad con alpha: sobre el gris de la página un tinte translúcido sale más sucio.</p>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch-color" style="background:#d2d2d4; border-left:6px solid var(--gameBase)"></div><div class="swatch-meta"><span class="swatch-name">base</span><span class="swatch-hex">#d2d2d4</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#d2dcf7; border-left:6px solid var(--gameExpansion)"></div><div class="swatch-meta"><span class="swatch-name">expansion</span><span class="swatch-hex">#d2dcf7</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#ded3f0; border-left:6px solid var(--gameCombo)"></div><div class="swatch-meta"><span class="swatch-name">combo</span><span class="swatch-hex">#ded3f0</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#cfe4e2; border-left:6px solid var(--gameOther)"></div><div class="swatch-meta"><span class="swatch-name">other</span><span class="swatch-hex">#cfe4e2</span></div></div>
+    </div>
+
+    <div class="section-label" style="margin-top:28px;">Escala de rating de la BGG</div>
+    <p class="section-desc" style="margin-bottom:16px;">Los círculos de rating usan los colores de la BGG según el entero del valor (<code>ratingColor</code> en <code>bggInfo/utils.ts</code>), no <code>primary</code>. Gris cuando no hay dato, y para el promedio con menos de 30 votos.</p>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch-color" style="background:#666e75"></div><div class="swatch-meta"><span class="swatch-name">sin dato</span><span class="swatch-hex">#666e75</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#b2151f"></div><div class="swatch-meta"><span class="swatch-name">1 – 2</span><span class="swatch-hex">#b2151f</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#d71925"></div><div class="swatch-meta"><span class="swatch-name">3 – 4</span><span class="swatch-hex">#d71925</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#5369a2"></div><div class="swatch-meta"><span class="swatch-name">5 – 6</span><span class="swatch-hex">#5369a2</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#1978b3"></div><div class="swatch-meta"><span class="swatch-name">7</span><span class="swatch-hex">#1978b3</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#1d804c"></div><div class="swatch-meta"><span class="swatch-name">8</span><span class="swatch-hex">#1d804c</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#186b40"></div><div class="swatch-meta"><span class="swatch-name">9 – 10</span><span class="swatch-hex">#186b40</span></div></div>
+    </div>
   </section>
 
   <section>
     <div class="section-label">02 · Tipografía</div>
     <h2 class="section-title">Escala semántica + nivel display</h2>
-    <p class="section-desc">La escala de las cards (caption→heading) se extiende hacia arriba con <code>display</code>, fluido con clamp(), para que los títulos de página dejen de resolverse ad-hoc con text-4xl/text-6xl.</p>
+    <p class="section-desc">Cinco niveles, como clases <code>text-caption</code> … <code>text-display</code>. <code>display</code> es fluido con clamp() y es el título de las páginas con header <code>compact</code>; el header <code>minimal</code> usa <code>heading</code>.</p>
 
     <div class="type-row">
-      <span class="type-token is-new">display</span>
+      <span class="type-token">display</span>
       <span style="font-size:var(--fs-display); line-height:var(--lh-display); font-weight:var(--fw-display);">Mi ludoteca</span>
       <span class="type-spec">clamp(28→40px) / 700</span>
     </div>
@@ -1656,8 +1998,11 @@
   </section>
 
   <section>
-    <div class="section-label">03 · Componente central</div>
+    <div class="section-label">03 · Propuesta sin implementar</div>
     <h2 class="section-title">Badge de estado de confianza</h2>
+    <div class="pending-note">
+      <b>No está en el código.</b> web-ui no tiene hoy un badge con estos cinco estados de trade. Lo que sí se muestra como estado son los chips <b>Recibido</b> / <b>Entregado</b> de Resultados (sección 16) y el estado de caja y componentes de un ejemplar (sección 09). Esta sección queda como propuesta.
+    </div>
     <p class="section-desc">Cinco estados. Cuatro reutilizan un token existente cuyo significado ya calzaba. Uno —confirmada— no suma un color nuevo a una familia cálida ya saturada: cambia de <i>tratamiento</i> (relleno sólido + candado + mayor peso), no de hue.</p>
 
     <div class="badge-grid">
@@ -1698,7 +2043,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
           En disputa
         </span>
-        <span class="badge-caption">Token nuevo: <b>purple-600</b> del set Tailwind ya habilitado (no violet/fuchsia, que no están activos). Reservado para intervención del equipo.</span>
+        <span class="badge-caption"><b>purple-600</b>, del set Tailwind habilitado. Reservado para intervención del equipo; hoy ese hue ya lo usa el chip de admin (<code>Chip tone="admin"</code>).</span>
       </div>
     </div>
 
@@ -1720,9 +2065,9 @@
   </section>
 
   <section>
-    <div class="section-label">04 · PageHeader — mock visual</div>
-    <h2 class="section-title">Banners livianos — 3 variantes</h2>
-    <p class="section-desc">Propuesta para reemplazar el hero gradiente + texto largo por headers que ocupan ≤ 80px y delegan la explicación a <code>HelpContext</code> (popover) o alertas inline donde el riesgo lo justifica. Abrí este archivo en el browser para revisar los mocks.</p>
+    <div class="section-label">04 · PageHeader</div>
+    <h2 class="section-title">Header de página — 3 variantes</h2>
+    <p class="section-desc"><code>src/components/pageHeader</code>. Una tarjeta blanca (<code>rounded-main</code> de 16px + <code>shadow-main</code>) que ocupa ≤ 80px. La explicación larga va en <code>HelpContext</code> y las advertencias en una alerta debajo del header, no adentro.</p>
 
     <table class="ph-spec-table">
       <thead>
@@ -1738,19 +2083,19 @@
           <td><code>compact</code></td>
           <td>56–72px</td>
           <td>Pantallas de tarea</td>
-          <td>Título + meta (contador) + link de ayuda colapsado</td>
+          <td>Título en <code>text-display</code> + meta (contador) + link de ayuda</td>
         </tr>
         <tr>
           <td><code>minimal</code></td>
           <td>~48px</td>
           <td>Pantallas simples</td>
-          <td>Solo título, sin gradiente ni ayuda</td>
+          <td>Solo título en <code>text-heading</code>, sin ayuda. Es el default</td>
         </tr>
         <tr>
           <td><code>welcome</code></td>
           <td>~80px</td>
           <td>Solo Home</td>
-          <td>Título + links inline (tutorial, Telegram, instructivo)</td>
+          <td>Gradiente <code>sky-700 → purple-700</code>, título + links inline como children</td>
         </tr>
       </tbody>
     </table>
@@ -1770,7 +2115,7 @@
             </div>
           </div>
         </div>
-        <div class="variant-card-spec">Mi ludoteca · Yo ofrezco · Otros ofrecen · Mis deseos · Resultados</div>
+        <div class="variant-card-spec">Mi ludoteca · Yo ofrezco · Otros ofrecen · Mis deseos · Resultados · Resultados provisorios · Historial · Favoritos · Participantes · Mis reportes</div>
       </div>
 
       <div class="variant-card">
@@ -1780,7 +2125,7 @@
             <h2>Preguntas frecuentes</h2>
           </div>
         </div>
-        <div class="variant-card-spec">FAQs · Estadísticas · Mi cuenta · Referidos · Memardiums</div>
+        <div class="variant-card-spec">FAQs · Estadísticas · Mi cuenta · Mis datos · Referidos · Memardiums · pantallas de admin</div>
       </div>
 
       <div class="variant-card">
@@ -1802,7 +2147,7 @@
     </div>
 
     <div class="section-label" style="margin-top:8px;">HelpContext — texto largo fuera del header</div>
-    <p class="section-desc" style="margin-bottom:16px;">El párrafo de instrucciones que hoy vive en el banner pasa acá. El componente ya existe; solo hay que enlazarlo desde el link "▸ ¿Cómo funciona?" del header compacto.</p>
+    <p class="section-desc" style="margin-bottom:16px;"><code>src/components/help-context</code>. El header compacto lo recibe por <code>helpId</code> y lo muestra con <code>variant="link"</code>: un link de texto en <code>primary</code>. Fuera del header, el default <code>variant="pill"</code> es la pastilla naranja de abajo. Los dos abren el mismo popover.</p>
     <div class="help-popover-wrap">
       <div class="help-context" title="Mock estático — en la app esto abre al click">
         <span class="help-context-label">¿Cómo ofrezco mis artículos?</span>
@@ -1819,29 +2164,11 @@
       </div>
     </div>
 
-    <div class="section-label" style="margin-top:32px;">Galería por pantalla — antes / después</div>
+    <div class="section-label" style="margin-top:32px;">Galería por pantalla</div>
 
     <div class="page-gallery">
-      <!-- Mi ludoteca -->
       <div class="page-frame">
-        <div class="page-frame-label">Mi ludoteca <span class="height-badge before">ANTES ~190px</span></div>
-        <div class="ph-before">
-          <h2>Mi ludoteca</h2>
-          <p>Desde acá vas a poder cargar tus artículos (tus juegos), detallando su estado, su idioma y el resto de las características.<br/><br/><strong>ATENCIÓN:</strong> Cargar los artículos a tu ludoteca no implica que los pongas a disposición en el Math Trade.</p>
-          <button type="button" class="ph-hide-btn">Ocultar este texto ↑</button>
-        </div>
-        <div class="ph-toolbar">
-          <div class="ph-toolbar-left">
-            <label>Buscar</label>
-            <input type="text" placeholder="Filtrar…" readonly>
-            <span class="ph-meta">40 artículos</span>
-          </div>
-        </div>
-        <div class="ph-content-placeholder"><div class="ph-content-skeleton"></div><div class="ph-content-skeleton"></div></div>
-      </div>
-
-      <div class="page-frame">
-        <div class="page-frame-label">Mi ludoteca <span class="height-badge">DESPUÉS ~68px</span></div>
+        <div class="page-frame-label">Mi ludoteca <span class="height-badge">~68px</span></div>
         <div class="ph-compact">
           <div class="ph-compact-row">
             <h2>Mi ludoteca</h2>
@@ -1864,23 +2191,8 @@
         <div class="ph-content-placeholder"><div class="ph-content-skeleton"></div><div class="ph-content-skeleton"></div></div>
       </div>
 
-      <!-- Otros ofrecen -->
       <div class="page-frame">
-        <div class="page-frame-label">Otros ofrecen <span class="height-badge before">ANTES ~240px</span></div>
-        <div class="ph-before" style="background:linear-gradient(to bottom left,#0284c7,#581c87); min-height:240px;">
-          <h2>Otros ofrecen</h2>
-          <p>Es acá donde nacen los intercambios. Debajo vas a ver todos los juegos ó ejemplares distintos… Tocando en "Lo quiero" elegís el juego… También podés marcar cuáles de tus ejemplares ofrecés a cambio… Te aconsejamos tomarte el tiempo suficiente, prestar atención y chequear dos veces…</p>
-          <button type="button" class="ph-hide-btn">Ocultar este texto ↑</button>
-        </div>
-        <div class="ph-tabs">
-          <div class="ph-tab active">Juegos</div>
-          <div class="ph-tab">Ejemplares</div>
-        </div>
-        <div class="ph-content-placeholder"><div class="ph-content-skeleton"></div><div class="ph-content-skeleton"></div></div>
-      </div>
-
-      <div class="page-frame">
-        <div class="page-frame-label">Otros ofrecen <span class="height-badge">DESPUÉS ~60px</span></div>
+        <div class="page-frame-label">Otros ofrecen <span class="height-badge">~60px + alerta</span></div>
         <div class="ph-compact">
           <div class="ph-compact-row">
             <h2>Otros ofrecen</h2>
@@ -1890,26 +2202,18 @@
             <button type="button" class="ph-help-link">▸ ¿Cómo deseo un juego?</button>
           </div>
         </div>
+        <div class="ph-inline-alert">
+          <span>No elijas dos ejemplares del mismo juego salvo que quieras llevarte dos copias.</span>
+        </div>
         <div class="ph-tabs">
-          <div class="ph-tab active">Juegos</div>
-          <div class="ph-tab">Ejemplares <span style="font-size:10px;color:#ea580c;">ⓘ</span></div>
-        </div>
-        <div class="ph-content-placeholder"><div class="ph-content-skeleton"></div><div class="ph-content-skeleton"></div></div>
-      </div>
-
-      <!-- Mis deseos -->
-      <div class="page-frame">
-        <div class="page-frame-label">Mis deseos <span class="height-badge before">ANTES ~260px</span></div>
-        <div class="ph-before" style="background:linear-gradient(to bottom left,#059669,#075985); min-height:260px;">
-          <h2>Mis deseos</h2>
-          <p><strong>IMPORTANTE: TE RECOMENDAMOS QUE USES ESTA PARTE SÓLO SI ENTENDÉS BIEN QUÉ ESTÁS HACIENDO, DE LO CONTRARIO PODRÍAS RECIBIR DOS VECES EL MISMO JUEGO.</strong><br/><br/>Debajo vas a ver todos los juegos individuales… Recordá que los cambios son de un ítem por un ítem…</p>
-          <button type="button" class="ph-hide-btn">Ocultar este texto ↑</button>
+          <div class="ph-tab">Juegos</div>
+          <div class="ph-tab active">Ejemplares</div>
         </div>
         <div class="ph-content-placeholder"><div class="ph-content-skeleton"></div><div class="ph-content-skeleton"></div></div>
       </div>
 
       <div class="page-frame">
-        <div class="page-frame-label">Mis deseos <span class="height-badge">DESPUÉS ~60px + alert</span></div>
+        <div class="page-frame-label">Mis deseos <span class="height-badge">~60px</span></div>
         <div class="ph-compact">
           <div class="ph-compact-row">
             <h2>Mis deseos</h2>
@@ -1919,26 +2223,11 @@
             <button type="button" class="ph-help-link">▸ ¿Cómo funciona la vista avanzada?</button>
           </div>
         </div>
-        <div class="ph-inline-alert">
-          <span><strong>Atención:</strong> no elijas dos ejemplares del mismo juego salvo que quieras llevarte dos copias.</span>
-          <button type="button" class="ph-help-link">Más info</button>
-        </div>
         <div class="ph-content-placeholder"><div class="ph-content-skeleton"></div><div class="ph-content-skeleton"></div></div>
       </div>
 
-      <!-- Home -->
       <div class="page-frame">
-        <div class="page-frame-label">Home <span class="height-badge before">ANTES ~180px</span></div>
-        <div class="ph-before" style="background:linear-gradient(to bottom left,#0369a1,#7e22ce); min-height:180px;">
-          <h2>Bienvenides al nuevo sitio del Math Trade Argentina, el mejor del mundo.</h2>
-          <p>Si es tu primera experiencia, te aconsejamos que veas el video tutorial. También te podés sumar al Canal del MT en Telegram, y leer el Instructivo del MT Argentina.</p>
-          <button type="button" class="ph-hide-btn">Ocultar este texto ↑</button>
-        </div>
-        <div class="ph-content-placeholder" style="min-height:60px;"><div class="ph-content-skeleton" style="grid-column:1/-1;height:40px;"></div></div>
-      </div>
-
-      <div class="page-frame">
-        <div class="page-frame-label">Home <span class="height-badge">DESPUÉS ~80px</span></div>
+        <div class="page-frame-label">Home <span class="height-badge">~80px</span></div>
         <div class="ph-welcome">
           <h2>Bienvenides al Math Trade Argentina</h2>
           <div class="ph-welcome-links">
@@ -1954,54 +2243,35 @@
     </div>
 
     <div class="note">
-      <b>Mapa de migración:</b> cada pantalla pasa de <code>description={...}</code> en <code>PageHeader</code> a <code>variant</code> + <code>meta</code> + <code>helpId</code>. El texto largo se mueve a claves <code>helpcontext.*</code> (ya existentes o nuevas). Las advertencias de alto riesgo (Mis deseos) usan <code>ph-inline-alert</code> debajo del header, no dentro del hero.
+      <b>Props:</b> <code>variant</code> + <code>meta</code> + <code>helpId</code> / <code>help</code> + <code>alert</code> / <code>alertTone</code>. La alerta va debajo del header y tiene dos tonos: <code>danger</code> (default; <code>red-50</code>, borde <code>red-200</code>, texto <code>red-800</code>) para riesgo alto, como elegir dos copias del mismo juego, y <code>warning</code> (<code>orange-500</code> sólido, texto blanco) para una etapa o restricción, como la oferta cerrada en Yo ofrezco.
+      <br/><br/>
+      <b>Sobre el lenguaje de alarma:</b> las mayúsculas y el "ATENCIÓN" no van en el header. Una aclaración de bajo riesgo ("cargar ≠ ofertar") va en la ayuda; el color crítico se reserva para cuando hay algo irreversible en juego.
+    </div>
+    <div class="page-frame" style="max-width:520px; margin-top:20px;">
+      <div class="page-frame-label">Yo ofrezco · alertTone="warning"</div>
+      <div class="ph-compact">
+        <div class="ph-compact-row">
+          <h2>Yo ofrezco</h2>
+          <span class="ph-meta">12 ofrecidos</span>
+        </div>
+      </div>
+      <div class="ph-inline-alert is-warning"><span>La etapa de ofertas ya cerró.</span></div>
     </div>
 
     <table class="ph-spec-table ph-map-table">
       <thead>
-        <tr><th>Página</th><th>Variante</th><th>Meta</th><th>Ayuda / alerta</th></tr>
+        <tr><th>Página</th><th>Variante</th><th>Meta</th><th><code>helpId</code> / alerta</th></tr>
       </thead>
       <tbody>
         <tr><td>Home</td><td><code>welcome</code></td><td>—</td><td>Links inline</td></tr>
-        <tr><td>Mi ludoteca</td><td><code>compact</code></td><td>N artículos</td><td><code>howToOfferCollection</code></td></tr>
-        <tr><td>Yo ofrezco</td><td><code>compact</code></td><td>N ofrecidos</td><td>nuevo <code>helpId</code></td></tr>
-        <tr><td>Otros ofrecen</td><td><code>compact</code></td><td>N juegos</td><td><code>advanceMeaning.items</code> en tab Ejemplares</td></tr>
-        <tr><td>Mis deseos</td><td><code>compact</code></td><td>N deseos</td><td>Alert inline + <code>advanceMeaning.wants</code></td></tr>
-        <tr><td>Resultados</td><td><code>compact</code></td><td>—</td><td>Subtítulo: "Tus intercambios"</td></tr>
-        <tr><td>FAQs, Stats, Cuenta…</td><td><code>minimal</code></td><td>—</td><td>—</td></tr>
+        <tr><td>Mi ludoteca</td><td><code>compact</code></td><td>N artículos</td><td><code>page.myCollection</code> + alerta</td></tr>
+        <tr><td>Yo ofrezco</td><td><code>compact</code></td><td>N ofrecidos</td><td><code>page.myOffer</code> + alerta <code>warning</code> cuando la oferta cerró</td></tr>
+        <tr><td>Otros ofrecen</td><td><code>compact</code></td><td>N juegos</td><td><code>page.offer</code> + alerta <code>danger</code> de copias duplicadas en Ejemplares</td></tr>
+        <tr><td>Mis deseos</td><td><code>compact</code></td><td>N deseos</td><td><code>page.myWants</code></td></tr>
+        <tr><td>Resultados</td><td><code>compact</code></td><td>—</td><td><code>page.results</code></td></tr>
+        <tr><td>FAQs, Stats, Cuenta, admin…</td><td><code>minimal</code></td><td>—</td><td>—</td></tr>
       </tbody>
     </table>
-  </section>
-
-  <section>
-    <div class="section-label">05 · Aplicación</div>
-    <h2 class="section-title">Mi ludoteca — antes / después</h2>
-    <p class="section-desc">Esta pantalla no tiene ninguna carga de irreversibilidad (según el audit: cargar un artículo no implica ofertarlo). Por eso el "después" no usa ningún badge de estado — es la prueba de que el sistema no es "poner colores en todos lados", es reservarlos para donde pesan.</p>
-
-    <div class="compare">
-      <div class="compare-col">
-        <div class="compare-tag before">ANTES</div>
-        <div class="before-banner">
-          <h3>Mi ludoteca</h3>
-          <p>Desde acá vas a poder cargar tus artículos (tus juegos), detallando su estado, su idioma y el resto de las características. ATENCIÓN: cargar los artículos a tu ludoteca no implica que los pongas a disposición en el Math Trade.</p>
-        </div>
-        <div class="before-list">40 artículos · banner ocupa ~190px antes de mostrar un solo juego</div>
-      </div>
-
-      <div class="compare-col">
-        <div class="compare-tag after">DESPUÉS</div>
-        <div class="after-header">
-          <h3>Mi ludoteca</h3>
-          <div class="after-meta">40 artículos</div>
-          <div class="after-help">▸ ¿Qué es "Mi ludoteca"? ¿En qué se diferencia de "Yo ofrezco"?</div>
-        </div>
-        <div class="after-list">Grilla de juegos empieza acá — sin scroll previo</div>
-      </div>
-    </div>
-
-    <div class="note">
-      <b>Sobre "ATENCIÓN" en mayúsculas:</b> desaparece del header. La aclaración de bajo riesgo ("cargar ≠ ofertar") pasa a un tooltip o al ítem de ayuda colapsado — que este mismo screenshot ya tenía funcionando bien más abajo. Reservamos el lenguaje de alarma (mayúsculas, color crítico) para el momento en que de verdad hay algo irreversible en juego, como el badge "Confirmado" de arriba.
-    </div>
   </section>
 
   <section>
@@ -2014,8 +2284,8 @@
 
   <section>
     <div class="section-label">07 · Componente</div>
-    <h2 class="section-title">Card de juego — rediseño</h2>
-    <p class="section-desc">Vertical: la portada arriba a todo el ancho y el contenido debajo. La versión horizontal anterior (portada en una columna de 130px al costado, estirada a lo alto de la card) recortaba el arte de caja a una tira angosta: a las portadas cuadradas y horizontales les comía los costados, y con ellos parte del título del juego. Mostrarla entera obliga a una card angosta tipo póster, así que la grilla pasó de 1-2 columnas de 516px+ a 3-4 de 340px. Rating + complejidad quedan como protagonistas (ya validado como lo más escaneado). Idioma/dependencia/tamaño pasan a chips en una sola línea. BGG se degrada a ícono — es un link de referencia, no un dato de decisión. Tooltips fuera: el público ya conoce estos términos de BGG. Las cuatro categorías de contenido se distinguen a simple vista: acento izquierdo de 6px + un tinte al 20% (mezclado contra blanco, no transparencia) + badge relleno del mismo hue. Expansión es azul (#1d4ed8) y no ámbar: el naranja anterior se leía como danger. "Fuera de la BGG" es teal.</p>
+    <h2 class="section-title">Card de juego</h2>
+    <p class="section-desc"><code>game/game-grid/game-grid-ui/md.tsx</code> (juegos) e <code>item/item-grid</code> (ejemplares). Vertical: la portada arriba a todo el ancho, completa y sin recortar, y el contenido debajo, en grillas de columnas de 340px. Los dos ratings de la BGG (Geek y Avg) y la complejidad son los protagonistas; los ratings toman el color de la escala de la BGG (sección 01). Idioma, dependencia y tamaño son chips en una línea. BGG es un ícono: es un link de referencia, no un dato de decisión. Las cuatro categorías se distinguen a simple vista: acento izquierdo de 6px + tinte sólido de la categoría + badge relleno del mismo hue (<code>BadgeType</code>). Expansión es azul (#1d4ed8) y no ámbar, que se leía como danger. "Fuera de la BGG" es teal. En la grilla de juegos no hay combo: un ítem con varios juegos aparece como "Fuera de la BGG"; combo es solo de las cards de ejemplar.</p>
 
     <div class="card-row">
       <div class="game-card is-base">
@@ -2027,7 +2297,7 @@
           </div>
           <h3 class="gc-title">Palm Laboratory (2024)</h3>
           <div class="gc-hero">
-            <div class="gc-rating">7</div>
+            <div class="gc-ratings"><div class="gc-rating-col"><div class="gc-rating" style="background:#1978b3">7</div><span>Geek</span></div><div class="gc-rating-col"><div class="gc-rating" style="background:#1978b3">7.4</div><span>Avg</span></div></div>
             <div class="gc-complexity">
               <span class="gc-complexity-label">Complejidad</span>
               <div class="gc-dots">
@@ -2054,7 +2324,7 @@
           </div>
           <h3 class="gc-title">Lunes: Recorte de Personal (2019)</h3>
           <div class="gc-hero">
-            <div class="gc-rating">7.1</div>
+            <div class="gc-ratings"><div class="gc-rating-col"><div class="gc-rating" style="background:#1978b3">7.1</div><span>Geek</span></div><div class="gc-rating-col"><div class="gc-rating" style="background:#1978b3">7.5</div><span>Avg</span></div></div>
             <div class="gc-complexity">
               <span class="gc-complexity-label">Complejidad</span>
               <div class="gc-dots">
@@ -2103,7 +2373,7 @@
     </div>
 
     <div class="note">
-      <b>Sobre la portada:</b> se muestra completa, con el sobrante rellenado por una copia borrosa y ampliada de sí misma. Recortar para llenar la franja sería más prolijo en teoría, pero el arte de caja llega en proporciones muy distintas (cuadrado, vertical, panorámico) y cualquier recorte fijo arruina a un tercio de las portadas. <b>Sobre el título:</b> reserva sus dos líneas siempre, incluso cuando ocupa una. Si se dejaba colapsar, un título corto subía el rating y la complejidad y las cards vecinas de la misma fila quedaban desalineadas entre sí — el costo es un renglón vacío en los títulos cortos. <b>Sobre los chips de idioma/dependencia:</b> "Sin datos de uso de idioma" reemplaza el par tooltip + tres campos ("Ranking -", "Dependencia: Sin datos") con una sola frase legible, y nombra el uso de texto en el juego — no el idioma del ejemplar. <b>Sobre el tamaño:</b> el ícono de tres barras reemplaza el tooltip + la cursiva repetida en las 40 cards — la escala se lee de un vistazo, sin texto que parsear. <b>Pendiente de decidir con vos:</b> si "Ranking" merece estar en el footer o si, al ser un dato que muchos usuarios de BGG sí miran para decidir, debería subir de jerarquía — no lo bajé por convicción, lo bajé porque no tengo datos de qué tan seguido se usa para decidir un trade.
+      <b>Sobre la portada:</b> se muestra completa, con el sobrante rellenado por una copia borrosa y ampliada de sí misma. Recortar para llenar la franja sería más prolijo en teoría, pero el arte de caja llega en proporciones muy distintas (cuadrado, vertical, panorámico) y cualquier recorte fijo arruina a un tercio de las portadas. <b>Sobre el título:</b> reserva sus dos líneas siempre, incluso cuando ocupa una. Si se dejaba colapsar, un título corto subía el rating y la complejidad y las cards vecinas de la misma fila quedaban desalineadas entre sí — el costo es un renglón vacío en los títulos cortos. <b>Sobre los chips:</b> fondo casi blanco (<code>bg-white/85</code>) y texto <code>gray-800</code>, porque viven sobre el tinte de la card y gris sobre gris no se leía. <b>Sobre idioma/dependencia:</b> "Sin datos de uso de idioma" reemplaza el par tooltip + tres campos ("Ranking -", "Dependencia: Sin datos") con una sola frase legible, y nombra el uso de texto en el juego — no el idioma del ejemplar. <b>Sobre el tamaño:</b> el ícono de tres barras reemplaza el tooltip + la cursiva repetida en las 40 cards — la escala se lee de un vistazo, sin texto que parsear. <b>Pendiente de decidir con vos:</b> si "Ranking" merece estar en el footer o si, al ser un dato que muchos usuarios de BGG sí miran para decidir, debería subir de jerarquía — no lo bajé por convicción, lo bajé porque no tengo datos de qué tan seguido se usa para decidir un trade.
     </div>
 
     <div class="section-label" style="margin-top:32px;">Variante en fila — pantallas de edición</div>
@@ -2119,7 +2389,7 @@
           </div>
           <h3 class="gc-title">Patchwork (2018)</h3>
           <div class="gc-hero">
-            <div class="gc-rating">7.6</div>
+            <div class="gc-ratings"><div class="gc-rating-col"><div class="gc-rating" style="background:#1978b3">7.6</div><span>Geek</span></div><div class="gc-rating-col"><div class="gc-rating" style="background:#1d804c">8</div><span>Avg</span></div></div>
             <div class="gc-complexity">
               <span class="gc-complexity-label">Complejidad</span>
               <div class="gc-dots">
@@ -2137,11 +2407,11 @@
           <div class="gc-extradata">
             <div class="gc-extradata-field">
               <span class="gc-extradata-label">Caja</span>
-              <span class="gc-chip">Muy bueno</span>
+              <span class="gc-chip is-good">Muy bueno</span>
             </div>
             <div class="gc-extradata-field">
               <span class="gc-extradata-label">Componentes</span>
-              <span class="gc-chip">Muy bueno</span>
+              <span class="gc-chip is-good">Muy bueno</span>
             </div>
           </div>
         </div>
@@ -2155,7 +2425,7 @@
           </div>
           <h3 class="gc-title">Castles of Mad King Ludwig: Expansions</h3>
           <div class="gc-hero">
-            <div class="gc-rating">8.1</div>
+            <div class="gc-ratings"><div class="gc-rating-col"><div class="gc-rating" style="background:#1d804c">8.1</div><span>Geek</span></div><div class="gc-rating-col"><div class="gc-rating" style="background:#1d804c">8.5</div><span>Avg</span></div></div>
             <div class="gc-complexity">
               <span class="gc-complexity-label">Complejidad</span>
               <div class="gc-dots">
@@ -2174,13 +2444,13 @@
     </div>
 
     <div class="note">
-      <b>Sobre las grillas con pocos juegos:</b> las tres usan <code>auto-fill</code>, no <code>auto-fit</code>. <code>auto-fit</code> colapsa las columnas que quedan vacías y reparte su espacio entre las que sobreviven, así que un usuario con dos juegos veía dos cards infladas a media pantalla cada una, y uno con un solo juego una card a todo el ancho — el problema aparecía justamente en las cuentas más chicas. Con <code>auto-fill</code> las columnas vacías se mantienen y la card mide lo mismo con 2 juegos que con 200.
+      <b>Sobre las grillas</b> (<code>src/styles/grids.scss</code>): las tres usan <code>repeat(auto-fill, minmax(min(340px, 100%), 1fr))</code> (320px en <code>.item-grid</code>). El <code>min(…, 100%)</code> evita el desborde en celulares de menos de 340px. Y es <code>auto-fill</code>, no <code>auto-fit</code>: <code>auto-fit</code> colapsa las columnas que quedan vacías y reparte su espacio entre las que sobreviven, así que un usuario con dos juegos veía dos cards infladas a media pantalla cada una, y uno con un solo juego una card a todo el ancho — el problema aparecía justamente en las cuentas más chicas. Con <code>auto-fill</code> las columnas vacías se mantienen y la card mide lo mismo con 2 juegos que con 200.
     </div>
   </section>
 
   <section>
     <div class="section-label">08 · Componente</div>
-    <h2 class="section-title">Card de oferta (Mis Deseos) — rediseño</h2>
+    <h2 class="section-title">Card de oferta (Mis Deseos)</h2>
     <p class="section-desc">Mismos recortes que en la card de juego: sin tooltips (el público ya conoce estos términos de BGG), BGG degradado a ícono. Dos cosas nuevas: el puntaje pasa de badge estático a control editable (borde + lápiz, mantiene el semáforo rojo→verde que ya usa la grilla avanzada — no lo toco, ya es un lenguaje establecido en el resto del sitio). Y "querer/no querer" se unifica en un solo toggle de corazón con tres estados en vez de tres construcciones visuales distintas.</p>
 
     <div class="card-row">
@@ -2192,7 +2462,7 @@
           </div>
           <h3 class="gc-title">1923 Cotton Club</h3>
           <div class="gc-hero">
-            <div class="gc-rating">7.4</div>
+            <div class="gc-ratings"><div class="gc-rating-col"><div class="gc-rating" style="background:#1978b3">7.4</div><span>Geek</span></div><div class="gc-rating-col"><div class="gc-rating" style="background:#1978b3">7.8</div><span>Avg</span></div></div>
             <div class="gc-complexity">
               <span class="gc-complexity-label">Complejidad</span>
               <div class="gc-dots">
@@ -2221,7 +2491,7 @@
           </div>
           <h3 class="gc-title">5-Minute Dungeon: Curses! Foiled Again!</h3>
           <div class="gc-hero">
-            <div class="gc-rating">7.3</div>
+            <div class="gc-ratings"><div class="gc-rating-col"><div class="gc-rating" style="background:#1978b3">7.3</div><span>Geek</span></div><div class="gc-rating-col"><div class="gc-rating" style="background:#1978b3">7.7</div><span>Avg</span></div></div>
             <div class="gc-complexity">
               <span class="gc-complexity-label">Complejidad</span>
               <div class="gc-dots">
@@ -2247,15 +2517,15 @@
   <section>
     <div class="section-label">09 · Componente</div>
     <h2 class="section-title">Fila de ejemplar — vista expandida</h2>
-    <p class="section-desc">"Piezas: MB" y "Caja: MB" en vez de dos chips idénticos distinguibles solo por un ícono chico. Fila destildada se atenúa — hoy nada distingue una exclusión a simple vista salvo el propio checkbox.</p>
+    <p class="section-desc">"Piezas: MB" y "Caja: MB" en vez de dos chips idénticos distinguibles solo por un ícono chico. La fila destildada se atenúa, así una exclusión se ve sin mirar el checkbox.</p>
 
     <div class="section-label" style="margin-top:8px;">Estado de caja y componentes — los cuatro valores</div>
-    <p class="section-desc">Antes eran pills de relleno sólido con cuatro colores <code>rgb()</code> hardcodeados en <code>src/config/statusTypes.js</code>, ninguno de ellos un token del sistema: azul para "Muy bueno", gris para "Bastante usado", rojo para "Revisar" y marrón para "Sin caja". Los cuatro gritaban con la misma intensidad, así que el color no distinguía nada — el dato estaba en el texto y nada más. Los tres primeros son descripciones del ejemplar y ahora son chips neutros como cualquier otro atributo (idioma, tamaño de caja). "Revisar" es el único que no describe: es una <b>tarea pendiente</b>, porque mientras esté así el ejemplar no aparece entre los juegos ofrecidos. Es el único que se queda con color.</p>
+    <p class="section-desc"><code>StatusBadge</code> (<code>src/components/status-badge</code>) es un <code>Chip</code> teñido según qué tan bueno es el estado (<code>statusTone</code> en <code>src/config/statusTypes.ts</code>): "Muy bueno" verde, "Bastante usado" naranja, "Sin caja" gris. Los códigos cortos solos se leen mal ("BU" parece "bueno"), así que el color es lo que los separa; el texto queda siempre al lado, el color nunca es la única señal. "Revisar" no describe al ejemplar: es una <b>tarea pendiente</b>, porque mientras esté así el ejemplar no aparece entre los juegos ofrecidos. Lleva el rojo de alerta. Son tintes, no rellenos sólidos, para no competir con el título de la card.</p>
 
     <div class="gc-chips" style="margin-bottom:16px;">
-      <span class="gc-chip">Caja: Muy bueno</span>
-      <span class="gc-chip">Caja: Bastante usado</span>
-      <span class="gc-chip">Caja: Sin caja</span>
+      <span class="gc-chip is-good">Caja: Muy bueno</span>
+      <span class="gc-chip is-used">Caja: Bastante usado</span>
+      <span class="gc-chip is-none">Caja: Sin caja</span>
       <span class="gc-chip is-alert">Caja: Revisar</span>
     </div>
 
@@ -2268,8 +2538,8 @@
             <span class="ejemplar-name">1923 Cotton Club (2021)</span>
           </div>
           <div class="ejemplar-line-chips">
-            <span class="gc-chip">Piezas: MB</span>
-            <span class="gc-chip">Caja: MB</span>
+            <span class="gc-chip is-good">Piezas: MB</span>
+            <span class="gc-chip is-good">Caja: MB</span>
             <span class="gc-chip">Inglés, Español</span>
           </div>
           <div class="ejemplar-line-meta">
@@ -2293,8 +2563,8 @@
             <span class="ejemplar-name">1923 Cotton Club (2021)</span>
           </div>
           <div class="ejemplar-line-chips">
-            <span class="gc-chip">Piezas: MB</span>
-            <span class="gc-chip">Caja: MB</span>
+            <span class="gc-chip is-good">Piezas: MB</span>
+            <span class="gc-chip is-good">Caja: MB</span>
             <span class="gc-chip">Francés</span>
           </div>
           <div class="ejemplar-line-meta">
@@ -2319,8 +2589,8 @@
             <span class="ejemplar-name">1923 Cotton Club (2021)</span>
           </div>
           <div class="ejemplar-line-chips">
-            <span class="gc-chip">Piezas: B</span>
-            <span class="gc-chip">Caja: R</span>
+            <span class="gc-chip is-used">Piezas: BU</span>
+            <span class="gc-chip is-none">Caja: NO</span>
             <span class="gc-chip">Inglés, Español</span>
           </div>
           <div class="ejemplar-line-meta">
@@ -2345,7 +2615,7 @@
   <section>
     <div class="section-label">10 · Componente</div>
     <h2 class="section-title">Empty state con CTA</h2>
-    <p class="section-desc"><code>EmptyList</code> hoy es una línea de texto gris itálico sin acción (<code>src/components/emptyList/index.jsx</code>) — el usuario nuevo llega a una pantalla vacía y no sabe qué hacer a continuación. La propuesta agrega ícono + una frase que nombra el paso siguiente + un botón que lo ejecuta.</p>
+    <p class="section-desc"><code>EmptyList</code> (<code>src/components/emptyList</code>). Con <code>icon</code> y <code>ctaText</code> + <code>ctaHref</code> es una tarjeta blanca con ícono, una frase que nombra el paso siguiente y un botón que lleva a hacerlo, para que el usuario nuevo no llegue a una pantalla vacía sin saber cómo seguir. El ícono y el botón van siempre en <code>primary</code>.</p>
 
     <div class="empty-row">
       <div class="empty-state">
@@ -2361,12 +2631,12 @@
       </div>
 
       <div class="empty-state">
-        <div class="empty-state-icon" style="background:color-mix(in srgb, var(--want) 14%, white); color:var(--want);">
+        <div class="empty-state-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>
         </div>
         <div class="empty-state-title">No tenés deseos todavía</div>
         <div class="empty-state-desc">Mirá qué están ofreciendo los demás participantes y marcá lo que te interese.</div>
-        <button type="button" class="empty-state-cta" style="background:var(--want);">
+        <button type="button" class="empty-state-cta">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 6 6 6-6 6"/></svg>
           Explorar juegos ofrecidos
         </button>
@@ -2374,14 +2644,14 @@
     </div>
 
     <div class="note">
-      <b>Bajo esfuerzo:</b> mismo componente, dos props nuevas (<code>icon</code>, <code>cta</code>) opcionales — donde no se pasan, cae al texto plano actual. No requiere tocar backend ni <code>PageContext</code>.
+      <b>Sin props, texto plano:</b> si no se pasa <code>icon</code> ni <code>ctaText</code>, el componente muestra solo el mensaje en gris itálico, centrado. Es lo que corresponde cuando la lista vacía no tiene un paso siguiente (por ejemplo, un filtro sin resultados).
     </div>
   </section>
 
   <section>
     <div class="section-label">11 · Componente</div>
     <h2 class="section-title">Ítem de navegación bloqueado por etapa</h2>
-    <p class="section-desc">El menú hoy deshabilita ítems según <code>canI</code> (<code>context/page</code>) sin explicar por qué — en <code>my-wants/page.jsx</code> el aviso ("Esperá a que termine la etapa de Ofertas") vive suelto en el body, no en el menú donde el usuario lo busca primero. El Timeline del header (hoy escondido detrás de un ícono de calendario) ya tiene la fuente de verdad de en qué etapa está el evento.</p>
+    <p class="section-desc"><code>sidebar/NavRows.tsx</code> + <code>useSidebarNav.ts</code>. Un ítem que todavía no se habilitó muestra un candado y, debajo, por qué y cuándo se habilita. La explicación está en el menú, que es donde el usuario la busca primero.</p>
 
     <div class="nav-mock">
       <div class="nav-item is-active">
@@ -2401,251 +2671,74 @@
     </div>
 
     <div class="note">
-      <b>Fuente de verdad única:</b> el candado y el texto de la caption salen del mismo <code>canI</code> + fecha de corte que ya calcula el Timeline — no se agrega estado nuevo, se le da visibilidad a uno que ya existe. La caption queda siempre visible (no depende de hover), así funciona igual en mobile.
+      <b>Detalles:</b> ítem bloqueado en <code>#6b7280</code>, activo en <code>primary</code>, el resto en <code>#c9ced4</code>; caption de 11px en <code>#8a92a0</code>. Con el sidebar colapsado o en pantallas de menos de 800px de alto la caption se oculta y el texto queda en el <code>title</code>; el candado pasa a un ícono chico sobre el ícono del ítem. En el celular la barra inferior (<code>sidebar/mobile/TabBar.tsx</code>) muestra el mismo candado chico. Los admins ven el candado pero pueden entrar igual.
     </div>
   </section>
 
   <section>
     <div class="section-label">12 · Componente</div>
-    <h2 class="section-title">Footer de cambios sin guardar</h2>
-    <p class="section-desc"><code>useLeavePageConfirmation</code> existe en el código (<code>src/hooks/useLeavePageConfirmation.js</code>) pero no está conectado a ninguna página — hoy es posible editar la selección en Mis deseos y navegar a otra pantalla sin ningún aviso, perdiendo el trabajo. Esta barra reutiliza el mismo peso visual que el badge "Confirmado" del sistema de estados: es una de las pocas alertas de este sitio que sí protege contra algo irreversible.</p>
+    <h2 class="section-title">Cambios sin guardar</h2>
+    <p class="section-desc">Dos piezas. El pie de Mis deseos (<code>app/mathtrade/my-wants/footer</code>) avisa cuántos cambios faltan guardar, al lado del botón Guardar. Y <code>LeavePageGuard</code> (<code>src/components/leave-page-guard</code>) pregunta con un <code>ConfirmModal</code> antes de salir con cambios sin guardar, sea por un link, el botón atrás o un refresh.</p>
 
     <div class="unsaved-footer">
-      <div class="unsaved-footer-msg">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
-        Tenés 4 cambios sin guardar
-      </div>
+      <div class="unsaved-footer-msg">Tenés 4 cambios sin guardar</div>
       <div class="unsaved-footer-actions">
-        <button type="button" class="unsaved-discard">Descartar</button>
         <button type="button" class="unsaved-save">Guardar cambios</button>
+        <button type="button" class="unsaved-save is-off">Guardar cambios</button>
       </div>
     </div>
 
     <div class="note">
-      <b>No confundir con el footer de "Comprometer cambios":</b> ese ya existe (<code>want-components/commit/footer</code>) y resuelve otra cosa — recordar que falta confirmar la participación. Esta barra es previa: protege ediciones locales todavía no guardadas, incluso antes de llegar a esa pantalla. <code>position: sticky</code> al fondo del viewport, aparece solo cuando hay estado sucio.
+      <b>Detalles:</b> el aviso es <code>text-caption</code> en <code>amber-700</code>, sin fondo propio: vive dentro de la misma barra blanca del pie (<code>ListToolbar</code> con <code>rounded-main</code>), junto a buscar, ordenar y Autocompletar. Guardar es una pill de 34px en <code>want</code>; sin cambios queda en <code>gray-200</code> con texto <code>gray-400</code>. No hay botón "Descartar". En la vista Swipe la barra solo muestra el aviso y Guardar, centrados.
     </div>
   </section>
 
   <section>
     <div class="section-label">13 · Superficie</div>
     <h2 class="section-title">Dónde queda el beige <code>item-200</code></h2>
-    <p class="section-desc">La paleta <code>item.*</code> (#e3d9c0) era el “color de ejemplar”: un wrapper beige alrededor de cualquier ítem. Las cards nuevas ya no lo usan — clasifican por juego / expansión / combo / fuera de BGG. El beige que queda no es un acento: es el idioma viejo pegado a pantallas que todavía no pasamos. El pill <code>OFRECIDO</code> (<code>item-500</code>) es otra cosa y se queda.</p>
+    <p class="section-desc">La paleta <code>item.*</code> (#e3d9c0) era el “color de ejemplar”: un wrapper beige alrededor de cualquier ítem. Ya no se usa: no queda ninguna clase <code>item-*</code> en <code>src</code>. La paleta sigue definida en <code>tailwind.config.js</code>, pero el beige no es un color del sistema; las cards clasifican por juego / expansión / combo / fuera de BGG con <code>cardKind</code>.</p>
 
     <table class="beige-table">
       <thead>
-        <tr><th>Dónde</th><th>Hoy</th><th>Propuesta</th></tr>
+        <tr><th>Dónde</th><th>Ahora</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td><span class="beige-swatch"></span>Modal Previsualizar<br/><code>previewer/modal/ui</code> + <code>previewerItem/modal/ui</code></td>
-          <td>Caja beige alrededor de la card expandida</td>
+          <td>Modal Previsualizar<br/><code>previewer/modal/ui</code> + <code>previewerItem/modal/ui</code></td>
           <td>La misma card de la grilla: acento + tinte de categoría, sin wrapper extra</td>
         </tr>
         <tr>
-          <td><span class="beige-swatch"></span>Vista visual de deseos<br/><code>want-components/visual</code> + <code>visual2</code></td>
-          <td>Ítem beige / juego negro / combo beige más oscuro</td>
-          <td>Mini cards con el mismo <code>cardKind</code>. El negro de “juego” también se va</td>
+          <td>Vista visual de deseos<br/><code>want-components/visual</code> + <code>visual2</code> + <code>mini-card</code></td>
+          <td>Mini cards con el mismo <code>cardKind</code>. El negro de “juego” también se fue</td>
         </tr>
         <tr>
-          <td><span class="beige-swatch"></span>Resultados<br/><code>results/receivedItems</code> + <code>results/visual/changeSection</code></td>
-          <td>Beige + footer <code>item-100</code></td>
-          <td>cardKind + footer blanco, igual que un ejemplar expandido</td>
+          <td>Resultados<br/><code>results/receivedItems</code> + <code>results/visual/changeSection</code></td>
+          <td><code>cardKind</code></td>
         </tr>
         <tr>
-          <td><span class="beige-swatch"></span>Traer de un MT anterior<br/><code>itemsPreviousMT</code></td>
-          <td>Beige <code>item-300</code></td>
-          <td>cardKind, mismo objeto que en ludoteca</td>
+          <td>Traer de un MT anterior<br/><code>itemsPreviousMT</code></td>
+          <td><code>cardKind</code>, mismo objeto que en ludoteca</td>
         </tr>
         <tr>
-          <td>Área de referidos / cajas<br/><code>referrals-area/boxesDelivery</code></td>
-          <td>Beige como “tarjeta genérica”, no como tipo de juego</td>
-          <td>Neutro: blanco + borde gray. No es contenido clasificable</td>
+          <td>Área de referidos / cajas</td>
+          <td>Sin beige. No es contenido clasificable</td>
         </tr>
       </tbody>
     </table>
 
-    <h3 class="section-title" style="font-size:var(--fs-body-lg); margin: 0 0 12px;">Modal Previsualizar</h3>
-    <div class="compare">
-      <div class="compare-col">
-        <div class="compare-tag before">ANTES</div>
-        <div class="preview-stage">
-          <div class="preview-modal">
-            <div class="preview-item is-beige">
-              <div class="preview-inner">
-                <div class="preview-cover"></div>
-                <div class="preview-body">
-                  <span class="gc-tag base"><svg viewBox="0 0 10 10" fill="currentColor"><rect width="10" height="10"/></svg>JUEGO</span>
-                  <div class="preview-title">Agricola: The Big Box</div>
-                </div>
-              </div>
-            </div>
-            <button type="button" class="preview-close">Cerrar</button>
-          </div>
-        </div>
-      </div>
-      <div class="compare-col">
-        <div class="compare-tag after">DESPUÉS</div>
-        <div class="preview-stage">
-          <div class="preview-modal">
-            <div class="preview-item is-kind">
-              <div class="preview-inner">
-                <div class="preview-cover"></div>
-                <div class="preview-body">
-                  <span class="gc-tag base"><svg viewBox="0 0 10 10" fill="currentColor"><rect width="10" height="10"/></svg>JUEGO</span>
-                  <div class="preview-title">Agricola: The Big Box</div>
-                </div>
-              </div>
-            </div>
-            <button type="button" class="preview-close">Cerrar</button>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="note">
-      <b>Sin componente nuevo:</b> el modal ya renderiza <code>ItemXL</code>. Hoy le pone un <code>bg-item-200</code> alrededor; el después es el mismo wrapper que ya usa la grilla (<code>cardKindBorderClass</code>). El botón Cerrar pasa al CTA outline del sistema en la implementación, no se rediseña acá.
-    </div>
-
-    <h3 class="section-title" style="font-size:var(--fs-body-lg); margin: 32px 0 12px;">Tiles de la vista visual de deseos</h3>
-    <div class="compare">
-      <div class="compare-col">
-        <div class="compare-tag before">ANTES</div>
-        <div style="padding:16px;">
-          <div class="mini-row">
-            <div class="mini-tile is-dark">
-              <div class="mini-cover"><span class="mini-eye"></span></div>
-              <div class="mini-name">Agricola<br/>Juego</div>
-            </div>
-            <div class="mini-tile is-beige">
-              <div class="mini-cover"><span class="mini-eye"></span></div>
-              <div class="mini-name">Wingspan<br/>Juego</div>
-            </div>
-            <div class="mini-tile is-beige" style="background:#d3c29e;">
-              <div class="mini-cover"><span class="mini-eye"></span></div>
-              <div class="mini-name">Combo<br/>Combo</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="compare-col">
-        <div class="compare-tag after">DESPUÉS</div>
-        <div style="padding:16px;">
-          <div class="mini-row">
-            <div class="mini-tile is-base">
-              <div class="mini-cover"><span class="mini-eye"></span></div>
-              <div class="mini-name">Agricola<br/>Juego</div>
-            </div>
-            <div class="mini-tile is-base">
-              <div class="mini-cover"><span class="mini-eye"></span></div>
-              <div class="mini-name">Wingspan<br/>Juego</div>
-            </div>
-            <div class="mini-tile is-combo">
-              <div class="mini-cover"><span class="mini-eye"></span></div>
-              <div class="mini-name">Combo<br/>Combo</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="note">
-      <b>El negro también se va:</b> <code>bg-gray-900</code> en grupos tipo juego es el hermano del beige — el hero oscuro de BGG. En estas tiles el tipo ya lo dice el badge (y ahora el acento); no hace falta un fondo distinto por “es un juego vs un ejemplar”.
-    </div>
-
-    <h3 class="section-title" style="font-size:var(--fs-body-lg); margin: 32px 0 12px;">Resultados — ejemplar recibido</h3>
-    <div class="compare">
-      <div class="compare-col">
-        <div class="compare-tag before">ANTES</div>
-        <div style="padding:16px;">
-          <div class="result-card is-beige">
-            <div class="result-pad">
-              <div class="result-inner">
-                <div class="preview-cover"></div>
-                <div class="preview-body">
-                  <span class="gc-tag base"><svg viewBox="0 0 10 10" fill="currentColor"><rect width="10" height="10"/></svg>JUEGO</span>
-                  <div class="preview-title">Patchwork</div>
-                </div>
-              </div>
-            </div>
-            <div class="result-foot">
-              <span>Ana · AMBA</span>
-              <span class="result-cta">Marcar recibido</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="compare-col">
-        <div class="compare-tag after">DESPUÉS</div>
-        <div style="padding:16px;">
-          <div class="result-card is-kind">
-            <div class="result-pad">
-              <div class="result-inner">
-                <div class="preview-cover"></div>
-                <div class="preview-body">
-                  <span class="gc-tag base"><svg viewBox="0 0 10 10" fill="currentColor"><rect width="10" height="10"/></svg>JUEGO</span>
-                  <div class="preview-title">Patchwork</div>
-                </div>
-              </div>
-            </div>
-            <div class="result-foot">
-              <span>Ana · AMBA</span>
-              <span class="result-cta">Marcar recibido</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h3 class="section-title" style="font-size:var(--fs-body-lg); margin: 32px 0 12px;">Cajas de referidos — no es una card de juego</h3>
-    <div class="compare">
-      <div class="compare-col">
-        <div class="compare-tag before">ANTES</div>
-        <div style="padding:16px;">
-          <div class="ref-box is-beige">
-            <strong>Caja #14</strong>
-            <span>3 ítems · Posadas</span>
-          </div>
-        </div>
-      </div>
-      <div class="compare-col">
-        <div class="compare-tag after">DESPUÉS</div>
-        <div style="padding:16px;">
-          <div class="ref-box is-neutral">
-            <strong>Caja #14</strong>
-            <span>3 ítems · Posadas</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="note">
-      <b>No aplicar cardKind acá.</b> Una caja de logística no es un juego ni una expansión. El beige se usó como “tarjeta con peso”; el reemplazo es la superficie neutra del resto del sitio (blanco + borde), no un tinte de categoría.
+      <b>No aplicar cardKind acá.</b> Una caja de logística no es un juego ni una expansión. Para una tarjeta que no es un juego va la superficie neutra del resto del sitio (blanco + borde), no un tinte de categoría.
     </div>
   </section>
 
   <section id="toolbar">
+    <div class="section-label">14 · Componente</div>
     <h2 class="section-title">Buscar, contar y ordenar — una sola barra</h2>
-    <p class="section-desc">Esta franja aparece en casi todas las vistas con juegos: Mi ludoteca, Yo ofrezco, Otros ofrecen (juegos y ejemplares) y el pie de Mis deseos. Hoy es un collage: label + input, recuento en itálica, un select nativo y un checkbox “Descendente”. El × al lado de Ordenar es un ícono Close que se renderiza porque <code>Icon</code> no tiene <code>type</code>.</p>
+    <p class="section-desc"><code>ListToolbar</code> (<code>src/components/list-toolbar</code>), con <code>ListSearch</code> y <code>OrderBy</code>. Aparece en casi todas las vistas con juegos: Mi ludoteca, Yo ofrezco, Otros ofrecen (juegos y ejemplares) y el pie de Mis deseos. Es una sola barra blanca con slots, en este orden: <code>leading</code>, <code>search</code>, <code>count</code>, <code>extra</code>, <code>sort</code>, <code>trailing</code>.</p>
 
     <div class="compare">
       <div class="compare-col">
-        <div class="compare-tag before">ANTES</div>
-        <div class="lt-stack">
-          <p class="lt-caption">Mi ludoteca · tal cual está hoy</p>
-          <div class="lt-before">
-            <div class="lt-before-left">
-              <label>Buscar</label>
-              <input type="text" value="Buscar" readonly>
-              <span class="lt-before-count">40 Artículos</span>
-            </div>
-            <div class="lt-before-sort">
-              <label>Ordenar <span class="lt-x">×</span></label>
-              <select disabled><option>Fecha de carga</option></select>
-              <input type="checkbox" checked disabled>
-              <label>Descendente</label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="compare-col">
-        <div class="compare-tag after">DESPUÉS · simple</div>
+        <div class="compare-tag after">Simple</div>
         <div class="lt-stack">
           <p class="lt-caption">Ludoteca y Yo ofrezco — sin páginas</p>
           <div class="lt-bar">
@@ -2664,7 +2757,7 @@
     </div>
 
     <div class="section-label" style="margin-top:28px;">Misma barra, con filtros y páginas</div>
-    <p class="section-desc">En Otros ofrecen hay más controles. No se inventa otra barra: se agregan piezas a la derecha. Filtros a la izquierda, porque abren el sidebar; paginación al final, porque es “dónde estoy en la lista”.</p>
+    <p class="section-desc">En Otros ofrecen hay más controles. No es otra barra: se llenan más slots. Filtros a la izquierda (<code>leading</code>), porque abren el sidebar; paginación al final (<code>trailing</code>), porque es “dónde estoy en la lista”.</p>
 
     <div class="lt-stack" style="border:1px solid var(--border-soft); border-radius:10px; background:white; padding:16px;">
       <p class="lt-caption">Otros ofrecen · juegos o ejemplares</p>
@@ -2710,14 +2803,14 @@
     </div>
 
     <div class="note">
-      <b>Decisiones del mock.</b>
+      <b>Reglas.</b>
       <ul style="margin:8px 0 0; padding-left:18px;">
         <li><b>Un componente</b> para todas las vistas. Las piezas extra (filtros, tamaño de página, paginación) son slots, no otra barra.</li>
-        <li><b>Buscar</b> es un campo solo: el label “Buscar” duplicado con el placeholder se va. Ícono adentro, pill.</li>
-        <li><b>40 artículos</b> deja de ser un título itálico. Es meta, caption, tabular.</li>
-        <li><b>Ordenar ×</b> era un bug: <code>&lt;Icon /&gt;</code> sin type pinta el close. Se elimina.</li>
-        <li><b>“Descendente”</b> es ambiguo (¿de la fecha? ¿del nombre?). Un botón de dirección al lado del criterio: ↓ más recientes / A→Z inverso, según el campo.</li>
-        <li><b>Superficie blanca</b> debajo del header compacto. La pastilla gris <code>colorMain</code> parece otra card y compite con el banner.</li>
+        <li><b>Buscar</b> es un campo solo, sin label aparte: ícono adentro, pill. Tiene un ancho mínimo de 14rem; si no entra, baja a su propia línea en vez de achicarse.</li>
+        <li><b>El recuento</b> (“40 artículos”) es meta: <code>text-caption</code>, semibold, <code>gray-500</code>.</li>
+        <li><b>Ordenar</b> (<code>OrderBy</code>) es una pill de 34px: el criterio y, pegado, un botón de dirección con flecha y etiqueta. Cuando el orden natural del campo va al revés (ranking de la BGG: el #1 es el mejor), la flecha muestra lo contrario de la dirección de la API.</li>
+        <li><b>Superficie blanca</b> con borde inferior <code>gray-200</code>, debajo del header compacto.</li>
+        <li><b>En el celular</b> el slot <code>trailing</code> ocupa su propia fila, alineado a la izquierda.</li>
       </ul>
     </div>
   </section>
@@ -2725,29 +2818,11 @@
   <section id="wants-visual">
     <div class="section-label">15 · Mis deseos</div>
     <h2 class="section-title">La vista visual, sin negro ni badge de título</h2>
-    <p class="section-desc">En cards de 124px el badge <code>JUEGO</code> está en <code>text-heading</code> (19px) y el título en 10px: se lee el tipo, no el juego. Encima, los juegos van en negro y los ejemplares en beige — el último idioma viejo de la app. Misma familia <code>cardKind</code> que el resto; el tipo pasa a un chip de caption.</p>
+    <p class="section-desc"><code>want-components/mini-card.tsx</code>. En cards de 124px manda el nombre del juego (11px) y el tipo es un badge compacto de 9px (<code>BadgeType size="compact"</code>). Misma familia <code>cardKind</code> que el resto, sin negro para los juegos ni beige para los ejemplares.</p>
 
     <div class="compare">
       <div class="compare-col">
-        <div class="compare-tag before">ANTES · el tipo come la card</div>
-        <div class="want-scale">
-          <div class="want-scale-col">
-            <p class="want-scale-cap">Título 10px · badge 19px</p>
-            <div class="want-old">
-              <div class="x">×</div>
-              <div class="cover cover-square" style="height:96px; position:relative; overflow:hidden;">
-                <div class="gc-cover cover-square" style="height:96px;"></div>
-              </div>
-              <div class="name">Lisboa</div>
-              <div class="big-tag">
-                <span class="gc-tag base"><svg viewBox="0 0 10 10" fill="currentColor"><rect width="10" height="10"/></svg>JUEGO</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="compare-col">
-        <div class="compare-tag after">DESPUÉS · el nombre manda</div>
+        <div class="compare-tag after">El nombre manda</div>
         <div class="want-scale">
           <div class="want-scale-col">
             <p class="want-scale-cap">Título 11px · chip 9px</p>
@@ -2780,7 +2855,7 @@
     </div>
 
     <div class="section-label" style="margin-top:36px;">La fila de intercambio · Ofrezco → Recibo</div>
-    <p class="section-desc">La card de la izquierda es el ejemplar que ofrezco (un poco más grande, sticky como hoy). A la derecha, los deseos. Mismo objeto; solo cambia el tamaño. El “+ Agregar” deja de ser un cuadrado gris con sombra.</p>
+    <p class="section-desc">La card de la izquierda es el ejemplar que ofrezco (un poco más grande, sticky). A la derecha, los deseos. Mismo objeto; solo cambia el tamaño. “+ Agregar” es un hueco punteado en <code>want</code>.</p>
 
     <div class="want-page">
       <div class="want-tabs">
@@ -2926,17 +3001,10 @@
     </div>
 
     <div class="section-label" style="margin-top:36px;">Grilla avanzada · solo el eje, no las celdas</div>
-    <p class="section-desc">Las celdas siguen siendo el check. Lo que todavía habla en negro es la fila de la izquierda. Mismo tinte de categoría, sin badge: a 32px de alto el chip no entra.</p>
+    <p class="section-desc">Las celdas son el check. La etiqueta de cada fila (<code>grid/wantGroupLabel</code>) lleva el tinte de categoría, sin badge: a 32px de alto el chip no entra.</p>
     <div class="compare">
       <div class="compare-col">
-        <div class="compare-tag before">ANTES</div>
-        <div style="padding:16px; display:flex; flex-direction:column; gap:8px;">
-          <div class="want-axis is-dark"><span>Lisboa</span><span style="font-size:10px; opacity:.7;">10</span></div>
-          <div class="want-axis is-dark"><span>On Mars: Alien Worlds</span><span style="font-size:10px; opacity:.7;">8</span></div>
-        </div>
-      </div>
-      <div class="compare-col">
-        <div class="compare-tag after">DESPUÉS</div>
+        <div class="compare-tag after">ACTUAL</div>
         <div style="padding:16px; display:flex; flex-direction:column; gap:8px;">
           <div class="want-axis is-base"><span>Lisboa</span><span style="font-size:10px; color:var(--text-muted);">10</span></div>
           <div class="want-axis is-expansion"><span>On Mars: Alien Worlds</span><span style="font-size:10px; color:var(--text-muted);">8</span></div>
@@ -2945,15 +3013,16 @@
     </div>
 
     <div class="note">
-      <b>Decisiones del mock.</b>
+      <b>Reglas.</b>
       <ul style="margin:8px 0 0; padding-left:18px;">
         <li><b>Badge compacto (9px)</b> solo en superficies chicas. En la grilla de Ofrecen el heading de 19px se queda: Manu lo pidió glanceable ahí. En deseos el título es el dato; el tipo confirma.</li>
         <li><b>No más negro ni beige.</b> Mini cards = <code>cardKind</code> (acento 4px + tinte 16%). El 6px de las cards grandes se come demasiado ancho a 124px.</li>
         <li><b>Una sola card</b> para ejemplar ofertado, deseo-juego, expansión y combo. Cambia el tinte, no el layout.</li>
-        <li><b>Agregar</b> es un hueco punteado want, no un tile gris con sombra y un +. El overlay “AGREGAR” al hover de las cards candidatas se queda en la implementación.</li>
-        <li><b>El pie</b> reutiliza la toolbar: buscar pill + orden (campo + dirección) + Autocompletar outline + Guardar want. Se va el select nativo “Tipo” y la cápsula gris.</li>
-        <li><b>Dirección</b> Recibo/Ofrezco pasa a pills, como el resto de controles. Visual / Grilla no se toca.</li>
-        <li><b><code>BadgeType</code></b> necesita un <code>size="compact"</code>. Hoy las cards de deseos ya pasan <code>className="text-[9px]"</code>, pero <code>text-heading</code> del componente gana en el CSS compilado.</li>
+        <li><b>Agregar</b> es un hueco punteado want, no un tile gris con sombra y un +.</li>
+        <li><b>El pie</b> es la misma <code>ListToolbar</code>: buscar pill + orden (campo + dirección) + Autocompletar + Guardar want (sección 12).</li>
+        <li><b>Los cambios de vista</b> (Visual / Grilla / Swipe, y la dirección Recibo/Ofrezco) usan el mismo control segmentado (sección 17).</li>
+        <li><b><code>BadgeType</code></b> tiene <code>size="compact"</code> para estas superficies. No alcanza con pasarle <code>className="text-[9px]"</code>: el <code>text-heading</code> del componente gana en el CSS compilado.</li>
+        <li><b>Vista Swipe</b> (<code>app/mathtrade/my-wants/swipe</code>): marca los cruces de a un par por vez, con su propio mazo. Ver sección 23.</li>
       </ul>
     </div>
   </section>
@@ -3080,38 +3149,10 @@
       <div class="res-acc">▸ ¿Qué juegos se ofrecieron a cambio de los míos?</div>
     </div>
 
-    <div class="section-label" style="margin-top:36px;">La cadena actual</div>
+    <div class="section-label" style="margin-top:36px;">La cadena</div>
     <div class="compare">
       <div class="compare-col">
-        <div class="compare-tag before">ANTES · dos filas y flechas rojas</div>
-        <div class="res-old">
-          <div class="res-old-user"><div class="res-old-av"></div>Vos</div>
-          <div>
-            <div style="display:flex; align-items:center; gap:4px; margin-bottom:12px;">
-              <span class="res-old-arr">↗</span>
-              <div class="res-old-card">
-                <div class="res-old-cover"></div>
-                <div class="res-old-name">Quadropolis</div>
-                <div class="res-old-bar is-red">ENTREGADO</div>
-              </div>
-              <span class="res-old-arr">→</span>
-              <div class="res-old-user"><div class="res-old-av"></div>Luis</div>
-            </div>
-            <div style="display:flex; align-items:center; gap:4px;">
-              <span class="res-old-arr">↘</span>
-              <div class="res-old-card">
-                <div class="res-old-cover"></div>
-                <div class="res-old-name">Lisboa</div>
-                <div class="res-old-bar">RECIBIDO</div>
-              </div>
-              <span class="res-old-arr">→</span>
-              <div class="res-old-user"><div class="res-old-av"></div>Ana</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="compare-col">
-        <div class="compare-tag after">DESPUÉS · Recibo → yo → Doy</div>
+        <div class="compare-tag after">Recibo → yo → Doy</div>
         <div class="res-row" style="border:0; padding:16px;">
           <div>
             <p class="res-col-h is-want">Recibo</p>
@@ -3142,14 +3183,828 @@
     </div>
 
     <div class="note">
-      <b>Decisiones del mock.</b>
+      <b>Reglas.</b>
       <ul style="margin:8px 0 0; padding-left:18px;">
         <li><b>Tus trades primero.</b> Stats del evento viven en Estadísticas. Descargas y “qué se ofreció a cambio” bajan, sin badge NUEVO.</li>
         <li><b>Recibo → usuario → Doy.</b> Flechas unidireccionales: want a la entrada, secondary a la salida. El usuario del selector es el eje.</li>
         <li><b>Contrapartes</b> como caption: “de Ana” / “a Luis”, no una cadena de avatares extra.</li>
-        <li><b>ENTREGADO / RECIBIDO</b> son chips (neutro / want), no barras sólido rojo/verde.</li>
+        <li><b>Recibido / Entregado</b> son chips (<code>Chip tone="want"</code> / <code>tone="done"</code>), no barras sólidas rojo/verde.</li>
         <li><b>Tabla</b> usa las mismas palabras. Excel no cambia de columnas de datos.</li>
-        <li><b>Historial</b> reusa Visual y Tabla, así que hereda el rediseño.</li>
+        <li><b>Historial</b> reusa Visual y Tabla, así que se ve igual.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="shared">
+    <div class="section-label">17 · Piezas compartidas</div>
+    <h2 class="section-title">Chip, control segmentado, botón, toast y capas</h2>
+    <p class="section-desc">Componentes chicos que usan todas las pantallas anteriores.</p>
+
+    <div class="section-label">Chip · <code>src/components/chip</code></div>
+    <p class="section-desc" style="margin-bottom:12px;"><code>text-caption</code>, radio de 6px. El tono dice qué clase de dato es. Siempre tinte, nunca relleno sólido.</p>
+    <div class="shared-row" style="background:#d2d2d4; padding:12px; border-radius:10px; display:inline-flex;">
+      <span class="gc-chip">neutral</span>
+      <span class="gc-chip is-good">good</span>
+      <span class="gc-chip is-used">used</span>
+      <span class="gc-chip is-none">none</span>
+      <span class="gc-chip is-alert">alert</span>
+      <span class="gc-chip is-want">want</span>
+      <span class="gc-chip is-done">done</span>
+    </div>
+    <div></div>
+    <div class="shared-row on-dark"><span class="gc-chip is-admin">admin</span></div>
+    <table class="ph-spec-table">
+      <thead><tr><th>Tono</th><th>Para qué</th></tr></thead>
+      <tbody>
+        <tr><td><code>neutral</code></td><td>Atributos del juego o del ejemplar: idioma, dependencia, tamaño de caja</td></tr>
+        <tr><td><code>good</code> / <code>used</code> / <code>none</code></td><td>Estado de caja y componentes (sección 09)</td></tr>
+        <tr><td><code>alert</code></td><td>Un valor que le pide algo al usuario (“Revisar”)</td></tr>
+        <tr><td><code>want</code> / <code>done</code></td><td>Recibido / Entregado en Resultados</td></tr>
+        <tr><td><code>admin</code></td><td>Marca de rol, sobre el sidebar oscuro. Mismo hue púrpura reservado al equipo</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-label">Control segmentado · <code>src/components/segmented</code></div>
+    <p class="section-desc" style="margin-bottom:12px;">Un solo estilo para todo cambio de vista (Visual / Grilla, Juegos / Ejemplares, Actual / Historial): una cápsula <code>gray-100</code> con las opciones, la activa rellena en <code>primary</code>. Lo usan <code>Tabs</code> y las pills de vista de Resultados. Alto de 36px, o 28px con <code>small</code>.</p>
+    <div class="shared-row">
+      <div class="seg-group"><span class="seg-btn is-on">Visual</span><span class="seg-btn">Grilla</span></div>
+      <div class="seg-group"><span class="seg-btn">Juegos</span><span class="seg-btn is-on">Ejemplares</span></div>
+    </div>
+
+    <div class="section-label">Botón · <code>src/components/button</code></div>
+    <p class="section-desc" style="margin-bottom:12px;">Siempre pill (<code>rounded-full</code>). Relleno o <code>outline</code>, en cualquier color de marca (<code>primary</code> por default); deshabilitado pasa a <code>cancel</code>. Tres tamaños: <code>sm</code>, normal y <code>lg</code>. Los controles de las barras de lista (ordenar, guardar, paginar) son pills de 34px.</p>
+    <div class="shared-row">
+      <span class="btn-mock">Primario</span>
+      <span class="btn-mock is-outline">Outline</span>
+      <span class="btn-mock is-off">Deshabilitado</span>
+      <span class="btn-mock is-sm">sm</span>
+    </div>
+
+    <div class="section-label">Toast · <code>src/components/toast</code></div>
+    <p class="section-desc" style="margin-bottom:12px;">Uno por vez: uno nuevo reemplaza al anterior. Oscuro (<code>gray-900</code>), abajo y centrado, por encima de la barra inferior del celular. Puede llevar una acción (por ejemplo, deshacer un “ignorar” en lote). Los botones miden 44px para el dedo.</p>
+    <div class="shared-row"><div class="toast-mock">12 juegos ignorados <span class="toast-action">Deshacer</span></div></div>
+
+    <div class="section-label">Confirmación · <code>src/components/confirmModal</code></div>
+    <p class="section-desc">Modal de “¿estás seguro?”. El botón de confirmar es <code>danger</code> (rojo, default) para acciones destructivas y <code>primary</code> cuando lo que se confirma no destruye nada (por ejemplo, enviar un reporte al dueño).</p>
+
+    <div class="section-label">Capas (z-index) · <code>src/config/zIndex.js</code></div>
+    <p class="section-desc" style="margin-bottom:12px;">Todo z-index de la app usa una de estas capas (Tailwind <code>z-sticky</code>, <code>z-nav</code>…; SCSS <code>$z-sticky</code>…), nunca un número suelto. Los números chicos son solo para ordenar cosas dentro de un componente, cuya raíz lleva <code>isolate</code>.</p>
+    <table class="ph-spec-table">
+      <thead><tr><th>Capa</th><th>Valor</th><th>Qué vive ahí</th></tr></thead>
+      <tbody>
+        <tr><td><code>base</code></td><td>0</td><td>—</td></tr>
+        <tr><td><code>raised</code></td><td>10</td><td>Dentro de una card: badges, overlays y loading inline</td></tr>
+        <tr><td><code>sticky</code></td><td>20</td><td>Barras de contenido: barra de filtros, encabezados de grilla, pie de Mis deseos</td></tr>
+        <tr><td><code>loading</code></td><td>30</td><td>Blur de carga de página</td></tr>
+        <tr><td><code>nav</code></td><td>40</td><td>Sidebar, barra inferior del celular, botones flotantes, toast</td></tr>
+        <tr><td><code>panel</code></td><td>50</td><td>Paneles que abre el nav, hoja “Más”, filtros en el celular</td></tr>
+        <tr><td><code>modal</code></td><td>60</td><td>Modales, galería de fotos</td></tr>
+        <tr><td><code>tour</code></td><td>65</td><td>Tutorial guiado: sobre los modales, debajo de la ayuda contextual</td></tr>
+        <tr><td><code>popover</code></td><td>70</td><td>Dropdowns, ayuda contextual</td></tr>
+        <tr><td><code>tooltip</code></td><td>80</td><td>Tooltips</td></tr>
+      </tbody>
+    </table>
+
+  </section>
+
+  <section id="foundations">
+    <div class="section-label">18 · Fundamentos</div>
+    <h2 class="section-title">Fuente, superficies, radios, sombras y movimiento</h2>
+    <p class="section-desc">Lo que no es color ni escala tipográfica. Tokens en <code>tailwind.config.js</code> y <code>src/styles</code>.</p>
+
+    <table class="ph-spec-table">
+      <thead><tr><th>Qué</th><th>Valor</th><th>Dónde se usa</th></tr></thead>
+      <tbody>
+        <tr><td>Fuente</td><td>SF Pro Display, local (<code>src/app/fonts</code>): regular, bold y semibold itálica</td><td>Toda la app, cargada en <code>app/layout.tsx</code></td></tr>
+        <tr><td>Fondo de página</td><td><code>#b7c3c7</code> (<code>$bg-body</code>)</td><td><code>body</code>. Las tarjetas de contenido van en blanco encima. Este documento usa un gris más claro para leerse mejor; los mocks de página usan el real</td></tr>
+        <tr><td>Ancho máximo</td><td>1600px (<code>.wrapper</code>)</td><td>Contenido de cada página</td></tr>
+        <tr><td><code>rounded-main</code></td><td>16px</td><td>Header de página, secciones, avisos, barras flotantes, footer</td></tr>
+        <tr><td><code>rounded-lg</code></td><td>8px</td><td>Cards de juego y de ejemplar, alertas, cajas de aviso</td></tr>
+        <tr><td><code>rounded-md</code></td><td>6px</td><td>Chips, inputs, tooltips</td></tr>
+        <tr><td><code>rounded-full</code></td><td>pill</td><td>Todo botón y todo control de barra</td></tr>
+        <tr><td><code>shadow-main</code></td><td><code>0 2px 16px rgba(0,0,0,.15)</code></td><td>Header de página, secciones blancas, avisos del header</td></tr>
+        <tr><td><code>spacing main</code></td><td>24px (<code>mb-main</code>, <code>p-main</code>)</td><td>Separación entre bloques de página</td></tr>
+        <tr><td>Corte de layout</td><td><code>lg</code> (1024px)</td><td>Abajo de <code>lg</code>: barra inferior en vez de sidebar, filtros a pantalla completa, modales a pantalla completa</td></tr>
+        <tr><td><code>--mt-tabbar-h</code></td><td><code>3.5rem + safe-area</code></td><td>Alto de la barra inferior del celular; lo usan el contenido, el toast y la hoja “Más” para no quedar tapados</td></tr>
+      </tbody>
+    </table>
+
+    <div class="x-row">
+      <div><div class="x-box" style="border-radius:16px; box-shadow:0 2px 16px rgba(0,0,0,.15); border:0;">main · 16</div></div>
+      <div><div class="x-box" style="border-radius:8px;">lg · 8</div></div>
+      <div><div class="x-box" style="border-radius:6px;">md · 6</div></div>
+      <div><div class="x-box" style="border-radius:999px;">full</div></div>
+    </div>
+
+    <div class="section-label">Movimiento</div>
+    <table class="ph-spec-table">
+      <thead><tr><th>Animación</th><th>Duración</th><th>Uso</th></tr></thead>
+      <tbody>
+        <tr><td><code>animate-fadein</code></td><td>0.5s</td><td>Alertas de formulario, popovers</td></tr>
+        <tr><td><code>animate-fadeup</code> / <code>fadedown</code> / <code>fadeleft</code> / <code>faderight</code></td><td>0.2s</td><td>Entradas cortas con desplazamiento: toast, paneles</td></tr>
+        <tr><td><code>animate-dialog-in</code> + <code>dialog-in-article</code></td><td>0.2s / 0.3s</td><td>Fondo y cuerpo del modal</td></tr>
+        <tr><td>Transiciones del sidebar</td><td>0.2 – 0.3s</td><td>Colapsar y expandir. Se apagan con <code>prefers-reduced-motion</code></td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <b>Hover barato en las cards:</b> sin <code>backdrop-blur</code> ni transición de sombra, y las portadas se cargan con lazy-load. Una grilla tiene cientos de cards y esos efectos se notaban al scrollear.
+    </div>
+  </section>
+
+  <section id="shell">
+    <div class="section-label">19 · Estructura</div>
+    <h2 class="section-title">Sidebar, barra inferior, avisos y footer</h2>
+    <p class="section-desc">El marco de toda pantalla de <code>/mathtrade</code> (<code>app/mathtrade/layout.tsx</code>). En escritorio, un sidebar negro a la izquierda. En el celular, una barra inferior con las secciones principales y una hoja “Más” con el resto.</p>
+
+    <div class="section-label">Sidebar · <code>src/components/sidebar</code></div>
+    <div class="shell">
+      <div>
+        <div class="side">
+          <div class="side-top"><span class="side-logo"></span>Math Trade<span class="side-toggle">‹</span></div>
+          <div class="side-status"><i>●</i> Etapa de deseos · 3 días</div>
+          <div class="side-group">Mis juegos</div>
+          <div class="side-item"><b></b>Mi ludoteca</div>
+          <div class="side-item is-on"><b></b>Yo ofrezco</div>
+          <div class="side-group">Intercambios</div>
+          <div class="side-item"><b></b>Otros ofrecen</div>
+          <div class="side-item"><b></b>Mis deseos</div>
+        </div>
+        <p class="x-cap">Expandido · 244px</p>
+      </div>
+      <div>
+        <div class="side is-collapsed">
+          <div class="side-top"><span class="side-logo"></span></div>
+          <div class="side-item"><b></b></div>
+          <div class="side-item is-on"><b></b></div>
+          <div class="side-item"><b></b></div>
+          <div class="side-item"><b></b></div>
+        </div>
+        <p class="x-cap">Colapsado · 68px</p>
+      </div>
+      <div>
+        <div class="phone">
+          <div class="phone-body"></div>
+          <div class="tabbar">
+            <div><b></b>Inicio</div>
+            <div class="is-on"><b></b>Ofrezco</div>
+            <div><b></b>Ofrecen</div>
+            <div class="is-locked"><b></b>Resultados</div>
+            <div><b></b>Más</div>
+          </div>
+        </div>
+        <p class="x-cap">Barra inferior · <code>sidebar/mobile/TabBar.tsx</code></p>
+        <div class="phone" style="margin-top:14px; background:rgba(0,0,0,.4);">
+          <div style="height:24px;"></div>
+          <div class="sheet">
+            <div class="sheet-grab"></div>
+            <div class="sheet-h">Cuenta</div>
+            <div class="sheet-i"><b></b>Mis datos</div>
+            <div class="sheet-i" style="color:var(--primary);"><b style="background:var(--primary);"></b>Mi cuenta</div>
+          </div>
+        </div>
+        <p class="x-cap">Hoja “Más” · <code>sidebar/mobile/MoreSheet.tsx</code></p>
+      </div>
+    </div>
+    <div class="note">
+      <b>Sidebar:</b> fondo negro, ítems de 36px con radio de 10px (32px en pantallas de menos de 800px de alto). Arriba, la tarjeta de estado del evento (<code>EventStatusCard</code>, <code>#1c1d21</code>) dice en qué etapa está el Math Trade. Los grupos llevan un título de 11px en <code>#8a92a0</code>. Colapsado quedan solo los íconos y el nombre pasa al <code>title</code>. Ítems bloqueados: sección 11.
+      <br/><br/>
+      <b>Barra inferior:</b> negra, etiquetas de 10px; activo en <code>primary</code>, resto en <code>#b7bcc4</code>, bloqueado en <code>#6b7280</code> con un candado chico. La hoja “Más” es blanca, sube desde abajo con radio de 16px arriba y un fondo negro al 40%.
+    </div>
+
+    <div class="section-label" style="margin-top:28px;">Avisos del header · <code>components/header/adv*</code></div>
+    <p class="section-desc" style="margin-bottom:14px;">Franjas a todo el ancho arriba del contenido, con <code>rounded-main</code> y <code>shadow-main</code>, texto centrado y una × para cerrar. El color dice qué tan grave es.</p>
+    <div class="adv is-red">Todavía no comprometiste tus cambios. Si no lo hacés, no participás del Math Trade.</div>
+    <div class="adv is-amber">Tenés 2 ejemplares con reportes abiertos. Revisalos.</div>
+    <div class="adv is-sky">Este año podés sumarte al aporte solidario.</div>
+    <table class="ph-spec-table">
+      <thead><tr><th>Tono</th><th>Clases</th><th>Avisos</th></tr></thead>
+      <tbody>
+        <tr><td>Crítico</td><td><code>bg-red-600</code>, texto blanco</td><td>Falta comprometer los cambios, autoexcluido, aporte impago, falta un dato de contacto obligatorio</td></tr>
+        <tr><td>Atención</td><td><code>bg-amber-100</code>, borde <code>amber-300</code>, texto <code>amber-950</code></td><td>Ejemplares reportados, ejemplares sin terminar de cargar, deseos duplicados, dato de contacto recomendado</td></tr>
+        <tr><td>Informativo</td><td><code>bg-sky-100</code>, borde <code>sky-300</code>, texto <code>sky-950</code></td><td>Aporte solidario. El aporte en revisión usa <code>bg-sky-600</code> con texto blanco</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <b>Avisos dentro del contenido:</b> el mismo ámbar, más chico, para avisos que pertenecen a una card o a una barra (<code>bg-amber-50</code>, borde <code>amber-200</code>, texto <code>amber-950</code>, radio de 6 a 12px). Novedades desde la última visita (<code>newSinceNotice</code>) usa <code>primary</code> al 5% con borde <code>primary/30</code>. El límite de oferta para quien participa por primera vez (<code>NewUserOfferAlert</code>) usa <code>orange-100</code> con borde <code>orange-400</code> de 4px.
+    </div>
+
+    <div class="section-label" style="margin-top:28px;">Secciones y footer</div>
+    <p class="section-desc">El contenido de cada página va dentro de una sección blanca con <code>shadow-main</code> y <code>rounded-main</code> (<code>components/sections/common</code>). Las pantallas con filtros usan <code>sections/with-sidebar</code>: la columna de filtros a la izquierda, pegada al hacer scroll. El footer es una franja <code>gray-300</code> con <code>rounded-main</code>, texto de 12px y links en <code>primary</code>.</p>
+  </section>
+
+  <section id="card-controls">
+    <div class="section-label">20 · Componente</div>
+    <h2 class="section-title">Controles de una card</h2>
+    <p class="section-desc">Los botones chicos que viven sobre una card de juego o de ejemplar. Todos miden 28px de alto, son blancos con borde <code>gray-300</code> y solo toman color cuando están activos.</p>
+
+    <div class="x-tint" style="margin-bottom:20px;">
+      <span class="cc-round" title="Copiar link">⧉</span>
+      <span class="cc-round" title="Favorito">☆</span>
+      <span class="cc-round is-fav" title="Favorito activo">★</span>
+      <span class="cc-pill">⊘ Ignorar</span>
+      <span class="cc-pill is-banned">⊘ Ignorado</span>
+      <span class="cc-value" style="color:#47a80d;">✎ 8</span>
+      <span class="cc-value" style="color:#999;">✎ —</span>
+      <span class="cc-value-mini" style="color:#bd9200;">4</span>
+      <span class="cc-bgg">BGG<span>↗</span></span>
+      <span class="cc-disc">Categorías y mecánicas ▾</span>
+    </div>
+    <table class="ph-spec-table">
+      <thead><tr><th>Control</th><th>Archivo</th><th>Estados</th></tr></thead>
+      <tbody>
+        <tr><td>Copiar link</td><td><code>previewer/modal/copyLinkButton</code></td><td>Círculo gris. Lleva al permalink del juego o del ejemplar</td></tr>
+        <tr><td>Favorito</td><td><code>favorite/button</code></td><td>Estrella gris; activa en <code>warning</code></td></tr>
+        <tr><td>Ignorar</td><td><code>ban/button</code></td><td>Pill gris; activa <code>red-50</code> con borde <code>red-200</code> y texto <code>red-600</code>. La card ignorada queda al 30% de opacidad</td></tr>
+        <tr><td>Puntaje</td><td><code>value</code></td><td>Pill blanca con borde y texto del color del puntaje. Al tocarla abre un editor con un deslizador. Versión mini: círculo de 24px, solo lectura</td></tr>
+        <tr><td>Link a la BGG</td><td><code>bggInfo/bggLink</code></td><td>Único control con color propio: <code>bggback</code> + <code>bgg</code></td></tr>
+        <tr><td>Categorías y mecánicas</td><td><code>bggInfo/taxonomyDisclosure</code></td><td>Desplegable blanco al 70% dentro de la card</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-label">Escala del puntaje · <code>value/utils.js</code></div>
+    <p class="section-desc" style="margin-bottom:12px;">De rojo a verde, del 1 al 10; gris cuando no hay puntaje. Es el mismo semáforo en la card, en la fila de ejemplar y en la grilla avanzada de Mis deseos, y el mismo degradé del deslizador.</p>
+    <div class="scale" style="margin-bottom:8px;">
+      <span class="cc-value-mini" style="color:#999;">—</span>
+      <span class="cc-value-mini" style="color:#fb0900;">1</span>
+      <span class="cc-value-mini" style="color:#e04b00;">2</span>
+      <span class="cc-value-mini" style="color:#cf7100;">3</span>
+      <span class="cc-value-mini" style="color:#bd9200;">4</span>
+      <span class="cc-value-mini" style="color:#a7a900;">5</span>
+      <span class="cc-value-mini" style="color:#8aa803;">6</span>
+      <span class="cc-value-mini" style="color:#6ba806;">7</span>
+      <span class="cc-value-mini" style="color:#47a80d;">8</span>
+      <span class="cc-value-mini" style="color:#24a812;">9</span>
+      <span class="cc-value-mini" style="color:#0aa516;">10</span>
+    </div>
+  </section>
+
+  <section id="want-button">
+    <div class="section-label">21 · Componente</div>
+    <h2 class="section-title">Botón “Lo quiero”</h2>
+    <p class="section-desc"><code>src/components/want-button</code>. El verde <code>want</code> es exclusivo de desear y de guardar deseos: ningún otro botón lo usa.</p>
+    <div class="x-white x-row" style="display:flex;">
+      <span class="wb is-want">♥ Lo quiero</span>
+      <span class="wb is-off">♥ Lo quiero</span>
+      <span class="wb is-in">♥ En tus deseos <u>Quitar</u></span>
+      <span class="wb is-ghost">No quiero todos</span>
+    </div>
+    <table class="ph-spec-table">
+      <thead><tr><th>Estado</th><th>Aspecto</th></tr></thead>
+      <tbody>
+        <tr><td>Disponible</td><td>Pill <code>bg-want</code>, texto blanco, 14px semibold</td></tr>
+        <tr><td>No disponible</td><td>Pill <code>gray-400</code> al 60%, con el motivo debajo en rojo (<code>text-red-600</code>, 14px)</td></tr>
+        <tr><td>Ya deseado</td><td>Texto en <code>want</code> sin relleno, con “Quitar” como link rojo subrayado</td></tr>
+        <tr><td>Acción secundaria</td><td>Pill con borde <code>gray-300</code> y texto <code>gray-600</code> (por ejemplo, en una etiqueta: querer todos / no querer todos)</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <b>Al desear</b> se abre la lista de ejemplares propios para ofrecer a cambio (<code>items-to-offer-list</code>), sobre fondo <code>gray-50</code> con borde superior. Si el cambio dejaría dos copias del mismo juego, avisa antes de guardar (<code>dup-protection</code>).
+    </div>
+  </section>
+
+  <section id="bulk">
+    <div class="section-label">22 · Patrón</div>
+    <h2 class="section-title">Selección en lote</h2>
+    <p class="section-desc"><code>src/components/ban/bulk</code>. Para ignorar muchos juegos o ejemplares de una vez en Otros ofrecen. Un botón de la barra activa el modo; cada card muestra una marca para tildar; una barra oscura flotante cuenta lo elegido y ejecuta.</p>
+    <div class="x-row">
+      <span class="mode-btn">☐ Seleccionar</span>
+      <span class="mode-btn is-on">☑ Seleccionando</span>
+      <span class="cc-pill">☐ Elegir</span>
+      <span class="cc-pill is-picked">☑ Elegido</span>
+    </div>
+    <div class="x-row"><div class="bulk-bar">12 elegidos <span>Cancelar</span><span class="is-danger">⊘ Ignorar</span></div></div>
+    <div class="note">
+      <b>Detalles:</b> en modo selección, un toque en cualquier parte de la card la tilda, y se ocultan Ignorar y Copiar link. La marca va arriba a la izquierda de la portada (28px, blanca; elegida con borde y texto <code>primary</code>). La barra es la misma pieza oscura del toast (<code>gray-900</code>, radio de 16px, botones de 44px) y ocupa su lugar: nunca se ven las dos a la vez. La acción es <code>danger</code>; sin nada elegido queda apagada. Antes de ejecutar pide confirmación, y después un toast ofrece deshacer.
+    </div>
+  </section>
+
+  <section id="swipe">
+    <div class="section-label">23 · Patrón</div>
+    <h2 class="section-title">Swipe — de a una card</h2>
+    <p class="section-desc">Para decidir de a un juego por vez con el dedo. Existe en Mis deseos (<code>app/mathtrade/my-wants/swipe</code>, para marcar cada cruce ofrezco ↔ recibo) y en Otros ofrecen (<code>app/mathtrade/offer/games/swipe</code>, para ignorar, guardar como favorito o desear recorriendo todo lo filtrado).</p>
+    <div class="sw-wrap">
+      <div>
+        <div class="sw-card">
+          <div class="gc-cover cover-square"></div>
+          <span class="sw-stamp is-yes">Sí</span>
+          <div class="sw-card-body">Lisboa (2017)</div>
+        </div>
+        <div class="sw-actions"><span class="sw-btn is-no">✕</span><span class="sw-btn is-yes">♥</span></div>
+      </div>
+      <div>
+        <div class="sw-card" style="transform:rotate(4deg);">
+          <div class="gc-cover cover-tall"></div>
+          <span class="sw-stamp is-no">No</span>
+          <div class="sw-card-body">Quadropolis (2016)</div>
+        </div>
+      </div>
+    </div>
+    <div class="note" style="margin-top:20px;">
+      <b>Detalles:</b> la card es blanca con radio de 16px y borde <code>gray-200</code>; la portada arriba, completa. Al arrastrar aparece un sello inclinado 12° en la esquina: <code>want</code> a un lado, <code>danger</code> al otro, con borde de 3px. Debajo, dos botones redondos de 56px hacen lo mismo que el gesto: <code>bg-want</code> para aceptar y <code>bg-rose-500</code> para descartar, cada uno del lado hacia el que va su gesto. En Otros ofrecen, deslizar hacia abajo es desear. En el celular el mazo ocupa toda la pantalla y la barra de filtros se oculta. Guardar es aparte: la misma pill <code>want</code> de la sección 12, con el aviso de cambios sin guardar.
+    </div>
+  </section>
+
+  <section id="forms">
+    <div class="section-label">24 · Componente</div>
+    <h2 class="section-title">Formularios</h2>
+    <p class="section-desc"><code>src/components/form</code>. Los campos de formulario son rectangulares (radio de 6px), a diferencia de los controles de barra, que son pills.</p>
+    <div class="f-grid">
+      <div><span class="f-label">Nombre</span><div class="f-input"><div>Laura</div></div></div>
+      <div><span class="f-label">Email</span><div class="f-input is-focus"><i>@</i><div>laura@…</div></div></div>
+      <div><span class="f-label">Ciudad</span><div class="f-input is-off"><div>No editable</div></div></div>
+      <div><span class="f-label">Teléfono</span><div class="f-input"><div>&nbsp;</div></div><div class="f-error">Este campo es obligatorio</div></div>
+    </div>
+    <div class="x-row">
+      <span class="f-switch"></span><span class="f-switch is-on"></span>
+      <div class="f-range"></div>
+    </div>
+    <div class="x-row">
+      <div class="f-alert is-error">No pudimos guardar los cambios.</div>
+      <div class="f-alert is-ok">¡Listo! Se guardó.</div>
+    </div>
+    <table class="ph-spec-table">
+      <thead><tr><th>Pieza</th><th>Especificación</th></tr></thead>
+      <tbody>
+        <tr><td>Label</td><td>Negrita, <code>gray-600</code>; el asterisco de obligatorio en <code>primary</code></td></tr>
+        <tr><td>Input, select, textarea</td><td>Borde <code>stroke</code>, <code>rounded-md</code>, padding de 12px, texto de 16px. Ícono opcional a la izquierda en una caja <code>gray-100</code> de 45px</td></tr>
+        <tr><td>Foco</td><td>Borde <code>primary</code> + halo <code>0 0 6px primary</code></td></tr>
+        <tr><td>Deshabilitado</td><td><code>bg-gray-200</code>, texto <code>gray-500</code></td></tr>
+        <tr><td>Error de campo</td><td>Texto <code>danger</code> de 14px debajo del campo</td></tr>
+        <tr><td>Switch</td><td>36×20px, <code>gray-400</code> apagado</td></tr>
+        <tr><td>Deslizador de puntaje</td><td>Pista con el degradé rojo → amarillo → verde, perilla de 20px con aro blanco. El de rango doble (filtros) usa <code>primary</code></td></tr>
+        <tr><td>Error del formulario</td><td><code>ErrorAlert</code>: <code>bg-danger</code>, texto blanco de 14px, centrado, <code>rounded-md</code></td></tr>
+        <tr><td>Éxito</td><td><code>SuccessAlert</code>: <code>bg-teal-500</code>, texto blanco en negrita</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="overlays">
+    <div class="section-label">25 · Componente</div>
+    <h2 class="section-title">Modal, tooltip y tutorial guiado</h2>
+    <p class="section-desc">Lo que se abre por encima de la página. El orden entre ellos sale de las capas de la sección 17.</p>
+
+    <div class="section-label">Modal · <code>src/components/modal</code></div>
+    <div class="ov-stage" style="margin-bottom:12px;">
+      <div class="ov-modal">
+        <h4>¿Eliminar este ejemplar?</h4>
+        <p>Si lo eliminás, se quita también de lo que ofrecés.</p>
+        <div class="ov-actions"><span class="ov-btn is-cancel">Cancelar</span><span class="ov-btn is-danger">Eliminar</span></div>
+      </div>
+    </div>
+    <div class="note" style="margin-bottom:28px;">
+      <b>Detalles:</b> cuerpo blanco con radio de 16px; fondo <code>rgba(213,220,226,0.7)</code> con desenfoque. Tres anchos: <code>sm</code> (384px), <code>md</code> (672px) y <code>lg</code> (1280px, default). Cerrar es un círculo de 32px arriba a la derecha. En el celular ocupa toda la pantalla, sin fondo ni radio. Se dibuja en <code>&lt;body&gt;</code>, no en su lugar del árbol, para que ninguna card lo deje atrapado debajo. Las confirmaciones usan <code>ConfirmModal</code> (cuando hay que preguntar solo a veces) o <code>ButtonAlert</code> (cuando el botón pregunta siempre).
+    </div>
+
+    <div class="section-label">Tooltip · <code>src/components/tooltip</code></div>
+    <div class="x-row"><span class="ov-tip">Promedio de los votos de los usuarios de la BGG.</span></div>
+    <p class="section-desc">Se pide con el atributo <code>data-tooltip</code> (y <code>data-placement</code>). Burbuja <code>#222</code>, texto blanco de 12px, radio de 6px, ancho máximo de 260px. Se dibuja en un portal, así que no la recorta ninguna card. El atributo va en un elemento que no recorte su contenido: nunca en el que tiene <code>truncate</code>. El signo de pregunta de ayuda (<code>Question</code>) es un ícono en <code>primary</code> con este mismo tooltip.</p>
+
+    <div class="section-label">Tutorial guiado · <code>src/styles/tour.scss</code></div>
+    <div class="x-row" style="align-items:flex-start;">
+      <div class="ov-tour">
+        <b>Guardá tus cambios</b>
+        <p>Los cruces que marques no cuentan hasta que toques Guardar cambios.</p>
+        <div class="ov-tour-foot">3 de 7 <span>Anterior</span><span>Siguiente</span></div>
+      </div>
+      <span class="ov-demo">Ejemplo</span>
+    </div>
+    <p class="section-desc">Hecho con driver.js. El elemento explicado se resalta con un aro <code>primary</code> de 2px y radio de 10px. El globo es blanco, con radio de 14px, título de 17px y texto de 14px; los botones son pills de 13px, “Siguiente” en <code>primary</code> y “Saltar” como texto gris. Cuando el paso muestra una card inventada para explicar algo que el usuario todavía no tiene, lleva arriba la etiqueta ámbar “Ejemplo” y no se puede tocar.</p>
+  </section>
+
+  <section id="filters">
+    <div class="section-label">26 · Componente</div>
+    <h2 class="section-title">Filtros y etiquetas</h2>
+    <p class="section-desc"><code>src/components/filters</code>. La columna de filtros de Otros ofrecen y los chips que resumen lo filtrado en la barra de la lista.</p>
+    <div class="shell">
+      <div class="fl-aside">
+        <div class="fl-head">Filtros <span>‹</span></div>
+        <div class="fl-body">
+          <div>
+            <p class="fl-title">Tipo</p>
+            <span class="fchip is-on">Juegos</span> <span class="fchip is-off">Expansiones</span>
+          </div>
+          <div>
+            <p class="fl-title">Etiquetas</p>
+            <span class="fchip is-soft">Para dos</span> <span class="fchip is-off">Familiares</span> <span class="fchip is-add">+ Etiqueta</span>
+          </div>
+        </div>
+        <div class="fl-foot"><span>Filtrar</span> Limpiar</div>
+      </div>
+      <div>
+        <div class="x-white"><span class="fchip is-active">Juegos ×</span> <span class="fchip is-active">Para dos ×</span></div>
+        <p class="x-cap">Filtros activos, en el slot <code>leading</code> de la barra · <code>filters/activeChips.tsx</code></p>
+      </div>
+    </div>
+    <div class="note">
+      <b>Detalles:</b> columna blanca con borde derecho, cabecera de 52px y botón de colapsar de 36px con radio de 10px. Cada bloque lleva un título de 12px en <code>gray-500</code>. Solo el cuerpo hace scroll: “Filtrar” (pill <code>primary</code> de 36px) y “Limpiar” (link <code>primary</code>) quedan siempre a la vista, abajo. En el celular la columna pasa a pantalla completa.
+      <br/><br/>
+      <b>Chips de filtro</b> (<code>filters/chip.tsx</code>): radio de 8px, 12px semibold. Apagado <code>gray-100</code>; elegido <code>primary</code> sólido o <code>primary</code> al 10% con borde; “agregar” con borde punteado. No son el <code>Chip</code> de la sección 17: aquel describe, estos se tocan. Las <b>etiquetas</b> del usuario (<code>item-tags</code>) usan la misma forma con el color que eligió cada uno.
+    </div>
+  </section>
+
+  <section id="people">
+    <div class="section-label">27 · Componente</div>
+    <h2 class="section-title">Usuarios, comentarios, reportes y notificaciones</h2>
+
+    <div class="section-label">Usuario · <code>userBox</code> + <code>avatar</code></div>
+    <div class="x-white x-row" style="display:flex; gap:28px;">
+      <span class="ub"><span class="av">LG</span><span><b>Laura Gómez</b><small>CABA</small></span></span>
+      <span class="ub is-new"><span class="av">MR</span><span><b>Martín Ruiz</b> <span class="nub">Nuevo</span><small>Córdoba</small></span></span>
+    </div>
+    <p class="section-desc">Avatar redondo; sin foto, las iniciales sobre <code>secondary</code>. Nombre y, debajo, la ciudad. Solo los admins ven resaltados a los miembros que participan por primera vez: fondo <code>violet-50</code>, nombre en <code>violet-700</code> y la insignia “Nuevo” (<code>violet-100</code> / <code>violet-800</code>). Para un admin, la caja abre los datos del usuario.</p>
+
+    <div class="section-label">Comentarios · <code>item-comments</code></div>
+    <div class="x-white" style="margin-bottom:8px; max-width:420px;">
+      <div class="cm is-other" style="margin-bottom:8px;">¿Tiene las cartas enfundadas?</div>
+      <div class="cm is-mine">Sí, todas.</div>
+    </div>
+    <p class="section-desc">Globos con una punta hacia quien habla: los de otros en <code>sky-200</code> con borde <code>sky-400</code>, a la izquierda; los propios en <code>teal-200</code> con borde <code>teal-400</code>, a la derecha.</p>
+
+    <div class="section-label">Reportes · <code>reportButton</code></div>
+    <div class="x-white x-row" style="display:flex; align-items:flex-start;">
+      <span class="rp-btn">⚑ Reportar</span>
+      <div class="rp-box"><b>REPORTE · 12/10</b>Le faltan dos fichas de madera.<br/><u>Ver reporte</u></div>
+    </div>
+    <p class="section-desc">Reportar es una pill chica con borde <code>yellow-600</code>: está a mano pero no compite con desear. El reporte ya hecho se muestra en una caja con borde <code>teal-400</code> y un link “Ver reporte”. Mientras un ejemplar tiene un reporte abierto, su dueño lo ve primero en la lista y con un aviso ámbar en el header.</p>
+
+    <div class="section-label">Notificaciones · <code>header/notifications</code></div>
+    <div class="nt" style="margin-bottom:8px;"><i>●</i><div><b>Hace 2 horas</b><span>Laura Gómez comentó tu ejemplar Patchwork.</span></div></div>
+    <p class="section-desc">Lista de 12px con separadores <code>gray-300</code>; el punto es <code>primary</code> si no se leyó y <code>gray-300</code> si ya se leyó. El contador sobre la campana es un círculo <code>primary</code> de 9px. Las pestañas del panel se marcan con un subrayado <code>primary</code>.</p>
+
+    <div class="section-label">Paginación y tablas</div>
+    <div class="x-white x-row" style="display:flex;">
+      <span class="pg-size">50 / pág ▾</span>
+      <span class="pg"><span>‹</span><div>1 / 25</div><span class="is-next">›</span></span>
+    </div>
+    <table class="tb" style="margin-bottom:12px;">
+      <thead><tr><th>Usuario ↓</th><th>Ciudad</th><th>Ejemplares</th></tr></thead>
+      <tbody><tr><td>Laura Gómez</td><td>CABA</td><td>12</td></tr><tr><td>Martín Ruiz</td><td>Córdoba</td><td>4</td></tr></tbody>
+    </table>
+    <p class="section-desc"><code>pagination</code> + <code>page-size</code>: botones redondos de 36px; “siguiente” va relleno en <code>primary</code> porque es la acción esperada, “anterior” solo con borde. El número de página se puede escribir. Tablas (<code>table</code>, <code>sortableTable</code>): cabecera <code>gray-100</code>, texto de 14px, links en <code>primary</code> subrayados; las columnas ordenables muestran una flecha al lado del título.</p>
+  </section>
+
+  <section id="identity" class="idn">
+    <div class="section-label">28 · Propuesta — no implementada</div>
+    <h2 class="section-title">Identidad visual: el logo como punto de partida</h2>
+    <div class="pending-note">
+      <b>Esto es una propuesta para decidir, no describe la app.</b> Todo lo anterior (secciones 01 a 27) es lo que está hoy en el código. Acá va cómo se vería con más identidad, tomando como inspiración el sistema de Clay del repo <code>awesome-design-md</code>. No se copia su marca: se toman sus principios y se aplican a los colores y componentes del Math Trade.
+    </div>
+    <p class="section-desc"><b>El problema.</b> El logo ya tiene toda la identidad: celeste y blanco, un sol amarillo, manos que se pasan meeples y dados, y un contorno azul noche. La app casi no usa nada de eso: fondo gris frío (<code>#b7c3c7</code>), tarjetas blancas con sombra, fuente del sistema y un degradé violeta en la home que no sale de ningún lado. <b>La idea</b> es que la app se vea como el logo: el celeste como color de marca, el azul noche como tinta, el amarillo del sol como acento, un fondo crema cálido en vez de gris, una tipografía de títulos con carácter, bloques de color en vez de sombras, y los meeples y dados del logo como ilustración.</p>
+
+    <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap; margin-bottom:28px;"><div style="width:140px; flex-shrink:0;"><svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill-rule="evenodd"
+      stroke-linejoin="round"
+      stroke-miterlimit="2"
+      clip-rule="evenodd"
+      viewBox="0 0 796 800"
+    >
+      <circle
+        cx="1420.09"
+        cy="1224.51"
+        r="1055"
+        fill="#2e294e"
+        transform="translate(-129.568 -54.72) scale(.37204)"
+      ></circle>
+      <path
+        fill="#2e294e"
+        d="M170.873 280.016l.17.088.427.131c6.402 1.932 15.41 5.46 22.185 6.407-.067.354-.123.704-.17 1.05-1.252 9.436 5.13 16.42 9.166 18.194l.133.058.136.05c7.04 2.582 14.99 5.449 22.794 9.135 6.672 3.151 15.724 5.78 20.588 6.776 2.03.416 3.533.535 4.223.489.413-.03.779-.096 1.1-.185 1.77 3.183 4.761 5.56 8.996 6.45l.175.038.178.023c14.927 1.978 41.086 2.52 49.526 1.24 12.229-1.863 36.27-7.597 46.65-11.506 7.764-2.925 8.274-1.824 22.687-11.902 9.731-6.804 41.547-30.08 59.64-48.847.985-1.02 3.336.146 4.721.635 4.972 1.763 13.16 6.534 22.022 13.391 13.753 10.636 28.36 25.416 32.616 36.58 2.405 6.298 11.987 18.216 24.439 31.653 25.416 27.425 62.637 61.949 68.971 67.79 3.621 11.444 32.216 101.032 51.298 136.927 3.967 7.467 7.715 12.743 10.694 15.07 2.497 1.947 4.894 2.406 6.907 2.017 12.375-2.396 54.484-10.263 86.764-71.668 47.373-86.552 34.748-181.478-15.495-265.926l-.02-.035C668.521 121.02 547.58 113.255 542.661 112.982c.008 0-84.822-8.285-91.032-9.374-3.444-.604-7.511-.315-9.801-1.27-8.212-4.105-27.363-15.788-47.338-19.559-8.57-1.62-23.097-3.51-33.752-3.444-5.166.03-9.514.585-12.197 1.635-4.499 1.759-34.982 17.597-39.2 20.53-1.514 1.05-4.176 1.212-6.584 1.496-3.998.474-54.605-.458-62.096-.157-2.338.092-4.954 1.643-6.31 5.445-1.379 3.863-1.733 11.27-.948 17.593.58 4.667 1.867 8.735 3.378 10.797 4.512 6.16 7.543 9.709 17.994 14.434 5.917 2.674 16.233 3.602 24.51 3.067 5.92-.381 10.433-1.67 12.985-2.251 3.275-.743 10.972-2.598 17.624-4.272-2.633 1.478-4.734 2.848-5.882 3.933-4.626 4.375-13.787 9.077-20.414 13.83-6.641 4.764-26.344 12.848-28.348 13.853-1.55.773-3.217.888-4.67 1.08-1.9.255-14.197.366-18.634.747-2.39.204-3.923.166-4.687.116-2.89-1.562-12.603-6.73-19-8.974-8.883-3.117-25.703-3.77-33.027 9.632-4.103 7.507-3.54 12.11-2.514 14.726 1.147 2.932 3.182 4.306 4.287 4.864 2.883 2.101 19.53 14.153 26.922 17.608 10.358 4.837 6.896 3.898 19.734 6.565 11.609 2.413 28.332 2.474 36.09 2.663-1.61.943-2.696 1.443-2.696 1.443l-.162.073-.156.089s-7.488 4.21-13.406 5.248c-4.922.87-20.282 2.109-27.44 1.743-30.786-4.498-45.07 4.81-52.608 18.894l-.085.158-.073.165c-3.649 8.285-3.04 13.522-1.488 16.82 2.171 4.621 8.299 6.784 9.236 7.088zm145.562-36.937z"
+      ></path>
+      <path
+        fill="#fff"
+        d="M240.849 107.556c7.535-.3 58.444.608 62.466.131 3.217-.385 6.699-.904 8.722-2.309 4.112-2.863 33.838-18.297 38.223-20.01 7.696-3.012 31.44-.2 43.353 2.052 22.695 4.282 45.383 16.377 56.823 28.217.85-2.347.454-5.049-1.089-8.08l92.937 10.135s122.197 5.772 186.074 108.898c49.366 82.975 61.953 176.239 15.392 261.278-31.115 59.209-71.573 66.955-83.502 69.264-15.342 2.969-63.877-151.995-63.877-151.995S510.9 326.688 503.25 306.63c-7.465-19.575-44.69-50.132-58.717-52.495 0 0 7.9-8.842 4.268-19.463.365 15.611-57.932 58.405-71.67 68.013-13.75 9.613-14.238 8.562-21.646 11.352-10.166 3.829-33.717 9.432-45.695 11.255-8.214 1.247-33.67.674-48.196-1.25-9.138-1.924-9.139-13.468-2.982-21.549s17.316-12.025 25.108-11.736c5.901-.004 22.269.442 42.81-7.408 6.258-2.393 8.737-3.655 10.293-5.676 1.124-1.192.025-3.69-.962-6.445-1.647-4.602-3.22-11.194-3.079-11.544-2.085 5.73-2.788 11.325-2.309 16.8-4.118 3.31-8.84 5.692-13.852 6.927-6.67 1.647-20.651 3.067-26.167 2.951-12.986-.127-21.909 2.159-30.014 8.593-9.157 7.269-10.81 21.999-9.941 22.607-.09.816-13.732-2.432-22.767-6.7-7.938-3.751-16.023-6.672-23.184-9.3-4.856-2.132-13.762-15.038 4.457-28.41 7.123-5.23 26.583-3.175 40.308-.739 9.876 1.666 14.365 1.185 17.444.031s25.151-10.401 32.163-14.3c7.38-4.105 18.77-15.645 17.829-15.776-.724-.435-4.484-19.517-4.746-23.219 0 0-2.437 11.417-1.668 16.293.77 6.41-2.309 10.39-5.515 12.698s-13.725 9.362-13.725 9.362-5.9 3.463-7.952 3.848c-2.053.385-19.336 7.727-21.132 7.727-1.796 0-5.933.354-12.346-1.57s-31.651-.739-35.145-.512c-6.018.385-14.6 8.304-17.99 15.165-6.56-.127-16.733-4.344-23.696-6.445-1.384-.724-12.41-1.763-5.388-17.701 6.83-12.76 20.008-20.552 47.972-16.416 7.343.416 23.567-.888 28.732-1.797 6.559-1.154 14.879-5.772 14.879-5.772s6.413-2.951 11.672-8.08c5.259-5.13 18.855-13.98 28.09-19.24 9.235-5.26 9.62-8.208 9.62-8.208l-2.565-12.06-3.207 10.136s-24.114 17.828-27.577 21.803c-3.463 3.978-6.798 5.518-13.083 5.26s-24.852-.03-37.358-2.628c-12.162-2.528-8.882-1.636-18.695-6.223-7.878-3.682-26.55-17.443-26.55-17.443s-6.03-2.181 0-13.214c6.028-11.028 20.009-10.004 27.32-7.438 7.311 2.567 19.112 9.108 19.112 9.108s2.052.385 6.541 0c4.49-.384 16.932-.515 18.856-.77 1.924-.257 4.104-.515 6.156-1.538 2.053-1.028 22.19-9.366 28.989-14.238 6.798-4.875 16.161-9.75 20.907-14.238 4.746-4.49 27.834-13.725 31.04-15.907 3.207-2.178 1.925-18.213 8.594-27.063 6.67-8.85-10.26 8.208-11.8 20.521s-12.314 6.542-15.777 7.696-22.447 5.772-28.09 7.057c-2.407.547-6.66 1.782-12.244 2.144-7.511.485-16.89-.231-22.26-2.66-9.363-4.232-12.087-7.403-16.13-12.92-3.734-5.1-4.08-26.156.259-26.329zm199.613 64.97c-21.437-3.706-38.25 1.262-48.743 18.085l-2.82-3.209c12.51-22.268 40.169-26.078 51.563-14.876z"
+      ></path>
+      <path
+        fill="#2e294e"
+        d="M319.39 119.692a5.524 5.524 0 015.383-1.108l55.046 18.088a5.515 5.515 0 013.682 4.121c2.255 10.8 9.693 46.485 11.945 57.28a5.532 5.532 0 01-1.728 5.244l-43.576 38.98a5.523 5.523 0 01-5.397 1.134l-55.324-18.056a5.524 5.524 0 01-3.7-4.151L273.98 163.5a5.524 5.524 0 011.756-5.242l43.655-38.566z"
+      ></path>
+      <path
+        fill="#ffc700"
+        d="M366.978 195.87l-20.715 42.263-39.057-30.399 59.772-11.864zm-64.39 13.66l-9.94 11.48 42.776 14.045-32.836-25.525zm86.324-8.08l-16.74-5.901-18.277 36.812 35.017-30.912zm-107.937-27.193l8.723 43.546 10.132-11.608-18.855-31.938zm85.747 17.059l-41.559-45.663-19.432 58.297 60.99-12.634zm-87.414-28.54l22.446 38.417 18.278-56.181-40.724 17.765zm94.148 28.476l17.122 5.58-9.62-45.92-7.502 40.34zm4.874-49.126l-8.786 46.111-40.79-45.15 49.576-.961zm-56.694-2.373l-1.347-14.75-32.708 29.436 34.055-14.686zm3.143-15.585l1.282 14.623 40.34-.834-41.622-13.789z"
+      ></path>
+      <path
+        fill="#2e294e"
+        d="M522.264 170.554l-.088.17-.131.427c-1.932 6.402-5.46 15.41-6.407 22.185a18.826 18.826 0 00-1.05-.17c-9.436-1.252-16.42 5.13-18.194 9.166l-.058.133-.05.136c-2.582 7.04-5.449 14.99-9.135 22.794-3.151 6.672-5.78 15.724-6.776 20.588-.416 2.03-.535 3.533-.489 4.223.03.413.096.779.185 1.1-3.183 1.77-5.56 4.761-6.45 8.996l-.038.175-.023.178c-1.978 14.927-2.52 41.086-1.24 49.526 1.863 12.229 7.597 36.27 11.506 46.65 2.925 7.764 1.824 8.274 11.902 22.687 6.804 9.731 30.08 41.547 48.847 59.64 1.02.985-.146 3.336-.635 4.721-1.763 4.972-6.534 13.16-13.391 22.022-10.636 13.753-25.416 28.36-36.58 32.616-6.298 2.405-18.216 11.987-31.653 24.439-27.425 25.416-61.949 62.637-67.79 68.971-11.444 3.621-101.032 32.216-136.927 51.298-7.467 3.967-12.743 7.715-15.07 10.694-1.947 2.497-2.406 4.894-2.017 6.907 2.396 12.375 10.263 54.484 71.668 86.764 86.552 47.373 181.478 34.748 265.926-15.495l.035-.02C681.26 668.202 689.025 547.26 689.298 542.342c0 .008 8.285-84.822 9.374-91.032.604-3.444.315-7.511 1.27-9.801 4.105-8.212 15.788-27.363 19.559-47.338 1.62-8.57 3.51-23.097 3.444-33.752-.03-5.166-.585-9.514-1.635-12.197-1.759-4.499-17.597-34.982-20.53-39.2-1.05-1.514-1.212-4.176-1.496-6.584-.474-3.998.458-54.605.157-62.096-.092-2.338-1.643-4.954-5.445-6.31-3.863-1.379-11.27-1.733-17.593-.948-4.667.58-8.735 1.867-10.797 3.378-6.16 4.512-9.709 7.543-14.434 17.994-2.674 5.917-3.602 16.233-3.067 24.51.381 5.92 1.67 10.433 2.251 12.985.743 3.275 2.598 10.972 4.272 17.624-1.478-2.633-2.848-4.734-3.933-5.882-4.375-4.626-9.077-13.787-13.83-20.414-4.764-6.641-12.848-26.344-13.853-28.348-.773-1.55-.888-3.217-1.08-4.67-.255-1.9-.366-14.197-.747-18.634-.204-2.39-.166-3.923-.116-4.687 1.562-2.89 6.73-12.603 8.974-19 3.117-8.883 3.77-25.703-9.632-33.027-7.507-4.103-12.11-3.54-14.726-2.514-2.932 1.147-4.306 3.182-4.864 4.287-2.101 2.883-14.153 19.53-17.608 26.922-4.837 10.358-3.898 6.896-6.565 19.734-2.413 11.609-2.474 28.332-2.663 36.09-.943-1.61-1.443-2.696-1.443-2.696l-.073-.162-.089-.156s-4.21-7.488-5.248-13.406c-.87-4.922-2.109-20.282-1.743-27.44 4.498-30.786-4.81-45.07-18.894-52.608l-.158-.085-.165-.073c-8.285-3.649-13.522-3.04-16.82-1.488-4.621 2.171-6.784 8.299-7.088 9.236zm36.937 145.562z"
+      ></path>
+      <path
+        fill="#6cbfe3"
+        d="M694.724 240.53c.3 7.535-.608 58.444-.131 62.466.385 3.217.904 6.699 2.309 8.722 2.863 4.112 18.297 33.838 20.01 38.223 3.012 7.696.2 31.44-2.052 43.353-4.282 22.695-16.377 45.383-28.217 56.823 2.347.85 5.049.454 8.08-1.089l-10.135 92.937s-5.772 122.197-108.898 186.074c-82.975 49.366-176.239 61.953-261.278 15.392-59.209-31.115-66.955-71.573-69.264-83.502-2.969-15.342 151.995-63.877 151.995-63.877s78.449-85.471 98.508-93.121c19.575-7.465 50.132-44.69 52.495-58.717 0 0 8.842 7.9 19.463 4.268-15.611.365-58.405-57.932-68.013-71.67-9.613-13.75-8.562-14.238-11.352-21.646-3.829-10.166-9.432-33.717-11.255-45.695-1.247-8.214-.674-33.67 1.25-48.196 1.924-9.138 13.468-9.139 21.549-2.982s12.025 17.316 11.736 25.108c.004 5.901-.442 22.269 7.408 42.81 2.393 6.258 3.655 8.737 5.676 10.293 1.192 1.124 3.69.025 6.445-.962 4.602-1.647 11.194-3.22 11.544-3.079-5.73-2.085-11.325-2.788-16.8-2.309-3.31-4.118-5.692-8.84-6.927-13.852-1.647-6.67-3.067-20.651-2.951-26.167.127-12.986-2.159-21.909-8.593-30.014-7.269-9.157-21.999-10.81-22.607-9.941-.816-.09 2.432-13.732 6.7-22.767 3.751-7.938 6.672-16.023 9.3-23.184 2.132-4.856 15.038-13.762 28.41 4.457 5.23 7.123 3.175 26.583.739 40.308-1.666 9.876-1.185 14.365-.031 17.444s10.401 25.151 14.3 32.163c4.105 7.38 15.645 18.77 15.776 17.829.435-.724 19.517-4.484 23.219-4.746 0 0-11.417-2.437-16.293-1.668-6.41.77-10.39-2.309-12.698-5.515s-9.362-13.725-9.362-13.725-3.463-5.9-3.848-7.952c-.385-2.053-7.727-19.336-7.727-21.132 0-1.796-.354-5.933 1.57-12.346s.739-31.651.512-35.145c-.385-6.018-8.304-14.6-15.165-17.99.127-6.56 4.344-16.733 6.445-23.696.724-1.384 1.763-12.41 17.701-5.388 12.76 6.83 20.552 20.008 16.416 47.972-.416 7.343.888 23.567 1.797 28.732 1.154 6.559 5.772 14.879 5.772 14.879s2.951 6.413 8.08 11.672c5.13 5.259 13.98 18.855 19.24 28.09 5.26 9.235 8.208 9.62 8.208 9.62l12.06-2.565-10.136-3.207s-17.828-24.114-21.803-27.577c-3.978-3.463-5.518-6.798-5.26-13.083s.03-24.852 2.628-37.358c2.528-12.162 1.636-8.882 6.223-18.695 3.682-7.878 17.443-26.55 17.443-26.55s2.181-6.03 13.214 0c11.028 6.028 10.004 20.009 7.438 27.32-2.567 7.311-9.108 19.112-9.108 19.112s-.385 2.052 0 6.541c.384 4.49.515 16.932.77 18.856.257 1.924.515 4.104 1.538 6.156 1.028 2.053 9.366 22.19 14.238 28.989 4.875 6.798 9.75 16.161 14.238 20.907 4.49 4.746 13.725 27.834 15.907 31.04 2.178 3.207 18.213 1.925 27.063 8.594 8.85 6.67-8.208-10.26-20.521-11.8s-6.542-12.314-7.696-15.777-5.772-22.447-7.057-28.09c-.547-2.407-1.782-6.66-2.144-12.244-.485-7.511.231-16.89 2.66-22.26 4.232-9.363 7.403-12.087 12.92-16.13 5.1-3.734 26.156-4.08 26.329.259zm-64.97 199.613c3.706-21.437-1.262-38.25-18.085-48.743l3.209-2.82c22.268 12.51 26.078 40.169 14.876 51.563z"
+      ></path>
+      <path
+        fill="#2e294e"
+        d="M592.675 310.61c-.154.777-.12 1.716.28 2.818.37 1.021 2.406 4.41 4.803 8.273a3 3 0 01-.223.012c-2.57.046-27.225.642-27.225.642a4.725 4.725 0 00-3.929 2.281c-3.936 6.528-7.95 13.083-11.497 19.48-1.22 1.178-1.359 2.656-1.266 3.782.084 1.008 6.772 14.619 7.234 15.649.577 1.282.931 2.227 2.836 3.432.839.534 3.698 1.48 7.553 2.237 7.562 1.485 19.444 2.855 23.581 2.149.308-.053.658-.098 1.039-.137-.027.254-.104.498-.05.708 1.628 6.035 6.268 14.304 7.038 15.54 3.629 5.83 5.676 10.281 11.933 10.724 3.32.234 6.841-.416 9.165-1.34 1.54-.611 2.679-1.404 3.364-2.116 1.212-1.258 13.233-12.817 18.004-16.696 1.39.858 3.598 2.035 5.946 2.816 3.247 1.082 8.904 2.217 14.622.978 6.322-1.366 13.864-7.069 14.684-17.111.504-6.173-2.363-11.464-4.448-14.765-.466-.732-5.91-10.6-8.139-14.04 1.478-5.866 3.26-13.37 3.24-17.085-.027-5.118-1.281-6.578-2.035-7.968-.104-.185-4.476-8.325-5.565-10.305-2.47-4.484-3.29-6.77-7.453-9.095-4.63-2.586-10.259-2.449-14.384 2.047-.877.954-6.911 7.323-9.328 9.598-3.278-3.173-5.783-7.49-10.605-15.075-4.132-6.508-16.796-16.063-16.796-16.063a4.722 4.722 0 00-3.579-.871 4.725 4.725 0 00-3.113 1.962 196.152 196.152 0 00-12.221 20.028c-.758.823-1.813 2.503-.881 5.065.5 1.38 4.04 7.087 7.415 12.445zm3.405 5.452l.008.001-.008-.002zm-.896-.386a4.617 4.617 0 00.292.152 3.658 3.658 0 01-.292-.152 4.361 4.361 0 01-.258-.156l.258.156zm-6.8-14.878l.008.001-.008-.002v.001zm-.896-.386a4.646 4.646 0 00.292.152 3.783 3.783 0 01-.292-.152 4.169 4.169 0 01-.258-.156l.258.156z"
+      ></path>
+      <path
+        fill="#ffc700"
+        d="M636.611 357.732c-1.781.509-18.909 16.933-20.394 18.469-2.286 2.366-15.946 4.41-15.685-4.122.12-3.927 3.664-14.842 4.049-16.381s-.566-2.712-3.006-3.61c-2.436-.898-11.448-1.29-15.246-.641-6.09 1.04-30.28-3.111-27.832-4.105 3.64-6.644 7.827-13.469 11.929-20.266 0 0 24.623-.596 27.193-.641 4.718-.084 8.597-2.592 5.388-8.21-1.743-3.052-14.946-23.054-13.214-21.933a191.414 191.414 0 0112.444-20.523s11.802 8.778 15.63 14.806c5.707 8.984 8.482 13.615 12.607 17.114 1.808 1.555 2.562.935 3.848.037 1.281-.898 9.85-9.829 10.94-11.013 4.929-5.37 13.502.092 13.54 6.89.031 6.03-4.875 22.245-5.133 24.426-.254 2.18-.95 3.994.204 4.507 1.155.514 15.223 5.133 14.292 16.547-.616 7.538-6.23 11.855-10.975 12.882-4.748 1.026-9.439.054-12.132-.843-2.694-.898-5.176-2.4-5.753-2.877-1.128-.933-2.694-.513-2.694-.513z"
+      ></path>
+      <g>
+        <path
+          fill="#2e294e"
+          d="M631.237 522.647l-.17-.088-.427-.131c-6.402-1.932-15.41-5.46-22.185-6.407.067-.354.123-.704.17-1.05 1.252-9.436-5.13-16.42-9.166-18.194l-.133-.058-.136-.05c-7.04-2.582-14.99-5.449-22.794-9.135-6.672-3.151-15.724-5.78-20.588-6.776-2.03-.416-3.533-.535-4.223-.489-.413.03-.779.096-1.1.185-1.77-3.183-4.761-5.56-8.996-6.45l-.175-.038-.178-.023c-14.927-1.978-41.086-2.52-49.526-1.24-12.229 1.863-36.27 7.597-46.65 11.506-7.764 2.925-8.274 1.824-22.687 11.902-9.731 6.804-41.547 30.08-59.64 48.847-.985 1.02-3.336-.146-4.721-.635-4.972-1.763-13.16-6.534-22.022-13.391-13.753-10.636-28.36-25.416-32.616-36.58-2.405-6.298-11.987-18.216-24.439-31.653-25.416-27.425-62.637-61.949-68.971-67.79-3.621-11.444-32.216-101.032-51.298-136.927-3.967-7.467-7.715-12.743-10.694-15.07-2.497-1.947-4.894-2.406-6.907-2.017-12.375 2.396-54.484 10.263-86.764 71.668C6.828 399.115 19.453 494.04 69.696 578.489l.02.035C133.589 681.643 254.53 689.408 259.449 689.68c-.008 0 84.822 8.285 91.032 9.374 3.444.604 7.511.315 9.801 1.27 8.212 4.105 27.363 15.788 47.338 19.559 8.57 1.62 23.097 3.51 33.752 3.444 5.166-.03 9.514-.585 12.197-1.635 4.499-1.759 34.982-17.597 39.2-20.53 1.514-1.05 4.176-1.212 6.584-1.496 3.998-.474 54.605.458 62.096.157 2.338-.092 4.954-1.643 6.31-5.445 1.379-3.863 1.733-11.27.948-17.593-.58-4.667-1.867-8.735-3.378-10.797-4.512-6.16-7.543-9.709-17.994-14.434-5.917-2.674-16.233-3.602-24.51-3.067-5.92.381-10.433 1.67-12.985 2.251-3.275.743-10.972 2.598-17.624 4.272 2.633-1.478 4.734-2.848 5.882-3.933 4.626-4.375 13.787-9.077 20.414-13.83 6.641-4.764 26.344-12.848 28.348-13.853 1.55-.773 3.217-.888 4.67-1.08 1.9-.255 14.197-.366 18.634-.747 2.39-.204 3.923-.166 4.687-.116 2.89 1.562 12.603 6.73 19 8.974 8.883 3.117 25.703 3.77 33.027-9.632 4.103-7.507 3.54-12.11 2.514-14.726-1.147-2.932-3.182-4.306-4.287-4.864-2.883-2.101-19.53-14.153-26.922-17.608-10.358-4.837-6.896-3.898-19.734-6.565-11.609-2.413-28.332-2.474-36.09-2.663 1.61-.943 2.696-1.443 2.696-1.443l.162-.073.156-.089s7.488-4.21 13.406-5.248c4.922-.87 20.282-2.109 27.44-1.743 30.786 4.498 45.07-4.81 52.608-18.894l.085-.158.073-.165c3.649-8.285 3.04-13.522 1.488-16.82-2.171-4.621-8.299-6.784-9.236-7.088zm-145.562 36.937z"
+        ></path>
+        <path
+          fill="#fff"
+          d="M561.261 695.107c-7.535.3-58.444-.608-62.466-.131-3.217.385-6.699.904-8.722 2.309-4.112 2.863-33.838 18.297-38.223 20.01-7.696 3.012-31.44.2-43.353-2.052-22.695-4.282-45.383-16.377-56.823-28.217-.85 2.347-.454 5.049 1.089 8.08l-92.937-10.135S137.63 679.2 73.752 576.073C24.386 493.098 11.8 399.834 58.36 314.795c31.115-59.209 71.573-66.955 83.502-69.264 15.342-2.969 63.877 151.995 63.877 151.995s85.471 78.449 93.121 98.508c7.465 19.575 44.69 50.132 58.717 52.495 0 0-7.9 8.842-4.268 19.463-.365-15.611 57.932-58.405 71.67-68.013 13.75-9.613 14.238-8.562 21.646-11.352 10.166-3.829 33.717-9.432 45.695-11.255 8.214-1.247 33.67-.674 48.196 1.25 9.138 1.924 9.139 13.468 2.982 21.549s-17.316 12.025-25.108 11.736c-5.901.004-22.269-.442-42.81 7.408-6.258 2.393-8.737 3.655-10.293 5.676-1.124 1.192-.025 3.69.962 6.445 1.647 4.602 3.22 11.194 3.079 11.544 2.085-5.73 2.788-11.325 2.309-16.8 4.118-3.31 8.84-5.692 13.852-6.927 6.67-1.647 20.651-3.067 26.167-2.951 12.986.127 21.909-2.159 30.014-8.593 9.157-7.269 10.81-21.999 9.941-22.607.09-.816 13.732 2.432 22.767 6.7 7.938 3.751 16.023 6.672 23.184 9.3 4.856 2.132 13.762 15.038-4.457 28.41-7.123 5.23-26.583 3.175-40.308.739-9.876-1.666-14.365-1.185-17.444-.031s-25.151 10.401-32.163 14.3c-7.38 4.105-18.77 15.645-17.829 15.776.724.435 4.484 19.517 4.746 23.219 0 0 2.437-11.417 1.668-16.293-.77-6.41 2.309-10.39 5.515-12.698s13.725-9.362 13.725-9.362 5.9-3.463 7.952-3.848c2.053-.385 19.336-7.727 21.132-7.727 1.796 0 5.933-.354 12.346 1.57s31.651.739 35.145.512c6.018-.385 14.6-8.304 17.99-15.165 6.56.127 16.733 4.344 23.696 6.445 1.384.724 12.41 1.763 5.388 17.701-6.83 12.76-20.008 20.552-47.972 16.416-7.343-.416-23.567.888-28.732 1.797-6.559 1.154-14.879 5.772-14.879 5.772s-6.413 2.951-11.672 8.08c-5.259 5.13-18.855 13.98-28.09 19.24-9.235 5.26-9.62 8.208-9.62 8.208l2.565 12.06 3.207-10.136s24.114-17.828 27.577-21.803c3.463-3.978 6.798-5.518 13.083-5.26s24.852.03 37.358 2.628c12.162 2.528 8.882 1.636 18.695 6.223 7.878 3.682 26.55 17.443 26.55 17.443s6.03 2.181 0 13.214c-6.028 11.028-20.009 10.004-27.32 7.438-7.311-2.567-19.112-9.108-19.112-9.108s-2.052-.385-6.541 0c-4.49.384-16.932.515-18.856.77-1.924.257-4.104.515-6.156 1.538-2.053 1.028-22.19 9.366-28.989 14.238-6.798 4.875-16.161 9.75-20.907 14.238-4.746 4.49-27.834 13.725-31.04 15.907-3.207 2.178-1.925 18.213-8.594 27.063-6.67 8.85 10.26-8.208 11.8-20.521s12.314-6.542 15.777-7.696 22.447-5.772 28.09-7.057c2.407-.547 6.66-1.782 12.244-2.144 7.511-.485 16.89.231 22.26 2.66 9.363 4.232 12.087 7.403 16.13 12.92 3.734 5.1 4.08 26.156-.259 26.329zm-199.613-64.97c21.437 3.706 38.25-1.262 48.743-18.085l2.82 3.209c-12.51 22.268-40.169 26.078-51.563 14.876z"
+        ></path>
+        <path
+          fill="#2e294e"
+          d="M482.718 682.971a5.524 5.524 0 01-5.382 1.108l-55.046-18.088a5.515 5.515 0 01-3.682-4.121c-2.255-10.8-9.693-46.485-11.945-57.28a5.532 5.532 0 011.728-5.244l43.576-38.98a5.523 5.523 0 015.397-1.134l55.324 18.056a5.524 5.524 0 013.7 4.151l11.741 57.724a5.524 5.524 0 01-1.756 5.242l-43.655 38.566z"
+        ></path>
+        <path
+          fill="#ffc700"
+          d="M435.131 606.793l20.715-42.263 39.057 30.399-59.772 11.864zm64.39-13.66l9.94-11.48-42.776-14.045 32.836 25.525zm-86.324 8.08l16.74 5.901 18.277-36.812-35.017 30.912zm107.937 27.193l-8.723-43.546-10.132 11.608 18.855 31.938zm-85.747-17.059l41.559 45.663 19.432-58.297-60.99 12.634zm87.414 28.54l-22.446-38.417-18.278 56.181 40.724-17.765zm-94.148-28.476l-17.122-5.58 9.62 45.92 7.502-40.34zm-4.874 49.126l8.786-46.111 40.79 45.15-49.576.961zm56.694 2.373l1.347 14.75 32.708-29.436-34.055 14.686zm-3.143 15.585l-1.282-14.623-40.34.834 41.622 13.789z"
+        ></path>
+        <g>
+          <path
+            fill="#2e294e"
+            d="M275.321 170.114c-8.266 4.137-18.648 8.436-20.075 9.15-1.55.774-3.216.888-4.67 1.082-1.9.253-14.197.365-18.633.745-2.391.205-3.923.166-4.688.117-2.89-1.565-12.603-6.73-19-8.975-8.882-3.117-25.702-3.772-33.027 9.63-4.103 7.508-3.54 12.11-2.514 14.73 1.148 2.929 3.183 4.305 4.287 4.862 2.884 2.102 19.53 14.152 26.923 17.607 10.357 4.84 6.896 3.9 19.733 6.566 11.61 2.411 28.332 2.473 36.09 2.663-1.61.943-2.695 1.443-2.695 1.443l-.162.074-.156.087s-7.489 4.209-13.406 5.25c-4.922.867-20.283 2.11-27.44 1.743-30.786-4.498-45.07 4.808-52.608 18.894l-.085.159-.073.165c-3.65 8.281-3.04 13.518-1.489 16.82 2.172 4.62 8.3 6.781 9.236 7.088l.17.088.428.13c6.401 1.93 15.409 5.459 22.185 6.407a18.807 18.807 0 00-.17 1.048c-1.252 9.436 5.129 16.423 9.165 18.193l.133.059.136.05c7.041 2.585 14.991 5.448 22.795 9.136 6.672 3.152 15.723 5.781 20.587 6.777 2.03.416 3.533.535 4.223.487a5.45 5.45 0 001.1-.185c1.771 3.183 4.762 5.56 8.997 6.452l.175.036.178.024c4.555.603 10.157 1.073 15.983 1.399a172.179 172.179 0 00-5.408 6.639c-6.856 8.863-11.629 17.052-13.389 22.022-.49 1.386-1.656 3.738-.634 4.723 18.764 18.092 42.041 49.911 48.846 59.639 10.077 14.414 8.976 14.922 11.9 22.688 3.91 10.378 9.645 34.42 11.505 46.649 1.284 8.442.74 34.601-1.238 49.527l-.023.177-.037.177c-.892 4.233-3.268 7.223-6.451 8.993.09.324.156.69.185 1.1.047.693-.071 2.194-.487 4.226-.996 4.864-3.625 13.914-6.778 20.587-3.687 7.803-6.551 15.753-9.136 22.795l-.05.135-.058.135c-1.77 4.036-8.758 10.416-18.193 9.162-.345-.046-.695-.1-1.049-.17-.948 6.777-4.477 15.785-6.408 22.188l-.128.427-.089.17c-.306.934-2.468 7.064-7.088 9.235-3.301 1.55-8.539 2.162-16.82-1.49l-.165-.073-.159-.084c-14.086-7.539-23.392-21.822-18.894-52.606.367-7.158-.876-22.519-1.742-27.44-1.042-5.919-5.25-13.407-5.25-13.407l-.087-.158-.075-.161s-.5-1.085-1.443-2.694c-.19 7.758-.252 24.481-2.663 36.09-2.666 12.837-1.726 9.374-6.566 19.733-3.455 7.392-15.504 24.039-17.606 26.92-.558 1.105-1.934 3.14-4.863 4.287-2.62 1.028-7.222 1.59-14.73-2.512-13.402-7.323-12.747-24.147-9.63-33.028 2.245-6.395 7.41-16.107 8.975-19.001.05-.762.088-2.294-.117-4.683-.38-4.437-.492-16.735-.745-18.636-.194-1.455-.308-3.12-1.083-4.668-1.002-2.008-9.09-21.71-13.851-28.352-4.751-6.626-9.454-15.784-13.83-20.413-1.086-1.147-2.455-3.248-3.934-5.88 1.674 6.65 3.528 14.349 4.272 17.624.58 2.55 1.871 7.065 2.253 12.987.534 8.273-.393 18.59-3.067 24.508-4.725 10.45-8.275 13.483-14.436 17.993-2.063 1.512-6.128 2.797-10.798 3.378-6.32.785-13.729.431-17.591-.946-3.801-1.359-5.353-3.975-5.446-6.31-.298-7.493.633-58.102.158-62.1-.287-2.405-.445-5.068-1.497-6.584-2.933-4.217-18.772-34.701-20.53-39.2-1.05-2.682-1.602-7.03-1.634-12.194-.066-10.655 1.825-25.181 3.443-33.754 3.772-19.972 15.453-39.124 19.56-47.337.953-2.29.666-6.357 1.269-9.8 1.087-6.212 9.374-91.04 9.374-91.034.274-4.917 8.04-125.861 111.156-189.731l.036-.022C308.44 20.32 403.366 7.696 489.915 55.066c35.956 18.902 53.552 41.171 62.445 58.868-5.518-.7-8.954-.915-9.7-.957.003 0-84.822-8.286-91.037-9.374-3.44-.603-7.51-.315-9.8-1.268-8.212-4.108-27.364-15.788-47.335-19.56-8.573-1.619-23.098-3.51-33.754-3.443-5.166.032-9.513.584-12.197 1.633-4.498 1.76-34.981 17.598-39.2 20.53-1.513 1.053-4.175 1.21-6.583 1.497-3.998.475-54.606-.456-62.096-.158-2.339.094-4.955 1.645-6.311 5.447-1.379 3.862-1.732 11.271-.947 17.591.58 4.67 1.866 8.734 3.377 10.798 4.512 6.16 7.543 9.71 17.995 14.435 5.917 2.675 16.232 3.601 24.509 3.068.4-.026.794-.056 1.181-.09l-4.73 4.178a5.524 5.524 0 00-1.755 5.242l1.344 6.611z"
+          ></path>
+          <path
+            fill="#6cbfe3"
+            d="M275.321 170.114c-8.266 4.137-18.648 8.436-20.075 9.15-1.55.774-3.216.888-4.67 1.082-1.9.253-14.197.365-18.633.745-2.391.205-3.923.166-4.688.117-2.89-1.565-12.603-6.73-19-8.975-8.882-3.117-25.702-3.772-33.027 9.63-4.103 7.508-3.54 12.11-2.514 14.73 1.148 2.929 3.183 4.305 4.287 4.862 2.884 2.102 19.53 14.152 26.923 17.607 10.357 4.84 6.896 3.9 19.733 6.566 11.61 2.411 28.332 2.473 36.09 2.663-1.61.943-2.695 1.443-2.695 1.443l-.162.074-.156.087s-7.489 4.209-13.406 5.25c-4.922.867-20.283 2.11-27.44 1.743-30.786-4.498-45.07 4.808-52.608 18.894l-.085.159-.073.165c-3.65 8.281-3.04 13.518-1.489 16.82 2.172 4.62 8.3 6.781 9.236 7.088l.17.088.428.13c6.401 1.93 15.409 5.459 22.185 6.407a18.807 18.807 0 00-.17 1.048c-1.252 9.436 5.129 16.423 9.165 18.193l.133.059.136.05c7.041 2.585 14.991 5.448 22.795 9.136 6.672 3.152 15.723 5.781 20.587 6.777 2.03.416 3.533.535 4.223.487a5.45 5.45 0 001.1-.185c1.771 3.183 4.762 5.56 8.997 6.452l.175.036.178.024c3.004.398 6.464.738 10.143 1.017-9.116 11.044-16.085 22.298-17.164 28.708 0 0-8.843-7.9-19.465-4.264 15.612-.369 58.408 57.932 68.014 71.67 9.614 13.749 8.562 14.237 11.351 21.645 3.83 10.166 9.434 33.716 11.256 45.695 1.25 8.211.673 33.67-1.25 48.196-1.925 9.139-13.469 9.139-21.55 2.982s-12.025-17.316-11.736-25.108c-.002-5.903.446-22.268-7.407-42.809-2.393-6.26-3.656-8.739-5.676-10.293-1.191-1.128-3.687-.027-6.446.962-4.598 1.643-11.191 3.216-11.544 3.078 5.733 2.086 11.327 2.786 16.803 2.309 3.307 4.117 5.69 8.839 6.927 13.853 1.646 6.668 3.067 20.648 2.95 26.166-.128 12.983 2.159 21.907 8.594 30.014 7.27 9.155 21.998 10.81 22.607 9.94.816.092-2.433 13.733-6.702 22.768-3.751 7.939-6.67 16.023-9.3 23.185-2.13 4.856-15.039 13.76-28.41-4.46-5.229-7.123-3.175-26.582-.738-40.308 1.667-9.874 1.186-14.365.032-17.443s-10.403-25.15-14.302-32.162c-4.103-7.38-15.642-18.77-15.777-17.831-.434.723-19.517 4.486-23.216 4.748 0 0 11.416 2.436 16.29 1.666 6.413-.77 10.39 2.31 12.698 5.515 2.31 3.209 9.364 13.725 9.364 13.725s3.463 5.9 3.848 7.954c.385 2.051 7.728 19.336 7.728 21.13 0 1.797.353 5.933-1.571 12.348-1.924 6.41-.737 31.65-.513 35.144.385 6.018 8.304 14.599 15.167 17.989-.126 6.56-4.345 16.735-6.445 23.696-.723 1.385-1.764 12.41-17.701 5.387-12.763-6.83-20.554-20.006-16.418-47.969.417-7.346-.887-23.569-1.796-28.733-1.155-6.56-5.772-14.88-5.772-14.88s-2.95-6.411-8.08-11.671c-5.131-5.26-13.982-18.855-19.24-28.09-5.26-9.236-8.21-9.62-8.21-9.62l-12.057 2.566 10.133 3.205s17.83 24.116 21.806 27.579c3.976 3.463 5.515 6.796 5.259 13.083-.257 6.284-.033 24.85-2.63 37.357-2.526 12.163-1.635 8.88-6.22 18.693-3.683 7.88-17.445 26.551-17.445 26.551s-2.18 6.03-13.212 0c-11.03-6.026-10.004-20.01-7.44-27.32 2.566-7.312 9.108-19.11 9.108-19.11s.385-2.054 0-6.541c-.385-4.49-.513-16.931-.77-18.855s-.513-4.106-1.54-6.157c-1.025-2.055-9.362-22.192-14.237-28.991-4.874-6.796-9.748-16.162-14.237-20.906-4.49-4.745-13.725-27.833-15.905-31.042-2.18-3.205-18.214-1.924-27.065-8.593s8.21 10.263 20.523 11.802 6.542 12.314 7.696 15.777 5.772 22.445 7.055 28.09c.547 2.405 1.784 6.657 2.145 12.24.484 7.516-.23 16.894-2.658 22.262-4.233 9.366-7.403 12.09-12.923 16.13-5.099 3.733-26.154 4.08-26.327-.257-.3-7.535.607-58.444.128-62.465-.382-3.22-.902-6.7-2.308-8.723-2.86-4.114-18.295-33.84-20.01-38.223-3.01-7.696-.198-31.438 2.052-43.355 4.285-22.692 16.38-45.38 28.219-56.823-2.347-.85-5.05-.454-8.08 1.09l10.132-92.937s5.772-122.196 108.899-186.073c82.977-49.366 176.237-61.952 261.278-15.392 32.927 17.303 49.94 37.495 58.951 54.067-2.17-.208-3.536-.292-3.975-.317.004 0-84.821-8.286-91.036-9.374-3.44-.603-7.51-.315-9.8-1.268-8.212-4.108-27.364-15.788-47.335-19.56-8.573-1.619-23.098-3.51-33.754-3.443-5.166.032-9.513.584-12.197 1.633-4.498 1.76-34.981 17.598-39.2 20.53-1.513 1.053-4.175 1.21-6.583 1.497-3.998.475-54.606-.456-62.096-.158-2.339.094-4.955 1.645-6.311 5.447-1.379 3.862-1.732 11.271-.947 17.591.58 4.67 1.866 8.734 3.377 10.798 4.512 6.16 7.543 9.71 17.995 14.435 5.917 2.675 16.232 3.601 24.509 3.068.4-.026.794-.056 1.181-.09l-4.73 4.178a5.524 5.524 0 00-1.755 5.242l1.344 6.611zm-102.98 192.4c-3.703 21.436 1.264 38.251 18.085 48.741l-3.207 2.82c-22.268-12.51-26.078-40.165-14.879-51.561z"
+          ></path>
+          <path
+            fill="#2e294e"
+            d="M209.434 492.054c.154-.778.12-1.717-.28-2.82-.37-1.02-2.406-4.409-4.803-8.272a3 3 0 01.223-.012c2.57-.046 27.225-.642 27.225-.642a4.725 4.725 0 003.929-2.281c3.936-6.528 7.95-13.083 11.497-19.48 1.22-1.178 1.359-2.656 1.266-3.782-.084-1.008-6.772-14.619-7.234-15.649-.577-1.282-.931-2.227-2.836-3.432-.839-.534-3.698-1.48-7.553-2.237-7.562-1.485-19.444-2.855-23.581-2.149-.308.053-.658.098-1.039.137.027-.254.104-.498.05-.708-1.628-6.035-6.268-14.304-7.038-15.54-3.629-5.83-5.676-10.281-11.933-10.724-3.32-.234-6.841.416-9.165 1.34-1.54.611-2.679 1.404-3.364 2.116-1.212 1.258-13.233 12.817-18.004 16.696-1.39-.858-3.598-2.035-5.946-2.816-3.247-1.082-8.904-2.217-14.622-.978-6.322 1.366-13.864 7.069-14.684 17.111-.504 6.173 2.363 11.464 4.448 14.765.466.732 5.91 10.6 8.139 14.04-1.478 5.866-3.26 13.37-3.24 17.085.027 5.118 1.281 6.578 2.035 7.968.104.185 4.476 8.325 5.565 10.305 2.47 4.484 3.29 6.77 7.453 9.095 4.63 2.586 10.259 2.449 14.384-2.047.877-.954 6.911-7.323 9.328-9.598 3.278 3.173 5.783 7.49 10.605 15.075 4.132 6.508 16.796 16.063 16.796 16.063a4.722 4.722 0 003.579.871 4.725 4.725 0 003.113-1.962 196.152 196.152 0 0012.221-20.028c.758-.823 1.813-2.503.881-5.065-.5-1.38-4.04-7.087-7.415-12.445zm-3.405-5.453l-.008-.001.008.002zm.896.386a4.617 4.617 0 00-.292-.152 3.658 3.658 0 01.292.152c.089.05.173.101.258.156l-.258-.156zm6.8 14.878l-.008-.001.008.002v-.001zm.896.386a4.646 4.646 0 00-.292-.152 3.783 3.783 0 01.292.152c.089.049.173.1.258.156l-.258-.156z"
+          ></path>
+          <path
+            fill="#ffc700"
+            d="M165.498 444.931c1.781-.509 18.909-16.933 20.394-18.469 2.286-2.366 15.946-4.41 15.685 4.122-.12 3.927-3.664 14.842-4.049 16.381s.566 2.712 3.006 3.61c2.436.898 11.448 1.29 15.246.641 6.09-1.04 30.28 3.111 27.832 4.105-3.64 6.644-7.827 13.469-11.929 20.266 0 0-24.623.596-27.193.641-4.718.084-8.597 2.592-5.388 8.21 1.743 3.052 14.946 23.054 13.214 21.933a191.414 191.414 0 01-12.444 20.523s-11.802-8.778-15.63-14.806c-5.707-8.984-8.482-13.615-12.607-17.114-1.808-1.555-2.562-.935-3.848-.037-1.281.898-9.85 9.829-10.94 11.013-4.929 5.37-13.502-.092-13.54-6.89-.031-6.03 4.875-22.245 5.133-24.426.254-2.18.95-3.994-.204-4.507-1.155-.514-15.223-5.133-14.292-16.547.616-7.538 6.23-11.855 10.975-12.882 4.748-1.026 9.439-.054 12.132.843 2.694.898 5.176 2.4 5.753 2.877 1.128.933 2.694.513 2.694.513z"
+          ></path>
+        </g>
+      </g>
+      <g>
+        <path
+          fill="#2e294e"
+          d="M383.886 353.956a53.09 53.09 0 00-8.962 4.011 4.97 4.97 0 00-1.604-1.22l-26.886-12.891a5.009 5.009 0 00-6.55 6.937l14.103 25.55a4.933 4.933 0 001.126 1.378 49.998 49.998 0 00-3.408 7.419 4.988 4.988 0 00-2.325.18l-36.336 11.714a5.009 5.009 0 00.016 9.539l36.147 11.525c.732.23 1.494.288 2.229.184a50.074 50.074 0 003.367 7.62 4.93 4.93 0 00-1.182 1.435l-13.746 25.104a5.01 5.01 0 00.763 5.857 5.012 5.012 0 005.811 1.058l25.989-12.564a4.955 4.955 0 001.521-1.135 52.825 52.825 0 0010.127 4.633 4.938 4.938 0 00.208 2.097l12.098 37.534a5.015 5.015 0 004.78 3.47 5.01 5.01 0 004.763-3.49l11.937-37.448c.215-.67.28-1.366.207-2.044a53.162 53.162 0 0010.394-4.702c.423.47.939.858 1.528 1.143l25.874 12.506a5.008 5.008 0 006.572-6.915l-13.66-24.946c-.3-.555-.7-1.036-1.166-1.428a49.934 49.934 0 003.478-7.85 4.98 4.98 0 002.224-.189l35.94-11.455a5.008 5.008 0 00.016-9.54l-36.129-11.647a5.002 5.002 0 00-2.316-.181 50.113 50.113 0 00-3.525-7.65 4.995 4.995 0 001.112-1.366l14.018-25.396a5.016 5.016 0 00-.742-5.86 5.008 5.008 0 00-5.807-1.077l-26.774 12.836a4.974 4.974 0 00-1.609 1.227 53.124 53.124 0 00-9.231-4.082 4.97 4.97 0 00-.204-2.064L405.935 313.7a5.012 5.012 0 00-4.764-3.487 5.015 5.015 0 00-4.779 3.472l-12.302 38.157a4.955 4.955 0 00-.204 2.114z"
+        ></path>
+        <path
+          fill="#ffc700"
+          d="M389.058 450.848c3.917.916 8 1.4 12.198 1.4 4.075 0 8.042-.457 11.844-1.32l-11.94 37.453-12.102-37.533zm68.995 3.998l-25.874-12.506a51.155 51.155 0 0012.213-12.44l13.66 24.946zm-100.039-25.104a51.136 51.136 0 0012.244 12.54l-25.989 12.564 13.745-25.104zm43.242-73.636c26.232 0 47.523 20.606 47.523 45.984s-21.291 45.984-47.523 45.984c-26.228 0-47.521-20.606-47.521-45.984s21.293-45.984 47.521-45.984zm-50.339 33.982a48.638 48.638 0 00-1.497 12.002c0 3.863.453 7.623 1.308 11.232l-36.147-11.52 36.336-11.714zm136.823 11.713l-35.937 11.456a48.642 48.642 0 001.293-11.167c0-4.113-.515-8.112-1.481-11.936L487.74 401.8zm-116.585-40.538a51.284 51.284 0 00-12.783 12.66l-14.103-25.55 26.886 12.89zm72.88 12.506a51.31 51.31 0 00-12.753-12.56l26.77-12.837-14.018 25.397zm-30.739-20.474a53.502 53.502 0 00-12.04-1.363c-4.271 0-8.427.502-12.398 1.447l12.302-38.158 12.136 38.074z"
+        ></path>
+      </g>
+    </svg></div><p class="section-desc" style="margin:0;">El logo: celeste <code>#6cbfe3</code> y blanco, contorno azul noche <code>#2e294e</code>, amarillo sol <code>#ffc700</code>. Manos, meeples, dados de veinte caras y el sol.</p></div>
+
+    <div class="section-label">1 · Paleta</div>
+    <p class="section-desc" style="margin-bottom:14px;">Tres colores salen del logo y mandan: celeste, azul noche y amarillo sol. El lienzo pasa a crema. Los otros colores de bloque son pasteles que acompañan y se usan en superficies grandes, nunca en texto ni en controles.</p>
+    <div class="id-swatches">
+      <div class="id-sw" style="background:var(--id-canvas);">canvas<small>#fffaf0</small></div>
+      <div class="id-sw" style="background:var(--id-soft);">surface-soft<small>#faf5e8</small></div>
+      <div class="id-sw" style="background:var(--id-card);">surface-card<small>#f5f0e0</small></div>
+      <div class="id-sw" style="background:var(--id-strong);">surface-strong<small>#ebe6d6</small></div>
+      <div class="id-sw on-dark" style="background:var(--id-ink);">azul noche · logo<small>#2e294e</small></div>
+      <div class="id-sw" style="background:var(--id-celeste);">celeste · logo<small>#6cbfe3</small></div>
+    </div>
+    <div class="id-swatches">
+      <div class="id-sw" style="background:var(--id-sol);">sol · logo<small>#ffc700</small></div>
+      <div class="id-sw" style="background:var(--id-peach);">durazno<small>#ffb084</small></div>
+      <div class="id-sw" style="background:var(--id-pink);">rosa<small>#f29bb4</small></div>
+      <div class="id-sw" style="background:var(--id-mint);">menta<small>#a4d4c5</small></div>
+      <div class="id-sw" style="background:var(--id-lilac);">lila<small>#c9b6f0</small></div>
+      <div class="id-sw" style="background:var(--id-sky);">azul pastel<small>#b4bdf5</small></div>
+    </div>
+    <div class="note" style="margin-bottom:28px;">
+      <b>Qué se queda igual:</b> los colores con significado. <code>want</code> (verde, desear y guardar deseos), <code>danger</code>, el ámbar de los avisos, la escala de puntaje, la escala de rating de la BGG y los cuatro tokens de categoría (<code>gameBase</code>, <code>gameExpansion</code>, <code>gameCombo</code>, <code>gameOther</code>) para los badges. El azul <code>primary</code> (<code>#009ddb</code>) sigue en links y en el ítem activo del menú; el celeste del logo es su versión para superficies grandes y botones.
+    </div>
+
+    <div class="section-label">2 · Tipografía</div>
+    <p class="section-desc" style="margin-bottom:14px;">Una fuente de títulos con carácter, solo para títulos: página, card y números grandes. El resto del texto y todos los controles siguen con la fuente actual. En el mock es Bricolage Grotesque (libre, de Google Fonts), en peso 600 y con el espaciado entre letras apretado.</p>
+    <div class="id-canvas" style="margin-bottom:28px;">
+      <div class="id-type">
+        <span>display · 40</span><h3 class="id-h" style="font-size:40px;">Otros ofrecen</h3>
+        <span>título de card · 19</span><h3 class="id-h" style="font-size:19px; letter-spacing:-0.01em;">Castles of Mad King Ludwig</h3>
+        <span>número · 44</span><h3 class="id-h" style="font-size:44px;">1.240</h3>
+        <span>cuerpo · 13 (sin cambio)</span><p style="margin:0; font-size:13px; color:var(--id-body);">Patchwork · Lookout Games (2018) · Idioma: inglés</p>
+      </div>
+    </div>
+
+    <div class="section-label">3 · Header de página</div>
+    <div class="id-pair">
+      <div>
+        <p class="id-tag">ACTUAL</p>
+        <div class="id-now">
+          <div class="ph-compact" style="margin:0;">
+            <div class="ph-compact-row"><h2>Mi ludoteca</h2><span class="ph-meta">40 artículos</span></div>
+            <div class="ph-help-row"><button type="button" class="ph-help-link">▸ ¿Qué es "Mi ludoteca"?</button></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="id-tag">PROPUESTA</p>
+        <div class="id-new">
+          <div class="id-ph">
+            <div class="id-ph-tile" style="background:var(--id-sol);"><svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M6 2h12a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4Zm2 4.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm8 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm-4 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm-4 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm8 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"/></svg></div>
+            <div><h3 class="id-h">Mi ludoteca</h3><div class="id-ph-help">¿Qué es "Mi ludoteca"?</div></div>
+            <span class="id-ph-meta">40 artículos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="section-desc">Misma altura y mismo contenido. Cambian la superficie (crema, sin sombra, radio de 24px), el título y una ficha de color con el ícono de la sección. Cada sección principal tiene su color de ficha: Mi ludoteca amarillo sol, Yo ofrezco durazno, Otros ofrecen rosa, Mis deseos menta, Resultados lila. Es la única vez que el color de sección aparece en la página, además del ítem activo del menú.</p>
+
+    <div class="section-label">4 · Home</div>
+    <div class="id-pair">
+      <div>
+        <p class="id-tag">ACTUAL</p>
+        <div class="id-now">
+          <div class="ph-welcome" style="margin:0;">
+            <h2>Bienvenides al Math Trade Argentina</h2>
+            <div class="ph-welcome-links">Primera vez? <a href="#">Video tutorial</a><span>·</span><a href="#">Telegram</a></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="id-tag">PROPUESTA</p>
+        <div class="id-new">
+          <div class="id-welcome">
+            <div>
+              <h3 class="id-h">Bienvenides al Math Trade Argentina</h3>
+              <p>¿Primera vez? <a href="#">Video tutorial</a> · <a href="#">Telegram</a></p>
+            </div>
+            <div class="id-meeples">
+              <span style="color:var(--id-sol);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a4 4 0 0 1 3.9 4.9c2.6.8 5.1 2.3 5.1 4.3 0 1.3-1.5 1.6-3.3 1.7l2.8 8.1a1 1 0 0 1-.9 1.4h-4.2a1 1 0 0 1-.9-.6L12 16.5l-2.5 5.3a1 1 0 0 1-.9.6H4.4a1 1 0 0 1-.9-1.4l2.8-8.1C4.5 12.8 3 12.5 3 11.2c0-2 2.5-3.5 5.1-4.3A4 4 0 0 1 12 2Z"/></svg></span><span style="color:#ffffff;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a4 4 0 0 1 3.9 4.9c2.6.8 5.1 2.3 5.1 4.3 0 1.3-1.5 1.6-3.3 1.7l2.8 8.1a1 1 0 0 1-.9 1.4h-4.2a1 1 0 0 1-.9-.6L12 16.5l-2.5 5.3a1 1 0 0 1-.9.6H4.4a1 1 0 0 1-.9-1.4l2.8-8.1C4.5 12.8 3 12.5 3 11.2c0-2 2.5-3.5 5.1-4.3A4 4 0 0 1 12 2Z"/></svg></span><span style="color:var(--id-ink);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a4 4 0 0 1 3.9 4.9c2.6.8 5.1 2.3 5.1 4.3 0 1.3-1.5 1.6-3.3 1.7l2.8 8.1a1 1 0 0 1-.9 1.4h-4.2a1 1 0 0 1-.9-.6L12 16.5l-2.5 5.3a1 1 0 0 1-.9.6H4.4a1 1 0 0 1-.9-1.4l2.8-8.1C4.5 12.8 3 12.5 3 11.2c0-2 2.5-3.5 5.1-4.3A4 4 0 0 1 12 2Z"/></svg></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="section-desc">El degradé azul → violeta se va: no tiene nada que ver con el logo. Lo reemplaza un bloque celeste con texto azul noche y meeples, los mismos tres elementos del logo.</p>
+
+    <div class="section-label">5 · Card de juego</div>
+    <div class="id-pair">
+      <div>
+        <p class="id-tag">ACTUAL</p>
+        <div class="id-now"><div class="id-cards">
+          <div class="game-card now-gc is-base" style="width:auto;">
+            <div class="gc-cover cover-tall"></div>
+            <div class="gc-content" style="padding:12px 14px 14px; gap:8px;">
+              <span class="gc-tag base" style="font-size:11px; width:fit-content;">JUEGO</span>
+              <h4>Palm Laboratory (2024)</h4>
+              <div class="gc-chips"><span class="gc-chip">Francés</span><span class="gc-chip">Poco texto</span></div>
+            </div>
+          </div>
+          <div class="game-card now-gc is-expansion" style="width:auto;">
+            <div class="gc-cover cover-square"></div>
+            <div class="gc-content" style="padding:12px 14px 14px; gap:8px;">
+              <span class="gc-tag expansion" style="font-size:11px; width:fit-content;">EXPANSIÓN</span>
+              <h4>Lunes: Recorte de Personal</h4>
+              <div class="gc-chips"><span class="gc-chip">Español</span></div>
+            </div>
+          </div>
+          <div class="game-card now-gc is-combo" style="width:auto;">
+            <div class="gc-cover cover-wide"></div>
+            <div class="gc-content" style="padding:12px 14px 14px; gap:8px;">
+              <span class="gc-tag combo" style="font-size:11px; width:fit-content;">COMBO</span>
+              <h4>Bla Bla Bla</h4>
+              <div class="gc-chips"><span class="gc-chip">3 juegos</span></div>
+            </div>
+          </div>
+          <div class="game-card now-gc is-other" style="width:auto;">
+            <div class="gc-cover cover-portrait"></div>
+            <div class="gc-content" style="padding:12px 14px 14px; gap:8px;">
+              <span class="gc-tag other" style="font-size:11px; width:fit-content;">FUERA DE LA BGG</span>
+              <h4>Blade Runner: El Juego de Rol</h4>
+              <div class="gc-chips"><span class="gc-chip">Español</span></div>
+            </div>
+          </div>
+        </div></div>
+      </div>
+      <div>
+        <p class="id-tag">PROPUESTA</p>
+        <div class="id-new"><div class="id-cards">
+          <div class="id-gc is-base">
+            <div class="gc-cover cover-tall"></div>
+            <div class="id-gc-body">
+              <span class="id-badge" style="background:var(--gameBase);">JUEGO</span>
+              <h4 class="id-h">Palm Laboratory (2024)</h4>
+              <div class="gc-chips"><span class="gc-chip">Francés</span><span class="gc-chip">Poco texto</span></div>
+            </div>
+          </div>
+          <div class="id-gc is-expansion">
+            <div class="gc-cover cover-square"></div>
+            <div class="id-gc-body">
+              <span class="id-badge" style="background:var(--gameExpansion);">EXPANSIÓN</span>
+              <h4 class="id-h">Lunes: Recorte de Personal</h4>
+              <div class="gc-chips"><span class="gc-chip">Español</span></div>
+            </div>
+          </div>
+          <div class="id-gc is-combo">
+            <div class="gc-cover cover-wide"></div>
+            <div class="id-gc-body">
+              <span class="id-badge" style="background:var(--gameCombo);">COMBO</span>
+              <h4 class="id-h">Bla Bla Bla</h4>
+              <div class="gc-chips"><span class="gc-chip">3 juegos</span></div>
+            </div>
+          </div>
+          <div class="id-gc is-other">
+            <div class="gc-cover cover-portrait"></div>
+            <div class="id-gc-body">
+              <span class="id-badge" style="background:var(--gameOther);">FUERA DE LA BGG</span>
+              <h4 class="id-h">Blade Runner: El Juego de Rol</h4>
+              <div class="gc-chips"><span class="gc-chip">Español</span></div>
+            </div>
+          </div>
+        </div></div>
+      </div>
+    </div>
+    <p class="section-desc">La estructura no cambia: portada completa arriba, badge, título, chips. Cambia cómo se distingue la categoría. Hoy es un borde izquierdo de 6px más un tinte grisáceo al 20%. En la propuesta el color llena la card: el juego base, que es la mayoría, queda en crema neutro, y expansión (azul pastel), combo (lila) y fuera de la BGG (menta) resaltan como excepciones. Sin borde lateral, radio de 16px, título con la fuente nueva. Los badges conservan su token, así que cada categoría sigue teniendo dos señales.</p>
+
+    <div class="section-label">6 · Botones y barra de lista</div>
+    <div class="id-pair">
+      <div>
+        <p class="id-tag">ACTUAL</p>
+        <div class="id-now">
+          <div class="id-row" style="margin-bottom:12px;">
+            <span class="btn-mock" style="padding:10px 22px; font-size:15px;">Agregar juego</span>
+            <span class="btn-mock is-outline" style="padding:10px 22px; font-size:15px;">Cancelar</span>
+            <span class="wb is-want">♥ Lo quiero</span>
+          </div>
+          <div class="lt-bar" style="background:white; border-radius:8px; padding:8px 12px;">
+            <div class="seg-group"><span class="seg-btn is-on" style="height:30px;">Juegos</span><span class="seg-btn" style="height:30px;">Ejemplares</span></div>
+            <div class="lt-search"><span>Buscar por nombre…</span></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="id-tag">PROPUESTA</p>
+        <div class="id-new">
+          <div class="id-row" style="margin-bottom:12px;">
+            <span class="id-btn is-ink">Agregar juego</span>
+            <span class="id-btn is-line">Cancelar</span>
+            <span class="id-btn is-want">♥ Lo quiero</span>
+          </div>
+          <div class="id-bar">
+            <div class="id-seg"><span class="is-on">Juegos</span><span>Ejemplares</span></div>
+            <div class="id-search">Buscar por nombre…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="section-desc">Los botones siguen siendo pills. El primario pasa al celeste del logo con texto azul noche: sigue siendo el azul de la marca, pero ahora es exactamente el del logo. La opción activa del control segmentado y el botón secundario usan el azul noche. “Lo quiero” no cambia: el verde sigue siendo exclusivo de desear.</p>
+
+    <div class="section-label">7 · Bloques de color e ilustración</div>
+    <p class="section-desc" style="margin-bottom:14px;">Donde hoy hay una tarjeta blanca con un dato suelto (números de la home y de Estadísticas, listas vacías), va un bloque de un solo color con una ficha de juego. Dos bloques vecinos nunca repiten color.</p>
+    <div class="id-canvas" style="margin-bottom:16px;">
+      <div class="id-blocks">
+        <div class="id-block" style="background:var(--id-sol);"><b>40</b><span>juegos en tu ludoteca</span><svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M6 2h12a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4Zm2 4.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm8 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm-4 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm-4 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm8 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"/></svg></div>
+        <div class="id-block" style="background:var(--id-peach);"><b>12</b><span>ofrecés en este MT</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a4 4 0 0 1 3.9 4.9c2.6.8 5.1 2.3 5.1 4.3 0 1.3-1.5 1.6-3.3 1.7l2.8 8.1a1 1 0 0 1-.9 1.4h-4.2a1 1 0 0 1-.9-.6L12 16.5l-2.5 5.3a1 1 0 0 1-.9.6H4.4a1 1 0 0 1-.9-1.4l2.8-8.1C4.5 12.8 3 12.5 3 11.2c0-2 2.5-3.5 5.1-4.3A4 4 0 0 1 12 2Z"/></svg></div>
+        <div class="id-block" style="background:var(--id-mint);"><b>18</b><span>deseos cargados</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a4 4 0 0 1 3.9 4.9c2.6.8 5.1 2.3 5.1 4.3 0 1.3-1.5 1.6-3.3 1.7l2.8 8.1a1 1 0 0 1-.9 1.4h-4.2a1 1 0 0 1-.9-.6L12 16.5l-2.5 5.3a1 1 0 0 1-.9.6H4.4a1 1 0 0 1-.9-1.4l2.8-8.1C4.5 12.8 3 12.5 3 11.2c0-2 2.5-3.5 5.1-4.3A4 4 0 0 1 12 2Z"/></svg></div>
+        <div class="id-block" style="background:var(--id-lilac);"><b>3 días</b><span>para que cierren los deseos</span><svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M6 2h12a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4Zm2 4.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm8 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm-4 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm-4 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm8 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"/></svg></div>
+      </div>
+    </div>
+    <div class="id-pair">
+      <div>
+        <p class="id-tag">LISTA VACÍA · ACTUAL</p>
+        <div class="id-now">
+          <div class="empty-state" style="min-width:0;">
+            <div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M12 4v16"/></svg></div>
+            <div class="empty-state-title">Todavía no ofrecés nada</div>
+            <div class="empty-state-desc">Elegí artículos de tu ludoteca para ponerlos a disposición en este Math Trade.</div>
+            <button type="button" class="empty-state-cta">Agregar desde tu ludoteca</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="id-tag">LISTA VACÍA · PROPUESTA</p>
+        <div class="id-new">
+          <div class="id-empty">
+            <div class="id-empty-art"><span style="color:var(--id-peach);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a4 4 0 0 1 3.9 4.9c2.6.8 5.1 2.3 5.1 4.3 0 1.3-1.5 1.6-3.3 1.7l2.8 8.1a1 1 0 0 1-.9 1.4h-4.2a1 1 0 0 1-.9-.6L12 16.5l-2.5 5.3a1 1 0 0 1-.9.6H4.4a1 1 0 0 1-.9-1.4l2.8-8.1C4.5 12.8 3 12.5 3 11.2c0-2 2.5-3.5 5.1-4.3A4 4 0 0 1 12 2Z"/></svg></span><span style="color:var(--id-celeste);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a4 4 0 0 1 3.9 4.9c2.6.8 5.1 2.3 5.1 4.3 0 1.3-1.5 1.6-3.3 1.7l2.8 8.1a1 1 0 0 1-.9 1.4h-4.2a1 1 0 0 1-.9-.6L12 16.5l-2.5 5.3a1 1 0 0 1-.9.6H4.4a1 1 0 0 1-.9-1.4l2.8-8.1C4.5 12.8 3 12.5 3 11.2c0-2 2.5-3.5 5.1-4.3A4 4 0 0 1 12 2Z"/></svg></span><span style="color:var(--id-sol);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a4 4 0 0 1 3.9 4.9c2.6.8 5.1 2.3 5.1 4.3 0 1.3-1.5 1.6-3.3 1.7l2.8 8.1a1 1 0 0 1-.9 1.4h-4.2a1 1 0 0 1-.9-.6L12 16.5l-2.5 5.3a1 1 0 0 1-.9.6H4.4a1 1 0 0 1-.9-1.4l2.8-8.1C4.5 12.8 3 12.5 3 11.2c0-2 2.5-3.5 5.1-4.3A4 4 0 0 1 12 2Z"/></svg></span></div>
+            <h4 class="id-h">Todavía no ofrecés nada</h4>
+            <p>Elegí artículos de tu ludoteca para ponerlos a disposición en este Math Trade.</p>
+            <span class="id-btn is-ink">Agregar desde tu ludoteca</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note" style="margin-bottom:28px;">
+      <b>Sobre la ilustración:</b> los meeples y dados de estos mocks son siluetas de relleno para mostrar dónde iría. Lo ideal es sacarlos del logo mismo (el meeple, el dado de veinte caras, el sol, las manos) para que sean el mismo dibujo, con el mismo contorno azul noche.
+    </div>
+
+    <div class="section-label">8 · Qué cambiaría en el código</div>
+    <table class="ph-spec-table">
+      <thead><tr><th>Qué</th><th>Hoy</th><th>Propuesta</th></tr></thead>
+      <tbody>
+        <tr><td>Fondo de página</td><td><code>$bg-body: #b7c3c7</code></td><td><code>#fffaf0</code></td></tr>
+        <tr><td>Superficies</td><td>Blanco + <code>shadow-main</code></td><td>Crema (<code>#f5f0e0</code>) sin sombra, o blanco con borde <code>#e4dcc8</code></td></tr>
+        <tr><td>Radios</td><td>16px secciones, 8px cards</td><td>24px bloques y headers, 16px cards</td></tr>
+        <tr><td>Fuente de títulos</td><td>SF Pro Display bold</td><td>Bricolage Grotesque 600, solo en <code>text-display</code>, <code>text-heading</code> y números grandes</td></tr>
+        <tr><td>Botón primario</td><td><code>primary</code> <code>#009ddb</code>, texto blanco</td><td>Celeste del logo <code>#6cbfe3</code>, texto azul noche <code>#2e294e</code></td></tr>
+        <tr><td>Tinta (títulos, control segmentado activo)</td><td>Negro / <code>primary</code></td><td>Azul noche del logo <code>#2e294e</code></td></tr>
+        <tr><td>Tinte de card</td><td>Token al 20% + borde de 6px</td><td>Crema / cielo / lila / menta, sin borde</td></tr>
+        <tr><td>Header de la home</td><td>Degradé <code>sky-700 → purple-700</code></td><td>Bloque celeste + meeples del logo</td></tr>
+        <tr><td>Sidebar</td><td>Negro</td><td>Sin cambio: ya es la pieza más reconocible</td></tr>
+      </tbody>
+    </table>
+
+    <div class="pending-note">
+      <b>Para decidir antes de implementar:</b>
+      <ul style="margin:8px 0 0; padding-left:18px;">
+        <li><b>Botón primario celeste con texto azul noche</b> en vez de azul con texto blanco. El celeste del logo es claro: con texto blanco no se lee, por eso el texto oscuro.</li>
+        <li><b>Card de juego base en crema.</b> Sobre un fondo también crema se separa solo por un tono; puede necesitar un borde fino.</li>
+        <li><b>Fuente de títulos:</b> Bricolage Grotesque es una opción libre; hay que probarla con títulos largos de juegos en dos líneas.</li>
+        <li><b>Ilustraciones:</b> extraer el meeple, el dado, el sol y las manos del SVG del logo (<code>components/logo/svg.jsx</code>) como piezas sueltas.</li>
+        <li><b>Contraste:</b> revisar los chips y el texto gris sobre cada pastel antes de cerrar los valores.</li>
       </ul>
     </div>
   </section>
