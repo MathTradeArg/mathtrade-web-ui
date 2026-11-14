@@ -7,6 +7,7 @@ import ErrorAlert from "@/components/errorAlert";
 import Button from "@/components/button";
 import useMyAccount from "./useMyAccount";
 import ChangePassword from "./changePassword";
+import AdminEmailPreferences from "./adminEmailPreferences";
 
 export default function MyAccount() {
   const {
@@ -118,6 +119,9 @@ export default function MyAccount() {
               </Button>
             </div>
           </Form>
+          <div className="pt-6">
+            <AdminEmailPreferences />
+          </div>
         </section>
       </SectionCommon>
     </>
