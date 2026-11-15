@@ -89,9 +89,9 @@ const dataCrecimiento: CrecimientoEntry[] = [
   {
     x: "Oct 2026",
     // MT 8 counts only valid participants (approved contribution, not self-excluded,
-    // current commitment); earlier points use total members.
-    users: [542, 521],
-    items: [8243, 3612],
+    // rules quiz answered); earlier points use total members.
+    users: [573, 521],
+    items: [8606, 3612],
   },
 ];
 
