@@ -1129,7 +1129,7 @@
 
   /* ---- Nav bloqueada por etapa ---- */
   .nav-mock {
-    background: #14161a;
+    background: var(--id-ink);
     border-radius: 10px;
     padding: 10px;
     max-width: 260px;
@@ -1148,8 +1148,8 @@
     color: #c9ced4;
   }
   .nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
-  .nav-item.is-active { background: var(--primary); color: white; }
-  .nav-item.is-locked { color: #6b7280; cursor: default; }
+  .nav-item.is-active { background: var(--id-celeste); color: var(--id-ink); }
+  .nav-item.is-locked { color: #a09db8; cursor: default; }
   .nav-item.is-locked .nav-lock { margin-left: auto; opacity: 0.8; }
   .nav-locked-caption {
     margin: -2px 12px 6px 38px;
@@ -1580,25 +1580,25 @@
 
   /* shell */
   .shell { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 20px; }
-  .side { background: #000; border-radius: 10px; padding: 8px; width: 244px; display: flex; flex-direction: column; gap: 2px; }
+  .side { background: var(--id-ink); border-radius: 10px; padding: 8px; width: 244px; display: flex; flex-direction: column; gap: 2px; }
   .side.is-collapsed { width: 68px; align-items: center; }
   .side-top { display: flex; align-items: center; gap: 6px; color: white; font-weight: 700; font-size: 15px; height: 36px; }
   .side-logo { width: 32px; height: 32px; border-radius: 50%; background: var(--logo); flex-shrink: 0; }
-  .side-toggle { margin-left: auto; width: 32px; height: 32px; border-radius: 10px; background: #1c1d21; color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-  .side-status { background: #1c1d21; border-radius: 10px; color: white; font-size: 12px; font-weight: 600; height: 36px; display: flex; align-items: center; gap: 8px; padding: 0 10px; margin: 8px 0 6px; }
-  .side-status i { color: var(--primary); font-style: normal; }
-  .side-group { font-size: 11px; font-weight: 600; color: #8a92a0; padding: 8px 10px 2px; }
-  .side-item { height: 36px; border-radius: 10px; padding: 0 10px; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: #c9ced4; }
+  .side-toggle { margin-left: auto; width: 32px; height: 32px; border-radius: 10px; background: rgba(255,255,255,.1); color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+  .side-status { background: rgba(255,255,255,.1); border-radius: 10px; color: white; font-size: 12px; font-weight: 600; height: 36px; display: flex; align-items: center; gap: 8px; padding: 0 10px; margin: 8px 0 6px; }
+  .side-status i { color: var(--id-celeste); font-style: normal; }
+  .side-group { font-size: 11px; font-weight: 600; color: #c3c0d9; padding: 8px 10px 2px; }
+  .side-item { height: 36px; border-radius: 10px; padding: 0 10px; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: #e2e0ee; }
   .side-item b { width: 16px; height: 16px; border-radius: 4px; background: currentColor; opacity: .85; flex-shrink: 0; }
-  .side-item.is-on { background: var(--primary); color: white; }
+  .side-item.is-on { background: var(--id-celeste); color: var(--id-ink); }
   .side.is-collapsed .side-item { padding: 0; width: 36px; justify-content: center; }
   .phone { width: 300px; border: 1px solid var(--border-soft); border-radius: 14px; overflow: hidden; background: var(--bg-app); }
   .phone-body { height: 70px; }
-  .tabbar { background: #000; display: flex; box-shadow: 0 -4px 16px rgba(0,0,0,0.2); }
-  .tabbar div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0; font-size: 10px; font-weight: 600; color: #b7bcc4; }
+  .tabbar { background: var(--id-ink); display: flex; box-shadow: 0 -4px 16px rgba(46,41,78,0.3); }
+  .tabbar div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0; font-size: 10px; font-weight: 600; color: #d6d4e6; }
   .tabbar div b { width: 16px; height: 16px; border-radius: 4px; background: currentColor; }
-  .tabbar div.is-on { color: var(--primary); }
-  .tabbar div.is-locked { color: #6b7280; }
+  .tabbar div.is-on { color: var(--id-celeste); }
+  .tabbar div.is-locked { color: #a09db8; }
   .sheet { background: var(--id-canvas); border-radius: 24px 24px 0 0; padding-bottom: 12px; box-shadow: 0 -8px 32px rgba(0,0,0,0.3); }
   .sheet-grab { width: 36px; height: 4px; border-radius: 999px; background: #d1d5db; margin: 12px auto 4px; }
   .sheet-h { font-size: 12px; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: .03em; padding: 8px 16px 4px; }
@@ -1702,9 +1702,9 @@
   .fl-foot { border-top: 1px solid var(--id-line); padding: 12px; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 14px; font-weight: 600; color: var(--primary); }
   .fl-foot span { height: 36px; padding: 0 16px; border-radius: 999px; background: var(--id-celeste); color: var(--id-ink); display: inline-flex; align-items: center; }
   .fchip { display: inline-flex; align-items: center; gap: 4px; border-radius: 8px; padding: 4px 10px; font-size: 12px; font-weight: 600; }
-  .fchip.is-off { background: var(--id-card); color: #4b5563; }
+  .fchip.is-off { background: #fff; border: 1px solid var(--id-line); color: var(--id-ink); }
   .fchip.is-soft { border: 1px solid var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--id-canvas)); color: #005f86; }
-  .fchip.is-on { background: var(--id-celeste); color: var(--id-ink); }
+  .fchip.is-on { background: var(--id-ink); border: 1px solid var(--id-ink); color: #fff; }
   .fchip.is-add { border: 1px dashed #9ca3af; color: #4b5563; }
   .fchip.is-active { background: var(--id-canvas); border: 1px solid var(--id-line); color: #374151; }
 
@@ -1835,6 +1835,7 @@
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-meeple-o" viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 1 3.9 4.9c2.6.8 5.1 2.3 5.1 4.3 0 1.3-1.5 1.6-3.3 1.7l2.8 8.1a1 1 0 0 1-.9 1.4h-4.2a1 1 0 0 1-.9-.6L12 16.5l-2.5 5.3a1 1 0 0 1-.9.6H4.4a1 1 0 0 1-.9-1.4l2.8-8.1C4.5 12.8 3 12.5 3 11.2c0-2 2.5-3.5 5.1-4.3A4 4 0 0 1 12 2Z" stroke="#2e294e" stroke-width="1.5" stroke-linejoin="round"/></symbol>
   <symbol id="i-meeple" viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 1 3.9 4.9c2.6.8 5.1 2.3 5.1 4.3 0 1.3-1.5 1.6-3.3 1.7l2.8 8.1a1 1 0 0 1-.9 1.4h-4.2a1 1 0 0 1-.9-.6L12 16.5l-2.5 5.3a1 1 0 0 1-.9.6H4.4a1 1 0 0 1-.9-1.4l2.8-8.1C4.5 12.8 3 12.5 3 11.2c0-2 2.5-3.5 5.1-4.3A4 4 0 0 1 12 2Z"/></symbol>
   <symbol id="i-die" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6 2h12a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4Zm2 4.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm8 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm-4 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm-4 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm8 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"/></symbol>
   <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.5-8.8C.6 8.6 2 5 5.3 5c2 0 3.4 1.2 4.2 2.4C10.3 6.2 11.7 5 13.7 5 17 5 18.4 8.6 21.5 12.2 19 16.65 12 21 12 21Z"/></symbol>
@@ -1844,7 +1845,7 @@
   <div class="doc-header">
     <h1>Sistema de diseño — Math Trade Argentina</h1>
     <p>v3 · 14/11/2026. Especificación objetivo de la identidad visual nueva, que sale del logo (sección 28). Los tokens viven en <code>tailwind.config.js</code>; cada componente nombra su archivo en <code>src/components</code>. Lo que todavía no existe en el código está marcado como tal.</p>
-    <div class="impl-note"><b>Estado:</b> la identidad nueva está en implementación (QRSPI <code>2026-11-14-identidad-visual</code>). El código de <code>main</code> todavía tiene la versión anterior: fondo gris, tarjetas blancas con sombra, cards con borde lateral y degradé en la home. Este documento muestra cómo va a quedar; donde un valor cambió, se indica el que hoy tiene el código.</div>
+    <div class="impl-note"><b>Estado:</b> la identidad nueva está en implementación (QRSPI <code>2026-11-14-identidad-visual</code>). La rama <code>feat/2026-11-14-identidad-visual</code> (PR #207) ya la implementa completa, con los ajustes de la sección 29. El código de <code>main</code> todavía tiene la versión anterior: fondo gris, tarjetas blancas con sombra, cards con borde lateral, degradé en la home y sidebar negro. Donde dice “hoy en el código” se habla de <code>main</code>.</div>
     <p style="margin-top:14px;"><a href="#identity" style="color:#005f86; font-weight:600;">→ La decisión de identidad visual (sección 28)</a></p>
   </div>
 
@@ -2104,7 +2105,7 @@
               <span>·</span>
               <a href="#">Instructivo</a>
             </div>
-<div class="id-meeples"><span style="color:var(--id-sol);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple"/></svg></span><span style="color:#ffffff;"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple"/></svg></span><span style="color:var(--id-ink);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple"/></svg></span></div>
+<div class="id-meeples"><span style="color:var(--id-sol);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple-o"/></svg></span><span style="color:#ffffff;"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple-o"/></svg></span><span style="color:var(--id-ink);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple-o"/></svg></span></div>
           </div>
         </div>
         <div class="variant-card-spec">Solo la home — identidad visual sin bloquear el countdown</div>
@@ -2205,7 +2206,7 @@
             <span>·</span>
             <a href="#">Instructivo</a>
           </div>
-<div class="id-meeples"><span style="color:var(--id-sol);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple"/></svg></span><span style="color:#ffffff;"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple"/></svg></span><span style="color:var(--id-ink);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple"/></svg></span></div>
+<div class="id-meeples"><span style="color:var(--id-sol);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple-o"/></svg></span><span style="color:#ffffff;"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple-o"/></svg></span><span style="color:var(--id-ink);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple-o"/></svg></span></div>
         </div>
         <div class="ph-content-placeholder" style="min-height:60px;"><div class="ph-content-skeleton" style="grid-column:1/-1;height:40px;"></div></div>
       </div>
@@ -2590,7 +2591,7 @@
 
     <div class="empty-row">
       <div class="empty-state">
-        <div class="empty-state-art"><span style="color:var(--id-peach);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple"/></svg></span><span style="color:var(--id-celeste);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple"/></svg></span><span style="color:var(--id-sol);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple"/></svg></span></div>
+        <div class="empty-state-art"><span style="color:var(--id-peach);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple-o"/></svg></span><span style="color:var(--id-celeste);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple-o"/></svg></span><span style="color:var(--id-sol);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple-o"/></svg></span></div>
         <div class="empty-state-title">Todavía no ofrecés nada</div>
         <div class="empty-state-desc">Elegí artículos de tu ludoteca para ponerlos a disposición en este Math Trade.</div>
         <button type="button" class="empty-state-cta">
@@ -2600,7 +2601,7 @@
       </div>
 
       <div class="empty-state">
-        <div class="empty-state-art"><span style="color:var(--id-pink);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple"/></svg></span><span style="color:var(--id-lilac);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple"/></svg></span><span style="color:var(--id-mint);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple"/></svg></span></div>
+        <div class="empty-state-art"><span style="color:var(--id-pink);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple-o"/></svg></span><span style="color:var(--id-lilac);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple-o"/></svg></span><span style="color:var(--id-mint);"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-meeple-o"/></svg></span></div>
         <div class="empty-state-title">No tenés deseos todavía</div>
         <div class="empty-state-desc">Mirá qué están ofreciendo los demás participantes y marcá lo que te interese.</div>
         <button type="button" class="empty-state-cta">
@@ -2625,7 +2626,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
         Yo ofrezco
       </div>
-      <div class="nav-item" style="color:#c9ced4;">
+      <div class="nav-item" style="color:#e2e0ee;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>
         Mis deseos
       </div>
@@ -2638,7 +2639,7 @@
     </div>
 
     <div class="note">
-      <b>Detalles:</b> ítem bloqueado en <code>#6b7280</code>, activo en <code>primary</code>, el resto en <code>#c9ced4</code>; caption de 11px en <code>#8a92a0</code>. Con el sidebar colapsado o en pantallas de menos de 800px de alto la caption se oculta y el texto queda en el <code>title</code>; el candado pasa a un ícono chico sobre el ícono del ítem. En el celular la barra inferior (<code>sidebar/mobile/TabBar.tsx</code>) muestra el mismo candado chico. Los admins ven el candado pero pueden entrar igual.
+      <b>Detalles:</b> sobre azul noche (<code>#2e294e</code>): ítem bloqueado en <code>#a09db8</code>, activo celeste (<code>brand</code>) con texto azul noche, el resto en <code>#e2e0ee</code>; caption de 11px en <code>#c3c0d9</code>. Con el sidebar colapsado o en pantallas de menos de 800px de alto la caption se oculta y el texto queda en el <code>title</code>; el candado pasa a un ícono chico sobre el ícono del ítem. En el celular la barra inferior (<code>sidebar/mobile/TabBar.tsx</code>) muestra el mismo candado chico. Los admins ven el candado pero pueden entrar igual.
     </div>
   </section>
 
@@ -3187,7 +3188,7 @@
         <tr><td><code>good</code> / <code>used</code> / <code>none</code></td><td>Estado de caja y componentes (sección 09)</td></tr>
         <tr><td><code>alert</code></td><td>Un valor que le pide algo al usuario (“Revisar”)</td></tr>
         <tr><td><code>want</code> / <code>done</code></td><td>Recibido / Entregado en Resultados</td></tr>
-        <tr><td><code>admin</code></td><td>Marca de rol, sobre el sidebar oscuro. Mismo hue púrpura reservado al equipo</td></tr>
+        <tr><td><code>admin</code></td><td>Marca de rol, sobre el sidebar azul noche. Mismo hue púrpura reservado al equipo</td></tr>
       </tbody>
     </table>
 
@@ -3284,7 +3285,7 @@
   <section id="shell">
     <div class="section-label">19 · Estructura</div>
     <h2 class="section-title">Sidebar, barra inferior, avisos y footer</h2>
-    <p class="section-desc">El marco de toda pantalla de <code>/mathtrade</code> (<code>app/mathtrade/layout.tsx</code>). En escritorio, un sidebar negro a la izquierda. En el celular, una barra inferior con las secciones principales y una hoja “Más” con el resto.</p>
+    <p class="section-desc">El marco de toda pantalla de <code>/mathtrade</code> (<code>app/mathtrade/layout.tsx</code>). En escritorio, un sidebar azul noche (<code>ink</code>) a la izquierda. En el celular, una barra inferior azul noche con las secciones principales y una hoja “Más” con el resto; el header móvil también es azul noche.</p>
 
     <div class="section-label">Sidebar · <code>src/components/sidebar</code></div>
     <div class="shell">
@@ -3338,7 +3339,7 @@
     <div class="note">
       <b>Sidebar:</b> fondo negro, ítems de 36px con radio de 10px (32px en pantallas de menos de 800px de alto). Arriba, la tarjeta de estado del evento (<code>EventStatusCard</code>, <code>#1c1d21</code>) dice en qué etapa está el Math Trade. Los grupos llevan un título de 11px en <code>#8a92a0</code>. Colapsado quedan solo los íconos y el nombre pasa al <code>title</code>. Ítems bloqueados: sección 11.
       <br/><br/>
-      <b>Barra inferior:</b> negra, etiquetas de 10px; activo en <code>primary</code>, resto en <code>#b7bcc4</code>, bloqueado en <code>#6b7280</code> con un candado chico. La hoja “Más” es crema, sube desde abajo con radio de 24px arriba y un fondo negro al 40%. El sidebar y la barra inferior no cambian.
+      <b>Barra inferior:</b> azul noche, etiquetas de 10px; activo celeste, resto en <code>#d6d4e6</code>, bloqueado en <code>#a09db8</code> con un candado chico. La hoja “Más” es crema, sube desde abajo con radio de 24px arriba y un fondo negro al 40%. El sidebar y la barra inferior pasaron del negro al azul noche; los controles internos (botón de colapsar, tarjeta de estado) son blanco al 10%.
     </div>
 
     <div class="section-label" style="margin-top:28px;">Avisos del header · <code>components/header/adv*</code></div>
@@ -3572,7 +3573,7 @@
     <div class="note">
       <b>Detalles:</b> columna crema con borde cálido, cabecera de 52px y botón de colapsar de 36px con radio de 10px. Cada bloque lleva un título de 12px en <code>gray-500</code>. Solo el cuerpo hace scroll: “Filtrar” (botón primario celeste con texto azul noche, de 36px) y “Limpiar” (link <code>primary</code>) quedan siempre a la vista, abajo. En el celular la columna pasa a pantalla completa.
       <br/><br/>
-      <b>Chips de filtro</b> (<code>filters/chip.tsx</code>): radio de 8px, 12px semibold. Apagado <code>surface-card</code>; elegido celeste con texto azul noche o <code>primary</code> al 10% con borde; “agregar” con borde punteado. No son el <code>Chip</code> de la sección 17: aquel describe, estos se tocan. Las <b>etiquetas</b> del usuario (<code>item-tags</code>) usan la misma forma con el color que eligió cada uno.
+      <b>Chips de filtro</b> (<code>filters/chip.tsx</code>): radio de 8px, 12px semibold. Apagado blanco con borde <code>line</code> y texto <code>ink</code> (hover <code>surface-strong</code>); elegido azul noche con texto blanco, o con el color propio cuando lo tiene; las etiquetas “fantasma” elegidas, <code>primary</code> al 10% con borde; “agregar” con borde punteado. No son el <code>Chip</code> de la sección 17: aquel describe, estos se tocan. Las <b>etiquetas</b> del usuario (<code>item-tags</code>) usan la misma forma con el color que eligió cada uno.
     </div>
   </section>
 
@@ -3979,7 +3980,7 @@
         <tr><td>Header de la home</td><td>Degradé <code>sky-700 → purple-700</code></td><td>Bloque celeste + meeples del logo</td></tr>
         <tr><td>Números y listas vacías</td><td>Tarjeta blanca con un dato suelto</td><td>Bloque de un solo color con una ficha (meeple o dado)</td></tr>
         <tr><td>Links e ítem activo del menú</td><td><code>primary</code></td><td>Sin cambio</td></tr>
-        <tr><td>Sidebar y barra inferior del celular</td><td>Negro</td><td>Sin cambio: ya es la pieza más reconocible</td></tr>
+        <tr><td>Sidebar, barra inferior y header del celular</td><td>Negro</td><td>Azul noche <code>#2e294e</code>; ítem activo celeste con texto azul noche. Los paneles que abren (calendario, notificaciones, ayuda, cuenta) son blancos con borde y sombra</td></tr>
       </tbody>
     </table>
 
@@ -3993,6 +3994,29 @@
         <li><b>Contraste:</b> revisar los chips y el texto gris sobre cada pastel antes de cerrar los valores.</li>
       </ul>
     </div>
+  </section>
+
+  <section id="final">
+    <div class="section-label">29 · Ajustes finales</div>
+    <h2 class="section-title">Cómo quedó la app en la rama de identidad</h2>
+    <p class="section-desc">Lo que se afinó mirando la app corriendo, después de las secciones 01 a 28. Valores confirmados contra el código de <code>feat/2026-11-14-identidad-visual</code>.</p>
+    <table class="ph-spec-table">
+      <thead><tr><th>Pieza</th><th>Valor final</th></tr></thead>
+      <tbody>
+        <tr><td>Tokens crema</td><td><code>canvas</code> #fffaf0 · <code>surface-soft</code> #f6eedc · <code>surface</code> #eee3ca · <code>surface-strong</code> #e0d3b5 · <code>line</code> #d3c4a2 · <code>ink</code> #2e294e · <code>ink-muted</code> #5a574f · <code>link</code> #005f86 · <code>brand</code> #6cbfe3 · <code>sun</code> #ffc700</td></tr>
+        <tr><td>Sidebar, barra inferior, header móvil</td><td>Azul noche. Ítem activo celeste con texto azul noche (sección 11 y 22)</td></tr>
+        <tr><td>Paneles del header (calendario, notificaciones, ayuda, cuenta)</td><td>Fondo blanco, borde <code>line</code>, sombra más marcada. Sin padding inferior: el hover de la última opción llega al borde redondeado</td></tr>
+        <tr><td>Botón sol</td><td><code>Button color="sun"</code>: fondo <code>#ffc700</code>, texto azul noche. Se usa en login, registro, recuperar y cambiar contraseña, en lugar del celeste</td></tr>
+        <tr><td>Caja “Qué es el MT” / MT solidario</td><td>Amarillo suave: <code>sun</code> al 15% con borde <code>sun</code> al 70% y texto azul noche; el número de paso en un círculo sol</td></tr>
+        <tr><td>Chips de filtros</td><td>Inactivo blanco, borde <code>line</code>, texto <code>ink</code>; activo azul noche con texto blanco (<code>filters/chip.tsx</code>, único componente)</td></tr>
+        <tr><td>Meeple</td><td>De frente, plano, con contorno azul noche de 1.5px; sin rotación ni solapamiento en las ilustraciones</td></tr>
+        <tr><td>Trades de Resultados</td><td>Cada intercambio en una tarjeta blanca con borde <code>line</code>, <code>rounded-card</code> y sombra chica; títulos de columna en <code>ink</code>; captions en <code>ink-muted</code></td></tr>
+        <tr><td>Yo ofrezco: agregar elemento</td><td>El select y el botón comparten un solo contenedor blanco con borde <code>line</code> y radio de card; el botón se separa con una línea. Activo celeste, deshabilitado <code>surface-strong</code></td></tr>
+        <tr><td>QR de la home</td><td>Responsive: el canvas escala por CSS, máximo 320px, dentro de una tarjeta <code>surface</code> de hasta 400px con <code>overflow-hidden</code></td></tr>
+        <tr><td>Calendario del Math Trade</td><td>Línea vertical azul noche de 2px (<code>components/calendar</code>, home y panel)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>Pendiente:</b> <code>cancel</code> vale <code>#757575</code> en logistics y <code>#999</code> en web-ui; sin decidir cuál queda.</div>
   </section>
 
 </div>
