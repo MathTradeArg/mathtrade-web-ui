@@ -61,7 +61,7 @@ const ContributionAccounts = ({ mathtradeId }: { mathtradeId: number }) => {
   } = useContributionAccounts(mathtradeId);
 
   return (
-    <div className="relative mt-5 pt-4 border-t border-stroke">
+    <div className="relative mt-5 pt-4 border-t border-line">
       <h4 className="font-bold mb-2">
         <I18N id="adminPanel.contribution.accountsTitle" />
       </h4>
@@ -82,7 +82,7 @@ const ContributionAccounts = ({ mathtradeId }: { mathtradeId: number }) => {
         ) : (
           <div
             key={account.id}
-            className="flex flex-wrap items-center justify-between gap-2 py-2 border-b border-stroke text-sm"
+            className="flex flex-wrap items-center justify-between gap-2 py-2 border-b border-line text-sm"
           >
             <div className={account.active ? "" : "opacity-50"}>
               <span className="font-bold">{account.holder_name}</span>

@@ -24,12 +24,12 @@ const AddElementToMyItemSelector = ({
   }, [myCollectionList, selectedElementId]);
 
   return (
-    <div className="flex items-center rounded-md">
-      <div className="grow bg-white rounded-l-md flex items-center">
+    <div className="flex items-center">
+      <div className="grow bg-white border border-line border-r-0 rounded-l-card flex items-center">
         {elementSelected ? (
           <div className="w-12">
             <Thumbnail
-              className="w-12 rounded-l-md"
+              className="w-12 rounded-l-card"
               src={elementSelected?.thumbnail}
             />
           </div>
@@ -62,10 +62,10 @@ const AddElementToMyItemSelector = ({
 
       <button
         className={clsx(
-          " rounded-r-md font-bold sm:px-6 px-3 py-3 sm:text-base text-2xl",
+          "rounded-r-card border font-bold sm:px-6 px-3 py-3 sm:text-base text-2xl",
           {
-            "bg-brand text-brand-ink": selectedElementId,
-            "bg-gray-300 text-white": !selectedElementId,
+            "bg-brand border-brand text-brand-ink": selectedElementId,
+            "bg-surface-strong border-line text-ink-muted": !selectedElementId,
           }
         )}
         disabled={!selectedElementId}

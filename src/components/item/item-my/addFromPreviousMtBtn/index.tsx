@@ -8,11 +8,11 @@ const AddFromPreviousMTBtn = () => {
   return mathTradePrevious && mathTradePrevious?.item_count > 0 ? (
     <div className="flex items-center" data-tour="myoffer.previous">
       <div className="px-4 md:block hidden">
-        <div className="w-[2px] h-12 bg-gray-400 rotate-12"></div>
+        <div className="w-[2px] h-12 bg-line rotate-12"></div>
       </div>
       <div className="">
         <button
-          className="text-[12px] text-balance w-40 h-12 grid place-items-center text-center rounded-md p-1 bg-brand border border-transparent text-brand-ink font-bold transition hover:brightness-95 relative"
+          className="text-xs leading-snug text-balance w-52 max-w-full min-h-12 grid place-items-center text-center rounded-card px-3 py-2 bg-brand border border-transparent text-brand-ink font-bold transition hover:brightness-95 relative"
           onClick={onOpen}
         >
           <I18N id="myOfferPreviousMathtrades.page.link" />

@@ -76,10 +76,10 @@ const EditionRow = ({
   };
 
   return (
-    <div className="border border-stroke rounded-lg p-4 mb-4">
+    <div className="border border-line bg-surface text-ink rounded-card p-4 mb-4">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <span className="font-bold">{mathtrade.name}</span>
+          <span className="font-display font-semibold text-ink">{mathtrade.name}</span>
           {mathtrade.active ? (
             <span className="ml-2 uppercase text-[10px] font-bold bg-primary text-white px-2 py-[3px] rounded-full">
               <I18N id="adminPanel.active.badge" />
@@ -110,7 +110,7 @@ const EditionRow = ({
       ) : null}
 
       {editing ? (
-        <div className="relative mt-4 pt-4 border-t border-stroke">
+        <div className="relative mt-4 pt-4 border-t border-line">
           <EditionForm
             mode="edit"
             initial={mathtrade}
@@ -121,7 +121,7 @@ const EditionRow = ({
             locationOptions={locationOptions}
           />
 
-          <div className="mt-5 pt-4 border-t border-stroke">
+          <div className="mt-5 pt-4 border-t border-line">
             {mathtrade.rulebook_url ? (
               <a
                 href={baseURL + mathtradeRulebookPDFurl(mathtrade.id)}

@@ -498,7 +498,7 @@ const ItemReportsView = ({ tabs }: { tabs: ReactNode }) => {
           <div className="flex flex-wrap items-end gap-3 mb-4">
             <input
               type="search"
-              className="border border-stroke rounded-md p-2 text-sm w-full sm:w-80"
+              className="border border-line rounded-md p-2 text-sm w-full sm:w-80"
               placeholder={getI18Ntext("adminReports.search")}
               aria-label={getI18Ntext("adminReports.search")}
               value={filters.search}

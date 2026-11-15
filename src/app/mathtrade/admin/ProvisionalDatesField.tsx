@@ -19,9 +19,9 @@ const ProvisionalDatesField = ({
     getProvisionalDates(initial).map((t) => toLocalInput(new Date(t).toISOString()))
   );
 
-  const inputClass = "w-full border border-stroke rounded-md p-2 text-sm";
+  const inputClass = "w-full border border-line rounded-md p-2 text-sm";
   return (
-    <fieldset className="border border-stroke rounded-lg p-3 my-4">
+    <fieldset className="border border-line rounded-lg p-3 my-4">
       <legend className="px-1 text-sm font-semibold">
         <I18N id="adminPanel.field.provisionalResultsDates" />
       </legend>

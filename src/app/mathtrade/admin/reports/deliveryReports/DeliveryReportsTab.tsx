@@ -179,7 +179,7 @@ const DeliveryReportsTab = ({ tabs }: { tabs: ReactNode }) => {
           </div>
           <input
             type="search"
-            className="border border-stroke rounded-md p-2 text-sm w-full sm:w-80 mb-4"
+            className="border border-line rounded-md p-2 text-sm w-full sm:w-80 mb-4"
             placeholder={getI18Ntext("deliveryReport.admin.search")}
             aria-label={getI18Ntext("deliveryReport.admin.search")}
             value={search}
