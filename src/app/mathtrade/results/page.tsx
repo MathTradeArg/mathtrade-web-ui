@@ -6,7 +6,6 @@ import { ResultsContextProvider } from "@/context/results";
 import { PageContext } from "@/context/page";
 import Tabs from "@/components/tabs";
 import Dynamic from "@/components/dynamic";
-import Wrapper from "@/components/wrapper";
 import SectionCommon from "@/components/sections/common";
 import { useRedirectIfNavLocked } from "@/components/sidebar/useSidebarNav";
 import useFetch from "@/hooks/useFetch";
@@ -52,12 +51,10 @@ export default function Results() {
         title="title.Results"
         helpId="page.results"
       />
-      <Wrapper>
-        <div className="">
+      <SectionCommon>
+        <div className="px-3 pt-3 md:px-8">
           <Tabs list={tabs} value={tabView} onChange={setTabView} />
         </div>
-      </Wrapper>
-      <SectionCommon>
         {tabView === 0 ? (
           <ResultsContextProvider showTradeCodes={!!labels?.published}>
             <Dynamic>

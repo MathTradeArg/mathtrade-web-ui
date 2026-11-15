@@ -1,7 +1,9 @@
 import I18N from "@/i18n";
 import clsx from "clsx";
-import { SegmentButton, SegmentedGroup } from "@/components/segmented";
 
+// Underlined tabs for page navigation (Juegos / Ejemplares, Resultados /
+// Cadenas...), left aligned. Mode selectors inside forms and toolbars keep
+// using <SegmentedGroup>.
 const Tabs = ({
   list = [],
   onChange = (_k?: number) => {},
@@ -9,37 +11,45 @@ const Tabs = ({
   value = 0,
   min = false,
   className = "",
-  toLeft = false,
+  toLeft: _toLeft = true,
 }) => {
   return (
     <div
+      role="tablist"
       className={clsx(
-        "flex py-2",
-        { "justify-center": !toLeft },
+        "flex flex-wrap items-end gap-x-6 border-b border-line",
         className
       )}
     >
-      <SegmentedGroup>
-        {list?.map((name, k) => {
-          return (
-            <SegmentButton
-              key={name}
-              active={k === value}
-              small={min}
-              onClick={() => {
-                if (onChange && k !== value) onChange(k);
-              }}
-            >
-              <I18N id={name} />
-              {highlighted === k ? (
-                <span className="absolute -top-1.5 -right-1 bg-red-600 text-white leading-none font-bold uppercase text-[8px] px-1 py-[2px] rounded">
-                  Nuevo
-                </span>
-              ) : null}
-            </SegmentButton>
-          );
-        })}
-      </SegmentedGroup>
+      {list?.map((name, k) => {
+        const active = k === value;
+        return (
+          <button
+            key={name}
+            type="button"
+            role="tab"
+            aria-selected={active}
+            onClick={() => {
+              if (onChange && k !== value) onChange(k);
+            }}
+            className={clsx(
+              "relative -mb-px whitespace-nowrap border-b-[3px] px-0.5 transition-colors",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 rounded-t",
+              min ? "min-h-9 text-xs" : "min-h-11 md:min-h-10 text-body-lg",
+              active
+                ? "border-ink text-ink font-semibold cursor-default"
+                : "border-transparent text-ink-muted font-medium hover:text-ink hover:border-line"
+            )}
+          >
+            <I18N id={name} />
+            {highlighted === k ? (
+              <span className="absolute -top-1.5 -right-1 bg-red-600 text-white leading-none font-bold uppercase text-[8px] px-1 py-[2px] rounded">
+                Nuevo
+              </span>
+            ) : null}
+          </button>
+        );
+      })}
     </div>
   );
 };
