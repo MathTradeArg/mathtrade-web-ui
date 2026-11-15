@@ -2,22 +2,22 @@ import clsx from "clsx";
 import type { ReactNode } from "react";
 
 const TONES: Record<string, string> = {
-  // Translucent white fill + ink text: these chips sit on the pastel
-  // card-kind fills (sky, lilac, mint) and on the cream base card, where
-  // gray-on-pastel lost contrast. White still reads as a pill on white wrappers.
-  neutral: "text-ink bg-white/75",
+  // Data chips (players, language, box size, categories...) live on white
+  // cards now, so they carry their own soft cream fill instead of a white
+  // one. No border: the fill alone separates them from the card.
+  neutral: "text-ink-muted bg-surface-soft",
   // For a value that asks the user to do something rather than describing the
   // copy. Tinted instead of solid: these chips sit inside cards that already
   // carry a background tint of their own, and a solid fill at this size ends up
   // competing with the card's title.
-  alert: "text-red-800 font-bold bg-danger/10",
+  alert: "text-red-800 font-semibold bg-danger/10",
   // Condition of a copy (see statusTone in config/statusTypes): how good it is
   // at a glance. Tinted, same as alert, and the text stays next to the color.
-  good: "text-green-800 font-semibold bg-green-100",
-  used: "text-orange-800 font-semibold bg-orange-100",
-  none: "text-gray-600 font-semibold bg-gray-200",
-  want: "text-[#0a7a4d] font-bold bg-want/10",
-  done: "text-ink font-bold bg-surface-strong",
+  good: "text-green-800 font-medium bg-green-100",
+  used: "text-orange-800 font-medium bg-orange-100",
+  none: "text-gray-600 font-medium bg-gray-200",
+  want: "text-[#0a7a4d] font-semibold bg-want/10",
+  done: "text-ink font-semibold bg-surface-strong",
   // Same hue as the "en disputa" status badge: purple is reserved for team
   // intervention. Tinted, not solid — this marks a role, not an irreversible
   // state. Contrast is tuned for the dark sidebar surface.
@@ -51,7 +51,7 @@ const Chip = ({
     >
       <span
         className={clsx(
-          "text-caption px-2.5 py-1 rounded-md text-nowrap truncate max-w-full",
+          "text-caption px-2 py-0.5 rounded-md text-nowrap truncate max-w-full",
           TONES[tone] || TONES.neutral,
           className
         )}
