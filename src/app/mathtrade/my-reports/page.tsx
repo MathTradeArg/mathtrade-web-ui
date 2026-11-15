@@ -60,7 +60,7 @@ export default function MyReports() {
         variant="compact"
         title="title.MyReports"
         help={
-          <span className="text-sm text-white/90">
+          <span className="text-sm text-ink-muted">
             <I18N id="myReports.help" />
           </span>
         }
