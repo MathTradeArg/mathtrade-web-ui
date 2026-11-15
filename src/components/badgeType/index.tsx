@@ -68,7 +68,9 @@ const BadgeType = ({
       {isComboBadge ? (
         getI18Ntext("element-type-badge-0")
       ) : (
-        <I18N id={`cart.wantGroup.type.${type}.${subtype || 1}`} />
+        // Tags have a single label; their subtype can carry the first
+        // game's type (2/3), which has no "tag" translation.
+        <I18N id={`cart.wantGroup.type.${type}.${type === "tag" ? 1 : subtype || 1}`} />
       )}
     </div>
   );

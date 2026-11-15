@@ -59,10 +59,10 @@ const Footer = ({ swipe = false }: { swipe?: boolean }) => {
       type="button"
       data-tour="mywants.save"
       className={clsx(
-        "h-[34px] shrink-0 rounded-xl outline-none transition-colors px-4 text-body font-bold whitespace-nowrap",
+        "h-10 shrink-0 rounded-xl outline-none transition-colors px-5 text-body font-bold whitespace-nowrap",
         enabledBtn
-          ? "bg-want text-white hover:opacity-80"
-          : "bg-gray-200 text-gray-400"
+          ? "bg-ink text-white hover:brightness-125"
+          : "bg-surface-strong text-ink cursor-not-allowed opacity-70"
       )}
       onClick={onClick}
       disabled={!enabledBtn}
@@ -141,7 +141,7 @@ const Footer = ({ swipe = false }: { swipe?: boolean }) => {
       {loading || !swipeBar ? null : (
         <div
           className={clsx(
-            "fixed z-nav right-0 left-0 pb-3 transition-[left] duration-300 ease-out motion-reduce:transition-none",
+            "fixed z-nav right-0 left-0 py-3 bg-canvas border-t border-line shadow-[0_-8px_20px_-10px_rgba(46,41,78,0.22)] lg:rounded-b-[24px] transition-[left] duration-300 ease-out motion-reduce:transition-none",
             "bottom-[var(--mt-tabbar-h)] lg:bottom-0",
             collapsed ? "lg:left-[76px]" : "lg:left-[260px]"
           )}

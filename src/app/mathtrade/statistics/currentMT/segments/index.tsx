@@ -1,15 +1,17 @@
 import { useEffect, useRef } from "react";
 import I18N, { getI18Ntext } from "@/i18n";
+import EmptyList from "@/components/emptyList";
 import { segmentsToColumns } from "./utils";
 
 declare const anychart: any;
 
-const Segments = ({ stats }) => {
+const Segments = ({ stats }: { stats: any }) => {
   const graphRef = useRef<HTMLDivElement | null>(null);
+  const hasSegments = Array.isArray(stats?.segments) && stats.segments.length > 0;
 
   useEffect(() => {
     let timer = setInterval(() => {
-      if ((window as any).anychart && stats && graphRef && graphRef.current) {
+      if ((window as any).anychart && hasSegments && graphRef && graphRef.current) {
         clearInterval(timer);
 
         graphRef.current.innerHTML = "";
@@ -40,7 +42,7 @@ const Segments = ({ stats }) => {
     return () => {
       clearInterval(timer);
     };
-  }, [graphRef, stats]);
+  }, [graphRef, stats, hasSegments]);
 
   return (
     <div className="bg-card border border-line px-5 py-4 rounded-card shadow-card mb-6">
@@ -48,10 +50,14 @@ const Segments = ({ stats }) => {
         <I18N id="stats.segment.title" />
       </h3>
 
-      <div className="relative">
-        <div style={{ height: 400 }} ref={graphRef} />
-        <div className="absolute bottom-0 right-0 w-32 h-4 bg-card" />
-      </div>
+      {hasSegments ? (
+        <div className="relative">
+          <div style={{ height: 400 }} ref={graphRef} />
+          <div className="absolute bottom-0 right-0 w-32 h-4 bg-card" />
+        </div>
+      ) : (
+        <EmptyList visible icon="stats" message="stats.current.empty" />
+      )}
     </div>
   );
 };

@@ -17,10 +17,10 @@ const AutocompleteButton = () => {
         <button
           type="button"
           className={clsx(
-            "h-[34px] px-3 rounded-xl text-caption font-bold whitespace-nowrap border transition-colors",
+            "h-10 px-4 rounded-xl text-body font-bold whitespace-nowrap border border-line bg-white transition-colors",
             disabled
-              ? "border-gray-200 text-gray-400 cursor-not-allowed"
-              : "border-primary/40 bg-primary/10 text-primary hover:bg-primary hover:text-white"
+              ? "text-ink-muted cursor-not-allowed"
+              : "text-ink hover:bg-surface-soft"
           )}
           onClick={toggleIsOpen}
           disabled={disabled}

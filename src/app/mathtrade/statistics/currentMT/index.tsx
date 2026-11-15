@@ -5,15 +5,19 @@ import Downloads from "./downloads";
 import useCurrentStats from "./useCurrentStats";
 import ErrorAlert from "@/components/errorAlert";
 import { LoadingBox } from "@/components/loading";
+import EmptyList from "@/components/emptyList";
+import { hasStats } from "./hasStats";
 
 const StatsUI = () => {
   const { data, loading, error } = useCurrentStats();
 
   return (
     <div className="relative">
-      {data ? (
+      <ErrorAlert error={error} />
+      {data && !hasStats(data) ? (
+        <EmptyList visible icon="stats" message="stats.current.empty" />
+      ) : data ? (
         <>
-          <ErrorAlert error={error} />
           <PillsStats data={data} />
           <div className="lg:flex gap-6">
             <div className="lg:w-1/3">

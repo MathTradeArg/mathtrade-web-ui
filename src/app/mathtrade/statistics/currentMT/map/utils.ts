@@ -9,7 +9,7 @@ const defValues = {
 type Region = { id: string; title: string };
 
 type LocationStat = {
-  location: { province: string };
+  location: { province: string } | null;
   games_count: number;
   items_count: number;
   users_count: number;
@@ -50,12 +50,16 @@ const userRegiones: Region[] = [
   { id: "AR.DF", title: "AMBA" },
 ];
 
-export const locsToGraph = (stats: { locations: LocationStat[] }) => {
+export const locsToGraph = (stats?: { locations?: LocationStat[] | null } | null) => {
   const pool: Record<string, RegionCounts> = {};
 
   let items_count_total = 0;
 
-  stats.locations.forEach((loc) => {
+  (stats?.locations ?? []).forEach((loc) => {
+    // Memberships without a city have no province: skip them.
+    if (!loc?.location?.province) {
+      return;
+    }
     if (!pool[loc.location.province]) {
       pool[loc.location.province] = {
         games_count: 0,
@@ -69,7 +73,7 @@ export const locsToGraph = (stats: { locations: LocationStat[] }) => {
     items_count_total += loc.items_count;
   });
 
-  const list = [];
+  const list: Record<string, unknown>[] = [];
 
   let valueTotal = 0;
   let maxValue = 0;
@@ -83,9 +87,9 @@ export const locsToGraph = (stats: { locations: LocationStat[] }) => {
     let value = 0;
 
     if (title === "AMBA") {
-      value = parseFloat((100 - valueTotal).toFixed(1));
+      value = items_count_total > 0 ? parseFloat((100 - valueTotal).toFixed(1)) : 0;
     } else {
-      const p = (100 * items_count) / items_count_total;
+      const p = items_count_total > 0 ? (100 * items_count) / items_count_total : 0;
       value = parseFloat(p.toFixed(1));
       valueTotal += value;
     }
