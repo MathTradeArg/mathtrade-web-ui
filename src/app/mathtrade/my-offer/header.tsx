@@ -29,7 +29,7 @@ const HeaderMyOffer = ({ count = 0 }: { count?: number }) => {
       leading={
         <SidebarToggleButton
           data-tour="myoffer.groupsBtn"
-          className="h-[34px] px-3 rounded-full text-caption font-bold transition-colors shrink-0"
+          className="h-[34px] px-3 rounded-xl text-caption font-bold transition-colors shrink-0"
           classNameNotHighlighted="text-primary bg-primary/10"
           classNameHighlighted="text-white bg-primary"
         >

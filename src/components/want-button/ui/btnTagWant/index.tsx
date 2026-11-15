@@ -82,7 +82,7 @@ const BtnTagWant = () => {
           <button
             type="button"
             disabled={loading}
-            className="rounded-full px-5 py-2 text-sm font-semibold border border-gray-300 text-gray-600 hover:opacity-75"
+            className="rounded-xl px-5 py-2 text-sm font-semibold border border-gray-300 text-gray-600 hover:opacity-75"
             onClick={() => unconsolidate(params)}
           >
             <InnerButton>
@@ -101,7 +101,7 @@ const BtnTagWant = () => {
             disabled={loading}
             title={getI18Ntext("tagWant.addHelp", [itemTag.name])}
             className={clsx(
-              "rounded-full px-5 py-2 text-sm font-semibold bg-want text-white hover:opacity-90",
+              "rounded-xl px-5 py-2 text-sm font-semibold bg-want text-white hover:opacity-90",
               { "opacity-50": loading }
             )}
             onClick={onWant}

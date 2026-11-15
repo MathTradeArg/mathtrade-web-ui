@@ -49,7 +49,7 @@ const OfferSwipe = ({
         </p>
         <button
           type="button"
-          className="max-lg:hidden shrink-0 h-8 px-3 rounded-full border border-gray-200 text-caption font-bold text-gray-600 hover:bg-gray-50"
+          className="max-lg:hidden shrink-0 h-8 px-3 rounded-xl border border-gray-200 text-caption font-bold text-gray-600 hover:bg-gray-50"
           onClick={swipe.close}
         >
           <I18N id="offer.swipe.back" />
@@ -89,7 +89,7 @@ const OfferSwipe = ({
           <div className="flex flex-wrap items-center justify-center gap-2">
             <button
               type="button"
-              className="h-10 px-4 rounded-full border border-gray-300 bg-white font-bold"
+              className="h-10 px-4 rounded-xl border border-gray-300 bg-white font-bold"
               onClick={swipe.close}
             >
               <I18N id="offer.swipe.back" />

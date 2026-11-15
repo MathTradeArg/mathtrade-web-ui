@@ -26,7 +26,7 @@ const OrderBy = ({
   );
 
   return (
-    <div className="flex items-center h-[34px] rounded-full border border-line overflow-hidden bg-surface shrink-0">
+    <div className="flex items-center h-[34px] rounded-xl border border-line overflow-hidden bg-surface shrink-0">
       <div className="relative">
         <select
           name="order"

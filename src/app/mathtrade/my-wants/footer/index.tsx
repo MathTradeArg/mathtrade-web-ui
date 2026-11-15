@@ -59,7 +59,7 @@ const Footer = ({ swipe = false }: { swipe?: boolean }) => {
       type="button"
       data-tour="mywants.save"
       className={clsx(
-        "h-[34px] shrink-0 rounded-full outline-none transition-colors px-4 text-body font-bold whitespace-nowrap",
+        "h-[34px] shrink-0 rounded-xl outline-none transition-colors px-4 text-body font-bold whitespace-nowrap",
         enabledBtn
           ? "bg-want text-white hover:opacity-80"
           : "bg-gray-200 text-gray-400"
@@ -89,7 +89,7 @@ const Footer = ({ swipe = false }: { swipe?: boolean }) => {
           </p>
           <button
             type="button"
-            className="shrink-0 h-8 px-3 rounded-full bg-white border border-amber-300 text-caption font-bold text-amber-950 hover:bg-amber-100"
+            className="shrink-0 h-8 px-3 rounded-xl bg-white border border-amber-300 text-caption font-bold text-amber-950 hover:bg-amber-100"
             onClick={() => {
               gotoTop();
               updateFilters({ keyword: undefined }, "wants");

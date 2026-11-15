@@ -51,7 +51,7 @@ const CommitButton = () => {
       <ErrorAlert error={errorCommit} />
       <button
         className={clsx(
-          "mx-auto flex items-center gap-2 px-6 py-2 rounded-full text-lg transition-colors",
+          "mx-auto flex items-center gap-2 px-6 py-2 rounded-xl text-lg transition-colors",
           {
             "bg-danger hover:bg-red-800 text-white cursor-pointer": !busy,
             "bg-gray-300 text-gray-400": busy,

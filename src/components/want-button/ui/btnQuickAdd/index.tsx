@@ -112,7 +112,7 @@ const BtnQuickAdd = () => {
       want_ids = [item.id];
     }
 
-    const params = {
+    const params: Record<string, any> = {
       name: item?.title || game?.title || tag?.name || "",
       bgg_id: game?.notGame ? null : game?.bgg_id || null,
       want_ids,
@@ -152,7 +152,7 @@ const BtnQuickAdd = () => {
       <div className="text-center">
         <button
           className={clsx(
-            "rounded-full inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold transition-colors",
+            "rounded-xl inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold transition-colors",
             {
               "bg-want text-white hover:opacity-90": !loadingMyWants && !loading,
               "bg-gray-400 text-white": loadingMyWants || loading,
@@ -196,7 +196,7 @@ const BtnQuickAdd = () => {
           </div>
           <div className="flex items-center justify-center gap-3">
             <button
-              className="rounded-full outline-none transition-colors inline-block w-auto px-7 py-3 text-lg shadow-xs border border-gray-300 text-gray-500 hover:opacity-75"
+              className="rounded-xl outline-none transition-colors inline-block w-auto px-7 py-3 text-lg shadow-xs border border-gray-300 text-gray-500 hover:opacity-75"
               onClick={() => {
                 setModalOpen(false);
               }}
@@ -206,7 +206,7 @@ const BtnQuickAdd = () => {
               </InnerButton>
             </button>
             <button
-              className="rounded-full outline-none transition-colors inline-block w-auto px-7 py-3 text-lg shadow-md bg-want text-white hover:opacity-75"
+              className="rounded-xl outline-none transition-colors inline-block w-auto px-7 py-3 text-lg shadow-md bg-want text-white hover:opacity-75"
               onClick={() => {
                 setModalOpen(false);
                 postWant();

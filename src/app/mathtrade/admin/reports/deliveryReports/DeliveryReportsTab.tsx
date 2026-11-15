@@ -23,7 +23,7 @@ const PAGE_SIZE = 50;
 
 const quickButton = (active: boolean) =>
   clsx(
-    "rounded-full text-sm font-semibold px-4 py-1.5 border",
+    "rounded-xl text-sm font-semibold px-4 py-1.5 border",
     active
       ? "bg-primary text-white border-primary"
       : "bg-surface text-primary border-primary hover:bg-primary/10"

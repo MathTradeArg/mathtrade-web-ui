@@ -89,7 +89,7 @@ const CreateForm = ({
       <div className="flex items-center justify-center gap-4 pt-4 pb-2">
         <button
           type="button"
-          className="border border-gray-300 text-gray-500 font-bold px-6 py-1 rounded-full hover:bg-gray-400 hover:text-white transition-colors"
+          className="border border-gray-300 text-gray-500 font-bold px-6 py-1 rounded-xl hover:bg-gray-400 hover:text-white transition-colors"
           onClick={onCancel}
         >
           {getI18Ntext("btn.Cancel")}

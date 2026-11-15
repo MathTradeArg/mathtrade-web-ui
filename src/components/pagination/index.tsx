@@ -25,14 +25,14 @@ const Pagination = ({ type = "item", count }) => {
       {showPrevPage ? (
         <button
           type="button"
-          className="w-9 h-9 leading-none text-center border rounded-full border-line text-gray-600 hover:bg-brand hover:border-brand hover:text-brand-ink"
+          className="w-9 h-9 leading-none text-center border rounded-xl border-line text-gray-600 hover:bg-brand hover:border-brand hover:text-brand-ink"
           title={getI18Ntext("pagination.PrevPage")}
           onClick={prevPage}
         >
           <Icon type="arrow-left" className="text-lg" />
         </button>
       ) : null}
-      <div className="h-9 px-2.5 rounded-full border border-line bg-surface flex items-center text-caption font-semibold text-gray-900">
+      <div className="h-9 px-2.5 rounded-xl border border-line bg-surface flex items-center text-caption font-semibold text-gray-900">
         {total > 1 ? (
           <Form
             onSubmit={(d) => {
@@ -60,7 +60,7 @@ const Pagination = ({ type = "item", count }) => {
       {notShowNextPage ? null : (
         <button
           type="button"
-          className="w-9 h-9 leading-none text-center rounded-full bg-brand text-brand-ink hover:brightness-95"
+          className="w-9 h-9 leading-none text-center rounded-xl bg-brand text-brand-ink hover:brightness-95"
           title={getI18Ntext("pagination.NextPage")}
           onClick={nextPage}
         >

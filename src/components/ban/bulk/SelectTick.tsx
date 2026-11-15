@@ -18,7 +18,7 @@ const SelectTick = ({ id, disabledReason = null }: Props) => {
   if (!selecting) return null;
 
   const pill =
-    "absolute top-2 left-2 z-raised inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-white shadow-sm border text-[11px] font-semibold leading-none";
+    "absolute top-2 left-2 z-raised inline-flex items-center gap-1.5 h-7 px-2.5 rounded-xl bg-white shadow-sm border text-[11px] font-semibold leading-none";
 
   if (disabledReason) {
     return (

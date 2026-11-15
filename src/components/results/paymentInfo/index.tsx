@@ -44,7 +44,7 @@ const PaymentInfo = () => {
         {successSend ? <SuccessAlert text="payment.btn.success" /> : null}
         <div className="pb-4 text-center">
           <button
-            className={clsx("py-2 px-5 rounded-full text-xl", {
+            className={clsx("py-2 px-5 rounded-xl text-xl", {
               "bg-brand text-brand-ink hover:brightness-95": isImagesChanged,
               "bg-gray-400 cursor-not-allowed text-white": !isImagesChanged,
             })}

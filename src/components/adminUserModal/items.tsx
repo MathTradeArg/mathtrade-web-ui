@@ -19,7 +19,7 @@ export type AdminUserItem = {
   pending_elements: { name: string; box: boolean; components: boolean }[];
 };
 
-const badgeClass = "inline-block rounded-full text-xs font-semibold px-2 py-0.5 whitespace-nowrap";
+const badgeClass = "inline-block rounded-md text-xs font-semibold px-2 py-0.5 whitespace-nowrap";
 
 const Badge = ({ item }: { item: AdminUserItem }) =>
   item.traded ? (

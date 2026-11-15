@@ -88,7 +88,7 @@ const ElementEditor = ({ newBGGinfo = null, toggleEditingMode = () => {} }) => {
 
             <div className="px-3">
               <PhotoUploader
-                className=" border border-gray-300 text-gray-500 rounded-full block w-full p-1 hover:bg-ink hover:text-white hover:border-ink transition-colors"
+                className=" border border-gray-300 text-gray-500 rounded-xl block w-full p-1 hover:bg-ink hover:text-white hover:border-ink transition-colors"
                 onLoaded={onLoadedNewThumbnail}
                 noEdit={false}
               >
@@ -254,7 +254,7 @@ const ElementEditor = ({ newBGGinfo = null, toggleEditingMode = () => {} }) => {
             <ErrorAlert error={error} />
             <div className="flex items-center justify-center gap-4 pt-2 pb-5">
               <button
-                className="border border-gray-200 text-gray-400 font-bold text-lg px-6 py-1 rounded-full hover:bg-gray-400 hover:text-white transition-colors"
+                className="border border-gray-200 text-gray-400 font-bold text-lg px-6 py-1 rounded-xl hover:bg-gray-400 hover:text-white transition-colors"
                 onClick={(e) => {
                   e.preventDefault();
                   onCancel();

@@ -124,7 +124,7 @@ const ElementComplete = ({
           <BadgeType type="item" subtype={typeNum || 1} />
           {offered ? (
             <div className="flex items-center justify-end gap-2 shrink-0 w-full">
-              <div className="shrink-0 uppercase font-bold bg-gray-800 text-white text-[10px] px-2.5 py-[3px] rounded-full whitespace-nowrap">
+              <div className="shrink-0 uppercase font-bold bg-gray-800 text-white text-[10px] px-2.5 py-[3px] rounded-md whitespace-nowrap">
                 <I18N id="element.Offered" />
               </div>
             </div>

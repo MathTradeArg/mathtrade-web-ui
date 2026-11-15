@@ -120,7 +120,7 @@ const ReportDetail = ({ reportId }: { reportId: number }) => {
           </ReportStatusPill>
         )}
         {report.internal ? (
-          <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-700">
+          <span className="rounded-md bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-700">
             <I18N id="adminReports.internal" />
           </span>
         ) : null}
@@ -139,7 +139,7 @@ const ReportDetail = ({ reportId }: { reportId: number }) => {
           ) : report.item_deleted ? (
             <>
               <span className="font-bold">{report.item_title}</span>
-              <span className="ml-2 rounded-full bg-rose-100 px-2 py-0.5 text-xs font-semibold text-rose-900">
+              <span className="ml-2 rounded-md bg-rose-100 px-2 py-0.5 text-xs font-semibold text-rose-900">
                 <I18N id="adminReports.badge.deleted" />
               </span>
             </>
@@ -229,7 +229,7 @@ const ReportModal = () => {
         <ReportDetail reportId={reportId} />
         <div className="text-center pt-8">
           <button
-            className="border border-gray-400 py-2 px-7 rounded-full hover:bg-gray-400 hover:text-white shadow"
+            className="border border-gray-400 py-2 px-7 rounded-xl hover:bg-gray-400 hover:text-white shadow"
             onClick={onClose}
           >
             <I18N id="btn.Close" />

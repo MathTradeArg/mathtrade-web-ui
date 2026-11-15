@@ -29,7 +29,7 @@ const MissingToggle = ({
     type="button"
     aria-pressed={pressed}
     className={clsx(
-      "shrink-0 whitespace-nowrap px-3 rounded-full border text-caption font-bold transition-colors",
+      "shrink-0 whitespace-nowrap px-3 rounded-xl border text-caption font-bold transition-colors",
       tall ? "h-10" : "h-8",
       pressed
         ? "bg-primary text-white border-primary"
@@ -53,7 +53,7 @@ const DirectionButton = ({
   <button
     type="button"
     className={clsx(
-      "h-8 px-3 rounded-full border text-caption font-bold transition-colors",
+      "h-8 px-3 rounded-xl border text-caption font-bold transition-colors",
       active
         ? "bg-want/10 border-want/40 text-[#0a7a4d]"
         : "bg-surface border-line text-gray-500 hover:text-gray-800"
@@ -81,7 +81,7 @@ const DeckSave = () => {
       </span>
       <button
         type="button"
-        className="h-[34px] shrink-0 rounded-full bg-want text-white px-4 text-body font-bold whitespace-nowrap disabled:opacity-40"
+        className="h-[34px] shrink-0 rounded-xl bg-want text-white px-4 text-body font-bold whitespace-nowrap disabled:opacity-40"
         onClick={onClick}
         disabled={!enabledBtn}
       >
@@ -239,7 +239,7 @@ const Swipe = ({ onOpenVisual = () => {} }: { onOpenVisual?: () => void }) => {
               </div>
               <button
                 type="button"
-                className="max-lg:hidden shrink-0 h-8 px-3 rounded-full border border-gray-200 text-caption font-bold text-gray-600 hover:bg-gray-50"
+                className="max-lg:hidden shrink-0 h-8 px-3 rounded-xl border border-gray-200 text-caption font-bold text-gray-600 hover:bg-gray-50"
                 onClick={exit}
               >
                 <I18N id="swipe.change" />
@@ -331,7 +331,7 @@ const Swipe = ({ onOpenVisual = () => {} }: { onOpenVisual?: () => void }) => {
                   <div className="mt-3 flex items-center justify-center gap-2">
                     <button
                       type="button"
-                      className="h-10 px-4 rounded-full border border-gray-300 bg-white font-bold disabled:opacity-40"
+                      className="h-10 px-4 rounded-xl border border-gray-300 bg-white font-bold disabled:opacity-40"
                       disabled={session.index === 0}
                       onClick={() => step(-1)}
                     >
@@ -339,7 +339,7 @@ const Swipe = ({ onOpenVisual = () => {} }: { onOpenVisual?: () => void }) => {
                     </button>
                     <button
                       type="button"
-                      className="h-10 px-4 rounded-full border border-gray-300 bg-white font-bold"
+                      className="h-10 px-4 rounded-xl border border-gray-300 bg-white font-bold"
                       onClick={() => step(1)}
                     >
                       <I18N id="swipe.done.next" />
@@ -412,7 +412,7 @@ const DeckActions = ({
     {nextId != null ? (
       <button
         type="button"
-        className="h-10 px-4 rounded-full bg-want text-white font-bold"
+        className="h-10 px-4 rounded-xl bg-want text-white font-bold"
         onClick={() => onNext(nextId)}
       >
         <I18N id="swipe.done.next" />
@@ -421,7 +421,7 @@ const DeckActions = ({
     {onAgain ? (
       <button
         type="button"
-        className="h-10 px-4 rounded-full border border-gray-300 bg-white font-bold"
+        className="h-10 px-4 rounded-xl border border-gray-300 bg-white font-bold"
         onClick={onAgain}
       >
         <I18N id="swipe.done.again" />
@@ -429,7 +429,7 @@ const DeckActions = ({
     ) : null}
     <button
       type="button"
-      className="h-10 px-4 rounded-full border border-gray-300 bg-white font-bold"
+      className="h-10 px-4 rounded-xl border border-gray-300 bg-white font-bold"
       onClick={onBack}
     >
       <I18N id="swipe.done.back" />

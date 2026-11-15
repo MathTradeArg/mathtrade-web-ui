@@ -18,7 +18,7 @@ const ModalPreviewerItem = () => {
       {previewItemId ? <ItemPreview id={previewItemId} /> : null}
       <div className="text-center pt-8">
         <button
-          className="border border-gray-400 py-2 px-7 rounded-full hover:bg-gray-400 hover:text-white shadow"
+          className="border border-gray-400 py-2 px-7 rounded-xl hover:bg-gray-400 hover:text-white shadow"
           onClick={tooglePreviewItemModal}
         >
           <I18N id="btn.Close" />

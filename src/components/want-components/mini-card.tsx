@@ -82,7 +82,7 @@ const WantMiniCard = ({
       {changed ? (
         <div
           className={clsx(
-            "absolute left-2 z-raised rounded-full bg-amber-400 text-amber-950 px-1.5 py-0.5 text-[10px] font-bold leading-none flex items-center gap-0.5 pointer-events-none",
+            "absolute left-2 z-raised rounded-md bg-amber-400 text-amber-950 px-1.5 py-0.5 text-[10px] font-bold leading-none flex items-center gap-0.5 pointer-events-none",
             empty ? "top-8" : "top-2"
           )}
           title={getI18Ntext("myWants.changed.help")}

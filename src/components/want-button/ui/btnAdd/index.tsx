@@ -127,7 +127,7 @@ const BtnAdd = () => {
       });
     /////////////////////////
 
-    const params = {
+    const params: Record<string, any> = {
       name: item?.title || game?.title || tag?.name || "",
       bgg_id: game?.notGame ? null : game?.bgg_id || null,
       want_ids,
@@ -162,7 +162,7 @@ const BtnAdd = () => {
     return (
       <div className="text-center p-5 pb-9">
         <button
-          className="rounded-full outline-none transition-colors inline-block w-auto px-5 py-2 text-sm font-semibold bg-gray-400 text-white opacity-60 cursor-not-allowed"
+          className="rounded-xl outline-none transition-colors inline-block w-auto px-5 py-2 text-sm font-semibold bg-gray-400 text-white opacity-60 cursor-not-allowed"
           disabled
         >
           <InnerButton>
@@ -194,7 +194,7 @@ const BtnAdd = () => {
       ) : null}
       <button
         className={clsx(
-          "rounded-full outline-none transition-colors inline-block w-auto px-5 py-2 text-sm font-semibold",
+          "rounded-xl outline-none transition-colors inline-block w-auto px-5 py-2 text-sm font-semibold",
           {
             "bg-want text-white": !loadingMyWants,
             "bg-gray-400 text-white": loadingMyWants,

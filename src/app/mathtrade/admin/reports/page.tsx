@@ -43,7 +43,7 @@ const selectClass =
 // Same quick filter buttons as the admin users page.
 const quickButton = (active: boolean) =>
   clsx(
-    "rounded-full text-sm font-semibold px-4 py-1.5 border",
+    "rounded-xl text-sm font-semibold px-4 py-1.5 border",
     active
       ? "bg-primary text-white border-primary"
       : "bg-surface text-primary border-primary hover:bg-primary/10"
@@ -234,7 +234,7 @@ const ItemReportsView = ({ tabs }: { tabs: ReactNode }) => {
                 </span>
               ) : (
                 <span
-                  className="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-900"
+                  className="ml-2 rounded-md bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-900"
                   title={getI18Ntext("adminReports.internalHint")}
                 >
                   <I18N id="adminReports.internal" />
@@ -248,7 +248,7 @@ const ItemReportsView = ({ tabs }: { tabs: ReactNode }) => {
             <button
               type="button"
               onClick={() => setToShare(row.id)}
-              className="rounded-full border border-ink text-ink text-xs font-semibold px-3 py-1.5 hover:bg-ink hover:text-white"
+              className="rounded-xl border border-ink text-ink text-xs font-semibold px-3 py-1.5 hover:bg-ink hover:text-white"
             >
               <I18N id="adminReports.shareWithOwner" />
             </button>
@@ -299,12 +299,12 @@ const ItemReportsView = ({ tabs }: { tabs: ReactNode }) => {
               {row.item_detail.title}
             </button>
             {row.edited_after_report ? (
-              <span className="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-900">
+              <span className="ml-2 rounded-md bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-900">
                 <I18N id="adminReports.badge.edited" />
               </span>
             ) : null}
             {row.owner_replied ? (
-              <span className="ml-2 rounded-full bg-sky-100 px-2 py-0.5 text-xs font-semibold text-sky-900">
+              <span className="ml-2 rounded-md bg-sky-100 px-2 py-0.5 text-xs font-semibold text-sky-900">
                 <I18N id="adminReports.badge.ownerReplied" />
               </span>
             ) : null}
@@ -371,7 +371,7 @@ const ItemReportsView = ({ tabs }: { tabs: ReactNode }) => {
           <Label id="adminReports.item" />
           <div className="font-bold">
             {row.item_title}
-            <span className="ml-2 rounded-full bg-rose-100 px-2 py-0.5 text-xs font-semibold text-rose-900">
+            <span className="ml-2 rounded-md bg-rose-100 px-2 py-0.5 text-xs font-semibold text-rose-900">
               <I18N id="adminReports.badge.deleted" />
             </span>
           </div>

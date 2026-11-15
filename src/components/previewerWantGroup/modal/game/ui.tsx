@@ -174,7 +174,7 @@ const GameUI = ({ wantGroup }) => {
           <ErrorAlert error={error} />
           <button
             className={clsx(
-              "inline-flex items-center justify-center font-bold text-white bg-want px-5 py-2.5 rounded-full outline-none transition-opacity",
+              "inline-flex items-center justify-center font-bold text-white bg-want px-5 py-2.5 rounded-xl outline-none transition-opacity",
               loading ? "opacity-40" : "hover:opacity-90"
             )}
             disabled={loading}

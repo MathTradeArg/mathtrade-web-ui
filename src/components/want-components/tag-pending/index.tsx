@@ -91,7 +91,7 @@ const TagPendingWants = ({
       <>
         <button
           type="button"
-          className="text-[10px] font-semibold rounded-full px-1.5 py-[1px] whitespace-nowrap shrink-0 bg-amber-400 text-amber-950 hover:opacity-90 disabled:opacity-50"
+          className="text-[10px] font-semibold rounded-md px-1.5 py-[1px] whitespace-nowrap shrink-0 bg-amber-400 text-amber-950 hover:opacity-90 disabled:opacity-50"
           disabled={loading}
           onClick={onOpen}
         >
@@ -117,7 +117,7 @@ const TagPendingWants = ({
       </p>
       <button
         type="button"
-        className="rounded-full bg-want text-white font-semibold px-2.5 py-0.5 hover:opacity-90 disabled:opacity-50"
+        className="rounded-md bg-want text-white font-semibold px-2.5 py-0.5 hover:opacity-90 disabled:opacity-50"
         disabled={loading}
         onClick={onOpen}
       >

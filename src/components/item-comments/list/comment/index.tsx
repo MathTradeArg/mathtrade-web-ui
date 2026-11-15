@@ -77,7 +77,7 @@ const Comment = ({ comment, myUserId, isLast }) => {
                   </button> */}
                   {isMyUser && isLast && (
                     <button
-                      className="text-danger font-bold border border-danger/30 px-2 rounded-full hover:bg-danger hover:text-white transition-colors"
+                      className="text-danger font-bold border border-danger/30 px-2 rounded-xl hover:bg-danger hover:text-white transition-colors"
                       disabled={loading}
                       onClick={deleteComment}
                     >

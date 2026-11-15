@@ -62,7 +62,7 @@ const Value = ({
     <div className={clsx("w-fit relative")}>
       <button
         className={clsx(
-          "bg-white font-bold flex items-center gap-1 py-1 px-2.5 text-[13px] leading-none focus:outline-none transition-opacity rounded-full border shadow-sm",
+          "bg-surface-soft font-bold flex items-center gap-1 py-1 px-2.5 text-[13px] leading-none focus:outline-none transition-opacity rounded-xl border",
           {
             "cursor-default opacity-60": !canIEdit,
             "hover:opacity-80": canIEdit,

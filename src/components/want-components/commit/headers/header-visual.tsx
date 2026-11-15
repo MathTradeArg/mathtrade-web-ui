@@ -41,7 +41,7 @@ const CommitHeaderVisual = () => {
               </p>
               <button
                 type="button"
-                className="h-8 px-4 rounded-full border border-gray-300 bg-white text-caption font-bold hover:bg-gray-50"
+                className="h-8 px-4 rounded-xl border border-gray-300 bg-white text-caption font-bold hover:bg-gray-50"
                 onClick={() =>
                   updateFilters({ keyword: undefined }, "wants")
                 }

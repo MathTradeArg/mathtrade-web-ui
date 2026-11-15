@@ -123,7 +123,7 @@ const ImportBggModal = ({
         <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-2xl flex justify-end gap-3">
           <button
             type="button"
-            className="border border-gray-400 text-gray-600 font-bold px-6 py-2 rounded-full hover:bg-gray-200 transition-colors"
+            className="border border-gray-400 text-gray-600 font-bold px-6 py-2 rounded-xl hover:bg-gray-200 transition-colors"
             onClick={onClose}
             disabled={loadingPost}
           >

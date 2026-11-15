@@ -18,7 +18,7 @@ const ClearAllScores = ({ scope, className = "mt-2" }: Props) => {
   return (
     <div className={className}>
       <ButtonAlert
-        className="shrink-0 flex items-center gap-1.5 h-[34px] px-3 rounded-full border border-line bg-surface text-caption font-semibold text-danger transition-colors hover:bg-danger/10 hover:border-danger disabled:opacity-50"
+        className="shrink-0 flex items-center gap-1.5 h-[34px] px-3 rounded-xl border border-line bg-surface text-caption font-semibold text-danger transition-colors hover:bg-danger/10 hover:border-danger disabled:opacity-50"
         title={`${prefix}.title`}
         description={`${prefix}.warning`}
         confirmId={`${prefix}.confirm`}

@@ -53,7 +53,7 @@ const BtnQuickRemove = () => {
           className={clsx(
             "inline-flex items-center gap-1.5 text-sm font-semibold text-gray-400 cursor-not-allowed",
             {
-              "bg-white px-3 py-1 rounded-full": contextType === "tag",
+              "bg-white px-3 py-1 rounded-md": contextType === "tag",
             }
           )}
         >
@@ -70,7 +70,7 @@ const BtnQuickRemove = () => {
         className={clsx(
           "inline-flex items-center gap-2 text-sm font-semibold text-want",
           {
-            "bg-white px-3 py-1 rounded-full": contextType === "tag",
+            "bg-white px-3 py-1 rounded-md": contextType === "tag",
           }
         )}
       >

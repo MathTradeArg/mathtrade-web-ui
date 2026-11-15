@@ -114,7 +114,7 @@ const AdminUsersPage = () => {
 
   const quickButton = (active: boolean) =>
     clsx(
-      "rounded-full text-sm font-semibold px-4 py-1.5 border",
+      "rounded-xl text-sm font-semibold px-4 py-1.5 border",
       active
         ? "bg-primary text-white border-primary"
         : "bg-white text-primary border-primary hover:bg-primary/10"
@@ -319,7 +319,7 @@ const AdminUsersPage = () => {
                       <td className="py-2 pr-4">
                         <span
                           className={clsx(
-                            "inline-block rounded-full text-xs font-semibold px-2 py-0.5 whitespace-nowrap",
+                            "inline-block rounded-md text-xs font-semibold px-2 py-0.5 whitespace-nowrap",
                             STATUS_COLORS[row.contribution_status]
                           )}
                         >

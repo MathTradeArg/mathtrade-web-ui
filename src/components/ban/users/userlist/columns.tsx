@@ -31,7 +31,7 @@ const Button = ({
     <>
       <button
         className={clsx(
-          "border  px-3 py-1 rounded-full whitespace-nowrap hover:opacity-60",
+          "border  px-3 py-1 rounded-xl whitespace-nowrap hover:opacity-60",
           {
             "border-red-500 text-red-700": !ban_id,
             "border-red-700 bg-red-700 text-white": ban_id,

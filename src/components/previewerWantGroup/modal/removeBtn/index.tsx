@@ -82,7 +82,7 @@ const RemoveButton = ({ wantGroup }) => {
               <I18N id="btn.Cancel" />
             </button>
             <button
-              className="font-bold text-white bg-danger px-5 py-2.5 rounded-full text-sm hover:opacity-90 transition-opacity"
+              className="font-bold text-white bg-danger px-5 py-2.5 rounded-xl text-sm hover:opacity-90 transition-opacity"
               onClick={deleteWant}
             >
               <I18N id="btn.YesQuit" />

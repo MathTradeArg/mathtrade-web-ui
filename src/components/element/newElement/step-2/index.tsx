@@ -137,7 +137,7 @@ const NewElementStep2 = ({
       <div className="flex items-center justify-center gap-2 pt-5">
         <button
           type="button"
-          className="border border-gray-400 text-gray-400 font-bold px-6 py-1 rounded-full hover:bg-gray-400 hover:text-white transition-colors"
+          className="border border-gray-400 text-gray-400 font-bold px-6 py-1 rounded-xl hover:bg-gray-400 hover:text-white transition-colors"
           onClick={() => {
             setStep(0);
           }}
