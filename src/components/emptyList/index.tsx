@@ -25,9 +25,9 @@ const EmptyList = ({
 
   return (
     <div className="text-center bg-surface rounded-main py-8 px-6">
-      <div className="flex justify-center items-end mb-3" aria-hidden>
-        <Meeple fill="#ffb084" className="w-11 h-11 -mx-1" />
-        <Die className="w-11 h-11 -mx-1" />
+      <div className="flex justify-center items-end gap-3 mb-3" aria-hidden>
+        <Meeple fill="#ffb084" className="w-14 h-14" />
+        <Die className="w-14 h-14" />
       </div>
       <div className="text-ink-muted max-w-sm mx-auto mb-4">
         <I18N id={message || "EmptyList"} />

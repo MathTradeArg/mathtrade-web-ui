@@ -42,10 +42,10 @@ const Pill = ({
       </div>
       {footer ? <div className="text-sm pt-3 text-ink/80">{footer}</div> : null}
       {art === "meeple" ? (
-        <Meeple fill="#ffffff" className="w-10 h-10 mt-auto self-end" />
+        <Meeple fill="#ffffff" className="w-14 h-14 mt-auto self-end" />
       ) : null}
       {art === "die" ? (
-        <Die fill="#ffffff" className="w-10 h-10 mt-auto self-end" />
+        <Die fill="#ffffff" className="w-14 h-14 mt-auto self-end" />
       ) : null}
     </div>
   );

@@ -37,12 +37,12 @@ const EditionStats = () => {
           className={`${bg} rounded-main p-4 text-ink flex flex-col gap-1`}
         >
           <div className="font-display text-4xl font-semibold leading-none">
-            {value ? value.toLocaleString("es-AR") : "-"}
+            {value ? value.toLocaleString("es-AR") : "—"}
           </div>
           <div className="text-sm font-semibold">
             <I18N id={id} />
           </div>
-          <Art fill="#ffffff" className="w-9 h-9 self-end" />
+          <Art fill="#ffffff" className="w-12 h-12 self-end" />
         </li>
       ))}
     </ul>

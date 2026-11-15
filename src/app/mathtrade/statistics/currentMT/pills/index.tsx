@@ -62,7 +62,7 @@ const PillsStats = ({ data }: { data?: any }) => {
             />
           ) : (
             <Pill
-              value={data?.users_count || "-"}
+              value={data?.users_count || "—"}
               label="results.pill.user"
               color="peach"
               art="meeple"
