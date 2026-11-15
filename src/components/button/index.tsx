@@ -41,7 +41,7 @@ const Button = ({
   const colorBtn = disabled ? "cancel" : color;
 
   const cl = clsx(
-    "rounded-full outline-none transition-colors transition-opacity",
+    "rounded-full outline-none font-semibold transition-colors transition-opacity",
     {
       sm,
       "inline-block": !block,

@@ -17,7 +17,7 @@ const TONES: Record<string, string> = {
   used: "text-orange-800 font-semibold bg-orange-100",
   none: "text-gray-600 font-semibold bg-gray-200",
   want: "text-[#0a7a4d] font-bold bg-want/10",
-  done: "text-gray-800 font-bold bg-gray-200",
+  done: "text-ink font-bold bg-surface-strong",
   // Same hue as the "en disputa" status badge: purple is reserved for team
   // intervention. Tinted, not solid — this marks a role, not an irreversible
   // state. Contrast is tuned for the dark sidebar surface.

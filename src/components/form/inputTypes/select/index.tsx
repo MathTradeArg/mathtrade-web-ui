@@ -83,7 +83,7 @@ const Select = ({
       {icon ? (
         <div
           className={clsx(
-            "border border-stroke border-r-0 rounded-tl-md rounded-bl-md w-[45px] flex flex-col justify-center items-center bg-gray-100 text-gray-500 peer-focus:border-primary peer-focus:shadow-[0_0_6px_theme(colors.primary)] transition",
+            "border border-line border-r-0 rounded-tl-md rounded-bl-md w-[45px] flex flex-col justify-center items-center bg-surface text-ink-muted peer-focus:border-primary peer-focus:shadow-[0_0_6px_theme(colors.primary)] transition",
             {
               "border-primary shadow-[0_0_6px_theme(colors.primary)]":
                 visiblePad,
@@ -96,7 +96,7 @@ const Select = ({
       <div className="relative w-full" ref={refs.setReference}>
         <div
           className={clsx(
-            "input block w-full  border-stroke rounded-md  pl-3 pr-6 shadow-sm transition",
+            "input block w-full  border-line rounded-md  pl-3 pr-6 shadow-sm transition",
             {
               "border-primary shadow-[0_0_6px_theme(colors.primary)]":
                 visiblePad,

@@ -2,6 +2,28 @@ import clsx from "clsx";
 import { getI18Ntext } from "@/i18n";
 import Icon from "@/components/icon";
 import { useEffect, useState } from "react";
+import type { ChangeEvent, FocusEvent } from "react";
+
+type InputProps = {
+  type?: string;
+  name: string;
+  placeholder?: string;
+  noTranslatePlaceholder?: boolean;
+  size?: "md" | "sm";
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
+  onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
+  disabledInput?: boolean;
+  autocomplete?: string;
+  ariaLabel?: string;
+  icon?: string;
+  min?: number | string;
+  max?: number | string;
+  step?: number | string;
+  data?: Record<string, any>;
+  maxlength?: number;
+};
 
 const Input = ({
   type = "text",
@@ -23,7 +45,7 @@ const Input = ({
   step = undefined,
   data = undefined,
   maxlength = undefined,
-}) => {
+}: InputProps) => {
   const [typeInput, setTypeInput] = useState(type);
   const [valueInput, setValueInput] = useState("");
 
@@ -37,7 +59,7 @@ const Input = ({
         name={name}
         type={typeInput}
         className={clsx(
-          "input block w-full border border-stroke rounded-md shadow-sm peer focus:outline-none",
+          "input block w-full border border-line rounded-md shadow-sm peer focus:outline-none",
           {
             "focus:border-primary focus:shadow-[0_0_6px_theme(colors.primary)]":
               !disabledInput,
@@ -52,7 +74,7 @@ const Input = ({
             ? noTranslatePlaceholder
               ? placeholder
               : getI18Ntext(placeholder)
-            : null
+            : undefined
         }
         //defaultValue={defaultValueInput}
         value={valueInput}
@@ -66,7 +88,7 @@ const Input = ({
         onFocus={onFocus}
         disabled={disabled}
         autoComplete={autocomplete}
-        aria-label={ariaLabel ? getI18Ntext(ariaLabel) : null}
+        aria-label={ariaLabel ? getI18Ntext(ariaLabel) : undefined}
         min={min}
         max={max}
         step={step}
@@ -75,7 +97,7 @@ const Input = ({
       {icon ? (
         <div
           className={clsx(
-            "input-icon border text-gray-500 border-stroke order-1 border-r-0 rounded-tl-md rounded-bl-md w-[45px] flex flex-col justify-center items-center bg-gray-100",
+            "input-icon border text-ink-muted border-line order-1 border-r-0 rounded-tl-md rounded-bl-md w-[45px] flex flex-col justify-center items-center bg-surface",
             {
               "peer-focus:border-primary peer-focus:shadow-[0_0_6px_theme(colors.primary)]":
                 !disabledInput,

@@ -1,6 +1,22 @@
 import clsx from "clsx";
 import { getI18Ntext } from "@/i18n";
 import { useEffect, useState } from "react";
+import type { ChangeEvent } from "react";
+
+type TextareaProps = {
+  name: string;
+  placeholder?: string | null;
+  noTranslatePlaceholder?: boolean;
+  size?: "md" | "sm";
+  disabled?: boolean;
+  disabledInput?: boolean;
+  ariaLabel?: string | null;
+  data?: Record<string, any>;
+  onChange?: ((e: ChangeEvent<HTMLTextAreaElement>) => void) | null;
+  rows?: number | null;
+  maxlength?: number;
+  className?: string;
+};
 
 const Textarea = ({
   name,
@@ -15,7 +31,7 @@ const Textarea = ({
   rows = null,
   maxlength = undefined,
   className,
-}) => {
+}: TextareaProps) => {
   const [valueInput, setValueInput] = useState("");
 
   useEffect(() => {
@@ -26,7 +42,7 @@ const Textarea = ({
     <textarea
       name={name}
       className={clsx(
-        "input block w-full border border-stroke rounded-md shadow-sm peer focus:border-primary focus:shadow-[0_0_6px_theme(colors.primary)]   focus:outline-none",
+        "input block w-full border border-line rounded-md shadow-sm peer focus:border-primary focus:shadow-[0_0_6px_theme(colors.primary)]   focus:outline-none",
         {
           "p-3 text-base": size === "md",
           "p-2 text-sm": size === "sm",
@@ -39,9 +55,9 @@ const Textarea = ({
           ? noTranslatePlaceholder
             ? placeholder
             : getI18Ntext(placeholder)
-          : null
+          : undefined
       }
-      aria-label={ariaLabel ? getI18Ntext(ariaLabel) : null}
+      aria-label={ariaLabel ? getI18Ntext(ariaLabel) : undefined}
       value={valueInput}
       onChange={(e) => {
         if (!disabledInput) {
