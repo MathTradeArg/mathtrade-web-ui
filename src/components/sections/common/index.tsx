@@ -11,7 +11,7 @@ const SectionCommon = ({
 }) => {
   return (
     <Wrapper>
-      <section className="relative">
+      <section className="relative border border-line rounded-main">
         {children}
         <PageLoading loading={loading} />
       </section>
