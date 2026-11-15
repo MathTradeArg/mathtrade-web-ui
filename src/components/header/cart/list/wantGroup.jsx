@@ -6,7 +6,7 @@ const WantGroup = ({ wantGroup }) => {
 
   return (
     <div
-      className={clsx("border-b border-gray-200 p-2", {
+      className={clsx("border-b border-line p-2", {
         "bg-want/10": isNewHot || isUpdatedHot,
       })}
     >

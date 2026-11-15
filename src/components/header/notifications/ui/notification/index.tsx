@@ -28,7 +28,7 @@ const Notification = ({
   } = useNotification(data, type, noMembership);
 
   return (
-    <div className="border-b border-gray-300">
+    <div className="border-b border-line">
       <div
         className={clsx("text-xs flex items-start gap-3 p-2", {
           "opacity-50": loading,

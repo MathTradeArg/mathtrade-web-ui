@@ -19,7 +19,7 @@ const Tab = ({ name, id, tabSelected, setTabSelected, num }) => {
         "flex items-center gap-1 px-3 cursor-pointer hover:opacity-60 font-bold border-b-2 relative top-[1px]",
         {
           "text-gray-400 border-transparent": id !== tabSelected,
-          "text-black border-primary": id === tabSelected,
+          "text-ink border-primary": id === tabSelected,
         }
       )}
       onClick={() => {
@@ -171,7 +171,7 @@ const NotificationsButton = ({
             </button>
           ) : null}
 
-          <div className="border-b border-gray-300  pt-3">
+          <div className="border-b border-line  pt-3">
             <div className="flex items-end">
               {tabList.map(({ name, num }, k) => {
                 return (

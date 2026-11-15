@@ -108,14 +108,14 @@ const HelpButton = ({
           </Link>
           <Link
             href={`${PRIVATE_ROUTES.FAQS.path}#glosario`}
-            className="block leading-10 hover:bg-sky-200 text-center border-t"
+            className="block leading-10 hover:bg-sky-200 text-center border-t border-line"
             onClick={toggleMobile}
           >
             <I18N id="help.glossary" />
           </Link>
           <Link
             href={`${PRIVATE_ROUTES.FAQS.path}#estados`}
-            className="block leading-10 hover:bg-sky-200 text-center border-t"
+            className="block leading-10 hover:bg-sky-200 text-center border-t border-line"
             onClick={toggleMobile}
           >
             <I18N id="help.statuses" />
@@ -124,7 +124,7 @@ const HelpButton = ({
             href={PUBLIC_ROUTES.TERMS_CONDITIONS.path}
             target="_blank"
             rel="noopener noreferrer"
-            className="block leading-10 hover:bg-sky-200 text-center border-t"
+            className="block leading-10 hover:bg-sky-200 text-center border-t border-line"
           >
             <I18N id="title.TyC" />
           </a>
@@ -132,13 +132,13 @@ const HelpButton = ({
             href={baseURL + rulebookPDFurl}
             target="_blank"
             rel="noopener noreferrer"
-            className="block leading-10 hover:bg-sky-200 text-center border-t"
+            className="block leading-10 hover:bg-sky-200 text-center border-t border-line"
           >
             <I18N id="title.Rulebook" />
           </a>
           <Link
             href={PRIVATE_ROUTES.MEMARDIUMS.path}
-            className="leading-10 hover:bg-sky-200 text-center border-t flex item-center justify-center gap-1"
+            className="leading-10 hover:bg-sky-200 text-center border-t border-line flex item-center justify-center gap-1"
             onClick={toggleMobile}
           >
             <I18N id={`menu.${PRIVATE_ROUTES.MEMARDIUMS.title}.icon`} />

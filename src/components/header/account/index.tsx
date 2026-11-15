@@ -114,8 +114,8 @@ const AccountMenuButton = ({
               width={80}
             />
           </div>
-          <h3 className="font-bold text-lg text-gray-900 mb-3">{`${user?.first_name} ${user?.last_name}`}</h3>
-          <nav className="text-gray-900 border-t pt-1">
+          <h3 className="font-display font-semibold text-lg text-ink mb-3">{`${user?.first_name} ${user?.last_name}`}</h3>
+          <nav className="text-ink border-t border-line pt-1">
             <Link
               href={PRIVATE_ROUTES.MY_ACCOUNT.path}
               className="flex items-center justify-center gap-1 leading-10 hover:bg-sky-200"
