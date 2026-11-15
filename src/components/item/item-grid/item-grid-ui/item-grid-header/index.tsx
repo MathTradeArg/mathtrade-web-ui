@@ -76,7 +76,7 @@ const ItemGridHeader = ({
         </div>
       </div>
       {isCombo ? (
-        <h3 className="uppercase text-sm font-bold text-gray-900 border-t border-gray-500 border-dotted leading-none mt-2 pt-2">
+        <h3 className="uppercase text-sm font-bold text-ink border-t border-gray-500 border-dotted leading-none mt-2 pt-2">
           <I18N id="element-type-badge-0" />
         </h3>
       ) : null}

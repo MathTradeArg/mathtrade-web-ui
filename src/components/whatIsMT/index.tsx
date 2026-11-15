@@ -41,7 +41,7 @@ const WhatIsMT = ({ showFaqLink = true }: { showFaqLink?: boolean }) => {
             <I18N id="mtSolidario.lead" values={[verb]} />
           </p>
         </aside>
-        <p className="text-sm text-gray-700 bg-gray-50 rounded-lg p-3 mb-5">
+        <p className="text-sm text-ink bg-surface rounded-card p-3 mb-5">
           <I18N id="whatIsMT.example" />
         </p>
         <h3 className="font-bold text-lg mb-2">

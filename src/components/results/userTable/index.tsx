@@ -12,7 +12,7 @@ import ParticipantCard from "./participantCard";
 import MobileSort from "./mobileSort";
 
 const selectClass =
-  "border border-stroke rounded-md p-2 text-sm bg-white w-full sm:w-auto max-w-full min-w-0";
+  "border border-line rounded-md p-2 text-sm bg-white w-full sm:w-auto max-w-full min-w-0";
 
 const COMMIT_FILTERS: CommitFilter[] = ["all", "yes", "no"];
 
@@ -103,7 +103,7 @@ const UserTable = () => {
               <div className="hidden sm:block overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="text-left text-gray-500 border-b border-stroke">
+                    <tr className="text-left text-gray-600 border-b border-line">
                       {columns.map(({ key, labelId, className }) => (
                         <SortableTh
                           key={key}
@@ -119,7 +119,7 @@ const UserTable = () => {
                   </thead>
                   <tbody>
                     {rows.map((row) => (
-                      <tr key={row.id} className="border-b border-stroke align-middle">
+                      <tr key={row.id} className="border-b border-line align-middle">
                         <td className="py-2 pr-4">
                           <div className="flex items-center gap-2">
                             <div className="shrink-0">

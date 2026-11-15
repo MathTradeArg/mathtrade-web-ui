@@ -11,7 +11,7 @@ type Props = {
 
 // A participant below sm, where the table is hidden.
 const ParticipantCard = ({ row, showCommitment, showTrades }: Props) => (
-  <li className="rounded-lg bg-white border border-stroke shadow-sm p-3">
+  <li className="rounded-card bg-surface border border-line p-3">
     <div className="flex items-center gap-3">
       <div className="shrink-0">
         <Avatar avatar={row.avatar} first_name={row.first_name} />

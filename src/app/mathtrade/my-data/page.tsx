@@ -214,7 +214,7 @@ const MyDataPage = () => {
                     )}
 
                     {canEditMembership ? null : (
-                      <p className="text-center text-sm text-gray-700 bg-gray-100 rounded px-3 py-2 mb-2">
+                      <p className="text-center text-sm text-ink bg-surface rounded px-3 py-2 mb-2">
                         <I18N id="MyData.locked.afterWants" />
                       </p>
                     )}

@@ -84,7 +84,7 @@ const Calendar = ({ compact = false }: { compact?: boolean }) => {
           </div>
           <div
             className={clsx(compact ? "text-xs" : "text-sm", {
-              "font-semibold text-gray-900": state === "next",
+              "font-semibold text-ink": state === "next",
             })}
           >
             <I18N id={title} values={titleValues} />

@@ -217,7 +217,7 @@ const GraphCanvas = ({
   }
 
   return (
-    <div className="bg-gray-50 w-full h-full min-h-[360px] border border-gray-200 rounded-lg relative overflow-hidden">
+    <div className="bg-surface-soft w-full h-full min-h-[360px] border border-line rounded-lg relative overflow-hidden">
       <CytoscapeComponent
         elements={elements}
         layout={layout}

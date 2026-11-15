@@ -40,11 +40,11 @@ const GameGridUI = ({
     >
       <div
         className={clsx(
-          "transition-[max-width] relative mx-auto hover:shadow-[0_3px_16px_rgba(0,0,0,0.25)] shadow-md",
+          "transition-[max-width] relative mx-auto",
           cardSurfaceClass,
           {
-            "sm:max-w-[420px] h-full rounded-card": !isExpanded,
-            "bg-white shadow-xl duration-700 max-w-5xl": isExpanded,
+            "sm:max-w-[420px] h-full rounded-card hover:shadow-[0_3px_16px_rgba(0,0,0,0.25)] shadow-md": !isExpanded,
+            "duration-700 max-w-5xl rounded-card": isExpanded,
           },
           isSelected && selectedCardClass
         )}
