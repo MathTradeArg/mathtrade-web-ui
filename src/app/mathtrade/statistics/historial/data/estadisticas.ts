@@ -1,4 +1,10 @@
-const dataCrecimiento = [
+type CrecimientoEntry = {
+  x: string;
+  users: number[];
+  items: number[];
+};
+
+const dataCrecimiento: CrecimientoEntry[] = [
   {
     x: "Ene 2017",
     users: [23, 17],
@@ -80,10 +86,19 @@ const dataCrecimiento = [
     users: [564, 515],
     items: [7764, 3048],
   },
+  {
+    x: "Oct 2026",
+    users: [606, 521],
+    items: [8708, 3612],
+  },
 ];
 
 export const crecimientoData = (() => {
-  const o = {
+  type Point = { x: string; value: number; percent?: number | null };
+  const o: {
+    users: { total: Point[]; trades: Point[] };
+    items: { total: Point[]; trades: Point[] };
+  } = {
     users: { total: [], trades: [] },
     items: { total: [], trades: [] },
   };
