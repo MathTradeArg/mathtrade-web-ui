@@ -117,7 +117,7 @@ const SectionWithSidebar = ({
       <Wrapper>
         <section
           className={clsx(
-            "relative min-w-0 max-w-full overflow-hidden border border-line rounded-main",
+            "relative min-w-0 max-w-full overflow-clip border border-line rounded-main",
             className
           )}
         >
