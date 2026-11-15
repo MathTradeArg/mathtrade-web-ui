@@ -14,11 +14,11 @@ const ElementXSSUI = () => {
   const { box_status, component_status } = extraData;
 
   return (
-    <div className="flex items-center gap-x-3 gap-y-2 border border-gray-200 rounded-md">
-      <Thumbnail elements={[element]} className="w-10 rounded-l-md" />
-      <div className="">
+    <div className="flex items-center gap-3 rounded-xl border border-line bg-white p-2">
+      <Thumbnail elements={[element]} className="w-10 h-10 rounded-lg shrink-0 overflow-hidden" />
+      <div className="min-w-0">
         <div data-tooltip={title}>
-          <h3 className="text-xs font-bold cropped_1 mb-1">{title}</h3>
+          <h3 className="text-xs font-semibold text-ink cropped_1 mb-1">{title}</h3>
         </div>
         <div className="flex items-center gap-x-2 flex-wrap min-w-0 max-w-full">
           <StatusBadge
@@ -43,7 +43,7 @@ const ElementXSSUI = () => {
   );
 };
 
-const ElementXSS = ({ element }) => {
+const ElementXSS = ({ element }: { element: any }) => {
   return (
     <ElementContextProvider elementRaw={element}>
       <ElementXSSUI />
