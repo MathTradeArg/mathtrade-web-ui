@@ -26,8 +26,8 @@ const OrderBy = ({
   );
 
   return (
-    <div className="flex items-center gap-0.5 shrink-0">
-      <div className="relative rounded-lg hover:bg-surface-soft focus-within:bg-surface-soft focus-within:ring-2 focus-within:ring-ink/40">
+    <div className="flex items-center gap-2 shrink-0">
+      <div className="relative rounded-xl bg-white border border-line hover:border-ink/30 focus-within:ring-2 focus-within:ring-ink/40">
         <select
           name="order"
           className="appearance-none bg-transparent text-[13px] font-medium text-ink-muted hover:text-ink h-9 md:h-9 pl-2.5 pr-7 outline-none cursor-pointer"
@@ -49,7 +49,7 @@ const OrderBy = ({
       </div>
       <button
         type="button"
-        className="h-9 min-w-9 px-2 rounded-lg flex items-center justify-center gap-1 text-[13px] font-medium text-ink-muted hover:bg-surface-soft hover:text-ink focus-visible:bg-surface-soft focus-visible:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 transition-colors"
+        className="h-9 min-w-9 px-2.5 rounded-xl bg-white border border-line flex items-center justify-center gap-1 text-[13px] font-medium text-ink-muted hover:border-ink/30 hover:text-ink focus-visible:bg-surface-soft focus-visible:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 transition-colors"
         onClick={toggleDesc}
         title={`${directionLabel}. ${getI18Ntext("orderBy.Direction.help")}`}
         aria-label={directionLabel}

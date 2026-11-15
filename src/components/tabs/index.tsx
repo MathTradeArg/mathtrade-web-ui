@@ -17,7 +17,7 @@ const Tabs = ({
     <div
       role="tablist"
       className={clsx(
-        "flex flex-wrap items-end gap-x-6 border-b border-line",
+        "flex flex-wrap items-end gap-x-8 border-b border-line",
         className
       )}
     >
@@ -33,9 +33,9 @@ const Tabs = ({
               if (onChange && k !== value) onChange(k);
             }}
             className={clsx(
-              "relative -mb-px whitespace-nowrap border-b-[3px] px-0.5 transition-colors",
+              "relative -mb-px whitespace-nowrap border-b-[3px] px-1 transition-colors",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 rounded-t",
-              min ? "min-h-9 text-xs" : "min-h-11 md:min-h-10 text-body-lg",
+              min ? "min-h-9 text-xs" : "min-h-12 text-[17px] md:text-[19px] tracking-[-0.01em]",
               active
                 ? "border-ink text-ink font-semibold cursor-default"
                 : "border-transparent text-ink-muted font-medium hover:text-ink hover:border-line"

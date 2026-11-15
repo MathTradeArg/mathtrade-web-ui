@@ -27,7 +27,7 @@ const PageSize = ({ type = "item" }) => {
   }, [type, filters_item, filters_game, filters_collection, filters_myoffer]);
 
   return (
-    <label className="flex items-center h-9 px-2.5 rounded-lg cursor-pointer shrink-0 focus-within:ring-2 focus-within:ring-ink/40 text-[13px] font-medium text-ink-muted hover:bg-surface-soft hover:text-ink focus-visible:bg-surface-soft focus-visible:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 transition-colors">
+    <label className="flex items-center h-9 px-2.5 rounded-xl bg-white border border-line cursor-pointer shrink-0 focus-within:ring-2 focus-within:ring-ink/40 text-[13px] font-medium text-ink-muted hover:border-ink/30 hover:text-ink focus-visible:bg-surface-soft focus-visible:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 transition-colors">
       <select
         name="page_size"
         className="bg-transparent outline-none cursor-pointer pr-0.5 text-ink-muted hover:text-ink"

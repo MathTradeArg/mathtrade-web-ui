@@ -25,14 +25,14 @@ const Pagination = ({ type = "item", count }) => {
       {showPrevPage ? (
         <button
           type="button"
-          className="w-9 h-9 leading-none text-center rounded-lg text-[13px] font-medium text-ink-muted hover:bg-surface-soft hover:text-ink focus-visible:bg-surface-soft focus-visible:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 transition-colors"
+          className="w-9 h-9 leading-none text-center rounded-xl bg-white border border-line text-[13px] font-medium text-ink-muted hover:border-ink/30 hover:text-ink focus-visible:bg-surface-soft focus-visible:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 transition-colors"
           title={getI18Ntext("pagination.PrevPage")}
           onClick={prevPage}
         >
           <Icon type="arrow-left" className="text-lg" />
         </button>
       ) : null}
-      <div className="h-9 px-1.5 rounded-lg flex items-center text-[13px] font-medium text-ink-muted focus-within:bg-surface-soft focus-within:ring-2 focus-within:ring-ink/40">
+      <div className="h-9 px-2.5 rounded-xl bg-white border border-line flex items-center text-[13px] font-medium text-ink-muted focus-within:bg-surface-soft focus-within:ring-2 focus-within:ring-ink/40">
         {total > 1 ? (
           <Form
             onSubmit={(d) => {
@@ -60,7 +60,7 @@ const Pagination = ({ type = "item", count }) => {
       {notShowNextPage ? null : (
         <button
           type="button"
-          className="w-9 h-9 leading-none text-center rounded-lg text-[13px] font-medium text-ink-muted hover:bg-surface-soft hover:text-ink focus-visible:bg-surface-soft focus-visible:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 transition-colors"
+          className="w-9 h-9 leading-none text-center rounded-xl bg-white border border-line text-[13px] font-medium text-ink-muted hover:border-ink/30 hover:text-ink focus-visible:bg-surface-soft focus-visible:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 transition-colors"
           title={getI18Ntext("pagination.NextPage")}
           onClick={nextPage}
         >
