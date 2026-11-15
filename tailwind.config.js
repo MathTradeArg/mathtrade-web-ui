@@ -214,5 +214,52 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    // Typographic hierarchy (identity v2). Three levels, all Bricolage 600 except body:
+    //   TITLE:    text-page-title, text-card-title (text-mini-title for dense cards), text-stat
+    //   HEADING:  text-section-label (uppercase, tracked)
+    //   DATA:     body text in the base font; bold only for real emphasis.
+    // They live in the components layer so utilities (mb-*, text-center, text-ink) still override.
+    function ({ addComponents }) {
+      const display =
+        'var(--font-display), ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      addComponents({
+        ".text-page-title": {
+          fontFamily: display,
+          fontWeight: "600",
+          fontSize: "clamp(1.75rem, 1.3rem + 2vw, 2.75rem)",
+          lineHeight: "1.05",
+          letterSpacing: "-0.02em",
+        },
+        ".text-card-title": {
+          fontFamily: display,
+          fontWeight: "600",
+          fontSize: "19px",
+          lineHeight: "24px",
+          letterSpacing: "-0.01em",
+        },
+        ".text-mini-title": {
+          fontFamily: display,
+          fontWeight: "600",
+          fontSize: "13px",
+          lineHeight: "16px",
+          letterSpacing: "-0.005em",
+        },
+        ".text-section-label": {
+          fontFamily: display,
+          fontWeight: "600",
+          fontSize: "15px",
+          lineHeight: "20px",
+          letterSpacing: "0.06em",
+          textTransform: "uppercase",
+        },
+        ".text-stat": {
+          fontFamily: display,
+          fontWeight: "600",
+          fontSize: "34px",
+          lineHeight: "1",
+        },
+      });
+    },
+  ],
 };
