@@ -85,7 +85,7 @@ const HelpButton = ({
         isPositioned={isPositioned}
         floatingProps={getFloatingProps()}
       >
-        <div className="overflow-hidden pb-1">
+        <div className="overflow-hidden">
           {startCurrentTour ? (
             <button
               type="button"

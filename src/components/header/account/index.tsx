@@ -106,7 +106,7 @@ const AccountMenuButton = ({
         isPositioned={isPositioned}
         floatingProps={getFloatingProps()}
       >
-        <div className="text-center pt-6 pb-1">
+        <div className="text-center pt-6">
           <div className="w-[80px] mx-auto mb-2">
             <Avatar
               avatar={user?.avatar}
