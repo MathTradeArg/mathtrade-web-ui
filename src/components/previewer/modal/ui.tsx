@@ -16,7 +16,7 @@ const ItemUI = () => {
   return (
     <div
       className={clsx(
-        "shadow-xl overflow-hidden",
+        "!shadow-xl overflow-hidden",
         cardSurfaceClass,
         cardKindClass(cardKind)
       )}

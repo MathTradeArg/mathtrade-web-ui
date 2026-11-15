@@ -32,22 +32,21 @@ export const resolveGameKind = ({
     isExpansion: !notGame && typeNum === 2,
   });
 
-// The card is filled with the color of its content category (no side
-// border): cream base, pastel blue expansion, lilac combo, mint "fuera de
-// la BGG". Only the cream card carries a visible warm border; the colored
-// ones carry a transparent border of the same width so every card
-// measures the same. The solid game* tokens stay for the category badges.
+// Cards are white with a warm border and a soft shadow; color is kept only
+// where it means something: pastel blue expansion, light lilac combo (with
+// its own border), mint "fuera de la BGG". Expansion and "other" carry a
+// transparent border of the same width so every card measures the same. The solid game* tokens stay for the category badges.
 const CARD_KIND_FILL: Record<CardKind, string> = {
-  base: "bg-surface border border-line",
+  base: "bg-card border border-line",
   expansion: "bg-sky border border-transparent",
-  combo: "bg-lilac border border-transparent",
+  combo: "bg-combo border border-combo-line",
   other: "bg-mint border border-transparent",
 };
 
 export const cardKindFillClass = (kind: CardKind) => CARD_KIND_FILL[kind];
 
 export const cardKindClass = (kind: CardKind) =>
-  `rounded-card ${CARD_KIND_FILL[kind]}`;
+  `rounded-card shadow-card ${CARD_KIND_FILL[kind]}`;
 
 /* Bounds every card chrome: content wraps/clips inside the white card box,
  * not the page/viewport. Apply on the element that paints the card surface

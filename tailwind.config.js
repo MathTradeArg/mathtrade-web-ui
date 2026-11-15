@@ -79,6 +79,9 @@ module.exports = {
       pink: "#f29bb4",
       mint: "#a4d4c5",
       lilac: "#c9b6f0",
+      card: "#ffffff",
+      combo: "#f1eafc",
+      "combo-line": "#c9b6f0",
       stroke: "#bbc6ce",
       logo: "#28a1bc",
       cancel: "#999",
@@ -163,6 +166,7 @@ module.exports = {
       },
       boxShadow: {
         main: "0 2px 16px rgba(0, 0, 0, 0.15)",
+        card: "0 1px 2px #2e294e12, 0 6px 16px -8px #2e294e22",
       },
       keyframes: {
         fadein: {
