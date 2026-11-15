@@ -1118,6 +1118,7 @@
   "stats.pill.item.footer": "de $$$ ejemplares ($$$%).",
   "stats.pill.user": "Participantes intercambiaron",
   "stats.pill.user.footer": "de $$$ participantes ($$$%).",
+  "stats.current.empty": "Todavía no hay estadísticas para esta edición.",
   "stats.segment.title": "Participantes por cantidad de ejemplares publicados",
   "stats.segment.tooltipFormat": "{%value} participantes",
   "statusType.box.MB": "Muy bueno",
