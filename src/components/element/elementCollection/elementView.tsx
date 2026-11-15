@@ -33,7 +33,7 @@ import EditionMeta from "@/components/element/editionMeta";
 
 const META_TEXT = "text-caption text-ink/80";
 const TAG_PILL =
-  "text-caption text-ink bg-white/75 px-2.5 py-1 rounded-md";
+  "text-caption text-ink-muted bg-surface-soft px-2 py-0.5 rounded-md";
 
 type ElementViewProps = {
   toggleEditingMode?: () => void;
