@@ -106,7 +106,7 @@ const DuplicatesModal = ({
               <Link
                 href={PRIVATE_ROUTES.WANTS.path}
                 onClick={onClose}
-                className="inline-block rounded-full bg-primary text-white hover:opacity-75 transition-opacity px-6 py-3 text-lg"
+                className="inline-block rounded-full bg-brand text-brand-ink hover:brightness-95 transition-opacity px-6 py-3 text-lg"
               >
                 <I18N id="commitDuplicates.goWants" />
               </Link>

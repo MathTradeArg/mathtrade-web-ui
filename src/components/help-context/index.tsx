@@ -55,7 +55,7 @@ const HelpContext = ({ id, variant = "pill" }: HelpContextProps) => {
       {isLink ? (
         <button
           type="button"
-          className="text-body text-primary font-semibold inline-flex items-center gap-1 hover:underline"
+          className="text-body text-link font-semibold inline-flex items-center gap-1 hover:underline"
           ref={refs.setReference}
           {...getReferenceProps()}
         >

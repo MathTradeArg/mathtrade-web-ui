@@ -3,7 +3,7 @@ import clsx from "clsx";
 import Thumbnail from "@/components/thumbnail";
 import BadgeType from "@/components/badgeType";
 import ValueMini from "@/components/value/mini";
-import { cardKindBorderClass } from "@/components/badgeType/cardKind";
+import { cardKindClass } from "@/components/badgeType/cardKind";
 import type { Face } from "./model";
 
 const SwipeFace = ({
@@ -19,9 +19,11 @@ const SwipeFace = ({
   return (
     <div
       className={clsx(
-        "relative rounded-2xl border border-gray-200 overflow-hidden flex flex-col min-w-0 w-full bg-white",
+        "relative overflow-hidden flex flex-col min-w-0 w-full",
         fill && "max-lg:flex-1 max-lg:min-h-0",
-        face.tagStyle ? null : cardKindBorderClass(face.kind, 4),
+        face.tagStyle
+          ? "rounded-card border border-gray-200"
+          : cardKindClass(face.kind),
         face.empty && "shadow-[inset_0_0_0_3px_red]",
         face.changed && "ring-2 ring-amber-400"
       )}
@@ -42,11 +44,11 @@ const SwipeFace = ({
           elements={[{ thumbnail: face.thumbnail, name: face.title }]}
           className="h-full rounded-none"
         />
-        <div className="absolute left-1.5 right-1.5 bottom-1.5 z-raised flex justify-end pointer-events-none">
+        <div className={clsx("absolute z-raised flex justify-end pointer-events-none", deck ? "left-3 right-3 bottom-3" : "left-2 right-2 bottom-2")}>
           <ValueMini currentValue={face.value} />
         </div>
       </div>
-      <div className={clsx("px-3 py-2 flex flex-col gap-1 min-w-0", deck ? "py-3" : "py-2")}>
+      <div className={clsx("flex flex-col gap-1.5 min-w-0", deck ? "px-4 py-3.5" : "px-3 py-2")}>
         <h3
           className={clsx(
             "font-bold leading-snug break-words",

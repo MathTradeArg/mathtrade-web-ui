@@ -32,7 +32,7 @@ const fullName = (row: { first_name: string; last_name: string }) =>
 /* w-full + max-w-full on mobile: native <select> min-width follows the
  * longest option (account holder + alias), which otherwise overflows ~390px. */
 const selectClass =
-  "border border-stroke rounded-md p-2 text-sm bg-white w-full sm:w-auto max-w-full min-w-0";
+  "border border-line rounded-md p-2 text-sm bg-white w-full sm:w-auto max-w-full min-w-0";
 
 const formatDate = (iso: string | null) =>
   iso ? new Date(iso).toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" }) : "";
@@ -58,7 +58,7 @@ const RejectModal = ({
             {row.first_name} {row.last_name}
           </p>
           <textarea
-            className="w-full border border-stroke rounded-md p-2 text-sm mb-3"
+            className="w-full border border-line rounded-md p-2 text-sm mb-3"
             rows={3}
             value={reason}
             placeholder={getI18Ntext("adminContributions.reasonPlaceholder")}
@@ -146,7 +146,7 @@ const ContributionsReviewPage = () => {
   const renderMissing = (row: MissingRow) => (
     <div
       key={`m-${row.membership_id}`}
-      className={clsx("border border-stroke rounded-lg p-4 mb-3", {
+      className={clsx("border border-line rounded-card p-4 mb-3", {
         "bg-violet-50": isNewUser(row.user_id),
       })}
     >
@@ -232,7 +232,7 @@ const ContributionsReviewPage = () => {
             isMissingRow(row) ? renderMissing(row) : (
             <div
               key={row.id}
-              className={clsx("border border-stroke rounded-lg p-4 mb-3", {
+              className={clsx("border border-line rounded-card p-4 mb-3", {
                 "bg-violet-50": isNewUser(row.user_id),
               })}
             >

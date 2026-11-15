@@ -20,7 +20,7 @@ const SelectModeButton = ({ className = "" }: { className?: string }) => {
           "flex items-center gap-1.5 h-[34px] px-3 rounded-full border text-caption font-semibold transition-colors",
           selecting
             ? "bg-primary border-primary text-white hover:opacity-75"
-            : "bg-white border-gray-200 text-gray-900 hover:bg-gray-100"
+            : "bg-surface border-line text-gray-900 hover:bg-surface-strong"
         )}
         onClick={selecting ? cancel : start}
       >

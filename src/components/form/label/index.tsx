@@ -26,7 +26,7 @@ const Label = ({
       <I18N id={text} values={values || []} />{" "}
       {required && (
         <span
-          className="text-primary"
+          className="text-ink"
           title={getI18Ntext("validation.required")}
         >
           *

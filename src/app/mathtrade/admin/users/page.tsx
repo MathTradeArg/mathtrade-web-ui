@@ -20,7 +20,7 @@ import Copies from "./copies";
 import { AdminUserName, useAdminUser } from "@/components/adminUserModal";
 
 const selectClass =
-  "border border-stroke rounded-md p-2 text-sm bg-white w-full sm:w-auto max-w-full min-w-0";
+  "border border-line rounded-md p-2 text-sm bg-white w-full sm:w-auto max-w-full min-w-0";
 
 // I18N renders text containing "<" as HTML: keep member names as text.
 const escapeHtml = (text: string) =>
@@ -167,7 +167,7 @@ const AdminUsersPage = () => {
           <div className="flex flex-wrap items-end gap-3 mb-4">
             <input
               type="search"
-              className="border border-stroke rounded-md p-2 text-sm w-full sm:w-72"
+              className="border border-line rounded-md p-2 text-sm w-full sm:w-72"
               placeholder={getI18Ntext("adminUsers.search")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}

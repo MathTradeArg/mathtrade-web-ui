@@ -68,7 +68,7 @@ const EditionCard = () => {
   if (!status) return null;
 
   return (
-    <section className="mb-6 bg-white p-5 rounded-xl shadow-lg">
+    <section className="mb-6 bg-surface p-5 rounded-main">
       <h2 className="font-bold text-2xl mb-2">{mathtrade.name}</h2>
       <p className="text-balance mb-4">
         <I18N id={status.id} values={status.values} />
@@ -77,7 +77,7 @@ const EditionCard = () => {
         <Link
           href={nextStep.path}
           data-tour={nextStep.id === "sign" ? "home.signup" : undefined}
-          className="inline-block rounded-full bg-primary text-white font-semibold px-5 py-2 hover:opacity-90"
+          className="inline-block rounded-full bg-brand text-brand-ink font-semibold px-5 py-2 hover:brightness-95"
         >
           <I18N id={`home.edition.next.${nextStep.id}`} />
         </Link>

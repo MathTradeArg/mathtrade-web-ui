@@ -108,7 +108,7 @@ const ItemTagEditor = ({
         </button>
         <button
           type="button"
-          className="bg-primary hover:opacity-80 text-white rounded-full px-3 py-1 font-semibold"
+          className="bg-brand hover:brightness-95 text-brand-ink rounded-full px-3 py-1 font-semibold"
           disabled={loading}
           onClick={onSubmit}
         >

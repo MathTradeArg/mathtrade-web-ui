@@ -33,15 +33,15 @@ const BadgeType = ({
   return (
     <div
       className={clsx(
-        // text-heading (19px) sits next to the card title on purpose on
+        // The 19px size sits next to the card title on purpose on
         // the offer/collection grid. Mini surfaces (Mis deseos, BGG hits)
         // pass size="compact" — className="text-[9px]" used to lose to
-        // text-heading in the compiled CSS, which is why the want cards
+        // the heading size in the compiled CSS, which is why the want cards
         // showed a title-sized JUEGO chip.
         "inline-flex items-center uppercase leading-none font-bold rounded-[3px] min-w-0",
         size === "compact"
           ? "gap-1 px-1.5 py-[2px] text-[9px] tracking-wide"
-          : "gap-1.5 px-2.5 py-1 text-heading",
+          : "gap-1.5 px-2.5 py-1 text-[19px] leading-6",
         {
           // Filled pills, not 10% tints: the card already carries a tint of
           // the same hue, so a faint badge disappeared into it. Solid fill

@@ -79,7 +79,7 @@ const AccountMenuButton = ({
               <div
                 className={clsx(
                   "text-xs",
-                  isLight ? "text-gray-500" : "text-white/50"
+                  isLight ? "text-ink-muted" : "text-white/70"
                 )}
               >
                 <I18N id="title.MyAccount" />
@@ -89,7 +89,7 @@ const AccountMenuButton = ({
               type="chevron-down"
               className={clsx(
                 "text-xs shrink-0",
-                isLight ? "text-gray-400" : "text-white/40"
+                isLight ? "text-ink-muted" : "text-white/70"
               )}
             />
           </div>
@@ -106,7 +106,7 @@ const AccountMenuButton = ({
         isPositioned={isPositioned}
         floatingProps={getFloatingProps()}
       >
-        <div className="text-center pt-6 pb-1">
+        <div className="text-center pt-6">
           <div className="w-[80px] mx-auto mb-2">
             <Avatar
               avatar={user?.avatar}
@@ -114,8 +114,8 @@ const AccountMenuButton = ({
               width={80}
             />
           </div>
-          <h3 className="font-bold text-lg text-gray-900 mb-3">{`${user?.first_name} ${user?.last_name}`}</h3>
-          <nav className="text-gray-900 border-t pt-1">
+          <h3 className="font-display font-semibold text-lg text-ink mb-3">{`${user?.first_name} ${user?.last_name}`}</h3>
+          <nav className="text-ink border-t border-line pt-1">
             <Link
               href={PRIVATE_ROUTES.MY_ACCOUNT.path}
               className="flex items-center justify-center gap-1 leading-10 hover:bg-sky-200"

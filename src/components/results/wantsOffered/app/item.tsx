@@ -17,7 +17,7 @@ const Item = ({ title, offered }: ItemProps) => {
 
   return (
     <div className="mb-6">
-      <h4 className="text-lg font-bold mb-3">{title}:</h4>
+      <h4 className="text-lg font-bold text-ink mb-3">{title}:</h4>
       {offered.length > 0 ? (
         <>
           <div
@@ -44,10 +44,10 @@ const Item = ({ title, offered }: ItemProps) => {
               })}
             </div>
             {max ? null : (
-              <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-white"></div>
+              <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-surface"></div>
             )}
           </div>
-          <div className="text-center flex justify-center border-t border-gray-400">
+          <div className="text-center flex justify-center border-t border-line">
             <button
               className="text-[9px] font-bold bg-gray-500 text-white px-3 rounded-b-lg uppercase hover:bg-black"
               onClick={toggle}
@@ -57,7 +57,7 @@ const Item = ({ title, offered }: ItemProps) => {
           </div>
         </>
       ) : (
-        <div className="border-b border-gray-400 pb-3">
+        <div className="border-b border-line pb-3">
           <I18N id="wantsOffered.noOffer" />
         </div>
       )}

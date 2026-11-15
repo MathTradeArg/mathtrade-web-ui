@@ -17,7 +17,7 @@ const Footer = () => {
   return typeof pageType === "string" && pageType.indexOf("wants") >= 0 ? null : (
     <footer className="relative lg:absolute w-full min-h-16 left-0 bottom-0">
       <Wrapper>
-        <div className="min-h-11 bg-gray-300 rounded-main text-xs shadow flex flex-wrap gap-x-6 gap-y-2 items-center sm:justify-between justify-center py-2 px-6">
+        <div className="min-h-11 bg-surface-strong rounded-main text-xs flex flex-wrap gap-x-6 gap-y-2 items-center sm:justify-between justify-center py-2 px-6">
           <div className="">
             {new Date().getFullYear()} - Math Trade Argentina
           </div>

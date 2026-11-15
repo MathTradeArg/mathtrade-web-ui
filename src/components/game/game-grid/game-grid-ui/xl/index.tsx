@@ -13,7 +13,7 @@ import Dynamic from "@/components/dynamic";
 import BadgeType from "@/components/badgeType";
 import {
   resolveGameKind,
-  cardKindBorderClass,
+  cardKindClass,
   cardSurfaceClass,
 } from "@/components/badgeType/cardKind";
 import useBGGdata from "@/components/bggInfo/useBGGdata";
@@ -91,9 +91,11 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
     <div className="relative">
       <div
         className={clsx(
-          "mx-auto relative transition-opacity rounded-t-lg",
+          "mx-auto relative transition-opacity",
           cardSurfaceClass,
-          cardKindBorderClass(cardKind),
+          cardKindClass(cardKind),
+          // The offered-copies list below continues this card.
+          "rounded-b-none",
           {
             "opacity-30  pointer-events-none": showAsIgnored,
             "shadow-[0_0_0_7px_rgba(255,0,0,1)]": ban_id,
@@ -103,7 +105,7 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
         <SelectTick id={bgg_id} disabledReason={disabledReason} />
         <div className="flex flex-col">
           <div
-            className={clsx("relative overflow-hidden rounded-t-lg", {
+            className={clsx("relative overflow-hidden rounded-t-card", {
               "cursor-pointer": selecting,
             })}
             onClick={onSelectClick}
@@ -134,7 +136,7 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
             </div>
 
             <h3
-              className={clsx("text-heading leading-tight w-full break-words", {
+              className={clsx("text-heading font-display font-semibold tracking-[-0.01em] text-ink text-balance leading-6 line-clamp-2 min-h-12 w-full break-words", {
                 "cursor-pointer": selecting,
               })}
               onClick={onSelectClick}
@@ -155,7 +157,7 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
                   showHelp
                 />
                 <div className="flex flex-col gap-1">
-                  <span className="text-caption text-gray-700">
+                  <span className="text-caption text-ink/80">
                     <I18N id="element.BGG.weight" />
                   </span>
                   <div className="flex gap-1" title={`${weight} / 5`}>
@@ -195,7 +197,7 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
             ) : null}
 
             {showBGGstats ? (
-              <div className="mt-auto w-full text-caption text-gray-700 truncate">
+              <div className="mt-auto w-full text-caption text-ink/80 truncate">
                 <I18N id="element.BGG.rank" />{" "}
                 {rank === NO_RANK_VALUE || rank == null ? "-" : rank}
               </div>

@@ -5,8 +5,9 @@ import ElementMyItem from "@/components/element/elementMyItem";
 import HeaderItem from "./item-header";
 import Dynamic from "@/components/dynamic";
 import {
-  cardKindBorderClass,
+  cardKindClass,
   cardSurfaceClass,
+  resolveItemKind,
 } from "@/components/badgeType/cardKind";
 import I18N from "@/i18n";
 import clsx from "clsx";
@@ -48,11 +49,13 @@ const ItemUI = ({ tourAnchor = undefined }: { tourAnchor?: string }) => {
         "relative mb-6",
         cardSurfaceClass,
         isCombo
-          ? clsx("rounded-lg p-3 shadow-md", cardKindBorderClass("combo"))
+          ? clsx("p-4", cardKindClass("combo"))
           : showsAsPlainCard
-          ? // No p-3 here: padding inset the grey element fill from the
-            // outer border (white gutter). Pad only the add-combo footer.
-            "rounded-lg border border-stroke"
+          ? // The article is the card itself (same fill and border as the
+            // grid cards) and the element renders bare inside it, so the
+            // add-combo footer shares that surface. No p-3: padding would
+            // inset the cover from the edge; only the footer is padded.
+            cardKindClass(resolveItemKind(item))
           : null
       )}
     >
@@ -61,7 +64,7 @@ const ItemUI = ({ tourAnchor = undefined }: { tourAnchor?: string }) => {
         <div
           className={clsx(
             "min-w-0 max-w-full rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-950 break-words",
-            showsAsPlainCard ? "m-3" : "mb-3"
+            showsAsPlainCard ? "m-4" : "mb-3"
           )}
           role="status"
         >
@@ -110,7 +113,7 @@ const ItemUI = ({ tourAnchor = undefined }: { tourAnchor?: string }) => {
           );
         })}
         {showsAddElement ? (
-          <div className={clsx(showsAsPlainCard && "px-3 pb-3")}>
+          <div className={clsx(showsAsPlainCard && "px-4 pb-3.5")}>
             <Dynamic h={100}>
               <AddElementToMyItem />
             </Dynamic>

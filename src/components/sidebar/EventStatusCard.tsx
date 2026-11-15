@@ -49,14 +49,14 @@ const EventStatusCard = ({ collapsed = false }: { collapsed?: boolean }) => {
     <div
       data-tour="home.stage"
       className={clsx(
-        "flex items-center bg-[#1c1d21] rounded-[10px] mb-1.5 mt-2 text-white text-xs font-semibold h-9 overflow-hidden transition-[width,padding,margin] duration-300 ease-out motion-reduce:transition-none [@media(max-height:800px)]:h-8 [@media(max-height:800px)]:mb-1 [@media(max-height:800px)]:mt-1.5",
+        "flex items-center bg-white/10 rounded-[10px] mb-1.5 mt-2 text-white text-xs font-semibold h-9 overflow-hidden transition-[width,padding,margin] duration-300 ease-out motion-reduce:transition-none [@media(max-height:800px)]:h-8 [@media(max-height:800px)]:mb-1 [@media(max-height:800px)]:mt-1.5",
         collapsed
           ? "w-11 justify-center mx-auto px-0"
           : "w-full px-2.5"
       )}
       title={collapsed ? title : undefined}
     >
-      <Icon type="calendar" className="text-primary shrink-0" />
+      <Icon type="calendar" className="text-brand shrink-0" />
       <span className={clsx("min-w-0 truncate", fadeLabelClass(!collapsed))}>
         <I18N id={stage.titleId} />
         {stage.msLeft === null ? null : ` · ${timeLeftLabel(stage.msLeft)}`}

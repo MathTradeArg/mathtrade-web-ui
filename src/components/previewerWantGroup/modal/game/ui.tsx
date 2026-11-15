@@ -12,7 +12,7 @@ import { LoadingBox } from "@/components/loading";
 import BadgeType from "@/components/badgeType";
 import {
   resolveGameKind,
-  cardKindBorderClass,
+  cardKindClass,
   cardSurfaceClass,
 } from "@/components/badgeType/cardKind";
 import useBGGdata from "@/components/bggInfo/useBGGdata";
@@ -71,9 +71,9 @@ const GameUI = ({ wantGroup }) => {
     <>
       <div
         className={clsx(
-          "mx-auto overflow-hidden rounded-lg",
+          "mx-auto overflow-hidden",
           cardSurfaceClass,
-          cardKindBorderClass(cardKind)
+          cardKindClass(cardKind)
         )}
       >
         <div className="flex items-stretch">
@@ -94,7 +94,7 @@ const GameUI = ({ wantGroup }) => {
               <Value type="game" onChange={onChangeValue} />
             </div>
 
-            <h3 className="text-heading leading-tight w-full break-words">
+            <h3 className="text-heading font-display font-semibold tracking-[-0.01em] text-ink text-balance leading-6 line-clamp-2 min-h-12 w-full break-words">
               {`${title}${year ? ` (${year})` : ""}`}
             </h3>
 
@@ -111,7 +111,7 @@ const GameUI = ({ wantGroup }) => {
                   showHelp
                 />
                 <div className="flex flex-col gap-1">
-                  <span className="text-caption text-gray-700 leading-none">
+                  <span className="text-caption text-ink/80 leading-none">
                     <I18N id="element.BGG.weight" />
                   </span>
                   <div className="flex gap-1" title={`${weight} / 5`}>
@@ -148,7 +148,7 @@ const GameUI = ({ wantGroup }) => {
             ) : null}
 
             {showBGGstats ? (
-              <div className="mt-auto w-full text-caption text-gray-700 truncate">
+              <div className="mt-auto w-full text-caption text-ink/80 truncate">
                 <I18N id="element.BGG.rank" />{" "}
                 {rank === NO_RANK_VALUE || rank == null ? "-" : rank}
               </div>

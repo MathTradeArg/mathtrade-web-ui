@@ -327,7 +327,7 @@ const ActiveFilterChips = ({ type = "item" }: { type?: "item" | "game" }) => {
           key={chip.key}
           selected={Boolean(chip.color)}
           color={chip.color}
-          className={chip.color ? "" : "bg-white border border-gray-200 text-gray-700"}
+          className={chip.color ? "" : "bg-surface border border-line text-gray-700"}
           onClick={() => remove(chip.clear)}
           onRemove={() => remove(chip.clear)}
         >

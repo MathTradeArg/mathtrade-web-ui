@@ -62,7 +62,7 @@ const Calendar = ({ compact = false }: { compact?: boolean }) => {
           {i < milestones.length - 1 ? (
             <span
               aria-hidden="true"
-              className="absolute left-[7px] top-5 -bottom-1 w-0.5 bg-gray-200"
+              className="absolute left-[7px] top-5 -bottom-1 w-0.5 bg-ink"
             />
           ) : null}
           <span
@@ -84,7 +84,7 @@ const Calendar = ({ compact = false }: { compact?: boolean }) => {
           </div>
           <div
             className={clsx(compact ? "text-xs" : "text-sm", {
-              "font-semibold text-gray-900": state === "next",
+              "font-semibold text-ink": state === "next",
             })}
           >
             <I18N id={title} values={titleValues} />

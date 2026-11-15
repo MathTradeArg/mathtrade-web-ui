@@ -54,7 +54,7 @@ const HelpButton = ({
             collapsed ? "justify-center px-0" : "text-left px-2",
             tone === "light"
               ? "text-gray-900 hover:bg-gray-50"
-              : "text-white/80 hover:text-white hover:bg-white/5"
+              : "text-white/80 hover:text-white hover:bg-white/10"
           )}
           onClick={toggleMobile}
         >
@@ -85,11 +85,11 @@ const HelpButton = ({
         isPositioned={isPositioned}
         floatingProps={getFloatingProps()}
       >
-        <div className="py-1">
+        <div className="overflow-hidden">
           {startCurrentTour ? (
             <button
               type="button"
-              className="block w-full leading-10 bg-primary hover:bg-sky-700 text-center font-semibold text-white border-b"
+              className="block w-full leading-10 bg-brand hover:brightness-95 text-center font-semibold text-brand-ink border-b"
               onClick={() => {
                 if (visibleMobile) toggleMobile();
                 onAction?.();
@@ -108,14 +108,14 @@ const HelpButton = ({
           </Link>
           <Link
             href={`${PRIVATE_ROUTES.FAQS.path}#glosario`}
-            className="block leading-10 hover:bg-sky-200 text-center border-t"
+            className="block leading-10 hover:bg-sky-200 text-center border-t border-line"
             onClick={toggleMobile}
           >
             <I18N id="help.glossary" />
           </Link>
           <Link
             href={`${PRIVATE_ROUTES.FAQS.path}#estados`}
-            className="block leading-10 hover:bg-sky-200 text-center border-t"
+            className="block leading-10 hover:bg-sky-200 text-center border-t border-line"
             onClick={toggleMobile}
           >
             <I18N id="help.statuses" />
@@ -124,7 +124,7 @@ const HelpButton = ({
             href={PUBLIC_ROUTES.TERMS_CONDITIONS.path}
             target="_blank"
             rel="noopener noreferrer"
-            className="block leading-10 hover:bg-sky-200 text-center border-t"
+            className="block leading-10 hover:bg-sky-200 text-center border-t border-line"
           >
             <I18N id="title.TyC" />
           </a>
@@ -132,13 +132,13 @@ const HelpButton = ({
             href={baseURL + rulebookPDFurl}
             target="_blank"
             rel="noopener noreferrer"
-            className="block leading-10 hover:bg-sky-200 text-center border-t"
+            className="block leading-10 hover:bg-sky-200 text-center border-t border-line"
           >
             <I18N id="title.Rulebook" />
           </a>
           <Link
             href={PRIVATE_ROUTES.MEMARDIUMS.path}
-            className="leading-10 hover:bg-sky-200 text-center border-t flex item-center justify-center gap-1"
+            className="leading-10 hover:bg-sky-200 text-center border-t border-line flex item-center justify-center gap-1"
             onClick={toggleMobile}
           >
             <I18N id={`menu.${PRIVATE_ROUTES.MEMARDIUMS.title}.icon`} />

@@ -32,33 +32,22 @@ export const resolveGameKind = ({
     isExpansion: !notGame && typeNum === 2,
   });
 
-// Left-border accent + a background tint of the same color, one pair per
-// content category. 8% into white was too faint once built — a page of
-// cards only differed by a 4px edge. Expansion used to be amber (#B45309),
-// which sat next to danger (#d9512f) and read as an alert, not a category.
-// The four hues are now charcoal / blue / violet / teal so none of them
-// share a family with a status color.
-//
-// The tint is a pre-mixed SOLID color, not a Tailwind alpha utility
-// (bg-gameExpansion/20) — these cards sit on the page's off-white/gray
-// background, not pure white, so a translucent tint blends with whatever
-// is actually behind it and comes out muddier/grayer than intended. Each
-// value below is the real result of mixing the category's token at 20%
-// into #ffffff, computed once so it renders identically regardless of
-// what's behind the card:
-//   base       #1C1F26 @ 20% -> #d2d2d4
-//   expansion  #1d4ed8 @ 20% -> #d2dcf7
-//   combo      #5B21B6 @ 20% -> #ded3f0
-//   other      #0f766e @ 20% -> #cfe4e2
-const CARD_KIND_TINT: Record<CardKind, string> = {
-  base: "border-l-gameBase bg-[#d2d2d4]",
-  expansion: "border-l-gameExpansion bg-[#d2dcf7]",
-  combo: "border-l-gameCombo bg-[#ded3f0]",
-  other: "border-l-gameOther bg-[#cfe4e2]",
+// The card is filled with the color of its content category (no side
+// border): cream base, pastel blue expansion, lilac combo, mint "fuera de
+// la BGG". Only the cream card carries a visible warm border; the colored
+// ones carry a transparent border of the same width so every card
+// measures the same. The solid game* tokens stay for the category badges.
+const CARD_KIND_FILL: Record<CardKind, string> = {
+  base: "bg-surface border border-line",
+  expansion: "bg-sky border border-transparent",
+  combo: "bg-lilac border border-transparent",
+  other: "bg-mint border border-transparent",
 };
 
-export const cardKindBorderClass = (kind: CardKind, edge: 4 | 6 = 6) =>
-  `${edge === 4 ? "border-l-[4px]" : "border-l-[6px]"} ${CARD_KIND_TINT[kind]}`;
+export const cardKindFillClass = (kind: CardKind) => CARD_KIND_FILL[kind];
+
+export const cardKindClass = (kind: CardKind) =>
+  `rounded-card ${CARD_KIND_FILL[kind]}`;
 
 /* Bounds every card chrome: content wraps/clips inside the white card box,
  * not the page/viewport. Apply on the element that paints the card surface

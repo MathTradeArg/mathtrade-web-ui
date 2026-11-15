@@ -59,7 +59,7 @@ const ElementInCombo = ({ onToggleExpanse }: ElementInComboProps) => {
             {title}
           </h3>
         </div>
-        <div className="flex flex-wrap gap-1 items-center mt-1 w-full min-w-0 max-w-full">
+        <div className="flex flex-wrap gap-1.5 items-center mt-1 w-full min-w-0 max-w-full">
           <StatusBadge
             status={box_status}
             type="box"

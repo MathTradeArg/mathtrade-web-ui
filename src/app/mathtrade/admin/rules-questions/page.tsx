@@ -41,7 +41,7 @@ const QuestionEditor = ({
     });
   };
 
-  const inputClass = "w-full border border-stroke rounded-md p-2 text-sm";
+  const inputClass = "w-full border border-line rounded-md p-2 text-sm";
   return (
     <div className="border border-primary rounded-lg p-4 mb-3 bg-white">
       <textarea
@@ -126,7 +126,7 @@ const RulesQuestionsPage = () => {
             ) : (
               <div
                 key={question.id}
-                className={clsx("border border-stroke rounded-lg p-4 mb-3", {
+                className={clsx("border border-line rounded-card p-4 mb-3", {
                   "opacity-50": !question.active,
                 })}
               >

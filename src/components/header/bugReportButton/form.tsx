@@ -70,7 +70,7 @@ const BugReportForm = ({
             <button
               type="submit"
               disabled={loading || submitted}
-              className="text-white bg-primary font-bold text-lg px-6 py-1 rounded-full hover:bg-sky-700 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="text-brand-ink bg-brand font-bold text-lg px-6 py-1 rounded-full hover:brightness-95 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <I18N id="bugReport.submit" />
             </button>

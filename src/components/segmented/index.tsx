@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 // One style for every view switch (Visual/Grilla, Juegos/Ejemplares,
 // Actual/Historial…): a light capsule holding the options, the active one
-// filled in the primary color. Used by <Tabs> and by the results view pills.
+// filled in ink (dark navy). Used by <Tabs> and by the results view pills.
 export const SegmentedGroup = ({
   children,
   className = "",
@@ -14,7 +14,7 @@ export const SegmentedGroup = ({
   <div
     role="group"
     className={clsx(
-      "inline-flex flex-wrap items-center gap-1 p-1 rounded-full bg-gray-100 border border-gray-200",
+      "inline-flex flex-wrap items-center gap-1 p-1 rounded-full bg-surface",
       className
     )}
   >
@@ -41,8 +41,8 @@ export const SegmentButton = ({
       "relative rounded-full font-semibold transition-colors whitespace-nowrap",
       small ? "h-7 px-3 text-xs" : "h-9 px-4 text-sm",
       active
-        ? "bg-primary text-white shadow-sm cursor-default"
-        : "text-gray-600 hover:text-primary hover:bg-white"
+        ? "bg-ink text-white cursor-default"
+        : "text-ink-muted hover:text-ink hover:bg-surface-strong"
     )}
   >
     {children}

@@ -38,7 +38,7 @@ const shareErrorKey = (error: any): string => {
 };
 
 const selectClass =
-  "border border-stroke rounded-md p-2 text-sm bg-white w-full sm:w-auto max-w-full min-w-0";
+  "border border-line rounded-md p-2 text-sm bg-surface w-full sm:w-auto max-w-full min-w-0";
 
 // Same quick filter buttons as the admin users page.
 const quickButton = (active: boolean) =>
@@ -46,7 +46,7 @@ const quickButton = (active: boolean) =>
     "rounded-full text-sm font-semibold px-4 py-1.5 border",
     active
       ? "bg-primary text-white border-primary"
-      : "bg-white text-primary border-primary hover:bg-primary/10"
+      : "bg-surface text-primary border-primary hover:bg-primary/10"
   );
 
 const fullName = (person: Person) =>
@@ -248,7 +248,7 @@ const ItemReportsView = ({ tabs }: { tabs: ReactNode }) => {
             <button
               type="button"
               onClick={() => setToShare(row.id)}
-              className="rounded-full border border-primary text-primary text-xs font-semibold px-3 py-1.5 hover:bg-primary hover:text-white"
+              className="rounded-full border border-ink text-ink text-xs font-semibold px-3 py-1.5 hover:bg-ink hover:text-white"
             >
               <I18N id="adminReports.shareWithOwner" />
             </button>
@@ -257,7 +257,7 @@ const ItemReportsView = ({ tabs }: { tabs: ReactNode }) => {
             <button
               type="button"
               onClick={() => resolveReport({ urlParams: [row.id] })}
-              className="rounded-full bg-primary text-white text-xs font-semibold px-3 py-1.5 hover:opacity-90"
+              className="rounded-full bg-brand text-brand-ink text-xs font-semibold px-3 py-1.5 hover:brightness-95"
             >
               <I18N id="adminReports.resolve" />
             </button>
@@ -498,7 +498,7 @@ const ItemReportsView = ({ tabs }: { tabs: ReactNode }) => {
           <div className="flex flex-wrap items-end gap-3 mb-4">
             <input
               type="search"
-              className="border border-stroke rounded-md p-2 text-sm w-full sm:w-80"
+              className="border border-line rounded-md p-2 text-sm w-full sm:w-80"
               placeholder={getI18Ntext("adminReports.search")}
               aria-label={getI18Ntext("adminReports.search")}
               value={filters.search}

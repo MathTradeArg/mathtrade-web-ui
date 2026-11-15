@@ -12,7 +12,7 @@ import TagRowControls from "../tagRowControls";
 import TagPendingWants from "../../tag-pending";
 import { tagCounter, tagPendingCount } from "../../utils";
 import {
-  cardKindBorderClass,
+  cardKindFillClass,
   resolveWantGroupKind,
 } from "@/components/badgeType/cardKind";
 
@@ -53,8 +53,8 @@ const WantGroupLabelUI = ({ wantGroup = null }) => {
   return (
     <div
       className={clsx(
-        "relative h-8 w-52 sm:w-80 lg:w-[32rem] border-b border-r flex items-center gap-1 pl-2",
-        tagStyle ? "bg-white border-gray-300" : cardKindBorderClass(kind, 4),
+        "relative h-8 w-52 sm:w-80 lg:w-[32rem] border-b border-r flex items-center gap-1 pl-2 pr-2",
+        tagStyle ? "bg-white border-gray-300" : cardKindFillClass(kind),
         { "shadow-[inset_0_0_0_3px_red]": empty && !emptyTag }
       )}
       style={tagStyle || undefined}
@@ -116,7 +116,7 @@ const WantGroupLabelUI = ({ wantGroup = null }) => {
           {`${name}${type === "tag" ? ` (${tagCounter(wantGroup)})` : ""}`}
         </h4>
       </div>
-      <div className="flex items-center gap-1 shrink-0">
+      <div className="flex items-center gap-1.5 shrink-0">
         {type === "tag" ? (
           <TagPendingWants wantGroup={wantGroup} variant="chip" />
         ) : null}

@@ -11,7 +11,7 @@ const baseURL = process.env.BASE_URL;
 const STEPS = [1, 2, 3, 4, 5];
 
 const linkClass =
-  "inline-flex items-center gap-1 rounded-full border border-primary text-primary px-3 py-1 text-sm font-semibold hover:bg-primary hover:text-white transition-colors";
+  "inline-flex items-center gap-1 rounded-full border border-ink text-ink px-3 py-1 text-sm font-semibold hover:bg-ink hover:text-white transition-colors";
 
 // What a Math Trade is and how it works, with the rules to read. Shown on the
 // home and in the login's "¿Qué es el Math Trade?" (without the FAQ link:
@@ -33,7 +33,7 @@ const WhatIsMT = ({ showFaqLink = true }: { showFaqLink?: boolean }) => {
             <I18N id="whatIsMT.lead" />
           </p>
         </div>
-        <aside className="rounded-lg border border-sky-300 bg-sky-50 text-sky-950 p-3 mb-5 min-w-0 max-w-full break-words">
+        <aside className="rounded-lg border border-sun/70 bg-sun/15 text-ink p-3 mb-5 min-w-0 max-w-full break-words">
           <h3 className="font-bold text-base mb-1">
             <I18N id="mtSolidario.title" />
           </h3>
@@ -41,7 +41,7 @@ const WhatIsMT = ({ showFaqLink = true }: { showFaqLink?: boolean }) => {
             <I18N id="mtSolidario.lead" values={[verb]} />
           </p>
         </aside>
-        <p className="text-sm text-gray-700 bg-gray-50 rounded-lg p-3 mb-5">
+        <p className="text-sm text-ink bg-surface rounded-card p-3 mb-5">
           <I18N id="whatIsMT.example" />
         </p>
         <h3 className="font-bold text-lg mb-2">

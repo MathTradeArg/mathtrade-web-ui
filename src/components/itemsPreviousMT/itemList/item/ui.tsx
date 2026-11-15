@@ -10,7 +10,7 @@ import { ItemContext } from "@/context/item";
 import clsx from "clsx";
 import {
   resolveItemKind,
-  cardKindBorderClass,
+  cardKindClass,
   cardSurfaceClass,
 } from "@/components/badgeType/cardKind";
 import { resolveApiErrorMessage } from "@/utils/apiError";
@@ -23,14 +23,14 @@ const ItemUI = ({ afterAddItem = (_value?: any) => {} }) => {
   return (
     <div
       className={clsx(
-        "relative rounded-lg shadow-md pt-2 px-3 pb-3 mb-6 overflow-hidden",
+        "relative pt-3.5 px-4 pb-3.5 mb-6 overflow-hidden",
         cardSurfaceClass,
-        cardKindBorderClass(resolveItemKind(item))
+        cardKindClass(resolveItemKind(item))
       )}
     >
       <header className="flex items-center justify-between  gap-3 mb-2">
         {isCombo ? (
-          <h3 className="uppercase text-sm font-bold text-gray-900 leading-none">
+          <h3 className="uppercase text-sm font-bold text-ink leading-none">
             <I18N id="element-type-badge-0" />
           </h3>
         ) : (
@@ -49,7 +49,7 @@ const ItemUI = ({ afterAddItem = (_value?: any) => {} }) => {
         <div className="flex justify-center">
           <button
             type="button"
-            className="bg-primary text-white py-1 px-5 rounded-full shadow-md transition-colors hover:bg-sky-700 text-balance"
+            className="bg-brand text-brand-ink py-1 px-5 rounded-full transition hover:brightness-95 text-balance"
             onClick={addToMT}
           >
             <I18N id="addItemPreviousMT.btn" />

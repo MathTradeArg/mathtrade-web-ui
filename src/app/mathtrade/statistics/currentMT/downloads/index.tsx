@@ -44,7 +44,7 @@ const ContentDownload = () => {
         <p className="mb-4">
           <a
             href={stats.wants}
-            className="bg-primary block text-white py-2 px-6 text-lg text-center w-fit mx-auto rounded-full hover:opacity-80"
+            className="bg-brand block text-brand-ink py-2 px-6 text-lg text-center w-fit mx-auto rounded-full hover:brightness-95"
             download
             target="_blank"
           >
@@ -65,7 +65,7 @@ const ContentDownload = () => {
         <p className="mb-4">
           <a
             href={stats.results}
-            className="bg-primary block text-white py-2 px-6 text-lg text-center w-fit mx-auto rounded-full hover:opacity-80"
+            className="bg-brand block text-brand-ink py-2 px-6 text-lg text-center w-fit mx-auto rounded-full hover:brightness-95"
             download
             target="_blank"
           >
@@ -83,9 +83,9 @@ const Downloads = ({ accordion }: { accordion?: boolean }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="bg-white px-5 py-4 rounded-xl shadow-xl">
+    <div className="bg-surface border border-line px-5 py-4 rounded-main">
       <h3
-        className={clsx("font-bold text-lg text-gray-500 text-balance", {
+        className={clsx("font-display font-semibold text-lg text-ink text-balance", {
           "cursor-pointer": accordion,
         })}
         onClick={

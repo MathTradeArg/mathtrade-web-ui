@@ -30,12 +30,12 @@ const AddElementToMyItem = ({ startOpen = false }: { startOpen?: boolean }) => {
       {isOpen ? (
         <div
           className={clsx({
-            "mt-2 pt-2 border-t border-gray-200": selectedElement,
+            "mt-2 pt-2 border-t border-line": selectedElement,
           })}
         >
           <h2
             className={clsx(
-              "text-gray-900 text-balance sm:text-left text-center",
+              "text-ink text-balance sm:text-left text-center",
               {
                 "mb-1": !selectedElement,
                 "mb-2": selectedElement,

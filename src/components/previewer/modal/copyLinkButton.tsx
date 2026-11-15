@@ -117,7 +117,7 @@ const CopyLinkButton = ({
     >
       <button
         type="button"
-        className="inline-flex items-center gap-1.5 min-h-[36px] rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition-colors px-4 text-sm font-semibold"
+        className="inline-flex items-center gap-1.5 min-h-[36px] rounded-full border border-ink text-ink hover:bg-ink hover:text-white transition-colors px-4 text-sm font-semibold"
         onClick={onClick}
       >
         <Icon type={state === "copied" ? "check" : "copy"} />

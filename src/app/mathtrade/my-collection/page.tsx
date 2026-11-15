@@ -57,6 +57,7 @@ const MyCollectionPage = () => {
     <>
       <PageHeader
         variant="compact"
+        tone="sun"
         title="title.MyCollection"
         helpId="page.myCollection"
         alert={
@@ -126,7 +127,7 @@ const MyCollectionPage = () => {
             <div className="collection-grid">
               {showDemo ? (
                 <TourDemo>
-                  <ElementWrapperOuter tourAnchor="mycollection.item">
+                  <ElementWrapperOuter card tourAnchor="mycollection.item">
                     <ElementCollection element={{ element: demoElement }} showAddToMT />
                   </ElementWrapperOuter>
                 </TourDemo>
@@ -135,6 +136,7 @@ const MyCollectionPage = () => {
                 return (
                   <ElementWrapperOuter
                     key={element.id}
+                    card
                     tourAnchor={index === 0 ? "mycollection.item" : undefined}
                   >
                     <ElementCollection element={{ element }} showAddToMT />

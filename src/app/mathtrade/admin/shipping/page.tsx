@@ -38,7 +38,7 @@ const TAB_TABLES = 2;
 type Filters = { origin: number | "all"; kind: ShippingKind | "all" };
 
 const selectClass =
-  "border border-stroke rounded-md p-2 text-sm bg-white w-full sm:w-auto max-w-full min-w-0";
+  "border border-line rounded-md p-2 text-sm bg-white w-full sm:w-auto max-w-full min-w-0";
 
 const locText = (loc: ShippingLoc | null) => loc?.name || "";
 const kindText = (kind: ShippingKind) => getI18Ntext(`adminShipping.kind.${kind}`);

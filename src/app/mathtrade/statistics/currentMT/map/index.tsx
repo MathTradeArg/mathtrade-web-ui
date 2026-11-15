@@ -61,13 +61,13 @@ const Map = ({ data }: { data: Parameters<typeof locsToGraph>[0] }) => {
   }, [graphRef, data]);
 
   return (
-    <div className="bg-white px-5 py-4 rounded-xl shadow-xl lg:mb-0 mb-6">
+    <div className="bg-surface px-5 py-4 rounded-main lg:mb-0 mb-6">
       <h3 className="font-bold text-lg mb-5 text-gray-500 text-balance">
         <I18N id="stats.map.title" />
       </h3>
       <div className="relative">
         <div className="" style={{ height: 728 }} ref={graphRef} />
-        <div className="absolute bottom-0 right-0 w-32 h-4 bg-white" />
+        <div className="absolute bottom-0 right-0 w-32 h-4 bg-surface" />
       </div>
     </div>
   );

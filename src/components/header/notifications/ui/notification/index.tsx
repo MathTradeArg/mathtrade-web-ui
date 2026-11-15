@@ -28,7 +28,7 @@ const Notification = ({
   } = useNotification(data, type, noMembership);
 
   return (
-    <div className="border-b border-gray-300">
+    <div className="border-b border-line">
       <div
         className={clsx("text-xs flex items-start gap-3 p-2", {
           "opacity-50": loading,
@@ -36,7 +36,7 @@ const Notification = ({
       >
         <div
           className={clsx("cursor-pointer", {
-            "text-gray-300": !unreaded,
+            "text-ink-muted": !unreaded,
             "text-primary": unreaded,
           })}
           data-tooltip={getI18Ntext(
@@ -54,10 +54,10 @@ const Notification = ({
         >
           <div className="cursor-pointer" onClick={toggleReaded}>
             <p className="text-[10px] font-bold mb-1">{`${date} hs.`}</p>
-            <p className="text-gray-600 mb-2">
+            <p className="text-ink-muted mb-2">
               <I18N id={messageText} values={values} />
             </p>
-            <p className="text-gray-600 mb-2 italic">{body}</p>
+            <p className="text-ink-muted mb-2 italic">{body}</p>
           </div>
 
           {linkFunction || reportLinkFunction ? (

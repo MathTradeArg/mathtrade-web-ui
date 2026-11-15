@@ -6,7 +6,7 @@ import ItemXL from "@/components/item/item-grid/item-grid-ui/xl";
 import clsx from "clsx";
 import {
   resolveCardKind,
-  cardKindBorderClass,
+  cardKindClass,
 } from "@/components/badgeType/cardKind";
 
 const ItemUI = ({ wantGroup }) => {
@@ -40,8 +40,8 @@ const ItemUI = ({ wantGroup }) => {
     <>
       <div
         className={clsx(
-          "w-full mb-2 rounded-lg",
-          cardKindBorderClass(cardKind)
+          "w-full mb-2",
+          cardKindClass(cardKind)
         )}
       >
         <ItemXL hideWant onChangeValue={onChangeValue} />

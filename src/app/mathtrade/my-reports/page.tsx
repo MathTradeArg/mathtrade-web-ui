@@ -60,13 +60,13 @@ export default function MyReports() {
         variant="compact"
         title="title.MyReports"
         help={
-          <span className="text-sm text-white/90">
+          <span className="text-sm text-ink-muted">
             <I18N id="myReports.help" />
           </span>
         }
       />
-      <Wrapper className="mb-1">
-        <div className="bg-white rounded-t-main shadow-main">
+      <Wrapper>
+        <div className="bg-surface-soft border border-line border-b-0 rounded-t-main">
           <Tabs list={TABS} value={tab} onChange={setTab} />
         </div>
       </Wrapper>

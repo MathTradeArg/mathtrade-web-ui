@@ -88,7 +88,7 @@ const ElementEditor = ({ newBGGinfo = null, toggleEditingMode = () => {} }) => {
 
             <div className="px-3">
               <PhotoUploader
-                className=" border border-gray-300 text-gray-500 rounded-full block w-full p-1 hover:bg-primary hover:text-white hover:border-primary transition-colors"
+                className=" border border-gray-300 text-gray-500 rounded-full block w-full p-1 hover:bg-ink hover:text-white hover:border-ink transition-colors"
                 onLoaded={onLoadedNewThumbnail}
                 noEdit={false}
               >
@@ -264,7 +264,7 @@ const ElementEditor = ({ newBGGinfo = null, toggleEditingMode = () => {} }) => {
               </button>
               <button
                 type="submit"
-                className=" text-white bg-primary font-bold text-lg px-6 py-1 rounded-full hover:bg-sky-700 hover:text-white transition-colors"
+                className=" text-brand-ink bg-brand font-bold text-lg px-6 py-1 rounded-full hover:brightness-95 transition-colors"
               >
                 <I18N id="btn.Save" />
               </button>

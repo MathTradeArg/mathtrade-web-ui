@@ -23,6 +23,7 @@ const ElementCollection = ({
   // ElementCollection is also nested inside that very flow, where this
   // button would be redundant/out of place.
   showAddToMT = false,
+  bare = false,
 }: {
   element?: any;
   insideItem?: boolean;
@@ -30,6 +31,7 @@ const ElementCollection = ({
   header?: ReactNode;
   layout?: "poster" | "row";
   showAddToMT?: boolean;
+  bare?: boolean;
 }) => {
   // Keep the card visible; the form lives in a modal so the 340px grid cell
   // no longer clips it.
@@ -51,6 +53,7 @@ const ElementCollection = ({
         extraContent={extraContent}
         header={header}
         layout={layout}
+        bare={bare}
         showAddToMT={showAddToMT}
         onAddToMT={toggleAddingToMT}
       />

@@ -53,7 +53,7 @@ const HeadContent = ({
         // position/top/left/transform/max-height (computed for the desktop
         // flyout), which otherwise shifted and cut the panel.
         "max-lg:animate-faderight max-lg:!fixed max-lg:!inset-0 max-lg:![transform:none] max-lg:!max-h-none max-lg:w-full max-lg:max-w-full max-lg:h-full max-lg:z-panel",
-        "lg:z-panel lg:w-auto lg:max-w-min lg:h-auto lg:flex lg:flex-col lg:overflow-hidden",
+        "lg:z-panel lg:w-auto lg:max-w-min lg:h-auto lg:flex lg:flex-col lg:overflow-hidden lg:rounded-main lg:border lg:border-ink/25 lg:shadow-[0_12px_32px_rgba(46,41,78,0.28)]",
         {
           "max-lg:hidden": !visibleMobile,
           "max-lg:block": visibleMobile,
@@ -77,12 +77,12 @@ const HeadContent = ({
         <div className="absolute top-[-16px] right-2 z-raised  w-0 h-0 ml-auto  border-8 border-t-transparent  border-l-transparent border-r-transparent border-b-white lg:block hidden" />
       ) : null}
       <button
-        className="absolute top-0 right-0 w-10 h-10 text-gray-600 lg:hidden"
+        className="absolute top-0 right-0 w-10 h-10 text-ink-muted lg:hidden"
         onClick={toggleMobile}
       >
         <Icon />
       </button>
-      <div className="scrollbar bg-white min-w-[260px] lg:shadow-lg overflow-y-auto overflow-x-hidden h-full lg:min-h-0 lg:flex-1 lg:max-h-full max-lg:pt-10 lg:pt-0">
+      <div className="scrollbar bg-white text-ink min-w-[260px] overflow-y-auto overflow-x-hidden h-full lg:min-h-0 lg:flex-1 lg:max-h-full max-lg:pt-10 lg:pt-0">
         {children}
       </div>
     </aside>

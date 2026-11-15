@@ -5,7 +5,7 @@ import ItemXL from "@/components/item/item-grid/item-grid-ui/xl";
 import clsx from "clsx";
 import {
   resolveItemKind,
-  cardKindBorderClass,
+  cardKindClass,
   cardSurfaceClass,
 } from "@/components/badgeType/cardKind";
 
@@ -16,9 +16,9 @@ const ItemUI = () => {
   return (
     <div
       className={clsx(
-        "rounded-lg shadow-xl overflow-hidden",
+        "shadow-xl overflow-hidden",
         cardSurfaceClass,
-        cardKindBorderClass(cardKind)
+        cardKindClass(cardKind)
       )}
     >
       <ItemXL hideWant hideTags />

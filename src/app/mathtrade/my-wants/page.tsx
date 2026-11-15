@@ -16,6 +16,7 @@ export default function MyWants() {
     <>
       <PageHeader
         variant="compact"
+        tone="mint"
         title="title.MyWants"
         helpId="page.myWants"
       />

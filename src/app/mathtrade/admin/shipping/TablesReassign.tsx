@@ -48,7 +48,7 @@ export const hubTableRows = (tables: HubTable[] = []): TableListRow[] =>
     })),
   }));
 
-const inputClass = "border border-stroke rounded-md p-2 text-sm bg-white w-full sm:w-28";
+const inputClass = "border border-line rounded-md p-2 text-sm bg-white w-full sm:w-28";
 
 // "Reasignar mesas": new parameters → preview (dry run) → apply, after a
 // confirmation. Apply is only offered for the values that were previewed.

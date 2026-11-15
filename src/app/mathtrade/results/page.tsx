@@ -48,11 +48,12 @@ export default function Results() {
     <>
       <PageHeader
         variant="compact"
+        tone="lilac"
         title="title.Results"
         helpId="page.results"
       />
-      <Wrapper className="mb-1">
-        <div className="bg-white rounded-t-main shadow-main">
+      <Wrapper>
+        <div className="bg-surface-soft border border-line border-b-0 rounded-t-main">
           <Tabs list={tabs} value={tabView} onChange={setTabView} />
         </div>
       </Wrapper>

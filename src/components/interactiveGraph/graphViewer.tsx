@@ -37,7 +37,7 @@ const CompactSelect = ({
   children: ReactNode;
 }) => (
   <select
-    className="h-[34px] min-w-0 max-w-full rounded-full border border-gray-200 bg-gray-100 px-3 text-body font-semibold text-gray-800 outline-none focus:border-primary focus:bg-white"
+    className="h-[34px] min-w-0 max-w-full rounded-full border border-line bg-surface px-3 text-body font-semibold text-gray-800 outline-none focus:border-primary focus:bg-white"
     value={value}
     onChange={(e) => onChange(e.target.value)}
     aria-label={getI18Ntext(labelId)}
@@ -193,12 +193,12 @@ const GraphViewer = ({ mathtradeId }: GraphViewerProps) => {
         </span>
       </div>
 
-      <div className="flex max-w-full min-w-0 flex-wrap items-center gap-2.5 border-b border-gray-200 bg-white px-3 py-2 md:px-4">
+      <div className="flex max-w-full min-w-0 flex-wrap items-center gap-2.5 border-b border-line bg-surface-soft px-3 py-2 md:px-4">
         {subgraphs.length > 0 ? (
           <div className="flex min-w-0 items-center gap-1">
             <button
               type="button"
-              className="shrink-0 h-[34px] w-[34px] rounded-full border border-gray-200 bg-gray-100 text-gray-700 hover:bg-white hover:border-primary hover:text-primary disabled:opacity-40"
+              className="shrink-0 h-[34px] w-[34px] rounded-full border border-line bg-surface text-gray-700 hover:bg-white hover:border-primary hover:text-primary disabled:opacity-40"
               aria-label={getI18Ntext("chains.prev")}
               disabled={activeIndex <= 0}
               onClick={() => handleChainChange(activeIndex - 1)}
@@ -221,7 +221,7 @@ const GraphViewer = ({ mathtradeId }: GraphViewerProps) => {
             </CompactSelect>
             <button
               type="button"
-              className="shrink-0 h-[34px] w-[34px] rounded-full border border-gray-200 bg-gray-100 text-gray-700 hover:bg-white hover:border-primary hover:text-primary disabled:opacity-40"
+              className="shrink-0 h-[34px] w-[34px] rounded-full border border-line bg-surface text-gray-700 hover:bg-white hover:border-primary hover:text-primary disabled:opacity-40"
               aria-label={getI18Ntext("chains.next")}
               disabled={activeIndex >= subgraphs.length - 1}
               onClick={() => handleChainChange(activeIndex + 1)}

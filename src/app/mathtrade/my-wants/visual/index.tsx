@@ -23,7 +23,7 @@ const TabVisual = ({
         "h-8 px-3 rounded-full border text-caption font-bold flex items-center gap-1.5 transition-colors",
         active
           ? "bg-want/10 border-want/40 text-[#0a7a4d]"
-          : "bg-white border-gray-200 text-gray-500 hover:text-gray-800"
+          : "bg-surface border-line text-gray-500 hover:text-gray-800"
       )}
       onClick={() => {
         setScreenViewOffer(val);

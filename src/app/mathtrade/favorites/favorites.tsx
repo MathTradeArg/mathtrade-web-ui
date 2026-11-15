@@ -120,7 +120,7 @@ const FavoritesPanel = () => {
           type="button"
           onClick={onImport}
           disabled={importing}
-          className="inline-flex items-center gap-2 rounded-full bg-primary text-white text-sm font-semibold px-4 py-2 hover:opacity-90 disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-full bg-brand text-brand-ink text-sm font-semibold px-4 py-2 hover:brightness-95 disabled:opacity-60"
         >
           {importing ? <Icon type="loading" /> : null}
           <I18N id="favorites.import.btn" />

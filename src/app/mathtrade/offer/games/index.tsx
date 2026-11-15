@@ -38,7 +38,7 @@ const SwipeButton = ({ onClick }: { onClick: () => void }) => {
       <div className="h-20" aria-hidden="true" />
       <button
         type="button"
-        className="fixed z-nav right-4 bottom-[calc(var(--mt-tabbar-h)+0.75rem)] lg:bottom-6 h-14 w-14 lg:h-12 lg:w-auto lg:px-4 lg:gap-2 rounded-full bg-primary text-white shadow-[0_8px_24px_rgba(0,0,0,0.28)] hover:bg-sky-700 flex items-center justify-center"
+        className="fixed z-nav right-4 bottom-[calc(var(--mt-tabbar-h)+0.75rem)] lg:bottom-6 h-14 w-14 lg:h-12 lg:w-auto lg:px-4 lg:gap-2 rounded-full bg-brand text-brand-ink shadow-[0_8px_24px_rgba(0,0,0,0.28)] hover:brightness-95 flex items-center justify-center"
         onClick={onClick}
       >
         <Icon type="swipe" className="text-[28px] lg:text-[22px]" />

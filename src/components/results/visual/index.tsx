@@ -28,7 +28,7 @@ const ResultsVisual = ({ forced = false }: { forced?: boolean }) => {
   }
 
   return (
-    <div>
+    <div className="space-y-4 py-2">
       {(MathTradeResults || []).map((result, index) => (
         <ChangeSection
           result={result}

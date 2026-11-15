@@ -131,7 +131,7 @@ const ImportBggModal = ({
           </button>
           <button
             type="button"
-            className={`bg-primary text-white font-bold px-7 py-2 rounded-full hover:bg-sky-700 transition-colors flex items-center gap-2 ${
+            className={`bg-brand text-brand-ink font-bold px-7 py-2 rounded-full hover:brightness-95 transition-colors flex items-center gap-2 ${
               selectedGames.size === 0 || loadingPost ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={handleImport}

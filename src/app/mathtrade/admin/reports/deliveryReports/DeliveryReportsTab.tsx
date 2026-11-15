@@ -26,7 +26,7 @@ const quickButton = (active: boolean) =>
     "rounded-full text-sm font-semibold px-4 py-1.5 border",
     active
       ? "bg-primary text-white border-primary"
-      : "bg-white text-primary border-primary hover:bg-primary/10"
+      : "bg-surface text-primary border-primary hover:bg-primary/10"
   );
 
 const searchText = (row: DeliveryReportRow) =>
@@ -110,7 +110,7 @@ const DeliveryReportsTab = ({ tabs }: { tabs: ReactNode }) => {
     return (
       <article
         key={row.id}
-        className="rounded-lg border border-gray-200 bg-white p-3 shadow-sm"
+        className="rounded-card border border-line bg-surface p-3"
         data-testid={`delivery-report-${row.id}`}
       >
         <button
@@ -179,7 +179,7 @@ const DeliveryReportsTab = ({ tabs }: { tabs: ReactNode }) => {
           </div>
           <input
             type="search"
-            className="border border-stroke rounded-md p-2 text-sm w-full sm:w-80 mb-4"
+            className="border border-line rounded-md p-2 text-sm w-full sm:w-80 mb-4"
             placeholder={getI18Ntext("deliveryReport.admin.search")}
             aria-label={getI18Ntext("deliveryReport.admin.search")}
             value={search}

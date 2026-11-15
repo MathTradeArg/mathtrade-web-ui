@@ -90,7 +90,7 @@ const ElementComplete = ({
 
   return (
     <div className="flex flex-col grow">
-      <div className="relative overflow-hidden rounded-t-lg">
+      <div className="relative overflow-hidden rounded-t-card">
         <Thumbnail fill contain elements={[element]} className="w-full h-40" />
         <div
           className={clsx(
@@ -112,12 +112,12 @@ const ElementComplete = ({
           the button was covered and a tap never reached it. */}
       {header && !(item as { ban_id?: unknown } | null)?.ban_id ? (
         <ItemTagList
-          className="pointer-events-none relative z-20 -mt-5 mb-1 w-full justify-center px-3 [&>*]:pointer-events-auto"
+          className="pointer-events-none relative z-20 -mt-5 mb-1 w-full justify-center px-4 [&>*]:pointer-events-auto"
           onCover
         />
       ) : null}
 
-      <div className="grow min-w-0 py-3 px-4 flex flex-col gap-2.5 items-start">
+      <div className="grow min-w-0 py-3.5 px-4 flex flex-col gap-2.5 items-start">
         {header}
 
         <div className="flex flex-col gap-2 w-full items-end">
@@ -138,7 +138,7 @@ const ElementComplete = ({
         >
           {/* Reserves both lines so the rows below stay aligned across cards
               in the same grid row — see game-grid-ui/md.tsx. */}
-          <h3 className="text-heading hover:opacity-70 leading-tight line-clamp-2 min-h-[2.5em] break-words">
+          <h3 className="text-heading font-display font-semibold tracking-[-0.01em] text-ink text-balance hover:opacity-70 leading-6 line-clamp-2 min-h-12 break-words">
             {title}
           </h3>
         </div>
@@ -154,7 +154,7 @@ const ElementComplete = ({
               showHelp
             />
             <div className="flex flex-col gap-1">
-              <span className="text-caption text-gray-700 leading-none">
+              <span className="text-caption text-ink/80 leading-none">
                 <I18N id="element.BGG.weight" />
               </span>
               <div className="flex gap-1" title={`${weight} / 5`}>
@@ -208,7 +208,7 @@ const ElementComplete = ({
         ) : null}
 
         <div
-          className="mt-auto w-full text-caption text-gray-700"
+          className="mt-auto w-full text-caption text-ink/80"
           // The tooltip bubble lives on this wrapper, not on the truncated
           // <a> inside it — a truncate ancestor's overflow:hidden clips the
           // CSS tooltip pseudo-elements otherwise (MAT-116-style bug).

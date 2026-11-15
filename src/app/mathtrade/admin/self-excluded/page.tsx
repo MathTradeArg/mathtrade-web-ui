@@ -101,7 +101,7 @@ const AdminSelfExcludedPage = () => {
                       <td className="py-2 text-right">
                         <Link
                           href={`${PRIVATE_ROUTES.PROVISIONAL_RESULTS.path}?member=${row.user_id}`}
-                          className="inline-block rounded-full bg-primary text-white text-xs font-semibold px-3 py-1.5 hover:opacity-90 whitespace-nowrap"
+                          className="inline-block rounded-full bg-brand text-brand-ink text-xs font-semibold px-3 py-1.5 hover:brightness-95 whitespace-nowrap"
                         >
                           <I18N id="adminSelfExcluded.view" />
                         </Link>

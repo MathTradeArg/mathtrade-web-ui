@@ -17,7 +17,7 @@ import { useContext, useMemo, type ReactNode } from "react";
 import BadgeType from "@/components/badgeType";
 import {
   resolveCardKind,
-  cardKindBorderClass,
+  cardKindClass,
   cardSurfaceClass,
 } from "@/components/badgeType/cardKind";
 import useBGGdata from "@/components/bggInfo/useBGGdata";
@@ -31,9 +31,9 @@ import clsx from "clsx";
 import LanguagePills from "@/components/chip/languagePills";
 import EditionMeta from "@/components/element/editionMeta";
 
-const META_TEXT = "text-caption text-gray-700";
+const META_TEXT = "text-caption text-ink/80";
 const TAG_PILL =
-  "text-caption text-gray-800 bg-white/85 px-2.5 py-1 rounded-md";
+  "text-caption text-ink bg-white/75 px-2.5 py-1 rounded-md";
 
 type ElementViewProps = {
   toggleEditingMode?: () => void;
@@ -50,6 +50,8 @@ type ElementViewProps = {
   layout?: "poster" | "row";
   showAddToMT?: boolean;
   onAddToMT?: () => void;
+  // The parent already paints the card (fill, border, radius): skip them.
+  bare?: boolean;
 };
 
 const ElementView = ({
@@ -60,6 +62,7 @@ const ElementView = ({
   layout = "poster",
   showAddToMT = false,
   onAddToMT,
+  bare = false,
 }: ElementViewProps) => {
   const isRow = layout === "row";
   const { canI } = useContext(PageContext);
@@ -161,21 +164,20 @@ const ElementView = ({
   return (
     <div
       className={clsx(
-        // Bleed into ElementWrapperOuter p-4 (ludoteca). Skip when the
-        // parent is already unpadded (my-offer ElementMyItem) — -m-4
-        // plus overflow-x-hidden on the wrapper clips into a white gutter.
-        "relative flex-1 flex rounded-lg",
-        insideItem ? null : "-m-4",
+        // The ludoteca wrapper is unpadded (card), so the card fills it.
+        "relative flex-1 flex",
         cardSurfaceClass,
         isRow ? "flex-row" : "flex-col",
-        cardKindBorderClass(cardKind)
+        bare ? null : cardKindClass(cardKind)
       )}
     >
       <div
         className={clsx(
           "relative overflow-hidden",
           // Narrower thumb on phones so Geek/Avg + Complejidad + BGG fit.
-          isRow ? "w-[110px] sm:w-[150px] shrink-0" : "rounded-t-lg"
+          isRow
+            ? "w-[110px] sm:w-[150px] shrink-0 rounded-l-card"
+            : "rounded-t-card"
         )}
       >
         <Thumbnail
@@ -186,8 +188,8 @@ const ElementView = ({
         />
       </div>
 
-      <div className="flex-1 min-w-0 p-4 flex flex-col gap-2.5">
-        {header}
+      <div className="flex-1 min-w-0 px-4 py-3.5 flex flex-col gap-2.5">
+        {isRow ? null : header}
 
         <div className="flex flex-wrap items-center justify-between gap-2 min-w-0 w-full">
           <div className="flex flex-wrap items-center gap-2 min-w-0">
@@ -205,6 +207,12 @@ const ElementView = ({
               </Link>
             ) : null}
           </div>
+          {isRow && header ? (
+            // Item-level controls (score, groups, delete) share the badge
+            // row so the score pill is never alone on a line of its own; on a
+            // narrow card the whole block wraps below the badge.
+            <div className="flex-1 min-w-0 basis-44">{header}</div>
+          ) : null}
           {offered ? (
             <div className="shrink-0 uppercase font-bold bg-gray-800 text-white text-[10px] px-3 py-[3px] rounded-full whitespace-nowrap">
               <I18N id="element.Offered" />
@@ -218,16 +226,16 @@ const ElementView = ({
             against and the reserved line would be wasted height. */}
         <h3
           className={clsx(
-            "text-heading leading-tight line-clamp-2 break-words",
-            isRow ? null : "min-h-[2.5em]",
-            titleColorClass
+            "text-heading font-display font-semibold tracking-[-0.01em] text-balance leading-6 line-clamp-2 break-words",
+            isRow ? "min-h-0" : "min-h-12",
+            titleColorClass || "text-ink"
           )}
         >
           {title}
         </h3>
 
         {titleLink ? null : (
-          <div className="italic text-gray-500 font-bold text-caption -mt-1.5">
+          <div className="italic text-gray-600 font-bold text-caption -mt-1.5">
             <I18N id="element-type-badge-3" />
           </div>
         )}
@@ -323,7 +331,7 @@ const ElementView = ({
         </div>
 
         {showEdition || canAddToMT || canWithdraw || offeredLocked ? (
-          <div className="flex items-center gap-1 flex-wrap border-t border-black/10 text-gray-600 pt-3">
+          <div className="mt-auto flex items-center gap-1.5 flex-wrap border-t border-black/10 text-ink/80 pt-3">
             {canWithdraw ? (
               <ButtonAlert
                 className="border border-red-300 text-red-700 px-4 py-1 rounded-full font-bold text-sm hover:bg-red-50 transition-colors"
@@ -371,8 +379,8 @@ const ElementView = ({
               <>
                 <button
                   className={clsx(
-                    "text-white px-5 py-1 rounded-full font-bold text-sm transition-colors",
-                    box_size === null ? "bg-amber-500 hover:bg-amber-600" : "bg-primary hover:bg-sky-800"
+                    "px-5 py-1 rounded-full font-bold text-sm transition-colors",
+                    box_size === null ? "bg-amber-500 text-white hover:bg-amber-600" : "bg-brand text-brand-ink hover:brightness-95"
                   )}
                   onClick={toggleEditingMode}
                 >
@@ -417,7 +425,7 @@ const ElementView = ({
                   type="button"
                   disabled
                   aria-describedby={`offered-locked-${element.id}`}
-                  className="text-gray-500 font-bold px-5 py-1 text-sm cursor-not-allowed"
+                  className="text-gray-600 font-bold px-5 py-1 text-sm cursor-not-allowed"
                 >
                   <InnerButton>
                     <Icon type="trash" />

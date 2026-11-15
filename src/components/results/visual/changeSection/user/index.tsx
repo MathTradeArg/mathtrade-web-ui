@@ -30,7 +30,7 @@ export const UserCaption = ({
   const location = user.location?.name;
 
   return (
-    <p className="text-caption text-gray-500 mt-1.5 mb-0 max-w-full leading-snug break-words">
+    <p className="text-caption text-ink-muted mt-1.5 mb-0 max-w-full leading-snug break-words">
       <I18N id={`results.person.${side}`} />{" "}
       {/* membership id = the user id (MembershipSingleSerializer) */}
       <AdminUserName userId={Number(user.id) || null}>{name}</AdminUserName>

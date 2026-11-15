@@ -27,11 +27,11 @@ const FilterChip = ({
     <button
       type={type}
       className={clsx(
-        "inline-flex max-w-full items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-semibold",
+        "inline-flex max-w-full items-center gap-1 rounded-lg border border-transparent px-2.5 py-1 text-xs font-semibold transition-colors",
         ghost && "border border-dashed border-gray-400 bg-transparent text-gray-600",
         selected && ghost && "border-primary bg-primary/10 text-primary",
-        selected && !colored && !ghost && "bg-primary text-white",
-        !selected && !ghost && "bg-gray-100 text-gray-600",
+        selected && !colored && !ghost && "border-ink bg-ink text-white",
+        !selected && !ghost && "border-line bg-white text-ink hover:bg-surface-strong",
         className
       )}
       style={colored ? colorTagStyles(color) : undefined}

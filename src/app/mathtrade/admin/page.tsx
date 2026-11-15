@@ -95,8 +95,8 @@ const AdminPanelPage = () => {
           </div>
           <ErrorAlert error={errorList} />
           {creating ? (
-            <div className="border-2 border-primary rounded-lg p-4 mb-4">
-              <h2 className="font-bold text-lg mb-3">
+            <div className="border-2 border-primary bg-surface text-ink rounded-card p-4 mb-4">
+              <h2 className="font-display font-semibold text-lg text-ink mb-3">
                 <I18N id="adminPanel.create.title" />
               </h2>
               <EditionForm
@@ -111,7 +111,7 @@ const AdminPanelPage = () => {
             </div>
           ) : (
             <div className="mb-4">
-              <Button type="button" onClick={() => setCreating(true)}>
+              <Button type="button" sm onClick={() => setCreating(true)}>
                 <I18N id="adminPanel.create.button" />
               </Button>
             </div>

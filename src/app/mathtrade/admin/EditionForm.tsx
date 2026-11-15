@@ -71,7 +71,7 @@ const EditionForm = ({
         </InputContainer>
       </>
     ) : (
-      <p className="text-sm text-gray-700 bg-gray-100 rounded px-3 py-2 mb-4">
+      <p className="text-sm text-ink bg-surface rounded px-3 py-2 mb-4">
         <I18N id="adminPanel.create.startsHidden" />
       </p>
     )}
@@ -112,7 +112,7 @@ const EditionForm = ({
       </p>
     </InputContainer>
 
-    <fieldset className="border border-stroke rounded-lg p-3 mb-4">
+    <fieldset className="border border-line rounded-lg p-3 mb-4">
       <legend className="px-1 text-sm font-semibold">
         <I18N id="adminPanel.venue.title" />
       </legend>
