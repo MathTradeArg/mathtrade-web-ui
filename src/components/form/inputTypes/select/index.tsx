@@ -85,8 +85,8 @@ const Select = ({
           className={clsx(
             "border border-line border-r-0 rounded-tl-md rounded-bl-md w-[45px] flex flex-col justify-center items-center bg-surface text-ink-muted peer-focus:border-primary peer-focus:shadow-[0_0_6px_theme(colors.primary)] transition",
             {
-              "border-primary shadow-[0_0_6px_theme(colors.primary)]":
-                visiblePad,
+              "border-primary": visiblePad,
+              "shadow-[0_0_6px_theme(colors.primary)]": visiblePad && !noBorder,
             }
           )}
         >
@@ -96,10 +96,10 @@ const Select = ({
       <div className="relative w-full" ref={refs.setReference}>
         <div
           className={clsx(
-            "input block w-full  border-line rounded-md  pl-3 pr-6 shadow-sm transition",
+            "input block w-full  border-line pl-3 pr-6 transition",
             {
-              "border-primary shadow-[0_0_6px_theme(colors.primary)]":
-                visiblePad,
+              "border-primary": visiblePad,
+              "shadow-[0_0_6px_theme(colors.primary)]": visiblePad && !noBorder,
               "flex flex-wrap gap-1": multiple,
               "border-l-0 rounded-tl-none rounded-bl-none": icon,
               "bg-white": !disabled && !disabledInput,
@@ -107,6 +107,7 @@ const Select = ({
               "py-3": size === "md",
               "py-2 text-sm": size === "sm",
               border: !noBorder,
+              "rounded-md shadow-sm": !noBorder,
             }
           )}
         >
