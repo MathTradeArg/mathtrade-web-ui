@@ -7,17 +7,22 @@ const UserQRui = ({ uuid }: { uuid?: string }) => {
   useEffect(() => {
     if (uuid) {
       if (canvasRef.current) {
-        QRCode.toCanvas(canvasRef.current, uuid, { width: 400, margin: 2 }, function () {});
+        const canvas = canvasRef.current;
+        QRCode.toCanvas(canvas, uuid, { width: 400, margin: 2 }, function () {
+          // qrcode writes a fixed px size into canvas.style; drop it so CSS scales the canvas.
+          canvas.style.removeProperty("width");
+          canvas.style.removeProperty("height");
+        });
       }
     }
   }, [uuid]);
 
   return (
     <div className="flex justify-center mb-4">
-      <div className="w-full max-w-[400px] border border-line bg-surface rounded-card p-4 mb-5 relative">
-        <div className="mx-auto mb-3">
+      <div className="w-full max-w-[400px] min-w-0 overflow-hidden border border-line bg-surface rounded-card p-4 mb-5 relative">
+        <div className="mx-auto mb-3 w-full max-w-[320px] aspect-square">
           <canvas
-            className="bg-white block mx-auto w-full h-full border border-line"
+            className="bg-white block mx-auto w-full h-auto max-w-full aspect-square border border-line"
             ref={canvasRef}
             width="400"
             height="400"
