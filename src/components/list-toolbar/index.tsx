@@ -24,7 +24,7 @@ const ListToolbar = ({
   return (
     <div
       className={clsx(
-        "flex max-w-full min-w-0 flex-wrap items-center gap-x-2.5 gap-y-2 overflow-x-hidden bg-surface-soft border-b border-line px-3 py-2 md:px-4",
+        "flex max-w-full min-w-0 flex-wrap items-center gap-x-2.5 gap-y-2 overflow-x-hidden px-3 py-2 md:px-4",
         align === "end" && "items-end",
         className
       )}

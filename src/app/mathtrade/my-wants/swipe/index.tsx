@@ -143,7 +143,7 @@ const Swipe = ({ onOpenVisual = () => {} }: { onOpenVisual?: () => void }) => {
     direction === "item" ? "swipe.pick.hint.item" : "swipe.pick.hint.want";
 
   return (
-    <SectionCommon topNotRounded>
+    <SectionCommon>
       <div
         className={clsx(
           "px-3 sm:px-8 pt-4",

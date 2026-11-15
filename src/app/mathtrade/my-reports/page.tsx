@@ -66,11 +66,11 @@ export default function MyReports() {
         }
       />
       <Wrapper>
-        <div className="bg-surface-soft border border-line border-b-0 rounded-t-main">
+        <div className="">
           <Tabs list={TABS} value={tab} onChange={setTab} />
         </div>
       </Wrapper>
-      <SectionCommon topNotRounded>
+      <SectionCommon>
         <div className="min-w-0 relative">
           <div className="mb-3">
             <SegmentedGroup>

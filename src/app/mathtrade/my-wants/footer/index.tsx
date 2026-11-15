@@ -75,7 +75,7 @@ const Footer = ({ swipe = false }: { swipe?: boolean }) => {
   // apply there; the bar only reports drafts that still need saving.
   const swipeBar = swipe ? (
     changesCount > 0 ? (
-      <div className="rounded-main border border-line bg-surface-soft px-3 py-2 flex flex-wrap items-center justify-center gap-3">
+      <div className="px-3 py-2 flex flex-wrap items-center justify-center gap-3">
         {unsaved}
         {saveButton}
       </div>
@@ -100,7 +100,7 @@ const Footer = ({ swipe = false }: { swipe?: boolean }) => {
         </div>
       ) : null}
       <ListToolbar
-        className="rounded-main border border-line max-w-full min-w-0"
+        className="max-w-full min-w-0"
         search={
           <ListSearch
             value={filters?.keyword || ""}

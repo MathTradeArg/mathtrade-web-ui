@@ -10,7 +10,7 @@ const StickyHeader = ({
   // mobile where the entire content scrollport is already the real viewport
   // band above the TabBar.
   return (
-    <header className="lg:sticky max-lg:relative top-0 z-sticky bg-surface-soft border-b border-line">
+    <header className="lg:sticky max-lg:relative top-0 z-sticky bg-canvas">
       {children}
     </header>
   );

@@ -64,8 +64,8 @@ const PageHeader = ({
         <header
         className={clsx("relative overflow-hidden rounded-main", {
           "bg-brand text-brand-ink px-6 py-5": isWelcome,
-          "bg-surface px-5 pt-4 pb-3": isCompact,
-          "bg-surface px-5 py-3.5": variant === "minimal",
+          "px-1 pt-4 pb-3": isCompact,
+          "px-1 py-3.5": variant === "minimal",
         })}
       >
         {isWelcome ? (

@@ -26,7 +26,6 @@ const HeaderMyOffer = ({ count = 0 }: { count?: number }) => {
 
   return (
     <ListToolbar
-      className="rounded-t-main"
       leading={
         <SidebarToggleButton
           data-tour="myoffer.groupsBtn"

@@ -53,11 +53,11 @@ export default function Results() {
         helpId="page.results"
       />
       <Wrapper>
-        <div className="bg-surface-soft border border-line border-b-0 rounded-t-main">
+        <div className="">
           <Tabs list={tabs} value={tabView} onChange={setTabView} />
         </div>
       </Wrapper>
-      <SectionCommon topNotRounded>
+      <SectionCommon>
         {tabView === 0 ? (
           <ResultsContextProvider showTradeCodes={!!labels?.published}>
             <Dynamic>

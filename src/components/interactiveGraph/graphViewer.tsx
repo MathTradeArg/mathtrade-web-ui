@@ -193,7 +193,7 @@ const GraphViewer = ({ mathtradeId }: GraphViewerProps) => {
         </span>
       </div>
 
-      <div className="flex max-w-full min-w-0 flex-wrap items-center gap-2.5 border-b border-line bg-surface-soft px-3 py-2 md:px-4">
+      <div className="flex max-w-full min-w-0 flex-wrap items-center gap-2.5 border-b border-line px-3 py-2 md:px-4">
         {subgraphs.length > 0 ? (
           <div className="flex min-w-0 items-center gap-1">
             <button

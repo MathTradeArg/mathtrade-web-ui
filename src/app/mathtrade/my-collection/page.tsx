@@ -69,7 +69,6 @@ const MyCollectionPage = () => {
         <GotoTopContextProvider>
           <StickyHeader>
             <ListToolbar
-              className="rounded-t-main"
               search={
                 <ListSearch
                   tourAnchor="mycollection.search"

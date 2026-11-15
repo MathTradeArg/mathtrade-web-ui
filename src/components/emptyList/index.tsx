@@ -24,7 +24,7 @@ const EmptyList = ({
   }
 
   return (
-    <div className="text-center bg-surface rounded-main py-8 px-6">
+    <div className="text-center py-8 px-6">
       <div className="flex justify-center items-end gap-3 mb-3" aria-hidden>
         <Meeple fill="#ffb084" className="w-14 h-14" />
         <Die className="w-14 h-14" />

@@ -42,7 +42,7 @@ export default function Statistics() {
     <>
       <Header />
       <Wrapper>
-        <div className="bg-surface-soft border border-line border-b-0 rounded-t-main">
+        <div>
           <Tabs
             list={["stats.screen.current", "stats.screen.historial"]}
             value={screenViewStats}
@@ -50,7 +50,7 @@ export default function Statistics() {
           />
         </div>
       </Wrapper>
-      <SectionCommon topNotRounded>
+      <SectionCommon>
         <div className="md:px-8 px-3 py-8">
           {screenViewStats === 0 ? (
             <Dynamic>

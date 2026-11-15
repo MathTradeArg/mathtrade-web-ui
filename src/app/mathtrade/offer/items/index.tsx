@@ -55,11 +55,11 @@ const ItemsView = () => {
   );
 
   return (
-    <SectionWithSidebar name="items" loading={loading} topNotRounded>
+    <SectionWithSidebar name="items" loading={loading}>
       <GotoTopContextProvider>
       <BulkSelectProvider kind="item" resetKey={resetKey}>
         <SidebarGrid>
-          <Sidebar topNotRounded>
+          <Sidebar>
             <Filters type="item" />
           </Sidebar>
           <div>

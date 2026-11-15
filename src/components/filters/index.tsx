@@ -30,7 +30,7 @@ const Filters = ({ type = "item" }: { type?: "item" | "game" }) => {
           )
         ) : null}
       </div>
-      <div className="shrink-0 flex items-center justify-center gap-3 py-3 px-3 bg-surface-soft border-t border-line">
+      <div className="shrink-0 flex items-center justify-center gap-3 py-3 px-3 border-t border-line">
         <button
           type="submit"
           className="h-9 min-w-0 flex-1 rounded-full bg-brand px-4 text-sm font-semibold text-brand-ink inline-flex items-center justify-center gap-1.5 hover:brightness-95 max-w-[8rem]"

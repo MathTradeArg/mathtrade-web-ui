@@ -7,7 +7,7 @@ const GameItemList = () => {
 
   return (
     <>
-      <div className="bg-surface-soft text-ink lg:p-4 py-4 px-2 border border-t-0 border-line rounded-b-card">
+      <div className="text-ink lg:p-4 py-4 px-2">
         <h4 className="mb-3 font-display font-semibold text-body-lg">
           {`${itemCount} `}
           <I18N

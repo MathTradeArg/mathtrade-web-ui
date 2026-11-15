@@ -62,7 +62,7 @@ const Visual = () => {
   };
 
   return (
-    <SectionCommon topNotRounded>
+    <SectionCommon>
       <div
         className="flex justify-center items-center gap-1.5 pt-5 pb-1"
         data-tour="mywants.direction"
