@@ -32,9 +32,9 @@ const ListSearch = ({
   return (
     <label
       data-tour={tourAnchor}
-      className="flex w-full min-w-0 items-center gap-2 rounded-xl border border-line bg-surface px-2.5 h-[34px]"
+      className="flex w-full min-w-0 items-center gap-2 rounded-xl border border-line bg-white px-3 h-10 shadow-[0_1px_0_rgb(0_0_0/0.04)] focus-within:ring-2 focus-within:ring-ink/30"
     >
-      <Icon type="search" className="shrink-0 text-sm text-gray-600" />
+      <Icon type="search" className="shrink-0 text-sm text-ink-muted" />
       <input
         autoComplete="off"
         type="search"

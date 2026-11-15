@@ -29,9 +29,9 @@ const HeaderMyOffer = ({ count = 0 }: { count?: number }) => {
       leading={
         <SidebarToggleButton
           data-tour="myoffer.groupsBtn"
-          className="h-[34px] px-3 rounded-xl text-caption font-bold transition-colors shrink-0"
-          classNameNotHighlighted="text-primary bg-primary/10"
-          classNameHighlighted="text-white bg-primary"
+          className="h-10 px-4 rounded-xl text-body font-semibold transition-colors shrink-0 bg-ink text-white hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ink"
+          classNameNotHighlighted=""
+          classNameHighlighted="ring-2 ring-brand ring-offset-1"
         >
           <InnerButton>
             <Icon type="collection" className="text-sm" />
@@ -70,6 +70,7 @@ const HeaderMyOffer = ({ count = 0 }: { count?: number }) => {
               filterType="myoffer"
               name="ready"
               allowEmpty
+              quiet
               emptyLabel={getI18Ntext("myOffer.filter.ready.all")}
               options={[
                 {
@@ -90,7 +91,7 @@ const HeaderMyOffer = ({ count = 0 }: { count?: number }) => {
               updateFilters({ unrated: checked || undefined }, "myoffer");
             }}
           >
-            <span className="text-xs whitespace-nowrap">
+            <span className="text-[13px] font-medium text-ink-muted whitespace-nowrap">
               <I18N id="myOffer.filter.unrated" />
             </span>
           </Switch>

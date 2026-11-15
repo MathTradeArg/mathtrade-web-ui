@@ -45,7 +45,7 @@ const ListToolbar = ({
       {count ? (
         <span
           className={clsx(
-            "max-w-full text-caption font-semibold text-gray-600 whitespace-nowrap",
+            "max-w-full text-[13px] font-medium text-ink-muted whitespace-nowrap",
             align === "end" && "h-8 flex items-center"
           )}
         >

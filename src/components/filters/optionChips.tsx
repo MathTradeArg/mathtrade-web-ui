@@ -19,6 +19,7 @@ type OptionChipsProps = {
   emptyLabel?: string;
   mapIn?: (value: any) => string;
   mapOut?: (value: string) => any;
+  quiet?: boolean;
 };
 
 const OptionChips = ({
@@ -31,6 +32,7 @@ const OptionChips = ({
   mapIn = (value: any) =>
     value === undefined || value === null ? "" : `${value}`,
   mapOut = (value: string) => (value === "" ? undefined : value),
+  quiet = false,
 }: OptionChipsProps) => {
   const filters = useOptions((state) => state[`filters_${filterType}`]);
   const updateFilters = useOptions((state) => state.updateFilters);
@@ -64,7 +66,7 @@ const OptionChips = ({
   return (
     <div className="flex flex-wrap gap-1.5">
       {allowEmpty && emptyLabel ? (
-        <FilterChip selected={!selectedList[0]} onClick={() => select("")}>
+        <FilterChip quiet={quiet} selected={!selectedList[0]} onClick={() => select("")}>
           {emptyLabel}
         </FilterChip>
       ) : null}
@@ -74,6 +76,7 @@ const OptionChips = ({
         return (
           <FilterChip
             key={value}
+            quiet={quiet}
             selected={selectedList.includes(value)}
             onClick={() => select(value)}
           >
