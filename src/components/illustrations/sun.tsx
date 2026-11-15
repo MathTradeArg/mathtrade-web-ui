@@ -5,7 +5,7 @@ type Props = { fill?: string; className?: string };
 export default function Sun({ fill = "#ffc700", className }: Props) {
   return (
     <svg
-      viewBox="300 300 200 200"
+      viewBox="308 309 186 186"
       aria-hidden
       focusable="false"
       className={className}

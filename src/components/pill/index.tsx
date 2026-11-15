@@ -1,7 +1,7 @@
 import I18N from "@/i18n";
 import clsx from "clsx";
 import type { ReactNode } from "react";
-import { Die, Meeple } from "@/components/illustrations";
+import { Die, Meeple, Sun } from "@/components/illustrations";
 
 // Number block: one flat pastel color is the container (no border, no
 // shadow); the illustration is white with the night-blue outline.
@@ -20,7 +20,7 @@ type PillProps = {
   footer?: ReactNode;
   color?: keyof typeof COLORS;
   className?: string;
-  art?: "meeple" | "die";
+  art?: "meeple" | "die" | "sun";
 };
 
 const Pill = ({
@@ -51,6 +51,9 @@ const Pill = ({
       ) : null}
       {art === "die" ? (
         <Die fill="#ffffff" className="w-14 h-14 mt-auto self-end" />
+      ) : null}
+      {art === "sun" ? (
+        <Sun fill="#ffffff" className="w-14 h-14 mt-auto self-end" />
       ) : null}
     </div>
   );

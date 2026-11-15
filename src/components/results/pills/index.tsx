@@ -37,7 +37,7 @@ const PillsResults = () => {
             value={mathtrade?.items_count || 0}
             label="results.pill.item"
             color="sky"
-            art="meeple"
+            art="sun"
           />
         </div>
         <div className="md:w-1/3 md:mb-0 mb-6">

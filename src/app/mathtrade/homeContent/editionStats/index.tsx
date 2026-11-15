@@ -2,7 +2,7 @@
 import { useContext } from "react";
 import { PageContext } from "@/context/page";
 import I18N from "@/i18n";
-import { Die, Meeple } from "@/components/illustrations";
+import { Die, Meeple, Sun } from "@/components/illustrations";
 
 // The edition in numbers, stacked like the calendar next to it. They come
 // with the edition refresh (?stats=true), no call of their own.
@@ -19,7 +19,7 @@ const EditionStats = () => {
       value: mathtrade?.items_count,
       id: "results.pill.item",
       bg: "bg-sky",
-      Art: Meeple,
+      Art: Sun,
     },
     {
       value: mathtrade?.users_count,
