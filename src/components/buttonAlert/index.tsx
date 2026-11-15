@@ -15,7 +15,7 @@ const ButtonAlert = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleIsOpen = (e) => {
+  const toggleIsOpen = (e?: { preventDefault?: () => void }) => {
     if (e && e.preventDefault) {
       e.preventDefault();
     }
@@ -35,7 +35,7 @@ const ButtonAlert = ({
       </button>
       <Modal size="sm" isOpen={isOpen} onClose={toggleIsOpen}>
         <div className="text-center">
-          <h3 className="text-xl mb-2 font-bold">
+          <h3 className="text-card-title mb-2 text-ink">
             <I18N id={title} />
           </h3>
           {description ? (

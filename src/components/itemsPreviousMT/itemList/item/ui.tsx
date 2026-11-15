@@ -30,7 +30,7 @@ const ItemUI = ({ afterAddItem = (_value?: any) => {} }) => {
     >
       <header className="flex items-center justify-between  gap-3 mb-2">
         {isCombo ? (
-          <h3 className="uppercase text-sm font-bold text-ink leading-none">
+          <h3 className="text-section-label text-ink leading-none">
             <I18N id="element-type-badge-0" />
           </h3>
         ) : (

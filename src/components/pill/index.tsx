@@ -39,10 +39,10 @@ const Pill = ({
         className
       )}
     >
-      <div className="font-display text-5xl font-semibold leading-none">
+      <div className="text-stat">
         {value}
       </div>
-      <div className="text-body-lg font-semibold text-balance">
+      <div className="text-body-lg text-balance">
         <I18N id={label} />
       </div>
       {footer ? <div className="text-sm pt-3 text-ink">{footer}</div> : null}

@@ -189,7 +189,7 @@ const Detail = ({
       </Row>
       {showItems ? (
         <div className="mt-4">
-          <h4 className="font-bold mb-1">
+          <h4 className="text-card-title mb-1 text-ink">
             <I18N id="adminUserModal.items.title" />
           </h4>
           <AdminUserItems userId={user.user_id} />

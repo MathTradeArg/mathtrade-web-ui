@@ -267,7 +267,7 @@ const Swipe = ({ onOpenVisual = () => {} }: { onOpenVisual?: () => void }) => {
               </div>
             ) : session.done ? (
               <div className="max-w-sm mx-auto text-center py-6 max-lg:flex-1 max-lg:flex max-lg:flex-col max-lg:items-center max-lg:justify-center">
-                <h3 className="text-lg font-bold mb-1">
+                <h3 className="text-card-title mb-1 text-ink">
                   <I18N id="swipe.done.title" />
                 </h3>
                 <p className="text-gray-600 mb-4">
@@ -352,7 +352,7 @@ const Swipe = ({ onOpenVisual = () => {} }: { onOpenVisual?: () => void }) => {
           </div>
         ) : (
           <div>
-            <h3 className="text-center font-bold mb-1">
+            <h3 className="text-card-title text-center mb-1 text-ink">
               <I18N id={pickLabel} />
             </h3>
             <p className="text-center text-caption text-gray-500 text-balance mb-4 max-w-md mx-auto">

@@ -31,7 +31,7 @@ const CancelSignupModal = ({
   return (
     <Modal size="sm" isOpen={isOpen} onClose={close}>
       <div className="text-center">
-        <h3 className="text-xl mb-3 font-bold text-balance">
+        <h3 className="text-card-title mb-3 text-balance text-ink">
           <I18N id="cancelSignup.title" />
         </h3>
         <p className="text-sm text-gray-700 text-balance mb-2">

@@ -57,7 +57,7 @@ const RulesQuiz = ({ mathtradeId, onPassed }) => {
       className="relative border border-stroke rounded-lg p-4 mb-6 bg-white"
       data-tour="signup.quiz"
     >
-      <h3 className="font-bold text-lg mb-2">
+      <h3 className="text-card-title mb-2 text-ink">
         <I18N id="rulesQuiz.title" />
       </h3>
 

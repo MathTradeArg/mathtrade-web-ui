@@ -79,7 +79,7 @@ const ProvisionalExclude = () => {
         size="sm"
         className="py-8 px-6 w-full"
       >
-        <h2 className="text-lg font-bold mb-3">
+        <h2 className="text-card-title mb-3 text-ink">
           <I18N id="provisional.exclude.modal.title" />
         </h2>
         <p className="text-sm text-gray-700 mb-6">

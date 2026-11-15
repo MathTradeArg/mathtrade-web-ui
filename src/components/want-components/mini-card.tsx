@@ -133,7 +133,7 @@ const WantMiniCard = ({
       </div>
       <div className="px-2 py-2 flex flex-col items-start gap-1.5 min-w-0 flex-1">
         <h4
-          className="text-[11px] leading-[14px] font-bold text-ink line-clamp-3 sm:line-clamp-2 cursor-default w-full break-words"
+          className="text-mini-title text-ink line-clamp-3 sm:line-clamp-2 cursor-default w-full break-words"
           title={title}
         >
           {title}

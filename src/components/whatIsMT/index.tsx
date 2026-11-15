@@ -26,7 +26,7 @@ const WhatIsMT = ({ showFaqLink = true }: { showFaqLink?: boolean }) => {
       </div>
       <div className="md:order-1">
         <div data-tour="home.whatIs">
-          <h2 className="font-bold text-2xl mb-3">
+          <h2 className="text-section-label mb-3 text-ink">
             <I18N id="whatIsMT.title" />
           </h2>
           <p className="mb-3">
@@ -34,7 +34,7 @@ const WhatIsMT = ({ showFaqLink = true }: { showFaqLink?: boolean }) => {
           </p>
         </div>
         <aside className="rounded-lg border border-sun/70 bg-sun/15 text-ink p-3 mb-5 min-w-0 max-w-full break-words">
-          <h3 className="font-bold text-base mb-1">
+          <h3 className="text-section-label mb-1 text-ink">
             <I18N id="mtSolidario.title" />
           </h3>
           <p className="text-sm break-words">
@@ -44,7 +44,7 @@ const WhatIsMT = ({ showFaqLink = true }: { showFaqLink?: boolean }) => {
         <p className="text-sm text-ink bg-surface rounded-card p-3 mb-5">
           <I18N id="whatIsMT.example" />
         </p>
-        <h3 className="font-bold text-lg mb-2">
+        <h3 className="text-section-label mb-2 text-ink">
           <I18N id="whatIsMT.how" />
         </h3>
         <ol className="mb-5 space-y-2">
@@ -59,7 +59,7 @@ const WhatIsMT = ({ showFaqLink = true }: { showFaqLink?: boolean }) => {
             </li>
           ))}
         </ol>
-        <h3 className="font-bold text-sm text-gray-600 mb-2">
+        <h3 className="text-section-label mb-2 text-ink">
           <I18N id="whatIsMT.read" />
         </h3>
         <div className="flex flex-wrap gap-2" data-tour="home.read">

@@ -34,7 +34,7 @@ const VideoCta = () => (
       </span>
     </div>
     <div className="p-4">
-      <h3 className="font-bold text-lg leading-tight">
+      <h3 className="text-card-title leading-tight text-ink">
         <I18N id="videoCta.title" />
       </h3>
       <p className="text-sm text-white/80 mt-1">

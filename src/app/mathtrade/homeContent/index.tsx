@@ -27,7 +27,7 @@ const HomeContent = () => {
           {/* Numbers and calendar side by side, both stacked. */}
           <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-6 mb-6">
             <section className="bg-card border border-line p-5 rounded-card shadow-card">
-              <h2 className="font-bold text-xl mb-4">
+              <h2 className="text-card-title mb-4 text-ink">
                 <I18N id="home.stats.title" />
               </h2>
               <EditionStats />
@@ -36,7 +36,7 @@ const HomeContent = () => {
               className="bg-card border border-line p-5 rounded-card shadow-card"
               data-tour="home.calendar"
             >
-              <h2 className="font-bold text-xl mb-4">
+              <h2 className="text-card-title mb-4 text-ink">
                 <I18N id="timeline.header" />
               </h2>
               <Calendar />

@@ -100,9 +100,9 @@ const PageHeader = ({
             <div>
             <div className="flex items-baseline justify-between gap-3 flex-wrap">
               <h1
-                className={clsx("text-balance m-0 font-display text-ink", {
-                  "text-display": isCompact,
-                  "text-heading": !isCompact,
+                className={clsx("text-balance m-0 text-ink", {
+                  "text-page-title": isCompact,
+                  "text-card-title": !isCompact,
                 })}
               >
                 <I18N id={title} />
@@ -130,9 +130,9 @@ const PageHeader = ({
           <>
             <div className="flex items-baseline justify-between gap-3 flex-wrap">
               <h1
-                className={clsx("text-balance m-0 font-display text-ink", {
-                  "text-display": isCompact,
-                  "text-heading": !isCompact,
+                className={clsx("text-balance m-0 text-ink", {
+                  "text-page-title": isCompact,
+                  "text-card-title": !isCompact,
                 })}
               >
                 <I18N id={title} />

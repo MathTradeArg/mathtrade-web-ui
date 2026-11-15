@@ -108,7 +108,7 @@ const TablesReassign = ({
 
   return (
     <div className="border border-gray-200 rounded-md p-3 sm:p-4 mb-6">
-      <h2 className="font-semibold mb-1">
+      <h2 className="text-card-title mb-1 text-ink">
         <I18N id="adminShipping.tables.reassign.title" />
       </h2>
       <p className="text-xs text-gray-500 mb-3">

@@ -19,7 +19,7 @@ export default function ReferralToRegister() {
           <>
             {isNewUser ? (
               <section className=" py-12 text-center">
-                <h2 className="text-xl text-center text-balance">
+                <h2 className="text-card-title text-center text-balance text-ink">
                   <I18N id="referral.newUsers" />
                 </h2>
               </section>
@@ -31,7 +31,7 @@ export default function ReferralToRegister() {
           </>
         ) : (
           <section className=" py-12 text-center">
-            <h2 className="text-xl text-center text-balance">
+            <h2 className="text-card-title text-center text-balance text-ink">
               <I18N id="referral.noSign" />
             </h2>
           </section>

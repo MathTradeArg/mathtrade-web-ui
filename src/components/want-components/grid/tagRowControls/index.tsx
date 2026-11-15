@@ -90,7 +90,7 @@ const TagRowControls = ({ wantGroup }: { wantGroup: any }) => {
       </button>
       <Modal size="sm" isOpen={editing} onClose={() => setEditing(false)}>
         <div className="text-left">
-          <h3 className="font-bold text-lg mb-3">
+          <h3 className="text-card-title mb-3 text-ink">
             <I18N id="tagRow.edit" />
           </h3>
           <label className="block text-sm mb-1">

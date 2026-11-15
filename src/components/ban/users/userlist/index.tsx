@@ -9,7 +9,7 @@ const BanUserList = ({ onClose }) => {
 
   return (
     <div className="relative min-h-[260px]">
-      <h2 className="mb-6 font-bold text-xl text-center">
+      <h2 className="text-card-title mb-6 text-center text-ink">
         <I18N id="Users.List" />
       </h2>
 

@@ -5,7 +5,7 @@ const glossaryList = ["game", "item", "group", "tag", "want", "value"];
 const Glossary = () => {
   return (
     <>
-      <h3 className="font-bold text-lg mb-5 text-gray-500">
+      <h3 className="text-section-label mb-5 text-ink">
         <I18N id="quickhelp.glossaryTerms" />
       </h3>
       <ul>

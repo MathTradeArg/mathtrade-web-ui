@@ -13,7 +13,7 @@ const WantsOffered = () => {
   return (
     <div className="bg-card border border-line px-5 py-4 rounded-card shadow-card">
       <h3
-        className="font-display font-semibold text-lg text-ink text-balance cursor-pointer"
+        className="text-card-title text-ink text-balance cursor-pointer"
         onClick={() => setIsOpen((v) => !v)}
       >
         <Icon

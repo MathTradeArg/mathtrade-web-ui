@@ -16,7 +16,7 @@ const ItemToOfferList = () => {
     <div className="lg:pt-2 lg:px-5 px-2 border-t border-gray-300">
       <div className="flex items-center justify-between pt-3 pb-3">
         <div className="lg:px-1 px-2">
-          <h3 className="font-bold">
+          <h3 className="text-card-title text-ink">
             <I18N id="itemsToOfferInWants.title" />
           </h3>
           <p

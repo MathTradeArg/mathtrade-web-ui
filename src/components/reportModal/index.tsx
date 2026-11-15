@@ -221,7 +221,7 @@ const ReportModal = () => {
     <FloatingPortal key={openCount}>
       <Modal isOpen onClose={onClose} size="md">
         <div className="flex flex-wrap items-center justify-between gap-2 mb-4 pr-8">
-          <h2 className="text-xl font-bold">
+          <h2 className="text-card-title text-ink">
             <I18N id="reportView.title" values={[reportId]} />
           </h2>
           <CopyLinkButton link={reportPermalink(reportId)} className="mb-0" />

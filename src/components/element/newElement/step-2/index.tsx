@@ -116,7 +116,7 @@ const NewElementStep2 = ({
                   subtype={elementToShow.typeNum || 1}
                 />
                 <div className="flex items-center gap-2">
-                  <h3 className="text-lg font-bold">{elementToShow.title}</h3>
+                  <h3 className="text-card-title text-ink">{elementToShow.title}</h3>
                   <BGGlink href={elementToShow.titleLink} />
                 </div>
               </div>

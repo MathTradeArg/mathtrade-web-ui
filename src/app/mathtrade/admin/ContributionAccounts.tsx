@@ -62,7 +62,7 @@ const ContributionAccounts = ({ mathtradeId }: { mathtradeId: number }) => {
 
   return (
     <div className="relative mt-5 pt-4 border-t border-line">
-      <h4 className="font-bold mb-2">
+      <h4 className="text-card-title mb-2 text-ink">
         <I18N id="adminPanel.contribution.accountsTitle" />
       </h4>
       {accounts.length === 0 ? (

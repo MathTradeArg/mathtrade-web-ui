@@ -66,13 +66,13 @@ const OfferSwipe = ({
         </p>
       ) : swipe.empty ? (
         <div className="max-w-sm mx-auto text-center py-8">
-          <p className="font-bold mb-4">
+          <p className="mb-4">
             <I18N id="offer.swipe.empty" />
           </p>
         </div>
       ) : swipe.done ? (
         <div className="max-w-sm mx-auto text-center py-6 max-lg:flex-1 max-lg:flex max-lg:flex-col max-lg:items-center max-lg:justify-center">
-          <h3 className="text-lg font-bold mb-1">
+          <h3 className="text-card-title mb-1 text-ink">
             <I18N id="offer.swipe.done.title" />
           </h3>
           <p className="text-gray-600 mb-4">
@@ -154,7 +154,7 @@ const OfferSwipe = ({
               </div>
               <div className="p-3">
                 <div className="flex items-start gap-2">
-                  <h3 className="min-w-0 flex-1 font-bold text-base leading-snug line-clamp-2">
+                  <h3 className="text-card-title min-w-0 flex-1 leading-snug line-clamp-2 text-ink">
                     {swipe.card.title}
                   </h3>
                   {swipe.card.titleLink ? (

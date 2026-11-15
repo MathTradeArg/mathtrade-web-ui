@@ -36,7 +36,7 @@ const EditionStats = () => {
           key={id}
           className={`${bg} rounded-card p-4 text-ink flex flex-col gap-1`}
         >
-          <div className="font-display text-4xl font-semibold leading-none">
+          <div className="text-stat">
             {value ? value.toLocaleString("es-AR") : "—"}
           </div>
           <div className="text-sm font-semibold">

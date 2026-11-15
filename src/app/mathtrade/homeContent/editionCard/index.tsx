@@ -69,7 +69,7 @@ const EditionCard = () => {
 
   return (
     <section className="mb-6 bg-card border border-line p-5 rounded-card shadow-card">
-      <h2 className="font-bold text-2xl mb-2">{mathtrade.name}</h2>
+      <h2 className="text-card-title mb-2 text-ink">{mathtrade.name}</h2>
       <p className="text-balance mb-4">
         <I18N id={status.id} values={status.values} />
       </p>

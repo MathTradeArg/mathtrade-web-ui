@@ -59,7 +59,7 @@ const ProvisionalResultsUI = () => {
         className="mb-6 rounded-xl bg-primary/5 border border-primary/20 p-4"
         data-tour="provisional.intro"
       >
-        <h2 className="font-bold text-base mb-2">
+        <h2 className="text-card-title mb-2 text-ink">
           <I18N id="provisional.intro.title" />
         </h2>
         <p className="text-sm text-gray-700 mb-2">

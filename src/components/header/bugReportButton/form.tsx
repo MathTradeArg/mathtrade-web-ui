@@ -28,7 +28,7 @@ const BugReportForm = ({
 
   return (
     <div className="relative">
-      <h2 className="text-heading mb-3">
+      <h2 className="text-card-title mb-3 text-ink">
         <I18N id="bugReport.title" />
       </h2>
 

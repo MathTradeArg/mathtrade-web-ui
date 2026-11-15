@@ -35,7 +35,7 @@ const ItemChangeUI = ({
       {code ? (
         <span className="shrink-0 font-mono text-xs font-semibold tabular-nums">{formatTradeCode(code)}</span>
       ) : null}
-      <h4 className="text-body font-semibold line-clamp-2 cursor-default min-w-0" title={title}>
+      <h4 className="text-card-title line-clamp-2 cursor-default min-w-0 text-ink" title={title}>
         {title}
       </h4>
       {received ? (

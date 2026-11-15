@@ -17,7 +17,7 @@ const Item = ({ title, offered }: ItemProps) => {
 
   return (
     <div className="mb-6">
-      <h4 className="text-lg font-bold text-ink mb-3">{title}:</h4>
+      <h4 className="text-card-title text-ink mb-3">{title}:</h4>
       {offered.length > 0 ? (
         <>
           <div

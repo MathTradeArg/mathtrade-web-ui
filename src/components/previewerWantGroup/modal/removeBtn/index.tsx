@@ -69,7 +69,7 @@ const RemoveButton = ({ wantGroup }) => {
     <div className="text-center pt-4">
       {showDelete ? (
         <div className="animate-fadein">
-          <h3 className="font-bold mb-3">
+          <h3 className="text-card-title mb-3 text-ink">
             <I18N id="want.removeFrom.answer" />
           </h3>
           <div className="flex items-center justify-center gap-4">

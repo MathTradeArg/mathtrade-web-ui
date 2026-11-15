@@ -21,10 +21,10 @@ const ItemList = () => {
     <section className="min-h-80">
       <header className="pb-2 mb-4 border-b border-gray-300 sm:flex items-end justify-between gap-3">
         <div className="sm:mb-0 mb-5">
-          <h2 className="font-bold text-2xl text-balance">
+          <h2 className="text-card-title text-balance text-ink">
             <I18N id="previousMT.items.title" />
           </h2>
-          <h3 className="font-bold text-gray-400 text-balance">{title}</h3>
+          <h3 className="text-card-title text-balance text-ink">{title}</h3>
         </div>
 
         <div className="flex items-center gap-1">
@@ -37,7 +37,7 @@ const ItemList = () => {
             placeholder={getI18Ntext("filter.Search")}
             value={keyword}
             onChange={({ target }) => {
-              setKeyword(target.value);
+              (setKeyword as (v: string) => void)(target.value);
             }}
             className="border border-stroke rounded-md p-1 text-xs focus:outline-none"
           />

@@ -102,10 +102,10 @@ const ElementCompleteUI = () => {
             ) : null}
           </div>
 
-          <h3 className="text-heading font-display font-semibold tracking-[-0.01em] text-ink text-balance leading-6 line-clamp-2 min-h-12 w-full break-words">{title}</h3>
+          <h3 className="text-card-title text-ink text-balance leading-6 line-clamp-2 min-h-12 w-full break-words">{title}</h3>
 
           {titleLink ? null : (
-            <div className="italic text-gray-600 font-bold text-caption -mt-1.5">
+            <div className="italic text-ink-muted text-caption -mt-1.5">
               <I18N id="element-type-badge-3" />
             </div>
           )}

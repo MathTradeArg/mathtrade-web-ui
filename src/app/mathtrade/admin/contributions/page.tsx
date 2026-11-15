@@ -51,7 +51,7 @@ const RejectModal = ({
     <Modal size="sm" isOpen={!!row} onClose={onClose}>
       {row ? (
         <div>
-          <h3 className="text-xl mb-2 font-bold text-center">
+          <h3 className="text-card-title mb-2 text-center text-ink">
             <I18N id="adminContributions.rejectTitle" />
           </h3>
           <p className="text-sm text-gray-600 mb-3 text-center">

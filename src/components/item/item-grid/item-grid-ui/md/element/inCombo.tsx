@@ -53,7 +53,7 @@ const ElementInCombo = ({ onToggleExpanse }: ElementInComboProps) => {
       <div className="flex-1 min-w-0">
         <div data-tooltip={title} className="min-w-0 max-w-full">
           <h3
-            className="text-body font-bold cursor-pointer hover:opacity-70 leading-tight truncate"
+            className="text-card-title cursor-pointer hover:opacity-70 leading-tight truncate text-ink"
             onClick={onToggleExpanse}
           >
             {title}

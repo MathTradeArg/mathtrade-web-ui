@@ -266,7 +266,7 @@ const GraphViewer = ({ mathtradeId }: GraphViewerProps) => {
               } border border-gray-200 rounded-lg bg-white flex flex-col overflow-hidden ${paneHeight}`}
             >
               <header className="px-3 py-2.5 border-b border-gray-200">
-                <h3 className="text-body-lg text-gray-800">
+                <h3 className="text-card-title text-ink">
                   {searchTerm.trim() ? (
                     <I18N id="chains.search.results" values={[hits.length]} />
                   ) : chainSize === 1 ? (

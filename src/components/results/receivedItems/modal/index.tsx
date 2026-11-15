@@ -23,7 +23,7 @@ const ModalReceivedItem = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="md">
-      <h2 className="text-center text-balance font-bold text-xl mb-5">
+      <h2 className="text-card-title text-center text-balance mb-5 text-ink">
         <I18N id="received.modal.title" values={[itemData?.title || ""]} />
       </h2>
       <ErrorAlert error={error} />

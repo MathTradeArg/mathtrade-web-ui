@@ -39,7 +39,7 @@ const MyReportsList = ({
               <ReportStatusPill open={status === "open"} />
               <span className="text-xs text-gray-600">{formatReportDate(row.created)}</span>
             </span>
-            <span className="min-w-0 break-words font-bold">{row.title}</span>
+            <span className="min-w-0 break-words font-medium">{row.title}</span>
             <span className="text-xs text-gray-600">
               <I18N id="deliveryReport.commentsCount" values={[row.commentsCount]} />
             </span>

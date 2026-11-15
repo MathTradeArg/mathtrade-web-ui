@@ -226,7 +226,7 @@ const ElementView = ({
             against and the reserved line would be wasted height. */}
         <h3
           className={clsx(
-            "text-heading font-display font-semibold tracking-[-0.01em] text-balance leading-6 line-clamp-2 break-words",
+            "text-card-title text-balance leading-6 line-clamp-2 break-words",
             isRow ? "min-h-0" : "min-h-12",
             titleColorClass || "text-ink"
           )}
@@ -235,7 +235,7 @@ const ElementView = ({
         </h3>
 
         {titleLink ? null : (
-          <div className="italic text-gray-600 font-bold text-caption -mt-1.5">
+          <div className="italic text-ink-muted text-caption -mt-1.5">
             <I18N id="element-type-badge-3" />
           </div>
         )}

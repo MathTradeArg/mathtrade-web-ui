@@ -109,7 +109,7 @@ const ElementEditor = ({ newBGGinfo = null, toggleEditingMode = () => {} }) => {
                     <I18N id={`element-type-badge-${game?.type || 1}`} />
                   </div>
                   <div className="flex gap-2 items-center">
-                    <h3 className="text-lg font-bold">{name}</h3>
+                    <h3 className="text-card-title text-ink">{name}</h3>
                     <BGGlink
                       href={`https://boardgamegeek.com/boardgame/${game.bgg_id}/`}
                     />

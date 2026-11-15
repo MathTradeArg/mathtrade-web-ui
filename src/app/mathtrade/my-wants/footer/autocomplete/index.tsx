@@ -32,7 +32,7 @@ const AutocompleteButton = () => {
       </div>
       <Modal isOpen={isOpen} onClose={toggleIsOpen} size="md">
         <div className="text-center">
-          <h2 className="font-bold mb-4 text-xl text-balance">
+          <h2 className="text-card-title mb-4 text-balance text-ink">
             <I18N id="Autocomplete.modal.title" />
           </h2>
           <p className="text-balance mb-7">
