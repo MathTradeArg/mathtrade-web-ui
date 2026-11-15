@@ -21,7 +21,7 @@ export default function Participants() {
 
   return (
     <>
-      <PageHeader variant="compact" title="title.Participants" />
+      <PageHeader variant="compact" tone="mint" title="title.Participants" />
       <SectionCommon>
         <UserTable />
       </SectionCommon>

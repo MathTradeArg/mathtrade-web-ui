@@ -23,7 +23,7 @@ export default function MyAccount() {
 
   return (
     <>
-      <PageHeader title="title.Faqs" variant="minimal" />
+      <PageHeader title="title.Faqs" variant="minimal" tone="sun" />
       <SectionCommon loading={loading}>
         <div className="py-8">
           <div className="mx-auto max-w-4xl">

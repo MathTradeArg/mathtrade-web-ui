@@ -18,7 +18,7 @@ const ChangePassword = ({
   return step === 0 ? (
     <>
       <div className="text-center mb-4">
-        <h2 className="text-3xl font-bold mb-3">
+        <h2 className="text-page-title text-ink mb-3">
           <I18N id="form.changePassword.title" />
         </h2>
         <p className="mb-5 text-gray-600">

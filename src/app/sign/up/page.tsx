@@ -38,7 +38,7 @@ const SignUpPage = () => {
     <div className="pt-xs-5 pb-xs-4 px-xs-6 p-4">
       {isSuccess ? (
         <div className="text-center fade-in">
-          <h2 className="font-display text-3xl font-semibold text-ink mb-3">
+          <h2 className="text-page-title text-ink mb-3">
             <I18N id="register.ReadyTitle" />
           </h2>
           <p className="mb-5 text-gray-800">
@@ -55,7 +55,7 @@ const SignUpPage = () => {
       ) : (
         <>
           <div className="text-center">
-            <h1 className="font-display text-3xl font-semibold text-ink mb-3">
+            <h1 className="text-page-title text-ink mb-3">
               <I18N id="register.Title" />
             </h1>
             <p className="mb-5 text-gray-400">

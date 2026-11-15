@@ -14,7 +14,7 @@ const Header = () => {
   return (
     <>
       <Script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-bundle.min.js" />
-      <PageHeader title="title.Stats" variant="minimal" />
+      <PageHeader title="title.Stats" variant="minimal" tone="lilac" />
     </>
   );
 };

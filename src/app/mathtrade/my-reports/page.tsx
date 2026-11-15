@@ -57,6 +57,7 @@ export default function MyReports() {
     <>
       <PageHeader
         variant="compact"
+        tone="peach"
         title="title.MyReports"
         help={
           <span className="text-sm text-ink-muted">
