@@ -12,29 +12,29 @@ const EditionStats = () => {
     {
       value: mathtrade?.games_count,
       id: "results.pill.game",
-      bg: "bg-mint",
+      fill: "#a4d4c5",
       Art: Die,
     },
     {
       value: mathtrade?.items_count,
       id: "results.pill.item",
-      bg: "bg-sky",
+      fill: "#b4bdf5",
       Art: Meeple,
     },
     {
       value: mathtrade?.users_count,
       id: "results.pill.user",
-      bg: "bg-peach",
+      fill: "#ffb084",
       Art: Meeple,
     },
   ];
 
   return (
     <ul className="flex flex-col gap-4">
-      {counters.map(({ value, id, bg, Art }) => (
+      {counters.map(({ value, id, fill, Art }) => (
         <li
           key={id}
-          className={`${bg} rounded-main p-4 text-ink flex flex-col gap-1`}
+          className="bg-card border border-line shadow-card rounded-card p-4 text-ink flex flex-col gap-1"
         >
           <div className="font-display text-4xl font-semibold leading-none">
             {value ? value.toLocaleString("es-AR") : "—"}
@@ -42,7 +42,7 @@ const EditionStats = () => {
           <div className="text-sm font-semibold">
             <I18N id={id} />
           </div>
-          <Art fill="#ffffff" className="w-12 h-12 self-end" />
+          <Art fill={fill} className="w-12 h-12 self-end" />
         </li>
       ))}
     </ul>

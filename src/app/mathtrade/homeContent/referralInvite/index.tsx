@@ -13,7 +13,7 @@ const ReferralInvite = () => {
 
   return canI.invite ? (
     <section
-      className="bg-surface p-5 rounded-main mb-6 text-center"
+      className="bg-card border border-line p-5 rounded-card shadow-card mb-6 text-center"
       data-tour="home.referral"
     >
       {/* Only full participants of the current edition can invite. */}

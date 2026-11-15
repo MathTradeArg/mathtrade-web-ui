@@ -3,10 +3,11 @@ import clsx from "clsx";
 import type { ReactNode } from "react";
 import { Die, Meeple } from "@/components/illustrations";
 
+// White data card; the color only tints the illustration.
 const COLORS = {
-  mint: "bg-mint",
-  sky: "bg-sky",
-  peach: "bg-peach",
+  mint: "#a4d4c5",
+  sky: "#b4bdf5",
+  peach: "#ffb084",
 };
 
 type PillProps = {
@@ -29,8 +30,7 @@ const Pill = ({
   return (
     <div
       className={clsx(
-        "text-ink rounded-main p-5 h-full flex flex-col gap-1.5",
-        COLORS[color],
+        "text-ink bg-card border border-line shadow-card rounded-card p-5 h-full flex flex-col gap-1.5",
         className
       )}
     >
@@ -42,10 +42,10 @@ const Pill = ({
       </div>
       {footer ? <div className="text-sm pt-3 text-ink/80">{footer}</div> : null}
       {art === "meeple" ? (
-        <Meeple fill="#ffffff" className="w-14 h-14 mt-auto self-end" />
+        <Meeple fill={COLORS[color]} className="w-14 h-14 mt-auto self-end" />
       ) : null}
       {art === "die" ? (
-        <Die fill="#ffffff" className="w-14 h-14 mt-auto self-end" />
+        <Die fill={COLORS[color]} className="w-14 h-14 mt-auto self-end" />
       ) : null}
     </div>
   );

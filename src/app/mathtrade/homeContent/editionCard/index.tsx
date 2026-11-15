@@ -68,7 +68,7 @@ const EditionCard = () => {
   if (!status) return null;
 
   return (
-    <section className="mb-6 bg-surface p-5 rounded-main">
+    <section className="mb-6 bg-card border border-line p-5 rounded-card shadow-card">
       <h2 className="font-bold text-2xl mb-2">{mathtrade.name}</h2>
       <p className="text-balance mb-4">
         <I18N id={status.id} values={status.values} />

@@ -43,14 +43,14 @@ const Segments = ({ stats }) => {
   }, [graphRef, stats]);
 
   return (
-    <div className="bg-surface px-5 py-4 rounded-main mb-6">
+    <div className="bg-card border border-line px-5 py-4 rounded-card shadow-card mb-6">
       <h3 className="font-bold text-lg mb-5 text-gray-500 text-balance">
         <I18N id="stats.segment.title" />
       </h3>
 
       <div className="relative">
         <div style={{ height: 400 }} ref={graphRef} />
-        <div className="absolute bottom-0 right-0 w-32 h-4 bg-surface" />
+        <div className="absolute bottom-0 right-0 w-32 h-4 bg-card" />
       </div>
     </div>
   );

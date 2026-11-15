@@ -19,7 +19,7 @@ const UserQRui = ({ uuid }: { uuid?: string }) => {
 
   return (
     <div className="flex justify-center mb-4">
-      <div className="w-full max-w-[400px] min-w-0 overflow-hidden border border-line bg-surface rounded-card p-4 mb-5 relative">
+      <div className="w-full max-w-[400px] min-w-0 overflow-hidden border border-line bg-card shadow-card rounded-card p-4 mb-5 relative">
         <div className="mx-auto mb-3 w-full max-w-[320px] aspect-square">
           <canvas
             className="bg-white block mx-auto w-full h-auto max-w-full aspect-square border border-line"
