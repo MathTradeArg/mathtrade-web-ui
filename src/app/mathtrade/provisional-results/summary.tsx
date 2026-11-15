@@ -195,7 +195,7 @@ const ProvisionalSummary = ({ rows = [] }: { rows?: ProvisionalSummaryRow[] }) =
   return (
     <section className="mb-8">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-base font-bold">
+        <h2 className="text-section-label text-ink">
           <I18N id="provisional.summary.title" />
         </h2>
         <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">

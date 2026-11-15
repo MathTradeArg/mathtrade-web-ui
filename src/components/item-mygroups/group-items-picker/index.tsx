@@ -77,7 +77,7 @@ const GroupItemsPicker = ({ group, isOpen, onClose }) => {
     <Modal size="md" isOpen={isOpen} onClose={onClose}>
       <div className="relative">
         <div className="flex items-center justify-between gap-2 mb-3">
-          <h3 className="text-xl font-bold">
+          <h3 className="text-card-title text-ink">
             <I18N id="myGroups.picker.title" values={[group.name]} />
           </h3>
           <HelpContext id="groupPicker" />

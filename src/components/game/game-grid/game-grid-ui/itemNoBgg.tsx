@@ -12,21 +12,21 @@ const ItemContent = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-y-2 py-3">
-        {elements.map((element, k) => {
+      <div className="flex flex-col gap-2.5 px-0 py-3">
+        {elements.map((element: any, k: number) => {
           return <ElementXSS element={element} key={k} />;
         })}
       </div>
-      <div className="flex items-center gap-3 justify-between">
+      <div className="flex items-center gap-3 justify-between py-1">
         <UserBox toLeft />
-        <Previewer className="rounded-full bg-primary w-6 sh-5" />
+        <Previewer className="w-8 h-8 shrink-0 rounded-xl border border-line bg-white text-ink flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary" />
       </div>
       <div className="pt-3 mb-1"></div>
     </>
   );
 };
 
-const ItemNoBGG = ({ itemRaw }) => {
+const ItemNoBGG = ({ itemRaw }: { itemRaw: any }) => {
   return itemRaw ? (
     <ItemContextProvider itemRaw={itemRaw}>
       <ItemContent />

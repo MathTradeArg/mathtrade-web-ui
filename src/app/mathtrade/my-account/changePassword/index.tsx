@@ -28,7 +28,7 @@ const ChangePassword = () => {
       </button>
       <Modal isOpen={open} onClose={toggleOpen} size="sm">
         <div className="mb-4">
-          <h2 className="text-xl font-bold mb-3">
+          <h2 className="text-card-title mb-3 text-ink">
             <I18N id="form.changePassword.title" />
           </h2>
         </div>

@@ -15,7 +15,7 @@ export default function AdminEmailPreferences() {
 
   return (
     <section>
-      <h2 className="text-center pb-2 mb-7 font-bold block w-full border-b border-gray-300">
+      <h2 className="text-card-title text-center pb-2 mb-7 block w-full border-b border-gray-300 text-ink">
         <I18N id="myAccount.adminEmails.title" />
       </h2>
       <p className="text-sm text-gray-700 mb-4">

@@ -69,7 +69,6 @@ const MyCollectionPage = () => {
         <GotoTopContextProvider>
           <StickyHeader>
             <ListToolbar
-              className="rounded-t-main"
               search={
                 <ListSearch
                   tourAnchor="mycollection.search"
@@ -94,6 +93,7 @@ const MyCollectionPage = () => {
                     filterType="collection"
                     name="ready"
                     allowEmpty
+                    segmented
                     emptyLabel={getI18Ntext("myOffer.filter.ready.all")}
                     options={[
                       {

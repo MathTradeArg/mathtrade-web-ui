@@ -41,8 +41,8 @@ const Items = () => {
     }, 400);
   }, [graphRef]);
   return (
-    <div className="bg-surface px-5 py-4 rounded-main">
-      <h3 className="font-bold text-lg mb-5 text-gray-500 text-balance">
+    <div className="bg-card border border-line px-5 py-4 rounded-card shadow-card">
+      <h3 className="text-section-label mb-5 text-balance text-ink">
         <I18N id="home.growing.Items" />
       </h3>
       <div className="relative">

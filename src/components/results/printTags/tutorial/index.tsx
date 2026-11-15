@@ -61,7 +61,7 @@ const Tutorial = ({ startOpen = false }) => {
     <div className="pb-8 text-left">
       <div className="bg-white px-5 py-4 rounded-xl shadow-xl">
         <h3
-          className="font-bold text-xl  text-balance cursor-pointer"
+          className="text-card-title text-balance cursor-pointer text-ink"
           onClick={() => {
             setIsOpen((v) => !v);
           }}

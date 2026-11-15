@@ -23,7 +23,7 @@ const PAGE_SIZE = 50;
 
 const quickButton = (active: boolean) =>
   clsx(
-    "rounded-full text-sm font-semibold px-4 py-1.5 border",
+    "rounded-xl text-sm font-semibold px-4 py-1.5 border",
     active
       ? "bg-primary text-white border-primary"
       : "bg-surface text-primary border-primary hover:bg-primary/10"
@@ -110,7 +110,7 @@ const DeliveryReportsTab = ({ tabs }: { tabs: ReactNode }) => {
     return (
       <article
         key={row.id}
-        className="rounded-card border border-line bg-surface p-3"
+        className="rounded-card border border-line bg-card shadow-card p-3"
         data-testid={`delivery-report-${row.id}`}
       >
         <button

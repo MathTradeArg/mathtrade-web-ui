@@ -9,7 +9,7 @@ const BanUserList = ({ onClose }) => {
 
   return (
     <div className="relative min-h-[260px]">
-      <h2 className="mb-6 font-bold text-xl text-center">
+      <h2 className="text-card-title mb-6 text-center text-ink">
         <I18N id="Users.List" />
       </h2>
 
@@ -19,6 +19,8 @@ const BanUserList = ({ onClose }) => {
         </p>
         <Table
           data={userList}
+          header={undefined}
+          rowsProps={undefined}
           columns={getColumns(userBans, setUserBans)}
           loading={loading}
           error={error}
@@ -30,7 +32,7 @@ const BanUserList = ({ onClose }) => {
       </div>
       <div className="text-center pt-8">
         <button
-          className="border border-gray-400 py-2 px-7 rounded-full hover:bg-gray-400 hover:text-white shadow"
+          className="border border-gray-400 py-2 px-7 rounded-xl hover:bg-gray-400 hover:text-white shadow"
           onClick={onClose}
         >
           <I18N id="btn.Close" />

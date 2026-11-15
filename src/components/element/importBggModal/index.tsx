@@ -31,7 +31,7 @@ const ImportBggModal = ({
       <div className="flex flex-col h-[80vh] sm:h-[600px]">
         {/* Header */}
         <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t-2xl">
-          <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+          <h2 className="text-card-title flex items-center gap-2 text-ink">
             <Icon type="bgg" className="text-secondary text-2xl" />
             Importar colección de BGG
           </h2>
@@ -82,7 +82,7 @@ const ImportBggModal = ({
                         <div className="flex items-center gap-2 mb-1">
                           <BadgeType size="compact" type="item" subtype={game.type} />
                         </div>
-                        <h3 className="text-sm font-bold text-gray-800 truncate" title={game.primary_name}>
+                        <h3 className="text-card-title truncate text-ink" title={game.primary_name}>
                           {game.primary_name}
                         </h3>
                         <div className="text-xs mt-1">
@@ -123,7 +123,7 @@ const ImportBggModal = ({
         <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-2xl flex justify-end gap-3">
           <button
             type="button"
-            className="border border-gray-400 text-gray-600 font-bold px-6 py-2 rounded-full hover:bg-gray-200 transition-colors"
+            className="border border-gray-400 text-gray-600 font-bold px-6 py-2 rounded-xl hover:bg-gray-200 transition-colors"
             onClick={onClose}
             disabled={loadingPost}
           >

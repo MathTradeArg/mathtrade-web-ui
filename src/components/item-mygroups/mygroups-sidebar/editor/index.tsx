@@ -22,7 +22,7 @@ const GroupEditor = ({ group, onClose, selected }) => {
   return (
     <div
       className={clsx(
-        "relative rounded-md shadow-md mb-2 border border-gray-300 transition-opacity",
+        "relative rounded-card shadow-card mb-2 border border-line bg-card transition-opacity",
         {
           "opacity-40": loading,
         }
@@ -70,7 +70,7 @@ const GroupEditor = ({ group, onClose, selected }) => {
           </div>
           <div className="flex items-center justify-center gap-2 text-sm">
             <button
-              className="border border-gray-300 hover:opacity-70 rounded-full px-3 py-1"
+              className="border border-gray-300 hover:opacity-70 rounded-xl px-3 py-1"
               onClick={onCancel}
               disabled={loading}
             >

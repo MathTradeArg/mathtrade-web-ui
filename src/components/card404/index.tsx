@@ -6,7 +6,7 @@ const Card404 = () => {
   return (
     <div className="w-full h-[100dvh] grid place-items-center p-3">
       <section className="bg-white rounded-md shadow-lg p-5 text-center min-w-96">
-        <h1 className="font-bold text-2xl mb-3">
+        <h1 className="text-page-title mb-3 text-ink">
           <I18N id="404.title" />
         </h1>
         <p className="mb-3">

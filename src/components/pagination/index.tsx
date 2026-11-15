@@ -25,14 +25,14 @@ const Pagination = ({ type = "item", count }) => {
       {showPrevPage ? (
         <button
           type="button"
-          className="w-9 h-9 leading-none text-center border rounded-full border-line text-gray-600 hover:bg-brand hover:border-brand hover:text-brand-ink"
+          className="w-10 h-10 leading-none text-center rounded-xl bg-white border border-line text-[13px] font-medium text-ink-muted hover:border-ink/30 hover:text-ink focus-visible:bg-surface-soft focus-visible:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 transition-colors"
           title={getI18Ntext("pagination.PrevPage")}
           onClick={prevPage}
         >
           <Icon type="arrow-left" className="text-lg" />
         </button>
       ) : null}
-      <div className="h-9 px-2.5 rounded-full border border-line bg-surface flex items-center text-caption font-semibold text-gray-900">
+      <div className="h-10 px-2.5 rounded-xl bg-white border border-line flex items-center text-[13px] font-medium text-ink-muted focus-within:bg-surface-soft focus-within:ring-2 focus-within:ring-ink/40">
         {total > 1 ? (
           <Form
             onSubmit={(d) => {
@@ -42,7 +42,7 @@ const Pagination = ({ type = "item", count }) => {
             formatTypes={{ page: "number" }}
           >
             <input
-              className="w-7 bg-transparent text-center outline-none"
+              className="w-7 bg-transparent text-center text-ink outline-none"
               type="number"
               name="page"
               value={page}
@@ -55,12 +55,12 @@ const Pagination = ({ type = "item", count }) => {
         ) : (
           <span>1</span>
         )}
-        <span className="text-gray-600 whitespace-nowrap">{` / ${total}`}</span>
+        <span className="whitespace-nowrap">{` / ${total}`}</span>
       </div>
       {notShowNextPage ? null : (
         <button
           type="button"
-          className="w-9 h-9 leading-none text-center rounded-full bg-brand text-brand-ink hover:brightness-95"
+          className="w-10 h-10 leading-none text-center rounded-xl bg-white border border-line text-[13px] font-medium text-ink-muted hover:border-ink/30 hover:text-ink focus-visible:bg-surface-soft focus-visible:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 transition-colors"
           title={getI18Ntext("pagination.NextPage")}
           onClick={nextPage}
         >

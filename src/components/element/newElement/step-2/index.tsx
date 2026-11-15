@@ -116,7 +116,7 @@ const NewElementStep2 = ({
                   subtype={elementToShow.typeNum || 1}
                 />
                 <div className="flex items-center gap-2">
-                  <h3 className="text-lg font-bold">{elementToShow.title}</h3>
+                  <h3 className="text-card-title text-ink">{elementToShow.title}</h3>
                   <BGGlink href={elementToShow.titleLink} />
                 </div>
               </div>
@@ -137,7 +137,7 @@ const NewElementStep2 = ({
       <div className="flex items-center justify-center gap-2 pt-5">
         <button
           type="button"
-          className="border border-gray-400 text-gray-400 font-bold px-6 py-1 rounded-full hover:bg-gray-400 hover:text-white transition-colors"
+          className="border border-gray-400 text-gray-400 font-bold px-6 py-1 rounded-xl hover:bg-gray-400 hover:text-white transition-colors"
           onClick={() => {
             setStep(0);
           }}

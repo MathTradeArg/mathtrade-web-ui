@@ -93,7 +93,7 @@ const CopyLinkButton = ({
           <button
             type="button"
             aria-label={getI18Ntext(labelId)}
-            className="h-7 w-7 flex items-center justify-center rounded-full border border-gray-300 bg-white text-gray-500 hover:bg-gray-100 transition-colors"
+            className="h-7 w-7 flex items-center justify-center rounded-full border border-line bg-surface-soft text-ink-muted hover:bg-surface transition-colors"
             onClick={onClick}
           >
             <Icon type={state === "copied" ? "check" : "copy"} className="text-[15px]" />
@@ -117,7 +117,7 @@ const CopyLinkButton = ({
     >
       <button
         type="button"
-        className="inline-flex items-center gap-1.5 min-h-[36px] rounded-full border border-ink text-ink hover:bg-ink hover:text-white transition-colors px-4 text-sm font-semibold"
+        className="inline-flex items-center gap-1.5 min-h-[36px] rounded-xl border border-ink text-ink hover:bg-ink hover:text-white transition-colors px-4 text-sm font-semibold"
         onClick={onClick}
       >
         <Icon type={state === "copied" ? "check" : "copy"} />

@@ -22,7 +22,7 @@ export default function MyWantsUI() {
     <>
       <div className="relative">
         <Wrapper>
-          <div className="bg-surface-soft border border-line border-b-0 rounded-t-main" data-tour="mywants.tabs">
+          <div className="" data-tour="mywants.tabs">
             <Tabs
               list={[
                 "want.screen.visual",

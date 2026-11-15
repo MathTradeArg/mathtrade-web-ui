@@ -81,11 +81,11 @@ const GamesView = () => {
   );
 
   return (
-    <SectionWithSidebar name="games" loading={loading} topNotRounded>
+    <SectionWithSidebar name="games" loading={loading}>
       <GotoTopContextProvider>
       <BulkSelectProvider kind="game" resetKey={resetKey}>
         <SidebarGrid>
-          <Sidebar topNotRounded>
+          <Sidebar>
             <Filters type="game" />
           </Sidebar>
           <div>

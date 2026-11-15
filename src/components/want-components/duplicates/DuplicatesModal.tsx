@@ -44,7 +44,7 @@ const DuplicatesModal = ({
     <Modal size="md" isOpen={isOpen} onClose={onClose}>
       <div className="flex flex-col">
         <div className="text-center">
-          <h3 className="text-xl font-bold text-center mb-2">
+          <h3 className="text-card-title text-center mb-2 text-ink">
             <I18N
               id={`commitDuplicates.title.${count === 1 ? "one" : "many"}`}
               values={[count]}

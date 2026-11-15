@@ -26,7 +26,7 @@ type PageHeaderProps = {
   // minimal: simple screens (title only)
   // welcome: home only (short identity + inline links as children)
   variant?: PageHeaderVariant;
-  // Colored tile with an icon, only for the main sections (compact only).
+  // Colored tile with an icon, for the main sections (compact and minimal).
   tone?: PageHeaderTone;
   meta?: ReactNode;
   helpId?: string;
@@ -56,7 +56,7 @@ const PageHeader = ({
 
   const isWelcome = variant === "welcome";
   const isCompact = variant === "compact";
-  const toneConf = isCompact && tone ? TONES[tone] : null;
+  const toneConf = !isWelcome && tone ? TONES[tone] : null;
 
   return (
     <Wrapper>
@@ -64,8 +64,8 @@ const PageHeader = ({
         <header
         className={clsx("relative overflow-hidden rounded-main", {
           "bg-brand text-brand-ink px-6 py-5": isWelcome,
-          "bg-surface px-5 pt-4 pb-3": isCompact,
-          "bg-surface px-5 py-3.5": variant === "minimal",
+          "px-1 pt-4 pb-3": isCompact,
+          "px-1 py-3.5": variant === "minimal",
         })}
       >
         {isWelcome ? (
@@ -100,10 +100,7 @@ const PageHeader = ({
             <div>
             <div className="flex items-baseline justify-between gap-3 flex-wrap">
               <h1
-                className={clsx("text-balance m-0 font-display text-ink", {
-                  "text-display": isCompact,
-                  "text-heading": !isCompact,
-                })}
+                className="text-balance m-0 text-ink text-page-title"
               >
                 <I18N id={title} />
               </h1>
@@ -130,10 +127,7 @@ const PageHeader = ({
           <>
             <div className="flex items-baseline justify-between gap-3 flex-wrap">
               <h1
-                className={clsx("text-balance m-0 font-display text-ink", {
-                  "text-display": isCompact,
-                  "text-heading": !isCompact,
-                })}
+                className="text-balance m-0 text-ink text-page-title"
               >
                 <I18N id={title} />
               </h1>

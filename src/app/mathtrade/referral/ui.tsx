@@ -31,7 +31,7 @@ const ReferredUI = () => {
     <div className="relative min-h-96 px-4">
       {isLoaded && (
         <section className="max-w-2xl mx-auto pt-7 pb-12 relative">
-          <h3 className="text-center pb-2 text-2xl text-balance">
+          <h3 className="text-card-title text-center pb-2 text-balance text-ink">
             <I18N id="referral.page.subtitle" />
           </h3>
           <div className="text-center mb-5 bg-primary/10 border border-primary p-4 rounded-lg  text-balance">

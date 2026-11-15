@@ -67,7 +67,7 @@ const MoreSheet = ({
         <div className="w-9 h-1 rounded-full bg-gray-300 mx-auto mt-3 mb-1" />
         <div
           id="mobile-more-sheet-title"
-          className="text-xs font-bold text-gray-400 uppercase tracking-wide px-4 pt-2 pb-1"
+          className="text-xs font-medium text-ink-muted uppercase tracking-wide px-4 pt-2 pb-1"
         >
           <I18N id="menu.More" />
         </div>

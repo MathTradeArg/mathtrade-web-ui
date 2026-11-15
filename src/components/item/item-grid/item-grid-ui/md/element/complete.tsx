@@ -124,7 +124,7 @@ const ElementComplete = ({
           <BadgeType type="item" subtype={typeNum || 1} />
           {offered ? (
             <div className="flex items-center justify-end gap-2 shrink-0 w-full">
-              <div className="shrink-0 uppercase font-bold bg-gray-800 text-white text-[10px] px-2.5 py-[3px] rounded-full whitespace-nowrap">
+              <div className="shrink-0 uppercase font-bold bg-gray-800 text-white text-[10px] px-2.5 py-[3px] rounded-md whitespace-nowrap">
                 <I18N id="element.Offered" />
               </div>
             </div>
@@ -138,7 +138,7 @@ const ElementComplete = ({
         >
           {/* Reserves both lines so the rows below stay aligned across cards
               in the same grid row — see game-grid-ui/md.tsx. */}
-          <h3 className="text-heading font-display font-semibold tracking-[-0.01em] text-ink text-balance hover:opacity-70 leading-6 line-clamp-2 min-h-12 break-words">
+          <h3 className="text-card-title text-ink text-balance hover:opacity-70 leading-6 line-clamp-2 min-h-12 break-words">
             {title}
           </h3>
         </div>

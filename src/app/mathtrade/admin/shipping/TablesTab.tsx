@@ -132,7 +132,7 @@ const TablesTab = ({
   return (
     <>
       {reassign}
-      <h2 className="font-semibold mb-1">
+      <h2 className="text-card-title mb-1 text-ink">
         <I18N id="adminShipping.tables.current" />
       </h2>
       <p className="mb-4 text-sm text-gray-600">

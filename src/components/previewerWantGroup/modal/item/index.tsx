@@ -34,7 +34,7 @@ const ItemPreview = ({ wantGroup = null }: { wantGroup?: WantGroupPreview | null
     return (
       <div className="min-h-[120px] pt-7">
         {wantGroup?.name ? (
-          <h3 className="text-lg font-bold mb-3">{wantGroup.name}</h3>
+          <h3 className="text-card-title mb-3 text-ink">{wantGroup.name}</h3>
         ) : null}
         <p className="rounded-md border border-amber-300 bg-amber-50 text-amber-950 text-sm p-3">
           <I18N id="previewWantGroup.empty" />

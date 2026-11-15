@@ -31,11 +31,10 @@ const FilterToggleButton = ({
     <SidebarToggleButton
       data-tour={tourAnchor}
       className={clsx(
-        "h-9 px-3 rounded-full text-caption font-bold transition-colors border shrink-0",
-        count > 0 ? "border-primary" : "border-primary/40"
+        "h-10 px-4 rounded-xl text-body font-semibold transition-colors shrink-0 bg-ink text-white hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ink"
       )}
-      classNameNotHighlighted="text-primary bg-primary/10"
-      classNameHighlighted="text-white bg-primary border-primary"
+      classNameNotHighlighted=""
+      classNameHighlighted="ring-2 ring-brand ring-offset-1"
     >
       <InnerButton>
         <Icon type="filters" className="text-sm" />

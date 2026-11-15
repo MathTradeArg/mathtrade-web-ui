@@ -82,7 +82,7 @@ const WantMiniCard = ({
       {changed ? (
         <div
           className={clsx(
-            "absolute left-2 z-raised rounded-full bg-amber-400 text-amber-950 px-1.5 py-0.5 text-[10px] font-bold leading-none flex items-center gap-0.5 pointer-events-none",
+            "absolute left-2 z-raised rounded-md bg-amber-400 text-amber-950 px-1.5 py-0.5 text-[10px] font-bold leading-none flex items-center gap-0.5 pointer-events-none",
             empty ? "top-8" : "top-2"
           )}
           title={getI18Ntext("myWants.changed.help")}
@@ -133,7 +133,7 @@ const WantMiniCard = ({
       </div>
       <div className="px-2 py-2 flex flex-col items-start gap-1.5 min-w-0 flex-1">
         <h4
-          className="text-[11px] leading-[14px] font-bold text-ink line-clamp-3 sm:line-clamp-2 cursor-default w-full break-words"
+          className="text-mini-title text-ink line-clamp-3 sm:line-clamp-2 cursor-default w-full break-words"
           title={title}
         >
           {title}

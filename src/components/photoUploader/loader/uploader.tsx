@@ -26,7 +26,7 @@ const Uploader = ({ setImage }) => {
       onDrop={onDrop}
     >
       <div className="text-center p-4 min-h-[50vh] flex flex-col justify-center">
-        <h3 className="text-2xl mb-2">
+        <h3 className="text-card-title mb-2 text-ink">
           <I18N id="photoUploader.upload.Title" />
         </h3>
         <p className="text-sm border border-gray-300 py-2 px-4 rounded-md max-w-sm mx-auto mb-2 text-gray-500">

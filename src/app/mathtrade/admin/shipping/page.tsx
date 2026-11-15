@@ -193,7 +193,7 @@ const AdminShippingPage = () => {
           ) : null}
           {shipping && routes.length ? (
             <>
-              <Tabs list={TABS} value={tab} onChange={setTab} className="mb-4" />
+              <Tabs list={TABS} value={tab} onChange={setTab} />
               {tab === TAB_ROUTES ? (
                 <>
                   <p className="mb-4 text-sm text-gray-600">
@@ -202,7 +202,7 @@ const AdminShippingPage = () => {
                     <I18N id="adminShipping.hub" values={[shipping.hub?.name || "-"]} />
                   </p>
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                    <h2 className="font-semibold">
+                    <h2 className="text-card-title text-ink">
                       <I18N id="adminShipping.summary" />
                     </h2>
                     <XlsButton
@@ -215,7 +215,7 @@ const AdminShippingPage = () => {
                 </>
               ) : tab === TAB_ITEMS ? (
                 <>
-                  <h2 className="font-semibold mb-2">
+                  <h2 className="text-card-title mb-2 text-ink">
                     <I18N id="adminShipping.detail" />
                   </h2>
                   <div className="flex flex-wrap items-end gap-3 mb-4">

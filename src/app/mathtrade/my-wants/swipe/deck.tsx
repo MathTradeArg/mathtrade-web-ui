@@ -359,7 +359,7 @@ const SwipeDeck = ({
           {onSkip ? (
             <button
               type="button"
-              className="h-14 px-5 rounded-full border border-gray-300 bg-white text-gray-700 font-bold hover:bg-gray-50 disabled:opacity-40"
+              className="h-14 px-5 rounded-xl border border-gray-300 bg-white text-gray-700 font-bold hover:bg-gray-50 disabled:opacity-40"
               disabled={disabled || busy}
               onClick={() => commitSkip("up")}
             >
@@ -380,7 +380,7 @@ const SwipeDeck = ({
           </button>
           <button
             type="button"
-            className="h-14 px-4 rounded-full border border-gray-300 bg-white text-gray-700 font-bold hover:bg-gray-50 disabled:opacity-40"
+            className="h-14 px-4 rounded-xl border border-gray-300 bg-white text-gray-700 font-bold hover:bg-gray-50 disabled:opacity-40"
             disabled={disabled || busy || !canUndo}
             onClick={onUndo}
           >
@@ -399,7 +399,7 @@ const SwipeDeck = ({
           {onDown && downEnabled ? (
             <button
               type="button"
-              className="h-14 px-5 rounded-full bg-want text-white font-bold hover:opacity-80 disabled:opacity-40"
+              className="h-14 px-5 rounded-xl bg-want text-white font-bold hover:opacity-80 disabled:opacity-40"
               disabled={disabled || busy}
               onClick={commitDown}
             >
@@ -423,7 +423,7 @@ const SwipeDeck = ({
           </button>
           <button
             type="button"
-            className="h-14 px-4 rounded-full border border-gray-300 bg-white text-gray-700 font-bold hover:bg-gray-50 disabled:opacity-40"
+            className="h-14 px-4 rounded-xl border border-gray-300 bg-white text-gray-700 font-bold hover:bg-gray-50 disabled:opacity-40"
             disabled={disabled || busy || !canUndo}
             onClick={onUndo}
           >

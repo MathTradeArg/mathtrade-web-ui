@@ -37,7 +37,7 @@ const PillsStats = ({ data }: { data?: any }) => {
             value={data?.item_trades || 0}
             label="stats.pill.item"
             color="sky"
-            art="meeple"
+            art="sun"
             footer={
               <I18N
                 id="stats.pill.item.footer"

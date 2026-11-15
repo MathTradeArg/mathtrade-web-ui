@@ -33,7 +33,7 @@ import EditionMeta from "@/components/element/editionMeta";
 
 const META_TEXT = "text-caption text-ink/80";
 const TAG_PILL =
-  "text-caption text-ink bg-white/75 px-2.5 py-1 rounded-md";
+  "text-caption text-ink-muted bg-surface-soft px-2 py-0.5 rounded-md";
 
 type ElementViewProps = {
   toggleEditingMode?: () => void;
@@ -214,7 +214,7 @@ const ElementView = ({
             <div className="flex-1 min-w-0 basis-44">{header}</div>
           ) : null}
           {offered ? (
-            <div className="shrink-0 uppercase font-bold bg-gray-800 text-white text-[10px] px-3 py-[3px] rounded-full whitespace-nowrap">
+            <div className="shrink-0 uppercase font-bold bg-gray-800 text-white text-[10px] px-3 py-[3px] rounded-md whitespace-nowrap">
               <I18N id="element.Offered" />
             </div>
           ) : null}
@@ -226,7 +226,7 @@ const ElementView = ({
             against and the reserved line would be wasted height. */}
         <h3
           className={clsx(
-            "text-heading font-display font-semibold tracking-[-0.01em] text-balance leading-6 line-clamp-2 break-words",
+            "text-card-title text-balance leading-6 line-clamp-2 break-words",
             isRow ? "min-h-0" : "min-h-12",
             titleColorClass || "text-ink"
           )}
@@ -235,7 +235,7 @@ const ElementView = ({
         </h3>
 
         {titleLink ? null : (
-          <div className="italic text-gray-600 font-bold text-caption -mt-1.5">
+          <div className="italic text-ink-muted text-caption -mt-1.5">
             <I18N id="element-type-badge-3" />
           </div>
         )}
@@ -334,7 +334,7 @@ const ElementView = ({
           <div className="mt-auto flex items-center gap-1.5 flex-wrap border-t border-black/10 text-ink/80 pt-3">
             {canWithdraw ? (
               <ButtonAlert
-                className="border border-red-300 text-red-700 px-4 py-1 rounded-full font-bold text-sm hover:bg-red-50 transition-colors"
+                className="border border-red-300 text-red-700 px-4 py-1 rounded-xl font-bold text-sm hover:bg-red-50 transition-colors"
                 title="title.DeleteItem"
                 description={withdrawDescription}
                 onClick={withdraw}
@@ -353,7 +353,7 @@ const ElementView = ({
                 aria-label={offerLimitText}
                 title={offerLimitText}
                 data-tour-part="addToMT"
-                className="inline-flex items-center gap-1 whitespace-nowrap bg-gray-200 text-gray-600 px-5 py-1 rounded-full font-bold text-sm"
+                className="inline-flex items-center gap-1 whitespace-nowrap bg-gray-200 text-gray-600 px-5 py-1 rounded-xl font-bold text-sm"
               >
                 <Icon type="lock" />
                 <I18N
@@ -364,7 +364,7 @@ const ElementView = ({
             ) : canAddToMT ? (
               <button
                 type="button"
-                className="bg-want text-white px-5 py-1 rounded-full font-bold text-sm hover:bg-emerald-700 transition-colors"
+                className="bg-want text-white px-5 py-1 rounded-xl font-bold text-sm hover:bg-emerald-700 transition-colors"
                 onClick={onAddToMT}
                 title={getI18Ntext("collection.addToMT.single.short")}
                 data-tour-part="addToMT"
@@ -379,7 +379,7 @@ const ElementView = ({
               <>
                 <button
                   className={clsx(
-                    "px-5 py-1 rounded-full font-bold text-sm transition-colors",
+                    "px-5 py-1 rounded-xl font-bold text-sm transition-colors",
                     box_size === null ? "bg-amber-500 text-white hover:bg-amber-600" : "bg-brand text-brand-ink hover:brightness-95"
                   )}
                   onClick={toggleEditingMode}
@@ -414,7 +414,7 @@ const ElementView = ({
                   type="button"
                   disabled
                   aria-describedby={`offered-locked-${element.id}`}
-                  className="bg-gray-300 text-gray-600 px-5 py-1 rounded-full font-bold text-sm cursor-not-allowed"
+                  className="bg-gray-300 text-gray-600 px-5 py-1 rounded-xl font-bold text-sm cursor-not-allowed"
                 >
                   <InnerButton>
                     <Icon type="edit" />

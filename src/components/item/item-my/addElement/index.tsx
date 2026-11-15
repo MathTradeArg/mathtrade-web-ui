@@ -76,7 +76,7 @@ const AddElementToMyItem = ({ startOpen = false }: { startOpen?: boolean }) => {
         <div className="flex justify-center">
           <button
             type="button"
-            className="border border-gray-400 text-sm rounded-full py-1 px-4 hover:bg-gray-800 hover:text-white transition-colors"
+            className="border border-gray-400 text-sm rounded-xl py-1 px-4 hover:bg-gray-800 hover:text-white transition-colors"
             onClick={() => {
               setIsOpen(true);
             }}

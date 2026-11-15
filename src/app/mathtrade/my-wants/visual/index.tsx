@@ -20,7 +20,7 @@ const TabVisual = ({
     <button
       type="button"
       className={clsx(
-        "h-8 px-3 rounded-full border text-caption font-bold flex items-center gap-1.5 transition-colors",
+        "h-8 px-3 rounded-xl border text-caption font-bold flex items-center gap-1.5 transition-colors",
         active
           ? "bg-want/10 border-want/40 text-[#0a7a4d]"
           : "bg-surface border-line text-gray-500 hover:text-gray-800"
@@ -62,7 +62,7 @@ const Visual = () => {
   };
 
   return (
-    <SectionCommon topNotRounded>
+    <SectionCommon>
       <div
         className="flex justify-center items-center gap-1.5 pt-5 pb-1"
         data-tour="mywants.direction"

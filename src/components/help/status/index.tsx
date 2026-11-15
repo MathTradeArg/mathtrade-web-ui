@@ -5,7 +5,7 @@ import { boxStatusList, componentsStatusList } from "@/config/statusTypes";
 const Status = () => {
   return (
     <>
-      <h3 className="font-bold text-lg mb-5 text-gray-500">
+      <h3 className="text-section-label mb-5 text-ink">
         <I18N id="quickhelp.box.status" />
       </h3>
 
@@ -24,7 +24,7 @@ const Status = () => {
           );
         })}
       </div>
-      <h3 className="font-bold text-lg mb-5 text-gray-500">
+      <h3 className="text-section-label mb-5 text-ink">
         <I18N id="quickhelp.components.status" />
       </h3>
 

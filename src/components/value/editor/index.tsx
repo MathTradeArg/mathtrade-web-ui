@@ -44,7 +44,7 @@ const ValueEditor = ({
         <div className="p-2 border-t">
           <div className="flex items-center justify-center gap-2 text-sm">
             <button
-              className="border border-gray-300 hover:opacity-70 rounded-full px-3 py-1"
+              className="border border-gray-300 hover:opacity-70 rounded-xl px-3 py-1"
               onClick={onClose}
               disabled={loading}
             >

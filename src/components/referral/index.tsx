@@ -134,11 +134,11 @@ const Referral = ({ floatingButton = false }) => {
 
       {currentLocation?.referral && currentLocation?.referral?.first_name ? (
         <div
-          className="bg-surface border border-line rounded-card mb-4 p-4 max-w-xl mx-auto"
+          className="bg-card shadow-card border border-line rounded-card mb-4 p-4 max-w-xl mx-auto"
           //style={{ maxWidth: 500, margin: "0 auto 30px" }}
         >
           <div className="description">
-            <h3 className="font-bold text-xl mb-3">{`${currentLocation?.referral?.first_name} ${currentLocation?.referral?.last_name}`}</h3>
+            <h3 className="text-card-title mb-3 text-ink">{`${currentLocation?.referral?.first_name} ${currentLocation?.referral?.last_name}`}</h3>
 
             <div className="referal-items">
               {currentLocation?.referral?.telegram ? (

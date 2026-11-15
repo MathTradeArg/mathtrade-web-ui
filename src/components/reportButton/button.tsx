@@ -59,7 +59,7 @@ const ReportButtonBtn = ({
           <ErrorAlert error={error} errorMessage={resolveApiErrorMessage(error)} />
           <div className="flex items-center justify-center gap-4 pt-2 pb-5">
             <button
-              className="border border-gray-300 text-gray-400 font-bold text-lg px-6 py-1 rounded-full hover:bg-gray-400 hover:text-white transition-colors"
+              className="border border-gray-300 text-gray-400 font-bold text-lg px-6 py-1 rounded-xl hover:bg-gray-400 hover:text-white transition-colors"
               onClick={(e) => {
                 e.preventDefault();
                 onClose();

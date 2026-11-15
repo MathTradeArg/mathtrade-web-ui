@@ -156,7 +156,7 @@ const GameGridMD = ({ onToggleExpanse }: GameGridMDProps) => {
                 clamped at 2, and letting it collapse to 1 pushes the rating
                 and complexity row up, so neighbouring cards in the same grid
                 row stop lining up. min-h-12 == 2 * leading-6. */}
-            <h3 className="text-heading font-display font-semibold tracking-[-0.01em] text-ink text-balance hover:opacity-70 leading-6 line-clamp-2 min-h-12 break-words">
+            <h3 className="text-card-title text-ink text-balance hover:opacity-70 leading-6 line-clamp-2 min-h-12 break-words">
               {`${title}${year ? ` (${year})` : ""}`}
             </h3>
           </div>

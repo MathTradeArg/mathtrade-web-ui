@@ -21,7 +21,7 @@ export const LocName = ({ loc = null }: { loc?: ShippingLoc | null }) =>
 export const KindBadge = ({ kind = "direct" }: { kind?: ShippingKind }) => (
   <span
     className={clsx(
-      "inline-block rounded-full px-2 py-0.5 text-xs font-semibold whitespace-nowrap",
+      "inline-block rounded-md px-2 py-0.5 text-xs font-semibold whitespace-nowrap",
       KIND_CLASS[kind]
     )}
   >

@@ -76,17 +76,17 @@ const EditionRow = ({
   };
 
   return (
-    <div className="border border-line bg-surface text-ink rounded-card p-4 mb-4">
+    <div className="border border-line bg-card shadow-card text-ink rounded-card p-4 mb-4">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <span className="font-display font-semibold text-ink">{mathtrade.name}</span>
+          <span className="text-card-title text-ink">{mathtrade.name}</span>
           {mathtrade.active ? (
-            <span className="ml-2 uppercase text-[10px] font-bold bg-primary text-white px-2 py-[3px] rounded-full">
+            <span className="ml-2 uppercase text-[10px] font-bold bg-primary text-white px-2 py-[3px] rounded-md">
               <I18N id="adminPanel.active.badge" />
             </span>
           ) : null}
           {mathtrade.admin_only ? (
-            <span className="ml-2 uppercase text-[10px] font-bold bg-warning text-white px-2 py-[3px] rounded-full">
+            <span className="ml-2 uppercase text-[10px] font-bold bg-warning text-white px-2 py-[3px] rounded-md">
               <I18N id="adminPanel.adminOnly.badge" />
             </span>
           ) : null}

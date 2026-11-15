@@ -73,7 +73,7 @@ const TagItemLabel = ({ row }: { row: any }) => {
             type="button"
             disabled={busy}
             className={clsx(
-              "text-[10px] font-semibold rounded-full px-2 py-[1px] whitespace-nowrap",
+              "text-[10px] font-semibold rounded-md px-2 py-[1px] whitespace-nowrap",
               state === "wanted"
                 ? "border border-gray-400 text-gray-600"
                 : "bg-want text-white"

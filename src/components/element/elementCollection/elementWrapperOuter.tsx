@@ -15,7 +15,7 @@ const ElementWrapperOuter = ({
     <div
       className={clsx(
         "mb-6 rounded-card flex flex-col min-w-0 max-w-full w-full",
-        card ? null : "bg-surface-soft border border-line p-4"
+        card ? null : "p-4"
       )}
       data-tour={tourAnchor}
     >

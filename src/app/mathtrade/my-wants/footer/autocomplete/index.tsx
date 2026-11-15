@@ -17,7 +17,7 @@ const AutocompleteButton = () => {
         <button
           type="button"
           className={clsx(
-            "h-[34px] px-3 rounded-full text-caption font-bold whitespace-nowrap border transition-colors",
+            "h-[34px] px-3 rounded-xl text-caption font-bold whitespace-nowrap border transition-colors",
             disabled
               ? "border-gray-200 text-gray-400 cursor-not-allowed"
               : "border-primary/40 bg-primary/10 text-primary hover:bg-primary hover:text-white"
@@ -32,7 +32,7 @@ const AutocompleteButton = () => {
       </div>
       <Modal isOpen={isOpen} onClose={toggleIsOpen} size="md">
         <div className="text-center">
-          <h2 className="font-bold mb-4 text-xl text-balance">
+          <h2 className="text-card-title mb-4 text-balance text-ink">
             <I18N id="Autocomplete.modal.title" />
           </h2>
           <p className="text-balance mb-7">
@@ -42,7 +42,7 @@ const AutocompleteButton = () => {
           <div className="flex justify-center items-center gap-3 font-bold">
             <button
               type="button"
-              className="border border-gray-400 text-gray-600 rounded-full py-2 px-5 hover:opacity-70 transition-opacity"
+              className="border border-gray-400 text-gray-600 rounded-xl py-2 px-5 hover:opacity-70 transition-opacity"
               onClick={toggleIsOpen}
             >
               <I18N id="btn.Cancel" />

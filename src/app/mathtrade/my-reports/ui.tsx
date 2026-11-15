@@ -33,13 +33,13 @@ const MyReportsList = ({
             )}
           >
             <span className="flex flex-wrap items-center gap-2 min-w-0">
-              <span className="rounded-full bg-sky-100 text-sky-900 px-2 py-0.5 text-xs font-bold">
+              <span className="rounded-md bg-sky-100 text-sky-900 px-2 py-0.5 text-xs font-bold">
                 <I18N id={`myReports.kind.${row.kind}`} />
               </span>
               <ReportStatusPill open={status === "open"} />
               <span className="text-xs text-gray-600">{formatReportDate(row.created)}</span>
             </span>
-            <span className="min-w-0 break-words font-bold">{row.title}</span>
+            <span className="min-w-0 break-words font-medium">{row.title}</span>
             <span className="text-xs text-gray-600">
               <I18N id="deliveryReport.commentsCount" values={[row.commentsCount]} />
             </span>

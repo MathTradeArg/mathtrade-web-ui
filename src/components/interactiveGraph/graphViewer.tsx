@@ -193,7 +193,7 @@ const GraphViewer = ({ mathtradeId }: GraphViewerProps) => {
         </span>
       </div>
 
-      <div className="flex max-w-full min-w-0 flex-wrap items-center gap-2.5 border-b border-line bg-surface-soft px-3 py-2 md:px-4">
+      <div className="flex max-w-full min-w-0 flex-wrap items-center gap-2.5 border-b border-line px-3 py-2 md:px-4">
         {subgraphs.length > 0 ? (
           <div className="flex min-w-0 items-center gap-1">
             <button
@@ -266,7 +266,7 @@ const GraphViewer = ({ mathtradeId }: GraphViewerProps) => {
               } border border-gray-200 rounded-lg bg-white flex flex-col overflow-hidden ${paneHeight}`}
             >
               <header className="px-3 py-2.5 border-b border-gray-200">
-                <h3 className="text-body-lg text-gray-800">
+                <h3 className="text-card-title text-ink">
                   {searchTerm.trim() ? (
                     <I18N id="chains.search.results" values={[hits.length]} />
                   ) : chainSize === 1 ? (

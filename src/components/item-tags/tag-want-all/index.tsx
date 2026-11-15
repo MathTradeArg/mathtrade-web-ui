@@ -88,7 +88,7 @@ const TagWantAll = () => {
       {wanted < total ? (
         <button
           type="button"
-          className="rounded-full bg-want text-white font-semibold px-3 py-1 hover:opacity-90"
+          className="rounded-xl bg-want text-white font-semibold px-3 py-1 hover:opacity-90"
           disabled={loading}
           onClick={onAll}
         >
@@ -98,7 +98,7 @@ const TagWantAll = () => {
       {wanted > 0 ? (
         <button
           type="button"
-          className="rounded-full border border-gray-300 text-gray-600 font-semibold px-3 py-1 hover:opacity-75"
+          className="rounded-xl border border-gray-300 text-gray-600 font-semibold px-3 py-1 hover:opacity-75"
           disabled={loading}
           onClick={() => setConfirm({ kind: "none", dupCount: 0 })}
         >

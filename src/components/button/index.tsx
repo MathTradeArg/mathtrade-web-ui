@@ -42,8 +42,13 @@ const Button = ({
 }) => {
   const colorBtn = disabled ? "cancel" : color;
 
+  // One radius rule: the pill is only for the main action (filled brand/sun
+  // button); every other action uses the 12px radius.
+  const isMainAction = !outline && (color === "primary" || color === "sun");
+
   const cl = clsx(
-    "rounded-full outline-none font-semibold transition-colors transition-opacity",
+    "outline-none font-semibold transition-colors transition-opacity",
+    isMainAction ? "rounded-full" : "rounded-xl",
     {
       sm,
       "inline-block": !block,

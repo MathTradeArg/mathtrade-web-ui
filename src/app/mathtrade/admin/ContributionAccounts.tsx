@@ -62,7 +62,7 @@ const ContributionAccounts = ({ mathtradeId }: { mathtradeId: number }) => {
 
   return (
     <div className="relative mt-5 pt-4 border-t border-line">
-      <h4 className="font-bold mb-2">
+      <h4 className="text-card-title mb-2 text-ink">
         <I18N id="adminPanel.contribution.accountsTitle" />
       </h4>
       {accounts.length === 0 ? (
@@ -91,7 +91,7 @@ const ContributionAccounts = ({ mathtradeId }: { mathtradeId: number }) => {
               {account.cbu ? ` · ${account.cbu}` : ""}
               {account.bank ? ` · ${account.bank}` : ""}
               {account.active ? null : (
-                <span className="ml-2 uppercase text-[10px] font-bold bg-gray-400 text-white px-2 py-[3px] rounded-full">
+                <span className="ml-2 uppercase text-[10px] font-bold bg-gray-400 text-white px-2 py-[3px] rounded-md">
                   <I18N id="adminPanel.contribution.inactive" />
                 </span>
               )}

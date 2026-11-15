@@ -28,7 +28,7 @@ const BulkConfirmModal = ({
   return (
     <Modal size="sm" isOpen={isOpen} onClose={onCancel}>
       <div className="text-center">
-        <h3 className="text-xl mb-2 font-bold">
+        <h3 className="text-card-title mb-2 text-ink">
           <I18N id={`ban.bulk.confirm.title.${kind}.${plural}`} values={[count]} />
         </h3>
         <p className="text-sm text-gray-700 text-balance">

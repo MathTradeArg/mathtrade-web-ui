@@ -1,7 +1,6 @@
 "use client";
 import { useContext, useEffect, useMemo, useState } from "react";
 import PageHeader from "@/components/pageHeader";
-import Wrapper from "@/components/wrapper";
 import Tabs from "@/components/tabs";
 import SectionCommon from "@/components/sections/common";
 import ErrorAlert from "@/components/errorAlert";
@@ -58,6 +57,7 @@ export default function MyReports() {
     <>
       <PageHeader
         variant="compact"
+        tone="peach"
         title="title.MyReports"
         help={
           <span className="text-sm text-ink-muted">
@@ -65,13 +65,11 @@ export default function MyReports() {
           </span>
         }
       />
-      <Wrapper>
-        <div className="bg-surface-soft border border-line border-b-0 rounded-t-main">
-          <Tabs list={TABS} value={tab} onChange={setTab} />
+      <SectionCommon>
+        <div className="px-3 pt-3 md:px-8">
+          <Tabs flush list={TABS} value={tab} onChange={setTab} />
         </div>
-      </Wrapper>
-      <SectionCommon topNotRounded>
-        <div className="min-w-0 relative">
+        <div className="min-w-0 relative px-3 pt-4 pb-4 md:px-8">
           <div className="mb-3">
             <SegmentedGroup>
               {(["open", "closed"] as MyReportStatus[]).map((s) => (

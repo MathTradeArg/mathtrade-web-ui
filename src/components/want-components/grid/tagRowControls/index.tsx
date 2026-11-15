@@ -58,7 +58,7 @@ const TagRowControls = ({ wantGroup }: { wantGroup: any }) => {
         type="button"
         disabled={saving}
         className={clsx(
-          "text-[10px] font-semibold rounded-full px-1.5 py-[1px] whitespace-nowrap border",
+          "text-[10px] font-semibold rounded-md px-1.5 py-[1px] whitespace-nowrap border",
           protectedDup
             ? "border-green-600 text-green-700 bg-white"
             : "border-orange-500 text-orange-700 bg-white"
@@ -90,7 +90,7 @@ const TagRowControls = ({ wantGroup }: { wantGroup: any }) => {
       </button>
       <Modal size="sm" isOpen={editing} onClose={() => setEditing(false)}>
         <div className="text-left">
-          <h3 className="font-bold text-lg mb-3">
+          <h3 className="text-card-title mb-3 text-ink">
             <I18N id="tagRow.edit" />
           </h3>
           <label className="block text-sm mb-1">
@@ -127,7 +127,7 @@ const TagRowControls = ({ wantGroup }: { wantGroup: any }) => {
           <div className="flex gap-2 justify-end">
             <button
               type="button"
-              className="rounded-full border border-gray-300 text-sm px-4 py-1"
+              className="rounded-xl border border-gray-300 text-sm px-4 py-1"
               onClick={() => setEditing(false)}
             >
               <I18N id="btn.Cancel" />

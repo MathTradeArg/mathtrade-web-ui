@@ -21,10 +21,10 @@ export default function MyAccount() {
 
   return (
     <>
-      <PageHeader title="title.MyAccount" variant="minimal" />
+      <PageHeader title="title.MyAccount" variant="minimal" tone="sun" />
       <SectionCommon loading={loading}>
         <section className="max-w-xl mx-auto pt-4 relative">
-          <h2 className="text-center pb-2 mb-7 font-bold block w-full border-b border-gray-300">
+          <h2 className="text-card-title text-center pb-2 mb-7 block w-full border-b border-gray-300 text-ink">
             <I18N id="register.AccountData" />
           </h2>
           <ErrorAlert error={errorGetUser} />

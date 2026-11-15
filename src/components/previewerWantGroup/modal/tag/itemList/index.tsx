@@ -19,7 +19,7 @@ const ItemList = ({
   return (
     <div>
       <div className="sm:flex items-center justify-between border-b border-gray-300 pb-2 mb-4">
-        <h3 className="font-bold">
+        <h3 className="text-card-title text-ink">
           <I18N id="title.ItemList" />
         </h3>
         <div>

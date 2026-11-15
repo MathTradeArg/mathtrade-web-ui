@@ -74,6 +74,7 @@ const MyDataPage = () => {
       <PageHeader
         title={isMembership ? "title.MyData" : "title.SignToMathTrade"}
         variant="minimal"
+        tone="sun"
       />
       <SectionCommon
         title={isMembership ? "title.MyData" : "title.SignToMathTrade"}
@@ -98,7 +99,7 @@ const MyDataPage = () => {
             </div>
           ) : isMathtrade ? (
             <section className="max-w-lg mx-auto py-8 relative">
-              <h2 className=" text-balance text-center font-display font-semibold mb-5 text-3xl text-ink">
+              <h2 className="text-card-title text-balance text-center mb-5 text-ink">
                 🎊 {mathtradeName} 🎉
               </h2>
               {(!isMembership && rulesRequired) || rulesPending ? (

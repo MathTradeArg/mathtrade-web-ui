@@ -10,7 +10,7 @@ const items = [img1, img3];
 const TutBoxesResults = () => {
   return (
     <div className="py-11 px-3 max-w-5xl mx-auto ">
-      <h2 className="text-center text-balance text-2xl mb-5 text-gray-600 italic">
+      <h2 className="text-card-title text-center text-balance mb-5 italic text-ink">
         Reglas para preparar los paquetes
       </h2>
       <div className="flex flex-col border border-gray-500 overflow-hidden rounded-xl shadow-lg bg-white">

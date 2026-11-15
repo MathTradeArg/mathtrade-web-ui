@@ -26,9 +26,9 @@ const BanButtonUI = ({ className = "", type = "item" }) => {
         <button
           type="button"
           className={clsx(
-            "font-semibold cursor-pointer h-7 px-2.5 flex items-center gap-1.5 transition-colors rounded-full leading-none text-[11px] border",
+            "font-semibold cursor-pointer h-7 px-2.5 flex items-center gap-1.5 transition-colors rounded-xl leading-none text-[11px] border",
             {
-              "text-gray-600 bg-white border-gray-300 hover:bg-gray-100":
+              "text-ink-muted bg-surface-soft border-line hover:bg-surface":
                 !isActive,
               "text-red-600 bg-red-50 border-red-200": isActive,
             }

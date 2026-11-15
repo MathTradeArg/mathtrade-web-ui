@@ -26,11 +26,11 @@ const OrderBy = ({
   );
 
   return (
-    <div className="flex items-center h-[34px] rounded-full border border-line overflow-hidden bg-surface shrink-0">
-      <div className="relative">
+    <div className="flex items-center gap-2 shrink-0">
+      <div className="relative rounded-xl bg-white border border-line hover:border-ink/30 focus-within:ring-2 focus-within:ring-ink/40">
         <select
           name="order"
-          className="appearance-none bg-transparent text-caption font-semibold text-gray-900 h-[34px] pl-3 pr-7 outline-none cursor-pointer"
+          className="appearance-none bg-transparent text-[13px] font-medium text-ink-muted hover:text-ink h-10 pl-2.5 pr-7 outline-none cursor-pointer"
           value={selected}
           onChange={onChangeOrderBy}
           id={`orderby-${idOrderBy}`}
@@ -44,12 +44,12 @@ const OrderBy = ({
         </select>
         <Icon
           type="chevron-down"
-          className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-gray-600"
+          className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-ink-muted"
         />
       </div>
       <button
         type="button"
-        className="h-[34px] min-w-[4.5rem] px-2 border-l border-line bg-surface-strong text-gray-800 flex items-center justify-center gap-1 hover:bg-line"
+        className="h-10 min-w-10 px-2.5 rounded-xl bg-white border border-line flex items-center justify-center gap-1 text-[13px] font-medium text-ink-muted hover:border-ink/30 hover:text-ink focus-visible:bg-surface-soft focus-visible:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 transition-colors"
         onClick={toggleDesc}
         title={`${directionLabel}. ${getI18Ntext("orderBy.Direction.help")}`}
         aria-label={directionLabel}
@@ -59,10 +59,10 @@ const OrderBy = ({
           type={shownDesc ? "arrow-down" : "arrow-up"}
           className="text-sm shrink-0"
         />
-        <span className="text-[11px] font-semibold leading-none hidden sm:inline">
+        <span className="text-[13px] leading-none hidden sm:inline">
           {directionLabel}
         </span>
-        <span className="text-[11px] font-semibold leading-none sm:hidden">
+        <span className="text-[13px] leading-none sm:hidden">
           {directionShort}
         </span>
       </button>

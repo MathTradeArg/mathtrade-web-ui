@@ -5,7 +5,6 @@ import SectionCommon from "@/components/sections/common";
 import PageHeader from "@/components/pageHeader";
 import useStats from "./useStats";
 import Tabs from "@/components/tabs";
-import Wrapper from "@/components/wrapper";
 import Dynamic from "@/components/dynamic";
 
 const StatsUI = lazy(() => import("./currentMT"));
@@ -15,7 +14,7 @@ const Header = () => {
   return (
     <>
       <Script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-bundle.min.js" />
-      <PageHeader title="title.Stats" variant="minimal" />
+      <PageHeader title="title.Stats" variant="minimal" tone="lilac" />
     </>
   );
 };
@@ -41,16 +40,15 @@ export default function Statistics() {
   return (
     <>
       <Header />
-      <Wrapper>
-        <div className="bg-surface-soft border border-line border-b-0 rounded-t-main">
+      <SectionCommon>
+        <div className="px-3 pt-3 md:px-8">
           <Tabs
+            flush
             list={["stats.screen.current", "stats.screen.historial"]}
             value={screenViewStats}
             onChange={setScreenViewStats}
           />
         </div>
-      </Wrapper>
-      <SectionCommon topNotRounded>
         <div className="md:px-8 px-3 py-8">
           {screenViewStats === 0 ? (
             <Dynamic>

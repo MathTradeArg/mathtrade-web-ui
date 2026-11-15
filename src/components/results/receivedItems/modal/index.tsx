@@ -23,13 +23,13 @@ const ModalReceivedItem = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="md">
-      <h2 className="text-center text-balance font-bold text-xl mb-5">
+      <h2 className="text-card-title text-center text-balance mb-5 text-ink">
         <I18N id="received.modal.title" values={[itemData?.title || ""]} />
       </h2>
       <ErrorAlert error={error} />
       <div className="flex items-center justify-center gap-3">
         <button
-          className="py-2 px-5 border border-gray-400 text-gray-600 rounded-full hover:text-black hover:border-black transition-colors"
+          className="py-2 px-5 border border-gray-400 text-gray-600 rounded-xl hover:text-black hover:border-black transition-colors"
           onClick={() => {
             if (onClose) onClose();
           }}
@@ -37,7 +37,7 @@ const ModalReceivedItem = ({
           <I18N id="btn.Cancel" />
         </button>
         <button
-          className="py-2 px-5 bg-green-600 text-white rounded-full transition-colors hover:bg-green-800"
+          className="py-2 px-5 bg-green-600 text-white rounded-xl transition-colors hover:bg-green-800"
           onClick={() => {
             postReceived();
           }}

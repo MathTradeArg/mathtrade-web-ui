@@ -6,7 +6,7 @@ import FavoritesPanel from "./favorites";
 const FavoritesPage = () => {
   return (
     <>
-      <PageHeader variant="compact" title="title.Favorites" />
+      <PageHeader variant="compact" tone="pink" title="title.Favorites" />
       <SectionCommon>
         <FavoritesPanel />
       </SectionCommon>

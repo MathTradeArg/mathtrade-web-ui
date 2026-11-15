@@ -94,7 +94,7 @@ const GameUI = ({ wantGroup }) => {
               <Value type="game" onChange={onChangeValue} />
             </div>
 
-            <h3 className="text-heading font-display font-semibold tracking-[-0.01em] text-ink text-balance leading-6 line-clamp-2 min-h-12 w-full break-words">
+            <h3 className="text-card-title text-ink text-balance leading-6 line-clamp-2 min-h-12 w-full break-words">
               {`${title}${year ? ` (${year})` : ""}`}
             </h3>
 
@@ -174,7 +174,7 @@ const GameUI = ({ wantGroup }) => {
           <ErrorAlert error={error} />
           <button
             className={clsx(
-              "inline-flex items-center justify-center font-bold text-white bg-want px-5 py-2.5 rounded-full outline-none transition-opacity",
+              "inline-flex items-center justify-center font-bold text-white bg-want px-5 py-2.5 rounded-xl outline-none transition-opacity",
               loading ? "opacity-40" : "hover:opacity-90"
             )}
             disabled={loading}

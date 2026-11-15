@@ -17,7 +17,7 @@ export default function ResultsHistorialPage() {
 
   return (
     <>
-      <PageHeader variant="compact" title="title.ResultsHistorial" />
+      <PageHeader variant="compact" tone="lilac" title="title.ResultsHistorial" />
       <SectionCommon>
         <Dynamic>
           <ResultsHistorial />

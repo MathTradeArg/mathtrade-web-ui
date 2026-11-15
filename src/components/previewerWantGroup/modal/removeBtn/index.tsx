@@ -69,7 +69,7 @@ const RemoveButton = ({ wantGroup }) => {
     <div className="text-center pt-4">
       {showDelete ? (
         <div className="animate-fadein">
-          <h3 className="font-bold mb-3">
+          <h3 className="text-card-title mb-3 text-ink">
             <I18N id="want.removeFrom.answer" />
           </h3>
           <div className="flex items-center justify-center gap-4">
@@ -82,7 +82,7 @@ const RemoveButton = ({ wantGroup }) => {
               <I18N id="btn.Cancel" />
             </button>
             <button
-              className="font-bold text-white bg-danger px-5 py-2.5 rounded-full text-sm hover:opacity-90 transition-opacity"
+              className="font-bold text-white bg-danger px-5 py-2.5 rounded-xl text-sm hover:opacity-90 transition-opacity"
               onClick={deleteWant}
             >
               <I18N id="btn.YesQuit" />

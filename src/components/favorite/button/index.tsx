@@ -88,8 +88,8 @@ const FavoriteButton = ({ type = "game", className = "" }) => {
           className={clsx(
             "h-7 w-7 flex items-center justify-center rounded-full border transition-colors",
             active
-              ? "text-warning bg-white border-gray-300 hover:bg-gray-100"
-              : "text-gray-500 bg-white border-gray-300 hover:bg-gray-100"
+              ? "text-warning bg-surface-soft border-line hover:bg-surface"
+              : "text-ink-muted bg-surface-soft border-line hover:bg-surface"
           )}
           onClick={onClick}
           disabled={adding || removing}

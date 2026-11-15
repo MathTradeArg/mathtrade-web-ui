@@ -76,7 +76,7 @@ const SelectionBar = ({ isWanted }: Props) => {
           </span>
           <button
             type="button"
-            className="min-h-[44px] px-4 rounded-full text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+            className="min-h-[44px] px-4 rounded-xl text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors"
             onClick={cancel}
           >
             <I18N id="ban.bulk.bar.cancel" />
@@ -84,7 +84,7 @@ const SelectionBar = ({ isWanted }: Props) => {
           <button
             type="button"
             className={clsx(
-              "min-h-[44px] px-4 rounded-full text-sm font-semibold flex items-center gap-1.5 transition-opacity whitespace-nowrap",
+              "min-h-[44px] px-4 rounded-xl text-sm font-semibold flex items-center gap-1.5 transition-opacity whitespace-nowrap",
               count && !loading
                 ? "bg-danger text-white hover:opacity-75"
                 : "bg-white/15 text-white/50 cursor-not-allowed"

@@ -23,12 +23,12 @@ const ChangeSection = ({
   } = result || {};
 
   return (
-    <div className="p-4 sm:p-5 bg-white border border-line rounded-card shadow-sm" data-tour={tourAnchor}>
+    <div className="p-4 sm:p-5 bg-card border border-line rounded-card shadow-card" data-tour={tourAnchor}>
       <div className="grid grid-cols-[minmax(0,1fr)_auto_auto_auto_minmax(0,1fr)] gap-x-1.5 sm:gap-x-3 sm:max-w-xl sm:mx-auto">
-        <h3 className="col-start-1 row-start-1 text-sm font-bold text-ink mb-2">
+        <h3 className="text-section-label col-start-1 row-start-1 text-ink mb-2">
           <I18N id="results.col.receive" />
         </h3>
-        <h3 className="col-start-5 row-start-1 text-sm font-bold text-ink mb-2">
+        <h3 className="text-section-label col-start-5 row-start-1 text-ink mb-2">
           <I18N id="results.col.offer" />
         </h3>
 

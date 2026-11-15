@@ -114,7 +114,7 @@ const AccountMenuButton = ({
               width={80}
             />
           </div>
-          <h3 className="font-display font-semibold text-lg text-ink mb-3">{`${user?.first_name} ${user?.last_name}`}</h3>
+          <h3 className="text-card-title text-ink mb-3">{`${user?.first_name} ${user?.last_name}`}</h3>
           <nav className="text-ink border-t border-line pt-1">
             <Link
               href={PRIVATE_ROUTES.MY_ACCOUNT.path}

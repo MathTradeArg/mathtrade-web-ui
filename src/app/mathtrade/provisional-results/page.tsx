@@ -21,7 +21,7 @@ export default function ProvisionalResultsPage() {
 
   return (
     <>
-      <PageHeader variant="compact" title="title.ProvisionalResults" />
+      <PageHeader variant="compact" tone="lilac" title="title.ProvisionalResults" />
       <SectionCommon>
         <div className="md:px-8 px-3 py-8">
           <ResultsContextProvider>

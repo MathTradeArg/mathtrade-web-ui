@@ -37,13 +37,13 @@ const GridUI = () => {
     <Wrapper>
       <div className="sticky top-5">
         <div
-          className="border-spacing-0 bg-surface-soft border border-line border-t-0 rounded-b-main w-full h-mygrid overflow-scroll pb-8 select-none"
+          className="border-spacing-0 bg-card border border-line rounded-card shadow-card w-full h-mygrid overflow-scroll pb-8 select-none"
           style={{ contain: "paint" }}
           ref={rootRef}
         >
           {readyToRender ? (
             <table className="grid-table">
-              <thead className="sticky z-sticky top-0 bg-surface-soft">
+              <thead className="sticky z-sticky top-0 bg-card">
                 <tr className="border-spacing-0">
                   {myItemList.map((myItem, k) => {
                     return k === 0 ? (

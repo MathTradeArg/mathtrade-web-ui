@@ -66,7 +66,7 @@ const CopyValue = ({ label, value }) => {
         <span className="text-gray-500 text-sm">
           <I18N id={label} />:
         </span>{" "}
-        <span className="font-bold break-all">{value}</span>
+        <span className="font-medium break-all">{value}</span>
       </div>
       <button
         type="button"

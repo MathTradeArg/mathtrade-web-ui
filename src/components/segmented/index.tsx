@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 // One style for every view switch (Visual/Grilla, Juegos/Ejemplares,
 // Actual/Historial…): a light capsule holding the options, the active one
-// filled in ink (dark navy). Used by <Tabs> and by the results view pills.
+// filled in ink (dark navy). For mode selectors; page tabs use <Tabs>.
 export const SegmentedGroup = ({
   children,
   className = "",

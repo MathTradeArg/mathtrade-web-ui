@@ -19,7 +19,7 @@ const VenueCard = ({ venue }: { venue: Venue }) => {
         <Icon type="map" />
       </div>
       <div className="text-xs pr-1">
-        <h5 className="font-bold">{name}</h5>
+        <h5 className="text-card-title text-ink">{name}</h5>
         {address ? <p>{address}</p> : null}
       </div>
     </>
