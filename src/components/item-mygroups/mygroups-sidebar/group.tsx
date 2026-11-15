@@ -6,7 +6,19 @@ import GroupEditor from "./editor";
 import Icon from "@/components/icon";
 import Value from "@/components/value";
 
-const GroupSidebar = ({ group, selected, selectGroup, canIEdit }) => {
+type GroupSidebarProps = {
+  group: { id: number; name: string; color: string; item_ids: number[] };
+  selected?: boolean;
+  selectGroup: (id: number) => void;
+  canIEdit?: boolean;
+};
+
+const GroupSidebar = ({
+  group,
+  selected,
+  selectGroup,
+  canIEdit,
+}: GroupSidebarProps) => {
   const { id, name, color, item_ids } = group;
 
   const [visibleEdit, setVisibleEdit] = useState(false);
@@ -26,7 +38,7 @@ const GroupSidebar = ({ group, selected, selectGroup, canIEdit }) => {
   ) : (
     <div
       className={clsx(
-        "relative rounded-md shadow-md mb-2 border border-gray-300  transition-opacity",
+        "relative rounded-card shadow-card mb-2 border border-line bg-card  transition-opacity",
         {
           // "hover:opacity-70": !selected,
         }
@@ -59,6 +71,7 @@ const GroupSidebar = ({ group, selected, selectGroup, canIEdit }) => {
         >{`${name} (${item_ids.length})`}</div>
 
         <div className="flex items-center gap-1">
+          {/* @ts-expect-error Value (jsx) does not declare size */}
           <Value size="tag" type="group" groupId={id} />
           {canIEdit && (
             <button

@@ -110,7 +110,7 @@ const DeliveryReportsTab = ({ tabs }: { tabs: ReactNode }) => {
     return (
       <article
         key={row.id}
-        className="rounded-card border border-line bg-surface p-3"
+        className="rounded-card border border-line bg-card shadow-card p-3"
         data-testid={`delivery-report-${row.id}`}
       >
         <button

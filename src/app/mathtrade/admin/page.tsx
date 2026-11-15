@@ -95,7 +95,7 @@ const AdminPanelPage = () => {
           </div>
           <ErrorAlert error={errorList} />
           {creating ? (
-            <div className="border-2 border-primary bg-surface text-ink rounded-card p-4 mb-4">
+            <div className="border-2 border-primary bg-card shadow-card text-ink rounded-card p-4 mb-4">
               <h2 className="font-display font-semibold text-lg text-ink mb-3">
                 <I18N id="adminPanel.create.title" />
               </h2>

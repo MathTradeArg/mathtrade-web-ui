@@ -22,7 +22,7 @@ const GroupEditor = ({ group, onClose, selected }) => {
   return (
     <div
       className={clsx(
-        "relative rounded-md shadow-md mb-2 border border-gray-300 transition-opacity",
+        "relative rounded-card shadow-card mb-2 border border-line bg-card transition-opacity",
         {
           "opacity-40": loading,
         }

@@ -20,7 +20,7 @@ const PaymentInfo = () => {
   } = usePaymentInfo();
 
   return text ? (
-    <div className="bg-surface-soft border border-line rounded-main max-w-3xl mx-auto mt-4">
+    <div className="bg-card border border-line rounded-card shadow-card max-w-3xl mx-auto mt-4">
       <div className="relative px-5 py-4">
         <div className="mb-9 rich-text">
           <ReactMarkdown>{text}</ReactMarkdown>

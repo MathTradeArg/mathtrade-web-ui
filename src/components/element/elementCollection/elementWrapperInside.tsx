@@ -25,7 +25,7 @@ const ElementWrapperInside = ({
         "rounded-card",
         cardSurfaceClass,
         {
-          "bg-surface": !transparent,
+          "bg-card": !transparent,
           "border border-line": bordered,
           "p-4": padded,
         },

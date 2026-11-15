@@ -76,7 +76,7 @@ const EditionRow = ({
   };
 
   return (
-    <div className="border border-line bg-surface text-ink rounded-card p-4 mb-4">
+    <div className="border border-line bg-card shadow-card text-ink rounded-card p-4 mb-4">
       <div className="flex items-center justify-between gap-3">
         <div>
           <span className="font-display font-semibold text-ink">{mathtrade.name}</span>
