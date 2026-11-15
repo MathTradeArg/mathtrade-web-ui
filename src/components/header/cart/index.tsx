@@ -82,7 +82,7 @@ const CartButton = ({
               "flex items-center gap-3 w-full text-left cursor-pointer peer text-sm px-2 py-2 rounded-lg",
               tone === "light"
                 ? "text-gray-900 hover:bg-gray-50"
-                : "text-white/80 hover:text-white hover:bg-white/5"
+                : "text-white/80 hover:text-white hover:bg-white/10"
             )}
             onClick={toggleMobile}
             ref={buttonRef}

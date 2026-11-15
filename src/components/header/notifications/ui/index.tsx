@@ -18,7 +18,7 @@ const Tab = ({ name, id, tabSelected, setTabSelected, num }) => {
       className={clsx(
         "flex items-center gap-1 px-3 cursor-pointer hover:opacity-60 font-bold border-b-2 relative top-[1px]",
         {
-          "text-gray-400 border-transparent": id !== tabSelected,
+          "text-ink-muted border-transparent": id !== tabSelected,
           "text-ink border-primary": id === tabSelected,
         }
       )}
@@ -122,7 +122,7 @@ const NotificationsButton = ({
             collapsed ? "justify-center px-0" : "text-left px-2",
             tone === "light"
               ? "text-gray-900 hover:bg-gray-50"
-              : "text-white/80 hover:text-white hover:bg-white/5"
+              : "text-white/80 hover:text-white hover:bg-white/10"
           )}
           onClick={toggleMobile}
         >
@@ -162,10 +162,10 @@ const NotificationsButton = ({
               className="flex gap-3 text-xs p-2 hover:opacity-70 transition-opacity"
               onClick={setNotificationsBulkReaded}
             >
-              <div className="text-gray-300">
+              <div className="text-ink-muted">
                 <Icon type="circle" />
               </div>
-              <div className="text-gray-400 italic">
+              <div className="text-ink-muted italic">
                 <I18N id="notifications.all.MarkAsRead" />
               </div>
             </button>

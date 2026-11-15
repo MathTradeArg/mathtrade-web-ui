@@ -11,7 +11,7 @@ const WantGroup = ({ wantGroup }) => {
       })}
     >
       <h4 className="text-xs font-bold cropped">{name}</h4>
-      <div className="text-[9px] text-gray-400 font-bold">
+      <div className="text-[9px] text-ink-muted font-bold">
         <span className="uppercase">
           <I18N id={`cart.wantGroup.type.${type}`} />
         </span>

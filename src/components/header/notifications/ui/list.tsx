@@ -30,7 +30,7 @@ const List = ({ type, noMembership = false }) => {
       ) : null}
 
       {!loading && !list.length ? (
-        <div className="text-center text-balance p-2 text-gray-400 italic">
+        <div className="text-center text-balance p-2 text-ink-muted italic">
           <I18N id="notifications.WithoutNotifications" />
         </div>
       ) : null}

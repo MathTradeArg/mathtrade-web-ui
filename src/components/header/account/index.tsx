@@ -79,7 +79,7 @@ const AccountMenuButton = ({
               <div
                 className={clsx(
                   "text-xs",
-                  isLight ? "text-gray-500" : "text-white/50"
+                  isLight ? "text-ink-muted" : "text-white/70"
                 )}
               >
                 <I18N id="title.MyAccount" />
@@ -89,7 +89,7 @@ const AccountMenuButton = ({
               type="chevron-down"
               className={clsx(
                 "text-xs shrink-0",
-                isLight ? "text-gray-400" : "text-white/40"
+                isLight ? "text-ink-muted" : "text-white/70"
               )}
             />
           </div>

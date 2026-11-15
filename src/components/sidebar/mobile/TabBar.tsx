@@ -35,7 +35,7 @@ const TabBar = () => {
   return (
     <>
       <nav
-        className="lg:hidden fixed bottom-0 left-0 w-full z-nav bg-black flex shadow-[0_-4px_16px_rgba(0,0,0,0.2)] max-w-full"
+        className="lg:hidden fixed bottom-0 left-0 w-full z-nav bg-ink flex shadow-[0_-4px_16px_rgba(46,41,78,0.3)] max-w-full"
         data-tour="home.tabbar"
         data-html2canvas-ignore=""
       >
@@ -55,14 +55,14 @@ const TabBar = () => {
               }
               className={clsx(
                 "relative flex-1 min-w-0 flex flex-col items-center gap-0.5 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] text-[10px] font-semibold",
-                locked ? "text-[#6b7280]" : active ? "text-primary" : "text-[#b7bcc4]"
+                locked ? "text-[#a09db8]" : active ? "text-brand" : "text-[#d6d4e6]"
               )}
             >
               <Icon type={entry.icon} className="text-lg" />
               {locked ? (
                 <Icon
                   type="lock"
-                  className="absolute top-1 right-[calc(50%-16px)] text-[9px] text-[#6b7280]"
+                  className="absolute top-1 right-[calc(50%-16px)] text-[9px] text-[#a09db8]"
                 />
               ) : null}
               <span className="text-center leading-tight line-clamp-2 px-0.5">
@@ -79,7 +79,7 @@ const TabBar = () => {
           aria-controls="mobile-more-sheet"
           className={clsx(
             "flex-1 min-w-0 flex flex-col items-center gap-0.5 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] text-[10px] font-semibold",
-            sheetOpen ? "text-primary" : "text-[#b7bcc4]"
+            sheetOpen ? "text-brand" : "text-[#d6d4e6]"
           )}
         >
           <Icon type="more" className="text-lg" />

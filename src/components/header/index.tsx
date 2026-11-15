@@ -27,7 +27,7 @@ const Header = () => {
       })}
     >
         <Wrapper>
-          <nav className="h-11 bg-black rounded-b-main shadow-main pl-2 pr-3">
+          <nav className="h-11 bg-ink rounded-b-main shadow-main pl-2 pr-3">
             <div className="flex items-center justify-between h-11">
               <div className="flex items-center">
                 <Link
