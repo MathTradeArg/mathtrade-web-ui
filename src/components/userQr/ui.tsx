@@ -7,23 +7,23 @@ const UserQRui = ({ uuid }: { uuid?: string }) => {
   useEffect(() => {
     if (uuid) {
       if (canvasRef.current) {
-        QRCode.toCanvas(canvasRef.current, uuid, function () {});
+        QRCode.toCanvas(canvasRef.current, uuid, { width: 400, margin: 2 }, function () {});
       }
     }
   }, [uuid]);
 
   return (
     <div className="flex justify-center mb-4">
-      <div className="max-w-[240px] border border-line bg-surface rounded-card p-4 mb-5 relavive">
-        <div className="max-w-[260px] mx-auto mb-3">
+      <div className="w-full max-w-[400px] border border-line bg-surface rounded-card p-4 mb-5 relative">
+        <div className="mx-auto mb-3">
           <canvas
             className="bg-white block mx-auto w-full h-full border border-line"
             ref={canvasRef}
-            width="260"
-            height="260"
+            width="400"
+            height="400"
           />
         </div>
-        <p className="text-center text-balance text-sm font-bold text-gray-600">
+        <p className="text-center text-balance text-sm font-bold text-ink-muted">
           Presentate con este QR en el evento central en CABA, para que podamos
           identificarte.
         </p>
