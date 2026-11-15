@@ -65,7 +65,7 @@ const WantMiniCard = ({
           : isAnchor
             ? "w-full sm:w-52"
             : "w-[8.5rem] sm:w-32",
-        tagStyle ? "rounded-card border border-gray-200" : cardKindClass(kind),
+        tagStyle ? "rounded-card border border-line" : cardKindClass(kind),
         {
           "shadow-[inset_0_0_0_3px_red]": empty,
           "ring-2 ring-amber-400": changed,
@@ -133,7 +133,7 @@ const WantMiniCard = ({
       </div>
       <div className="px-2 py-2 flex flex-col items-start gap-1.5 min-w-0 flex-1">
         <h4
-          className="text-[11px] leading-[14px] font-bold line-clamp-3 sm:line-clamp-2 cursor-default w-full break-words"
+          className="text-[11px] leading-[14px] font-bold text-ink line-clamp-3 sm:line-clamp-2 cursor-default w-full break-words"
           title={title}
         >
           {title}

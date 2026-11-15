@@ -83,9 +83,9 @@ const Downloads = ({ accordion }: { accordion?: boolean }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="bg-surface px-5 py-4 rounded-main">
+    <div className="bg-surface border border-line px-5 py-4 rounded-main">
       <h3
-        className={clsx("font-bold text-lg text-gray-500 text-balance", {
+        className={clsx("font-display font-semibold text-lg text-ink text-balance", {
           "cursor-pointer": accordion,
         })}
         onClick={

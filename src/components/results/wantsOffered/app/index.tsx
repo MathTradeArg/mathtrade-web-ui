@@ -14,9 +14,9 @@ const WantsOfferedApp = () => {
       <p className="text-center text-balance mb-6 max-w-4xl mx-auto">
         <I18N id="wantsOffered.text2" />
       </p>
-      <div className="relative border-t border-gray-400 pt-4 min-h-[4rem]">
+      <div className="relative border-t border-line pt-4 min-h-[4rem]">
         {loading ? null : error || rows.length === 0 ? (
-          <div className="border-b border-gray-400 pb-3">
+          <div className="border-b border-line pb-3">
             <I18N id="wantsOffered.noOffer" />
           </div>
         ) : (

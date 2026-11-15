@@ -94,6 +94,8 @@ const GameGridXL = ({ onToggleExpanse }: GameGridXLProps) => {
           "mx-auto relative transition-opacity",
           cardSurfaceClass,
           cardKindClass(cardKind),
+          // The offered-copies list below continues this card.
+          "rounded-b-none",
           {
             "opacity-30  pointer-events-none": showAsIgnored,
             "shadow-[0_0_0_7px_rgba(255,0,0,1)]": ban_id,

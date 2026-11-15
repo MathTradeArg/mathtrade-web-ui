@@ -164,11 +164,8 @@ const ElementView = ({
   return (
     <div
       className={clsx(
-        // Bleed into ElementWrapperOuter p-4 (ludoteca). Skip when the
-        // parent is already unpadded (my-offer ElementMyItem) — -m-4
-        // plus overflow-x-hidden on the wrapper clips into a white gutter.
+        // The ludoteca wrapper is unpadded (card), so the card fills it.
         "relative flex-1 flex",
-        insideItem ? null : "-m-4",
         cardSurfaceClass,
         isRow ? "flex-row" : "flex-col",
         bare ? null : cardKindClass(cardKind)
@@ -334,7 +331,7 @@ const ElementView = ({
         </div>
 
         {showEdition || canAddToMT || canWithdraw || offeredLocked ? (
-          <div className="flex items-center gap-1.5 flex-wrap border-t border-black/10 text-ink/80 pt-3">
+          <div className="mt-auto flex items-center gap-1.5 flex-wrap border-t border-black/10 text-ink/80 pt-3">
             {canWithdraw ? (
               <ButtonAlert
                 className="border border-red-300 text-red-700 px-4 py-1 rounded-full font-bold text-sm hover:bg-red-50 transition-colors"

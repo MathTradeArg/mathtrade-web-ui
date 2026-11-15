@@ -1,18 +1,22 @@
+import clsx from "clsx";
 import type { ReactNode } from "react";
 
 const ElementWrapperOuter = ({
   children,
   tourAnchor,
+  card = false,
 }: {
   children: ReactNode;
+  // The child paints its own card surface: no padding, fill or border here.
+  card?: boolean;
   tourAnchor?: string; // data-tour for the guided tutorial (src/tours)
 }) => {
   return (
     <div
-      // min-w-0 max-w-full w-full for card bounds, but no overflow-x-hidden:
-      // ElementView uses -m-4 to cancel p-4 so the tint reaches this edge;
-      // clipping that bleed reintroduces a white gutter (same bug as my-offer).
-      className="bg-white p-4 mb-6 rounded-card shadow-md flex flex-col min-w-0 max-w-full w-full"
+      className={clsx(
+        "mb-6 rounded-card flex flex-col min-w-0 max-w-full w-full",
+        card ? null : "bg-surface-soft border border-line p-4"
+      )}
       data-tour={tourAnchor}
     >
       {children}

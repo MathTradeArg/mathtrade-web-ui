@@ -35,10 +35,10 @@ const ItemXSUI = ({
   return (
     <div
       className={clsx(
-        "flex items-start gap-3 rounded-lg border shadow-sm text-black p-2.5",
+        "flex items-start gap-3 rounded-card border text-ink p-2.5",
         excluded || ban_id
-          ? "bg-colorMain border-gray-200 opacity-45"
-          : "bg-white border-gray-200",
+          ? "bg-colorMain border-line opacity-45"
+          : "bg-white border-line",
         className
       )}
     >
@@ -46,7 +46,7 @@ const ItemXSUI = ({
       <div className="grow min-w-0 flex flex-col gap-2">
         <div className="flex flex-col gap-1.5">
           {isCombo ? (
-            <h3 className="uppercase text-[9px] font-bold text-gray-900 leading-none">
+            <h3 className="uppercase text-[9px] font-bold text-ink leading-none">
               <I18N id="element-type-badge-0" />
             </h3>
           ) : null}

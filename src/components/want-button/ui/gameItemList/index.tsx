@@ -7,8 +7,8 @@ const GameItemList = () => {
 
   return (
     <>
-      <div className="bg-gray-50 text-gray-900 lg:p-4 py-4 px-2 border-t border-gray-200">
-        <h4 className="mb-3 font-bold text-body">
+      <div className="bg-surface-soft text-ink lg:p-4 py-4 px-2 border border-t-0 border-line rounded-b-card">
+        <h4 className="mb-3 font-display font-semibold text-body-lg">
           {`${itemCount} `}
           <I18N
             id={itemCount === 1 ? "game.item-num.1" : "game.item-num.more"}
@@ -20,7 +20,7 @@ const GameItemList = () => {
             // The backend already excludes ignored-owner copies from
             // `items` — a game can legitimately reach here with none left
             // visible (MAT-120), so say why instead of showing nothing.
-            <p className="text-gray-500 text-caption italic">
+            <p className="text-ink-muted text-caption italic">
               <I18N id="game.noVisibleItems" />
             </p>
           ) : (

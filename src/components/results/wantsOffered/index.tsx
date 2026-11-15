@@ -11,9 +11,9 @@ const WantsOffered = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="bg-white px-5 py-4 rounded-xl border border-gray-200">
+    <div className="bg-surface border border-line px-5 py-4 rounded-main">
       <h3
-        className="font-bold text-lg text-gray-500 text-balance cursor-pointer"
+        className="font-display font-semibold text-lg text-ink text-balance cursor-pointer"
         onClick={() => setIsOpen((v) => !v)}
       >
         <Icon
