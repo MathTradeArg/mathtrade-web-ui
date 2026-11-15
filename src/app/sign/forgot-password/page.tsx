@@ -42,7 +42,7 @@ const ForgotPasswordPage = () => {
             </fieldset>
             <ErrorAlert error={error} />
             <div className="text-center py-3">
-              <Button ariaLabel="forgotPassword.btn">
+              <Button color="sun" ariaLabel="forgotPassword.btn">
                 <I18N id="forgotPassword.btn" />
               </Button>
             </div>

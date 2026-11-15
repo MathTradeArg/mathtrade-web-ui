@@ -58,7 +58,7 @@ const ChangePassword = ({
         </fieldset>
         <ErrorAlert error={error} />
         <div className="text-center py-3">
-          <Button ariaLabel="form.changePassword.btn">
+          <Button color="sun" ariaLabel="form.changePassword.btn">
             <I18N id="form.changePassword.btn" />
           </Button>
         </div>

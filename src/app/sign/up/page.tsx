@@ -195,7 +195,7 @@ const SignUpPage = () => {
                   href={PUBLIC_ROUTES.TERMS_CONDITIONS.path}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-primary underline hover:text-primary-hover"
+                  className="text-link underline hover:text-ink"
                 >
                   <I18N id="title.TyC" />
                 </a>
@@ -204,7 +204,7 @@ const SignUpPage = () => {
                   href={baseURL + rulebookPDFurl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-primary underline hover:text-primary-hover"
+                  className="text-link underline hover:text-ink"
                 >
                   <I18N id="title.Rulebook" />
                 </a>
@@ -213,7 +213,7 @@ const SignUpPage = () => {
             </InputContainer>
             <ErrorAlert error={errorRegister} />
             <div className="text-center mb-5">
-              <Button ariaLabel="btn.SignUp" disabled={pausedSite === "yes"}>
+              <Button color="sun" ariaLabel="btn.SignUp" disabled={pausedSite === "yes"}>
                 <I18N id="btn.SignUp" />
               </Button>
             </div>

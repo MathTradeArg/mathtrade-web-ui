@@ -21,10 +21,10 @@ const WhatIsMathTrade = () => {
         className="bg-white rounded-full px-4 py-1 shadow-md hover:shadow-xl transition-shadow"
       >
         <div className="flex items-center gap-1">
-          <div className="text-gray-500 font-bold text-sm">
+          <div className="text-ink-muted font-bold text-sm">
             <I18N id="whatIsMathTrade" />
           </div>
-          <div className="text-primary/70 text-2xl relative top-[-1px]">
+          <div className="bg-sun text-ink rounded-full w-6 h-6 flex items-center justify-center text-base">
             <Icon type="help" />
           </div>
         </div>

@@ -42,7 +42,7 @@ const SignInContent = () => {
             <h1 className="font-display text-3xl font-semibold text-ink mb-2">
               <I18N id="sign.Title" />
             </h1>
-            <p className="text-gray-400">
+            <p className="text-ink-muted">
               <I18N id="sign.instruction" />
             </p>
           </div>
@@ -89,7 +89,7 @@ const SignInContent = () => {
             <ErrorAlert error={error} />
 
             <div className="text-center mb-3">
-              <Button ariaLabel="btn.Enter">
+              <Button color="sun" ariaLabel="btn.Enter">
                 <I18N id="btn.Enter" />
               </Button>
             </div>

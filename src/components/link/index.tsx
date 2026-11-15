@@ -4,7 +4,7 @@ const Alink = ({ href, children }) => {
   return (
     <Link
       href={href}
-      className="text-primary underline hover:text-primary-hover"
+      className="text-link underline hover:text-ink"
     >
       {children}
     </Link>

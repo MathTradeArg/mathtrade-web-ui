@@ -6,6 +6,7 @@ import Link from "next/link";
 // Literal class strings so Tailwind can see them (no dynamic templates).
 const FILL: Record<string, string> = {
   primary: "bg-brand text-brand-ink hover:brightness-95",
+  sun: "bg-sun text-brand-ink hover:brightness-95",
   secondary: "bg-ink text-white hover:brightness-110",
   cancel: "bg-cancel text-white",
   danger: "bg-danger text-white hover:opacity-75",
@@ -13,6 +14,7 @@ const FILL: Record<string, string> = {
 };
 const OUTLINE: Record<string, string> = {
   primary: "border border-ink text-ink hover:bg-ink hover:text-white",
+  sun: "border border-ink text-ink hover:bg-ink hover:text-white",
   secondary: "border border-ink text-ink hover:bg-ink hover:text-white",
   cancel: "border border-cancel text-cancel hover:bg-cancel hover:text-white",
   danger: "border border-danger text-danger hover:bg-danger hover:text-white",
