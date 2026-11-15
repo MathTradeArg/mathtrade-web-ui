@@ -18,7 +18,7 @@ const NewUserBadge = ({
     <span
       title={getI18Ntext("newUser.help")}
       className={clsx(
-        "ml-1 inline-block rounded-md bg-violet-100 text-violet-800 text-[10px] font-semibold px-1.5 py-0.5 align-middle whitespace-nowrap",
+        "ml-1 inline-block rounded-md bg-combo-line/60 text-ink text-[10px] font-semibold px-1.5 py-0.5 align-middle whitespace-nowrap",
         className
       )}
     >

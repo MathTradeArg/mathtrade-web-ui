@@ -64,7 +64,7 @@ const UserBox = ({
     // New member (admins only): a soft background hugging the content. The
     // ring (a box-shadow) gives it room without padding, so the avatar sits
     // where a non-new owner's does.
-    "bg-violet-50 rounded-md ring-4 ring-violet-50": isNew,
+    "bg-combo rounded-xl px-2.5 py-1.5": isNew,
   });
 
   const content = (
@@ -81,7 +81,7 @@ const UserBox = ({
           className={clsx("text-[11px] font-bold leading-tight truncate", {
             "text-right": !toLeft && !toCenter,
             "text-center": toCenter,
-            "text-violet-700": isNew,
+            "text-ink": isNew,
           })}
           title={user?.name || undefined}
         >
