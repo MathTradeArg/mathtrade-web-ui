@@ -70,7 +70,7 @@ const HeaderMyOffer = ({ count = 0 }: { count?: number }) => {
               filterType="myoffer"
               name="ready"
               allowEmpty
-              quiet
+              segmented
               emptyLabel={getI18Ntext("myOffer.filter.ready.all")}
               options={[
                 {
@@ -84,6 +84,7 @@ const HeaderMyOffer = ({ count = 0 }: { count?: number }) => {
               ]}
             />
           </span>
+          <div className="inline-flex h-10 items-center rounded-xl border border-line bg-white px-3">
           <Switch
             name="unrated"
             data={{ unrated: !!filters_myoffer?.unrated }}
@@ -95,6 +96,7 @@ const HeaderMyOffer = ({ count = 0 }: { count?: number }) => {
               <I18N id="myOffer.filter.unrated" />
             </span>
           </Switch>
+          </div>
         </span>
       }
       sort={

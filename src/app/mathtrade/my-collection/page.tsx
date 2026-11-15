@@ -93,7 +93,7 @@ const MyCollectionPage = () => {
                     filterType="collection"
                     name="ready"
                     allowEmpty
-                    quiet
+                    segmented
                     emptyLabel={getI18Ntext("myOffer.filter.ready.all")}
                     options={[
                       {

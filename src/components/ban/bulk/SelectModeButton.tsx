@@ -17,7 +17,7 @@ const SelectModeButton = ({ className = "" }: { className?: string }) => {
         type="button"
         aria-pressed={selecting}
         className={clsx(
-          "flex items-center gap-1.5 h-9 px-2.5 rounded-xl border text-[13px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40",
+          "flex items-center gap-1.5 h-10 px-2.5 rounded-xl border text-[13px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40",
           selecting
             ? "bg-primary border-primary text-white hover:opacity-75"
             : "bg-white border-line text-ink-muted hover:border-ink/30 hover:text-ink focus-visible:bg-surface-soft"
