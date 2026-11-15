@@ -65,14 +65,13 @@ const WantMiniCard = ({
           : isAnchor
             ? "w-full sm:w-52"
             : "w-[8.5rem] sm:w-32",
-        tagStyle ? "rounded-card border border-line" : cardKindClass(kind),
+        tagStyle ? "rounded-card border border-combo-line bg-combo" : cardKindClass(kind),
         {
           "shadow-[inset_0_0_0_3px_red]": empty,
           "ring-2 ring-amber-400": changed,
         },
         className
       )}
-      style={tagStyle || undefined}
     >
       {empty ? (
         <div className="absolute top-0 left-0 w-full bg-red-600 text-white text-center z-raised py-1 px-2 text-[10px] font-semibold">
@@ -136,6 +135,13 @@ const WantMiniCard = ({
           className="text-mini-title text-ink line-clamp-3 sm:line-clamp-2 cursor-default w-full break-words"
           title={title}
         >
+          {tagStyle?.backgroundColor ? (
+            <span
+              className="mr-1.5 inline-block h-2.5 w-2.5 rounded-full align-baseline border border-ink/20"
+              style={{ backgroundColor: tagStyle.backgroundColor }}
+              aria-hidden="true"
+            />
+          ) : null}
           {title}
         </h4>
         <BadgeType
