@@ -28,6 +28,7 @@ const ResultsHistorial = () => {
         <div>
           <div className="px-3 md:px-8 pt-4">
             <Tabs
+              flush
               list={["results.tab.results", "results.tab.chains"]}
               value={screenView}
               onChange={setScreenView}

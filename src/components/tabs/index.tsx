@@ -3,7 +3,9 @@ import clsx from "clsx";
 
 // Underlined tabs for page navigation (Juegos / Ejemplares, Resultados /
 // Cadenas...), left aligned. Mode selectors inside forms and toolbars keep
-// using <SegmentedGroup>.
+// using <SegmentedGroup>. Tabs sitting above a container get 20px of air so the
+// underline never touches the box border; pass `flush` when the tabs live
+// inside the container (its own padding handles the spacing).
 const Tabs = ({
   list = [],
   onChange = (_k?: number) => {},
@@ -12,12 +14,14 @@ const Tabs = ({
   min = false,
   className = "",
   toLeft: _toLeft = true,
+  flush = false,
 }) => {
   return (
     <div
       role="tablist"
       className={clsx(
         "flex flex-wrap items-end gap-x-8 border-b border-line",
+        !flush && "mb-5",
         className
       )}
     >

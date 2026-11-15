@@ -193,7 +193,7 @@ const AdminShippingPage = () => {
           ) : null}
           {shipping && routes.length ? (
             <>
-              <Tabs list={TABS} value={tab} onChange={setTab} className="mb-4" />
+              <Tabs list={TABS} value={tab} onChange={setTab} />
               {tab === TAB_ROUTES ? (
                 <>
                   <p className="mb-4 text-sm text-gray-600">

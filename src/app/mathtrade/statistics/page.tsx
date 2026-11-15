@@ -43,6 +43,7 @@ export default function Statistics() {
       <SectionCommon>
         <div className="px-3 pt-3 md:px-8">
           <Tabs
+            flush
             list={["stats.screen.current", "stats.screen.historial"]}
             value={screenViewStats}
             onChange={setScreenViewStats}

@@ -53,7 +53,7 @@ export default function Results() {
       />
       <SectionCommon>
         <div className="px-3 pt-3 md:px-8">
-          <Tabs list={tabs} value={tabView} onChange={setTabView} />
+          <Tabs flush list={tabs} value={tabView} onChange={setTabView} />
         </div>
         {tabView === 0 ? (
           <ResultsContextProvider showTradeCodes={!!labels?.published}>
