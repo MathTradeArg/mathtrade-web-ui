@@ -38,7 +38,6 @@ const MyPayments = () => {
 
   const hasShipping = Number(shipping_amount) > 0;
   const collapsible = breakdown.length > COLLAPSE_OVER;
-  const rows = collapsible && !expanded ? [] : breakdown;
 
   return (
     <div className="md:px-7 px-3 py-7 flex flex-col gap-6">
@@ -126,7 +125,7 @@ const MyPayments = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {rows.map((line) => (
+                  {breakdown.map((line) => (
                     <tr key={line.trade_id} className="border-t border-stroke">
                       <td className="py-1 pr-2">{line.item_title}</td>
                       <td className="py-1 px-2 text-right whitespace-nowrap">
