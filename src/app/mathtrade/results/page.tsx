@@ -9,6 +9,7 @@ import Dynamic from "@/components/dynamic";
 import SectionCommon from "@/components/sections/common";
 import { useRedirectIfNavLocked } from "@/components/sidebar/useSidebarNav";
 import useFetch from "@/hooks/useFetch";
+import useMyPayments from "./myPayments/useMyPayments";
 import type { MyShippingLabelsData } from "@/components/results/myShippingLabels";
 
 const ResultsUI = lazy(() => import("./ui"));
@@ -16,8 +17,15 @@ const GraphViewer = lazy(() =>
   import("@/components/interactiveGraph/graphViewer")
 );
 const MyShippingLabels = lazy(() => import("@/components/results/myShippingLabels"));
+const MyPayments = lazy(() => import("./myPayments"));
 
-const CURRENT_TABS = ["results.tab.results", "results.tab.chains"];
+const TAB_LABELS = {
+  results: "results.tab.results",
+  chains: "results.tab.chains",
+  labels: "results.tab.labels",
+  payments: "results.tab.payments",
+} as const;
+type TabKey = keyof typeof TAB_LABELS;
 
 export default function Results() {
   const { setPageType } = useContext(PageContext);
@@ -33,7 +41,19 @@ export default function Results() {
   });
   const labels = labelsData as MyShippingLabelsData | null;
   const hasLabels = !!labels?.items?.length;
-  const tabs = hasLabels ? [...CURRENT_TABS, "results.tab.labels"] : CURRENT_TABS;
+
+  // "Mis pagos" shows up once the admins published the payments.
+  const { data: payments } = useMyPayments();
+  const hasPayments = payments?.published === true;
+
+  const tabKeys: TabKey[] = [
+    "results",
+    "chains",
+    ...(hasLabels ? (["labels"] as const) : []),
+    ...(hasPayments ? (["payments"] as const) : []),
+  ];
+  const tabs = tabKeys.map((k) => TAB_LABELS[k]);
+  const current: TabKey = tabKeys[tabView] ?? "results";
 
   useEffect(() => {
     setPageType("results");
@@ -55,15 +75,19 @@ export default function Results() {
         <div className="px-3 pt-3 md:px-8">
           <Tabs flush list={tabs} value={tabView} onChange={setTabView} />
         </div>
-        {tabView === 0 ? (
+        {current === "results" ? (
           <ResultsContextProvider showTradeCodes={!!labels?.published}>
             <Dynamic>
               <ResultsUI />
             </Dynamic>
           </ResultsContextProvider>
-        ) : tabView === 2 && hasLabels ? (
+        ) : current === "labels" ? (
           <Dynamic>
             <MyShippingLabels data={labels} />
+          </Dynamic>
+        ) : current === "payments" ? (
+          <Dynamic>
+            <MyPayments />
           </Dynamic>
         ) : (
           <div className="min-h-96 relative">

@@ -50,7 +50,7 @@ const receiptClientError = (file) => {
   return null;
 };
 
-const CopyValue = ({ label, value }) => {
+export const CopyValue = ({ label, value }) => {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
