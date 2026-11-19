@@ -36,3 +36,13 @@ export type TablesParams = {
   big_user_threshold: number;
 };
 export type HubTables = { params: TablesParams; tables: HubTable[]; applied?: boolean };
+
+// BE mathtrade/payments.py payments_summary: admin panel "Pagos" tab.
+export type PaymentsSummary = {
+  published_at: string | null;
+  price_per_game: string;
+  members_count: number;
+  partial_count: number;
+  computed_at: string | null;
+  totals: { base: string; shipping: string; suggested: string };
+};

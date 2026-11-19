@@ -15,6 +15,7 @@ import ItemsTable, { fullName, tradeCode } from "./ItemsTable";
 import LabelsPanel from "./LabelsPanel";
 import TablesTab from "./TablesTab";
 import PublishControl from "./PublishControl";
+import PaymentsControl from "./PaymentsControl";
 import type {
   ShippingItem,
   ShippingKind,
@@ -30,10 +31,12 @@ const TABS = [
   "adminShipping.tab.items",
   "adminShipping.tab.tables",
   "adminShipping.tab.labels",
+  "adminShipping.tab.payments",
 ];
 const TAB_ROUTES = 0;
 const TAB_ITEMS = 1;
 const TAB_TABLES = 2;
+const TAB_PAYMENTS = 4;
 
 type Filters = { origin: number | "all"; kind: ShippingKind | "all" };
 
@@ -265,6 +268,8 @@ const AdminShippingPage = () => {
                   selectClass={selectClass}
                   onTablesChanged={() => reload()}
                 />
+              ) : tab === TAB_PAYMENTS ? (
+                <PaymentsControl />
               ) : (
                 <>
                   <PublishControl
