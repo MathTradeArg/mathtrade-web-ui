@@ -30,7 +30,7 @@ type TabKey = keyof typeof TAB_LABELS;
 export default function Results() {
   const { setPageType } = useContext(PageContext);
   const locked = useRedirectIfNavLocked("RESULTS");
-  const [tabView, setTabView] = useState(0);
+  const [tab, setTab] = useState<TabKey>("results");
 
   // Labels of the items the member sends: the tab shows up once the admins
   // published them (unpublished is a 200 with no items).
@@ -44,7 +44,10 @@ export default function Results() {
 
   // "Mis pagos" shows up once the admins published the payments.
   const { data: payments } = useMyPayments();
-  const hasPayments = payments?.published === true;
+  const hasPayments =
+    payments?.published === true &&
+    Array.isArray(payments.breakdown) &&
+    payments.games_count > 0;
 
   const tabKeys: TabKey[] = [
     "results",
@@ -53,7 +56,7 @@ export default function Results() {
     ...(hasPayments ? (["payments"] as const) : []),
   ];
   const tabs = tabKeys.map((k) => TAB_LABELS[k]);
-  const current: TabKey = tabKeys[tabView] ?? "results";
+  const current: TabKey = tabKeys.includes(tab) ? tab : "results";
 
   useEffect(() => {
     setPageType("results");
@@ -73,7 +76,12 @@ export default function Results() {
       />
       <SectionCommon>
         <div className="px-3 pt-3 md:px-8">
-          <Tabs flush list={tabs} value={tabView} onChange={setTabView} />
+          <Tabs
+            flush
+            list={tabs}
+            value={tabKeys.indexOf(current)}
+            onChange={(index: number) => setTab(tabKeys[index] ?? "results")}
+          />
         </div>
         {current === "results" ? (
           <ResultsContextProvider showTradeCodes={!!labels?.published}>
@@ -87,7 +95,7 @@ export default function Results() {
           </Dynamic>
         ) : current === "payments" ? (
           <Dynamic>
-            <MyPayments />
+            <MyPayments data={payments} />
           </Dynamic>
         ) : (
           <div className="min-h-96 relative">

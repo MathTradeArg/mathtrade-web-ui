@@ -1,17 +1,16 @@
 "use client";
 import { useState } from "react";
 import I18N from "@/i18n";
-import { LoadingBox } from "@/components/loading";
-import { CopyValue, formatAmount } from "@/app/mathtrade/my-data/ContributionBox";
-import useMyPayments from "./useMyPayments";
+import CopyValue from "@/components/copyValue";
+import { formatAmount } from "@/utils/money";
+import type { MyPayments as MyPaymentsData } from "./types";
 
 const COLLAPSE_OVER = 10;
 
-const MyPayments = () => {
-  const { data, loading } = useMyPayments();
+// Fetched once by the results page (useMyPayments) and passed down.
+const MyPayments = ({ data = null }: { data?: MyPaymentsData | null }) => {
   const [expanded, setExpanded] = useState(false);
 
-  if (loading && !data) return <LoadingBox loading />;
   if (!data || data.published !== true) return null;
 
   const {
@@ -22,9 +21,9 @@ const MyPayments = () => {
     total_to_transfer,
     suggested_amount,
     partial,
-    breakdown,
     account,
   } = data;
+  const breakdown = Array.isArray(data.breakdown) ? data.breakdown : [];
 
   if (games_count === 0) {
     return (

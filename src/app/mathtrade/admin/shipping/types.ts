@@ -41,6 +41,8 @@ export type HubTables = { params: TablesParams; tables: HubTable[]; applied?: bo
 export type PaymentsSummary = {
   published_at: string | null;
   price_per_game: string;
+  // Some computed row used another price than the current one: recompute first.
+  stale: boolean;
   members_count: number;
   partial_count: number;
   computed_at: string | null;

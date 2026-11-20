@@ -1,25 +1,15 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import clsx from "clsx";
-import copy from "copy-text-to-clipboard";
-import I18N, { getI18Ntext } from "@/i18n";
-import Icon from "@/components/icon";
+import I18N from "@/i18n";
 import Button from "@/components/button";
 import ErrorAlert from "@/components/errorAlert";
 import { LoadingBox } from "@/components/loading";
 import useFetch from "@/hooks/useFetch";
+import CopyValue from "@/components/copyValue";
+import { formatAmount } from "@/utils/money";
 import { contributionDeadline } from "@/utils/contributionDeadline";
 import { openAuthenticatedFile } from "@/hooks/useFetch/utils";
-
-export const formatAmount = (amount) => {
-  const value = Number(amount);
-  if (!Number.isFinite(value)) return amount;
-  return value.toLocaleString("es-AR", {
-    style: "currency",
-    currency: "ARS",
-    minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
-  });
-};
 
 const RECEIPT_ACCEPT = "application/pdf,image/png,image/jpeg,image/webp";
 const RECEIPT_MAX_BYTES = 10 * 1024 * 1024;
@@ -48,38 +38,6 @@ const receiptClientError = (file) => {
     return "contribution.upload.error.format";
   }
   return null;
-};
-
-export const CopyValue = ({ label, value }) => {
-  const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    if (!copied) return undefined;
-    const timer = setTimeout(() => setCopied(false), 1500);
-    return () => clearTimeout(timer);
-  }, [copied]);
-
-  if (!value) return null;
-  return (
-    <div className="flex items-center justify-between gap-2 py-1">
-      <div>
-        <span className="text-gray-500 text-sm">
-          <I18N id={label} />:
-        </span>{" "}
-        <span className="font-medium break-all">{value}</span>
-      </div>
-      <button
-        type="button"
-        className="text-sky-600 hover:text-sky-800 text-sm whitespace-nowrap"
-        title={getI18Ntext("copy")}
-        onClick={() => {
-          if (copy(value)) setCopied(true);
-        }}
-      >
-        {copied ? <I18N id="contribution.copied" /> : <Icon type="copy" />}
-      </button>
-    </div>
-  );
 };
 
 const AccountCard = ({ amount, account }) =>

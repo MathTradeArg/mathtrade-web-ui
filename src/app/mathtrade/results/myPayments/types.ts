@@ -27,3 +27,5 @@ export type MyPayments =
       breakdown: PaymentLine[];
       account: PaymentAccount | null;
     };
+
+export type PublishedPayments = Extract<MyPayments, { published: true }>;

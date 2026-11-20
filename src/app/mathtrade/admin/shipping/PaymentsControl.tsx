@@ -1,12 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Button from "@/components/button";
 import ConfirmModal from "@/components/confirmModal";
 import ErrorAlert from "@/components/errorAlert";
 import I18N from "@/i18n";
 import useFetch from "@/hooks/useFetch";
 import { DateIntlFormat } from "@/utils/dateUtils";
-import { formatAmount } from "../../my-data/ContributionBox";
+import { formatAmount, parsePriceInput, priceToInput } from "@/utils/money";
 import type { PaymentsSummary } from "./types";
 
 const inputClass = "border border-line rounded-md p-2 text-sm bg-white w-full sm:w-32";
@@ -24,19 +24,22 @@ const PaymentsControl = () => {
     autoLoad: true,
   });
   const summary = data as PaymentsSummary | null;
-  const refresh = () => {
+  const refresh = useCallback(() => {
     reload();
-  };
+  }, [reload]);
 
-  const [savePrice, , saving, errorSave] = useFetch({
-    endpoint: "PATCH_PAYMENTS_ADMIN",
-    method: "PATCH",
-    afterLoad: refresh,
-  });
   const [recompute, , recomputing, errorRecompute] = useFetch({
     endpoint: "POST_PAYMENTS_RECOMPUTE",
     method: "POST",
     afterLoad: refresh,
+  });
+  // A new price leaves the computed amounts stale: recompute right away.
+  const [savePrice, , saving, errorSave] = useFetch({
+    endpoint: "PATCH_PAYMENTS_ADMIN",
+    method: "PATCH",
+    afterLoad: () => {
+      recompute();
+    },
   });
   const [publish, , publishing, errorPublish] = useFetch({
     endpoint: "POST_PAYMENTS_PUBLISH",
@@ -51,15 +54,15 @@ const PaymentsControl = () => {
 
   const storedPrice = summary?.price_per_game;
   useEffect(() => {
-    if (storedPrice !== undefined) setPrice(String(Number(storedPrice)));
+    if (storedPrice !== undefined) setPrice(priceToInput(storedPrice));
   }, [storedPrice]);
 
   const published = !!summary?.published_at;
   const busy = saving || recomputing || publishing || unpublishing;
 
   const onSavePrice = () => {
-    const value = Number(price.replace(",", "."));
-    if (!price.trim() || !Number.isFinite(value) || value <= 0) {
+    const value = parsePriceInput(price);
+    if (value === null) {
       setInvalidPrice(true);
       return;
     }
@@ -90,12 +93,21 @@ const PaymentsControl = () => {
               type="button"
               sm
               outline={published}
-              disabled={busy || loading || (!published && summary.members_count === 0)}
+              disabled={
+                busy ||
+                loading ||
+                (!published && (summary.members_count === 0 || summary.stale))
+              }
               onClick={() => setConfirming(true)}
             >
               <I18N id={published ? "adminPayments.unpublish" : "adminPayments.publish"} />
             </Button>
           </div>
+          {!published && summary.stale ? (
+            <p className="text-xs text-red-600 mb-3">
+              <I18N id="adminPayments.stale" />
+            </p>
+          ) : null}
           {published ? (
             <p className="text-xs text-gray-500 mb-3">
               <I18N id="adminPayments.frozen" />
@@ -166,7 +178,11 @@ const PaymentsControl = () => {
           )}
         </>
       ) : null}
-      <ErrorAlert error={errorSave || errorRecompute || errorPublish || errorUnpublish} />
+      <ErrorAlert error={errorSave || errorRecompute || errorUnpublish} />
+      <ErrorAlert
+        error={errorPublish}
+        errorMessage={errorPublish?.status === 400 ? "adminPayments.publishRefused" : ""}
+      />
       <ConfirmModal
         isOpen={confirming}
         onCancel={() => setConfirming(false)}

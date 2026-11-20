@@ -8,7 +8,7 @@ import Button from "@/components/button";
 import Modal from "@/components/modal";
 import ConfirmModal from "@/components/confirmModal";
 import I18N, { getI18Ntext } from "@/i18n";
-import { formatAmount } from "@/app/mathtrade/my-data/ContributionBox";
+import { formatAmount } from "@/utils/money";
 import { AdminUserName, useAdminUser } from "@/components/adminUserModal";
 import useContributionsReview, {
   ContributionRow,
