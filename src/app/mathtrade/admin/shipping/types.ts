@@ -61,7 +61,9 @@ export type PaymentsSummary = {
   members_count: number;
   partial_count: number;
   computed_at: string | null;
-  totals: { base: string; shipping: string; credit: string; net: string };
+  // `net` is the sum of every row; `balance` is the organization's final
+  // balance: net + what was donated (donations stay with the organization).
+  totals: { base: string; shipping: string; credit: string; net: string; balance: string };
   // Approved contributions changed after the last compute (or after publishing).
   stale_credit_count: number;
   // Payment accounts balanced by amount (only active ones get people).
@@ -74,7 +76,12 @@ export type PaymentsSummary = {
     with_account: number;
     missing: number;
     refunded: number;
+    // Donors are out of due/with_account/missing.
+    donated: { count: number; total: string };
   };
+  // Active donations whose snapshot no longer matches the net: publishing is
+  // refused while this is above zero.
+  donations_invalid_count: number;
   // Latest receipt of every member that has something to transfer.
   receipts: { pending: number; approved: number; rejected: number; missing: number };
 };
@@ -126,7 +133,7 @@ export type PaymentsMemberRow = {
   partial: boolean;
   credit_amount: string;
   net_amount: string;
-  refund_status: "missing" | "submitted" | "refunded" | null;
+  refund_status: "missing" | "submitted" | "refunded" | "donated" | null;
   // null when the member has nothing to transfer (net <= 0).
   receipt_status: "missing" | "pending" | "approved" | "rejected" | null;
 };
@@ -134,7 +141,7 @@ export type PaymentsMemberRow = {
 // Row statuses of BE payments/refunds/ (the participant-side 'submitted' of
 // my-payments / refund_status is a different contract). Every one needs the
 // i18n key `adminPayments.refunds.status.<status>`.
-export const REFUND_ROW_STATUSES = ["pending", "refunded", "missing"] as const;
+export const REFUND_ROW_STATUSES = ["pending", "refunded", "missing", "donated"] as const;
 export type RefundRowStatus = (typeof REFUND_ROW_STATUSES)[number];
 
 // BE payments/refunds/: pending and refunded rows.
@@ -151,7 +158,7 @@ export type RefundRow = {
   alias: string;
   cbu: string;
   amount: string;
-  status: Exclude<RefundRowStatus, "missing">;
+  status: Exclude<RefundRowStatus, "missing" | "donated">;
   // False when a recompute left nothing to refund: the data stays but no
   // longer corresponds.
   still_due: boolean;
@@ -177,4 +184,21 @@ export type RefundMissingRow = {
   still_due: true;
 };
 
-export type RefundListRow = RefundRow | RefundMissingRow;
+// ?status=donated: active donations (id is the DONATION id, not an account id).
+export type RefundDonationRow = {
+  id: number;
+  membership_id: number;
+  user_id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  bgg_user: string;
+  location: string | null;
+  amount: string;
+  status: "donated";
+  donated_at: string;
+  // False when a recompute changed the net after the donation.
+  still_valid: boolean;
+};
+
+export type RefundListRow = RefundRow | RefundMissingRow | RefundDonationRow;

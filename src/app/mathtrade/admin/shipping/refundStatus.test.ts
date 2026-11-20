@@ -13,7 +13,7 @@ test("every refund row status has an i18n key", () => {
   }
 });
 
-test("the BE contract is pending/refunded/missing (no 'submitted' in the admin list)", () => {
-  assert.deepEqual([...REFUND_ROW_STATUSES], ["pending", "refunded", "missing"]);
+test("the BE contract is pending/refunded/missing/donated (no 'submitted' in the admin list)", () => {
+  assert.deepEqual([...REFUND_ROW_STATUSES], ["pending", "refunded", "missing", "donated"]);
   assert.equal(es["adminPayments.refunds.status.submitted"], undefined);
 });

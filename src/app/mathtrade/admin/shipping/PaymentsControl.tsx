@@ -8,16 +8,16 @@ import useFetch from "@/hooks/useFetch";
 import { DateIntlFormat } from "@/utils/dateUtils";
 import {
   formatAmount,
-  negateAmount,
   parseCents,
   parsePriceInput,
   priceToInput,
-  subtractAmounts,
 } from "@/utils/money";
+import { resolveApiErrorMessage } from "@/utils/apiError";
 import { publishEmailNotice } from "@/utils/paymentsEmail";
 import PaymentReceiptsPanel from "./PaymentReceiptsPanel";
 import RefundsPanel from "./RefundsPanel";
 import PaymentsPreview from "./PaymentsPreview";
+import { accountsFooter } from "./accountsFooter";
 import type { PaymentsSummary } from "./types";
 
 const inputClass = "border border-line rounded-md p-2 text-sm bg-white w-full sm:w-32";
@@ -36,11 +36,11 @@ const AccountsTable = ({ summary }: { summary: PaymentsSummary }) => {
   const activeAccounts = accounts.filter((a) => a.active);
   const accountsTotal = accounts.reduce((sum, a) => sum + (parseCents(a.total) ?? 0), 0);
   // The columns only hold money coming IN. The summary carries the net of all
-  // rows (refunds are negative rows there, so already subtracted) and the
-  // refunds due: incoming = net + refunds. Refunds go out, they are not
-  // assigned to any account, so the final balance only shows in the footer.
-  const refundsDue = summary.refunds.due_total;
-  const incoming = subtractAmounts(summary.totals.net, negateAmount(refundsDue));
+  // rows (refunds are negative rows there, so already subtracted), the refunds
+  // due and the donations (money that stays with the organization):
+  // incoming = net + refunds due + donated. Refunds go out and are not assigned
+  // to any account, so the final balance only shows in the footer.
+  const footer = accountsFooter(summary);
   return (
     <div className="mb-3">
       <h4 className="font-medium text-ink mb-1">
@@ -98,7 +98,7 @@ const AccountsTable = ({ summary }: { summary: PaymentsSummary }) => {
                   <I18N id="adminPayments.accounts.footerIncoming" />
                 </td>
                 <td className="py-1 px-2" />
-                <td className="py-1 px-2 text-right whitespace-nowrap">{formatAmount(incoming)}</td>
+                <td className="py-1 px-2 text-right whitespace-nowrap">{formatAmount(footer.incoming)}</td>
                 <td className="py-1 pl-2" />
               </tr>
               <tr>
@@ -107,17 +107,29 @@ const AccountsTable = ({ summary }: { summary: PaymentsSummary }) => {
                 </td>
                 <td className="py-1 px-2" />
                 <td className="py-1 px-2 text-right whitespace-nowrap">
-                  {formatAmount(negateAmount(refundsDue))}
+                  {formatAmount(footer.refunds)}
                 </td>
                 <td className="py-1 pl-2" />
               </tr>
+              {footer.donatedCount > 0 ? (
+                <tr className="text-gray-500">
+                  <td className="py-1 pr-2">
+                    <I18N id="adminPayments.accounts.footerDonations" />
+                  </td>
+                  <td className="py-1 px-2" />
+                  <td className="py-1 px-2 text-right whitespace-nowrap">
+                    {formatAmount(footer.donated)}
+                  </td>
+                  <td className="py-1 pl-2" />
+                </tr>
+              ) : null}
               <tr className="border-t border-stroke font-semibold">
                 <td className="py-1 pr-2">
                   <I18N id="adminPayments.accounts.footerBalance" />
                 </td>
                 <td className="py-1 px-2" />
                 <td className="py-1 px-2 text-right whitespace-nowrap">
-                  {formatAmount(summary.totals.net)}
+                  {formatAmount(footer.balance)}
                 </td>
                 <td className="py-1 pl-2" />
               </tr>
@@ -256,6 +268,14 @@ const PaymentsControl = () => {
               <I18N id="adminPayments.stale" />
             </p>
           ) : null}
+          {summary.donations_invalid_count > 0 ? (
+            <p className="text-xs text-red-600 mb-3">
+              <I18N
+                id={published ? "adminPayments.donationsInvalidPublished" : "adminPayments.donationsInvalid"}
+                values={[summary.donations_invalid_count]}
+              />
+            </p>
+          ) : null}
           {summary.stale_credit_count > 0 ? (
             <p className="text-xs text-red-600 mb-3">
               <I18N
@@ -360,7 +380,7 @@ const PaymentsControl = () => {
                 <I18N id="adminPayments.totalCredit" values={[formatAmount(summary.totals.credit)]} />
               </li>
               <li>
-                <I18N id="adminPayments.totalNet" values={[formatAmount(summary.totals.net)]} />
+                <I18N id="adminPayments.totalNet" values={[formatAmount(summary.totals.balance ?? summary.totals.net)]} />
               </li>
               <li>
                 <I18N
@@ -374,6 +394,17 @@ const PaymentsControl = () => {
                   ]}
                 />
               </li>
+              {summary.refunds.donated ? (
+                <li>
+                  <I18N
+                    id="adminPayments.donationsCount"
+                    values={[
+                      summary.refunds.donated.count,
+                      formatAmount(summary.refunds.donated.total),
+                    ]}
+                  />
+                </li>
+              ) : null}
               <li>
                 <I18N
                   id="adminPayments.receiptsCount"
@@ -401,7 +432,13 @@ const PaymentsControl = () => {
       <ErrorAlert error={errorTest} />
       <ErrorAlert
         error={errorPublish}
-        errorMessage={errorPublish?.status === 400 ? "adminPayments.publishRefused" : ""}
+        errorMessage={
+          // The BE explains why (donations out of date, stale prices...): show
+          // it; the generic text only when the 400 carries none.
+          errorPublish?.status === 400 && !resolveApiErrorMessage(errorPublish)
+            ? "adminPayments.publishRefused"
+            : ""
+        }
       />
       <ConfirmModal
         isOpen={confirming}

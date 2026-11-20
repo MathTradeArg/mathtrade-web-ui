@@ -2,10 +2,12 @@
 import { useState } from "react";
 import Button from "@/components/button";
 import CopyValue from "@/components/copyValue";
+import ConfirmModal from "@/components/confirmModal";
 import ErrorAlert from "@/components/errorAlert";
+import Modal from "@/components/modal";
 import I18N, { getI18Ntext } from "@/i18n";
 import { DateIntlFormat } from "@/utils/dateUtils";
-import { formatAmount } from "@/utils/money";
+import { absAmount, formatAmount } from "@/utils/money";
 import {
   hasRefundErrors,
   validateRefundForm,
@@ -13,6 +15,8 @@ import {
   type RefundFormErrors,
 } from "./refundFormErrors";
 import useRefundAccount from "./useRefundAccount";
+import useRefundDonation from "./useRefundDonation";
+import { donationErrorText, donationWordMatches } from "./donation";
 import type { RefundState } from "./types";
 
 const FIELDS = ["holder_name", "alias", "cbu"] as const;
@@ -64,6 +68,27 @@ const RefundSection = ({
     onChanged();
   });
 
+  // Donation flow: 0 closed, 1 explanation, 2 amount + typed word.
+  const [donateStep, setDonateStep] = useState<0 | 1 | 2>(0);
+  const [typed, setTyped] = useState("");
+  const [attempted, setAttempted] = useState(false);
+  const { donate, saving: donating, error: donateError } = useRefundDonation(() => {
+    setDonateStep(0);
+    onChanged();
+  });
+  const closeDonation = () => {
+    if (donating) return;
+    setDonateStep(0);
+    setTyped("");
+    setAttempted(false);
+  };
+  const donationAmount = formatAmount(absAmount(refund.amount || amount));
+  const onDonate = () => {
+    if (donating || !donationWordMatches(typed)) return;
+    setAttempted(true);
+    donate();
+  };
+
   const { status, can_edit } = refund;
   const serverErrors = serverFieldErrors(error);
   const errors = hasRefundErrors(clientErrors) ? clientErrors : serverErrors;
@@ -97,6 +122,27 @@ const RefundSection = ({
       <CopyValue label="payments.refund.cbu" value={refund.cbu} />
     </div>
   ) : null;
+
+  if (status === "donated") {
+    return (
+      <section className="border border-green-300 bg-green-50 rounded-lg p-4">
+        <h2 className="text-lg font-semibold mb-2">
+          <I18N id="payments.refund.title" />
+        </h2>
+        <p className="font-bold mb-2">
+          <I18N
+            id={readOnly ? "payments.refund.donate.doneReadOnly" : "payments.refund.donate.done"}
+            values={[donationAmount]}
+          />
+        </p>
+        {!readOnly ? (
+          <p className="text-sm text-gray-600">
+            <I18N id="payments.refund.donate.doneHelp" />
+          </p>
+        ) : null}
+      </section>
+    );
+  }
 
   if (status === "refunded") {
     return (
@@ -206,6 +252,86 @@ const RefundSection = ({
         <Button type="button" sm outline onClick={startEditing}>
           <I18N id="payments.refund.edit" />
         </Button>
+      ) : null}
+
+      {refund.can_donate && !readOnly ? (
+        <>
+          <label className="flex items-start gap-2 text-sm mt-4 pt-3 border-t border-stroke cursor-pointer">
+            <input
+              type="checkbox"
+              className="mt-0.5 shrink-0"
+              checked={donateStep !== 0}
+              onChange={(e) => {
+                if (e.target.checked) setDonateStep(1);
+                else closeDonation();
+              }}
+            />
+            <span>
+              <I18N id="payments.refund.donate.checkbox" />
+            </span>
+          </label>
+          <ConfirmModal
+            isOpen={donateStep === 1}
+            onCancel={closeDonation}
+            onConfirm={() => setDonateStep(2)}
+            title="payments.refund.donate.step1.title"
+            description="payments.refund.donate.step1.text"
+            descriptionValues={[donationAmount]}
+            confirmId="payments.refund.donate.step1.confirm"
+          />
+          <Modal size="sm" isOpen={donateStep === 2} onClose={closeDonation} canNotClose={donating}>
+            <form
+              className="text-center flex flex-col gap-3 min-w-0"
+              noValidate
+              onSubmit={(e) => {
+                e.preventDefault();
+                onDonate();
+              }}
+            >
+              <h3 className="text-card-title text-ink">
+                <I18N id="payments.refund.donate.step2.title" />
+              </h3>
+              <p className="text-sm text-gray-700 text-balance">
+                <I18N id="payments.refund.donate.step2.text" />
+              </p>
+              <p className="text-4xl font-bold text-ink break-words">{donationAmount}</p>
+              <label className="text-sm flex flex-col gap-1 text-left min-w-0">
+                <span className="text-gray-600">
+                  <I18N id="payments.refund.donate.step2.label" />
+                </span>
+                <input
+                  type="text"
+                  name="confirmation"
+                  className={inputClass}
+                  value={typed}
+                  autoComplete="off"
+                  autoCapitalize="characters"
+                  spellCheck={false}
+                  disabled={donating}
+                  onChange={(e) => setTyped(e.target.value)}
+                />
+              </label>
+              {attempted && donateError ? (
+                <p role="alert" className="text-danger text-sm break-words">
+                  {donationErrorText(donateError) ?? getI18Ntext("payments.refund.donate.error")}
+                </p>
+              ) : null}
+              <div className="flex items-center justify-center gap-3 pt-1">
+                <Button type="button" color="cancel" outline disabled={donating} onClick={closeDonation}>
+                  <I18N id="btn.Cancel" />
+                </Button>
+                <Button
+                  type="submit"
+                  color="danger"
+                  className="px-6"
+                  disabled={donating || !donationWordMatches(typed)}
+                >
+                  <I18N id="payments.refund.donate.step2.confirm" />
+                </Button>
+              </div>
+            </form>
+          </Modal>
+        </>
       ) : null}
     </section>
   );

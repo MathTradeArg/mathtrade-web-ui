@@ -170,6 +170,8 @@ const endpoints = {
   GET_MY_PAYMENTS: "api/mathtrades/$[mathtradeId]/my-payments/",
   GET_MY_REFUND_ACCOUNT: "api/mathtrades/$[mathtradeId]/my-refund-account/",
   PUT_MY_REFUND_ACCOUNT: "api/mathtrades/$[mathtradeId]/my-refund-account/",
+  POST_MY_REFUND_DONATION: "api/mathtrades/$[mathtradeId]/my-refund-donation/",
+  POST_PAYMENT_DONATION_UNDO: "api/mathtrades/$[1]/payments/donations/$[2]/undo/",
   GET_PAYMENT_REFUNDS: "api/mathtrades/$[1]/payments/refunds/",
   POST_PAYMENT_REFUND_MARK: "api/mathtrades/$[1]/payments/refunds/$[2]/mark-refunded/",
   POST_PAYMENT_REFUND_UNDO: "api/mathtrades/$[1]/payments/refunds/$[2]/undo-refunded/",
