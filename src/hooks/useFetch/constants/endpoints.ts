@@ -162,6 +162,7 @@ const endpoints = {
   GET_PAYMENTS_ADMIN: "api/mathtrades/$[mathtradeId]/payments/",
   PATCH_PAYMENTS_ADMIN: "api/mathtrades/$[mathtradeId]/payments/",
   POST_PAYMENTS_RECOMPUTE: "api/mathtrades/$[mathtradeId]/payments/recompute/",
+  POST_PAYMENTS_EMAIL_TEST: "api/mathtrades/$[mathtradeId]/payments/email-test/",
   POST_PAYMENTS_PUBLISH: "api/mathtrades/$[mathtradeId]/payments/publish/",
   DELETE_PAYMENTS_PUBLISH: "api/mathtrades/$[mathtradeId]/payments/publish/",
   GET_PAYMENTS_PREVIEW: "api/mathtrades/$[mathtradeId]/payments/preview/",

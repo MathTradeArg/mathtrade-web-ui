@@ -38,6 +38,8 @@ export type MyPayments =
   | {
       published: true;
       price_per_game: string;
+      // ISO date, informative only; absent in old bodies.
+      payments_due_date?: string | null;
       games_count: number;
       base_amount: string;
       shipping_amount: string;
