@@ -9,6 +9,8 @@ import Dynamic from "@/components/dynamic";
 import SectionCommon from "@/components/sections/common";
 import { useRedirectIfNavLocked } from "@/components/sidebar/useSidebarNav";
 import useFetch from "@/hooks/useFetch";
+import useMyPayments from "./myPayments/useMyPayments";
+import { hasPaymentsTab } from "./myPayments/paymentOutcome";
 import type { MyShippingLabelsData } from "@/components/results/myShippingLabels";
 
 const ResultsUI = lazy(() => import("./ui"));
@@ -16,13 +18,20 @@ const GraphViewer = lazy(() =>
   import("@/components/interactiveGraph/graphViewer")
 );
 const MyShippingLabels = lazy(() => import("@/components/results/myShippingLabels"));
+const MyPayments = lazy(() => import("./myPayments"));
 
-const CURRENT_TABS = ["results.tab.results", "results.tab.chains"];
+const TAB_LABELS = {
+  results: "results.tab.results",
+  chains: "results.tab.chains",
+  labels: "results.tab.labels",
+  payments: "results.tab.payments",
+} as const;
+type TabKey = keyof typeof TAB_LABELS;
 
 export default function Results() {
   const { setPageType } = useContext(PageContext);
   const locked = useRedirectIfNavLocked("RESULTS");
-  const [tabView, setTabView] = useState(0);
+  const [tab, setTab] = useState<TabKey>("results");
 
   // Labels of the items the member sends: the tab shows up once the admins
   // published them (unpublished is a 200 with no items).
@@ -33,7 +42,20 @@ export default function Results() {
   });
   const labels = labelsData as MyShippingLabelsData | null;
   const hasLabels = !!labels?.items?.length;
-  const tabs = hasLabels ? [...CURRENT_TABS, "results.tab.labels"] : CURRENT_TABS;
+
+  // "Mis pagos" shows up once the admins published the payments.
+  const { data: payments, reload: reloadPayments } = useMyPayments();
+  // With games to pay, or with registration credit (a refund may be due).
+  const hasPayments = hasPaymentsTab(payments);
+
+  const tabKeys: TabKey[] = [
+    "results",
+    "chains",
+    ...(hasLabels ? (["labels"] as const) : []),
+    ...(hasPayments ? (["payments"] as const) : []),
+  ];
+  const tabs = tabKeys.map((k) => TAB_LABELS[k]);
+  const current: TabKey = tabKeys.includes(tab) ? tab : "results";
 
   useEffect(() => {
     setPageType("results");
@@ -53,17 +75,26 @@ export default function Results() {
       />
       <SectionCommon>
         <div className="px-3 pt-3 md:px-8">
-          <Tabs flush list={tabs} value={tabView} onChange={setTabView} />
+          <Tabs
+            flush
+            list={tabs}
+            value={tabKeys.indexOf(current)}
+            onChange={(index: number) => setTab(tabKeys[index] ?? "results")}
+          />
         </div>
-        {tabView === 0 ? (
+        {current === "results" ? (
           <ResultsContextProvider showTradeCodes={!!labels?.published}>
             <Dynamic>
               <ResultsUI />
             </Dynamic>
           </ResultsContextProvider>
-        ) : tabView === 2 && hasLabels ? (
+        ) : current === "labels" ? (
           <Dynamic>
             <MyShippingLabels data={labels} />
+          </Dynamic>
+        ) : current === "payments" ? (
+          <Dynamic>
+            <MyPayments data={payments} onChanged={reloadPayments} />
           </Dynamic>
         ) : (
           <div className="min-h-96 relative">

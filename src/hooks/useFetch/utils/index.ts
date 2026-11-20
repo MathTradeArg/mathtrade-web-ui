@@ -1,5 +1,6 @@
 import endpoints from "../constants/endpoints";
 import { api } from "../constants/api";
+import { dispatchRequest } from "./request";
 
 const composeEndpoint = (endpointName, path, urlParams, mathtradeId) => {
   let url = endpoints[endpointName || ""] || path || "";
@@ -33,25 +34,8 @@ const handlePromise = (promise) =>
     })
     .catch((error) => Promise.resolve([error, { ok: false }, null]));
 
-const service = ({ method, pathRequest, params }) => {
-  // Default JSON Content-Type makes axios serialize FormData to JSON (files
-  // become {}). Clear it so the browser sets multipart with the boundary.
-  const config =
-    params instanceof FormData
-      ? { headers: { "Content-Type": undefined } }
-      : undefined;
-
-  switch (method) {
-    case "POST":
-      return api.post(pathRequest || "", params, config);
-    case "PUT":
-      return api.put(pathRequest || "", params, config);
-    case "DELETE":
-      return api.delete(pathRequest || "", params);
-    default:
-      return api.get(pathRequest || "", params);
-  }
-};
+const service = ({ method, pathRequest, params }) =>
+  dispatchRequest(api, { method, pathRequest, params });
 
 export const callToAPI = ({
   method,
@@ -82,7 +66,7 @@ export const openAuthenticatedFile = async ({
     if (tab) tab.close();
     return false;
   }
-  const url = URL.createObjectURL(response.data);
+  const url = URL.createObjectURL(response.data as Blob);
   if (tab) {
     tab.location.href = url;
   } else {

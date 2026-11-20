@@ -16,7 +16,7 @@ let buffer: NetworkEntry[] = [];
 let initialized = false;
 
 const SENSITIVE_KEY =
-  /^(authorization|cookie|set-cookie|password|passwd|pwd|secret|token|access[_-]?token|refresh[_-]?token|api[_-]?key|apikey|auth|csrf|xsrf|recaptcha|g-recaptcha-response|client[_-]?secret|private[_-]?key|sessionid)$/i;
+  /^(authorization|cookie|set-cookie|password|passwd|pwd|secret|token|access[_-]?token|refresh[_-]?token|api[_-]?key|apikey|auth|csrf|xsrf|recaptcha|g-recaptcha-response|client[_-]?secret|private[_-]?key|sessionid|cbu|alias|holder[_-]?name)$/i;
 
 const push = (entry: NetworkEntry) => {
   buffer.push(entry);
