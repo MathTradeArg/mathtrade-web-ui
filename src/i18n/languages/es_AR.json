@@ -1083,7 +1083,7 @@
   "payments.breakdown.shipping": "Envío",
   "payments.breakdown.show": "Ver detalle por juego",
   "payments.breakdown.hide": "Ocultar detalle",
-  "payments.referenteShipping.notice": "El costo de envío de tus juegos te lo comunica tu referente de localidad.",
+  "payments.referenteShipping.notice": "El costo del envío desde AMBA hasta tu ciudad te lo comunica tu referente de localidad.",
   "payments.noGames": "No recibís juegos en este Math Trade, así que no tenés nada para transferir.",
   "payments.noGamesRefund": "No recibís juegos en este Math Trade, pero tu inscripción abonada te deja un saldo a favor.",
   "payments.refund.title": "Datos para tu devolución",
