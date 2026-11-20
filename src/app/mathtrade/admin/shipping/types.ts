@@ -56,7 +56,7 @@ export type PaymentsSummary = {
   members_count: number;
   partial_count: number;
   computed_at: string | null;
-  totals: { base: string; shipping: string; suggested: string; credit: string; net: string };
+  totals: { base: string; shipping: string; credit: string; net: string };
   // Approved contributions changed after the last compute (or after publishing).
   stale_credit_count: number;
   // Payment accounts balanced by amount (only active ones get people).

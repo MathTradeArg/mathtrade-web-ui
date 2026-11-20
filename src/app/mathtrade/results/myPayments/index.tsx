@@ -32,8 +32,7 @@ const MyPayments = ({
     shipping_amount,
     total_to_transfer,
     credit_amount,
-    suggested_amount,
-    partial,
+    referente_shipping,
     account,
     receipt,
     refund,
@@ -59,12 +58,6 @@ const MyPayments = ({
 
   return (
     <div className="md:px-7 px-3 py-7 flex flex-col gap-6">
-      {partial && (
-        <p className="bg-amber-50 border border-amber-300 rounded-md px-3 py-2 text-sm">
-          <I18N id="payments.partial" />
-        </p>
-      )}
-
       <section>
         <h2 className="text-lg font-semibold mb-2">
           <I18N id={`payments.outcome.${outcome}.title`} />
@@ -204,7 +197,7 @@ const MyPayments = ({
       )}
 
       {/* Shipping to the referente is not calculated here: only a notice. */}
-      {Number(suggested_amount) > 0 && (
+      {referente_shipping === true && (
         <p className="bg-gray-50 border border-dashed border-gray-300 rounded-md px-3 py-2 text-sm">
           <I18N id="payments.referenteShipping.notice" />
         </p>

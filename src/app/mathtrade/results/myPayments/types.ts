@@ -10,7 +10,6 @@ export type PaymentLine = {
   item_title: string;
   base: string;
   shipping: string;
-  suggested: string;
 };
 
 export type PaymentReceipt = {
@@ -51,7 +50,8 @@ export type MyPayments =
       refund_due: boolean;
       // null when no refund is due and no data was ever loaded.
       refund: RefundState | null;
-      suggested_amount: string;
+      // The referente will tell the shipping cost (no amount is sent).
+      referente_shipping: boolean;
       partial: boolean;
       breakdown: PaymentLine[];
       account: PaymentAccount | null;
