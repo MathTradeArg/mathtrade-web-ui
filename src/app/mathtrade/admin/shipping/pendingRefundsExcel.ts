@@ -14,12 +14,13 @@ export type PendingRefundsLabels = {
 
 // Still to refund: not refunded and still due. `pending` rows can have
 // still_due false (a recompute left nothing to refund): those are out.
+// Donors (status "donated", no still_due) are never included.
 export const dueRefundRows = (rows: unknown): RefundListRow[] =>
   Array.isArray(rows)
     ? (rows as RefundListRow[]).filter(
         (row) =>
-          row?.still_due === true &&
-          (row.status === "pending" || row.status === "missing"),
+          (row?.status === "pending" || row?.status === "missing") &&
+          row.still_due === true,
       )
     : [];
 

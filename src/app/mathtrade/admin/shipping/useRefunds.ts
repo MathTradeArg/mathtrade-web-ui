@@ -8,14 +8,18 @@ import {
   dueRefundRows,
   listRows,
 } from "./pendingRefundsExcel";
-import type { RefundListRow, RefundMissingRow, RefundRow } from "./types";
+import type { RefundDonationRow, RefundListRow, RefundMissingRow, RefundRow } from "./types";
 
 // By shape, not by the status filter: right after switching the filter the
 // previous list is still shown until the new one loads.
 export const isMissingRefund = (row: RefundListRow): row is RefundMissingRow =>
   row.id === null;
 
-export type RefundFilter = "pending" | "refunded" | "missing";
+// Donation rows (?status=donated) are told apart by their status.
+export const isDonationRow = (row: RefundListRow): row is RefundDonationRow =>
+  row.status === "donated";
+
+export type RefundFilter = "pending" | "refunded" | "missing" | "donated";
 
 // Refund list of the active edition (admin Pagos tab). The team splits it by
 // hand: mark refunded / undo, and an Excel export.
@@ -127,6 +131,18 @@ const useRefunds = (onChanged: () => void) => {
     afterLoad: afterAction,
   });
 
+  // Admin-only: the donor goes back to pending and loads the bank data again.
+  const [undoDonationApi, , undoingDonation, errorUndoDonation] = useFetch({
+    endpoint: "POST_PAYMENT_DONATION_UNDO",
+    method: "POST",
+    urlParams,
+    afterLoad: afterAction,
+  });
+  const undoDonation = useCallback(
+    (row: RefundDonationRow) => undoDonationApi({ urlParams: [row.id] }),
+    [undoDonationApi],
+  );
+
   // Callers confirm first (ConfirmModal): these send right away.
   const mark = useCallback((row: RefundRow) => markApi({ urlParams: [row.id] }), [markApi]);
   const undo = useCallback((row: RefundRow) => undoApi({ urlParams: [row.id] }), [undoApi]);
@@ -143,10 +159,11 @@ const useRefunds = (onChanged: () => void) => {
     search,
     setSearch,
     rows,
-    loading: !!(loading || marking || undoing),
-    error: errorList || errorMark || errorUndo,
+    loading: !!(loading || marking || undoing || undoingDonation),
+    error: errorList || errorMark || errorUndo || errorUndoDonation,
     mark,
     undo,
+    undoDonation,
     exportDue,
     exporting,
     exportError,

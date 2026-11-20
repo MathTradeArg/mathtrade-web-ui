@@ -22,7 +22,7 @@ export type PaymentReceipt = {
 };
 
 export type RefundState = {
-  status: "missing" | "submitted" | "refunded";
+  status: "missing" | "submitted" | "refunded" | "donated";
   holder_name: string;
   alias: string;
   cbu: string;
@@ -31,6 +31,10 @@ export type RefundState = {
   submitted_at: string | null;
   refunded_at: string | null;
   amount: string | null;
+  // The participant can waive the refund and donate it (false in the admin
+  // preview, once refunded or donated). Absent in old bodies.
+  can_donate?: boolean;
+  donated_at?: string | null;
 };
 
 export type MyPayments =

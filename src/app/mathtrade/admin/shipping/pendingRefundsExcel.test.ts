@@ -184,3 +184,15 @@ test("file name", () => {
     "devoluciones-pendientes-edicion-2026-11-20.xlsx",
   );
 });
+
+test("dueRefundRows never includes donors", () => {
+  const rows = [
+    { id: 1, status: "pending", still_due: true },
+    { id: 2, status: "donated", still_valid: true },
+    { id: 3, status: "donated", still_due: true },
+  ];
+  assert.deepEqual(
+    dueRefundRows(rows).map((r: any) => r.id),
+    [1],
+  );
+});

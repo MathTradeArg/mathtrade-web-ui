@@ -10,9 +10,12 @@ import { AdminUserName } from "@/components/adminUserModal";
 import I18N, { getI18Ntext } from "@/i18n";
 import { DateIntlFormat } from "@/utils/dateUtils";
 import { formatAmount } from "@/utils/money";
-import useRefunds, { isMissingRefund, type RefundFilter } from "./useRefunds";
+import useRefunds, { isDonationRow, isMissingRefund, type RefundFilter } from "./useRefunds";
 import CollapsibleSection from "./CollapsibleSection";
-import type { PaymentsSummary, RefundListRow, RefundRow } from "./types";
+import type { PaymentsSummary, RefundDonationRow, RefundListRow, RefundRow } from "./types";
+
+const hasBank = (row: RefundListRow): row is RefundRow =>
+  !isMissingRefund(row) && !isDonationRow(row);
 
 const fullName = (row: { first_name: string; last_name: string }) =>
   `${row.first_name} ${row.last_name}`.trim();
@@ -21,26 +24,21 @@ const fullName = (row: { first_name: string; last_name: string }) =>
 const escapeHtml = (text: string) =>
   text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-const FILTERS: RefundFilter[] = ["pending", "refunded", "missing"];
+const FILTERS: RefundFilter[] = ["pending", "refunded", "missing", "donated"];
 
 const selectClass =
   "border border-line rounded-md p-2 text-sm bg-white w-full sm:w-auto max-w-full min-w-0";
 
 // One line per row for the Excel download (what the team splits by hand).
+// Donors have no bank data and nothing to transfer: they never go in it.
 const excelRows = (rows: RefundListRow[]) =>
-  rows.map((row) => ({
+  rows.filter((row) => !isDonationRow(row)).map((row) => ({
     [getI18Ntext("adminPayments.refunds.xls.user")]: row.bgg_user,
     [getI18Ntext("adminPayments.refunds.xls.name")]: fullName(row),
     [getI18Ntext("adminPayments.refunds.xls.amount")]: formatAmount(row.amount),
-    [getI18Ntext("adminPayments.refunds.xls.holder")]: isMissingRefund(row)
-      ? ""
-      : row.holder_name,
-    [getI18Ntext("adminPayments.refunds.xls.alias")]: isMissingRefund(row)
-      ? ""
-      : row.alias,
-    [getI18Ntext("adminPayments.refunds.xls.cbu")]: isMissingRefund(row)
-      ? ""
-      : row.cbu,
+    [getI18Ntext("adminPayments.refunds.xls.holder")]: hasBank(row) ? row.holder_name : "",
+    [getI18Ntext("adminPayments.refunds.xls.alias")]: hasBank(row) ? row.alias : "",
+    [getI18Ntext("adminPayments.refunds.xls.cbu")]: hasBank(row) ? row.cbu : "",
     [getI18Ntext("adminPayments.refunds.xls.status")]: getI18Ntext(
       `adminPayments.refunds.status.${row.status}`,
     ),
@@ -78,6 +76,7 @@ const RefundsPanel = ({
     error,
     mark,
     undo,
+    undoDonation,
     exportDue,
     exporting,
     exportError,
@@ -85,6 +84,7 @@ const RefundsPanel = ({
   } = useRefunds(onChanged);
   const [marking, setMarking] = useState<RefundRow | null>(null);
   const [undoing, setUndoing] = useState<RefundRow | null>(null);
+  const [undoingDonation, setUndoingDonation] = useState<RefundDonationRow | null>(null);
   const noneDue = !!counts && counts.with_account + counts.missing === 0;
 
   return (
@@ -99,6 +99,7 @@ const RefundsPanel = ({
               counts.with_account,
               counts.missing,
               counts.refunded,
+              counts.donated?.count ?? 0,
             ]}
           />
         ) : null
@@ -163,7 +164,7 @@ const RefundsPanel = ({
         <p className="text-sm text-gray-600 shrink-0">
           <I18N id="adminPayments.refunds.count" values={[rows.length]} />
         </p>
-        {rows.length > 0 ? (
+        {rows.length > 0 && status !== "donated" ? (
           <XlsButton
             data={excelRows(rows)}
             filename={`devoluciones-${status}`}
@@ -182,7 +183,37 @@ const RefundsPanel = ({
 
       <div className="max-h-[60vh] overflow-y-auto overflow-x-hidden pr-1">
         {rows.map((row) =>
-          isMissingRefund(row) ? (
+          isDonationRow(row) ? (
+            <div
+              key={`d-${row.id}`}
+              className="border border-line rounded-card p-4 mb-3"
+            >
+              <div className="flex flex-wrap items-start justify-between gap-3 min-w-0">
+                <div className="text-sm min-w-0 max-w-full break-words flex-1">
+                  <Header row={row} />
+                  <p className="font-semibold">{formatAmount(row.amount)}</p>
+                  <p className="text-gray-500">
+                    <I18N id="adminPayments.refunds.status.donated" />
+                    {row.donated_at ? ` · ${DateIntlFormat(row.donated_at)}` : ""}
+                  </p>
+                  {!row.still_valid ? (
+                    <p className="text-xs text-amber-700 mt-1">
+                      <I18N id="adminPayments.refunds.donation.invalid" />
+                    </p>
+                  ) : null}
+                </div>
+                <Button
+                  sm
+                  outline
+                  type="button"
+                  color="danger"
+                  onClick={() => setUndoingDonation(row)}
+                >
+                  <I18N id="adminPayments.refunds.donation.undo" />
+                </Button>
+              </div>
+            </div>
+          ) : isMissingRefund(row) ? (
             <div
               key={`m-${row.membership_id}`}
               className="border border-line rounded-card p-4 mb-3"
@@ -274,6 +305,20 @@ const RefundsPanel = ({
         title="adminPayments.refunds.undoConfirm"
         description="adminPayments.refunds.undoText"
         descriptionValues={[escapeHtml(undoing ? fullName(undoing) : "")]}
+      />
+      <ConfirmModal
+        isOpen={!!undoingDonation}
+        onCancel={() => setUndoingDonation(null)}
+        onConfirm={() => {
+          if (undoingDonation) undoDonation(undoingDonation);
+          setUndoingDonation(null);
+        }}
+        title="adminPayments.refunds.donation.undoConfirm"
+        description="adminPayments.refunds.donation.undoText"
+        descriptionValues={[
+          formatAmount(undoingDonation?.amount ?? ""),
+          escapeHtml(undoingDonation ? fullName(undoingDonation) : ""),
+        ]}
       />
     </CollapsibleSection>
   );
