@@ -8,6 +8,7 @@ import useFetch from "@/hooks/useFetch";
 import { DateIntlFormat } from "@/utils/dateUtils";
 import { formatAmount, parsePriceInput, priceToInput } from "@/utils/money";
 import PaymentReceiptsPanel from "./PaymentReceiptsPanel";
+import PaymentsPreview from "./PaymentsPreview";
 import type { PaymentsSummary } from "./types";
 
 const inputClass = "border border-line rounded-md p-2 text-sm bg-white w-full sm:w-32";
@@ -208,6 +209,7 @@ const PaymentsControl = () => {
         confirmId={`adminPayments.${published ? "unconfirm" : "confirm"}`}
         variant={published ? "danger" : "primary"}
       />
+      <PaymentsPreview />
       <PaymentReceiptsPanel onChanged={refresh} />
     </div>
   );

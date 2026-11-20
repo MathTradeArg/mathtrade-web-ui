@@ -84,3 +84,15 @@ export type PaymentReceiptMissingRow = {
   account: ReceiptAccountRef | null;
   status: "missing";
 };
+
+export type PaymentsMemberRow = {
+  user_id: number;
+  username: string;
+  full_name: string;
+  location: string | null;
+  games_count: number;
+  total_to_transfer: string;
+  partial: boolean;
+  // null when the member has nothing to transfer.
+  receipt_status: "missing" | "pending" | "approved" | "rejected" | null;
+};

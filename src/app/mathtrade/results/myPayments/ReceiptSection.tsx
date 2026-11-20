@@ -11,9 +11,12 @@ import type { PaymentReceipt } from "./types";
 const ReceiptSection = ({
   receipt,
   onChanged,
+  readOnly = false,
 }: {
   receipt: PaymentReceipt;
   onChanged: () => void;
+  // Admin preview: nothing can be uploaded.
+  readOnly?: boolean;
 }) => {
   const mathtradeId = useStore((state) => state.data?.mathtrade?.id);
   const { status, id, amount, rejection_reason, can_upload } = receipt;
@@ -43,7 +46,7 @@ const ReceiptSection = ({
           <I18N id="payments.receipt.amount" values={[formatAmount(amount)]} />
         </p>
       ) : null}
-      {can_upload ? (
+      {can_upload && !readOnly ? (
         <ReceiptUpload endpoint="POST_PAYMENT_RECEIPT" onUploaded={onChanged} />
       ) : null}
       {id && (status === "pending" || status === "approved") ? (

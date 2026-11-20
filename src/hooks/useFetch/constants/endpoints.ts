@@ -164,6 +164,8 @@ const endpoints = {
   POST_PAYMENTS_RECOMPUTE: "api/mathtrades/$[mathtradeId]/payments/recompute/",
   POST_PAYMENTS_PUBLISH: "api/mathtrades/$[mathtradeId]/payments/publish/",
   DELETE_PAYMENTS_PUBLISH: "api/mathtrades/$[mathtradeId]/payments/publish/",
+  GET_PAYMENTS_PREVIEW: "api/mathtrades/$[mathtradeId]/payments/preview/",
+  GET_PAYMENTS_MEMBERS: "api/mathtrades/$[mathtradeId]/payments/members/",
   GET_MY_PAYMENTS: "api/mathtrades/$[mathtradeId]/my-payments/",
   POST_PAYMENT_RECEIPT: "api/mathtrades/$[mathtradeId]/payment-receipts/",
   GET_PAYMENT_RECEIPTS: "api/mathtrades/$[1]/payment-receipts/",

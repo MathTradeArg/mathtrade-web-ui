@@ -12,9 +12,12 @@ const COLLAPSE_OVER = 10;
 const MyPayments = ({
   data = null,
   onChanged = () => {},
+  readOnly = false,
 }: {
   data?: MyPaymentsData | null;
   onChanged?: () => void;
+  // Admin preview (Envíos > Pagos): same view, no receipt upload.
+  readOnly?: boolean;
 }) => {
   const [expanded, setExpanded] = useState(false);
 
@@ -102,7 +105,7 @@ const MyPayments = ({
       </section>
 
       {account && receipt ? (
-        <ReceiptSection receipt={receipt} onChanged={onChanged} />
+        <ReceiptSection receipt={receipt} onChanged={onChanged} readOnly={readOnly} />
       ) : null}
 
       {breakdown.length > 0 && (
