@@ -6,7 +6,14 @@ import ErrorAlert from "@/components/errorAlert";
 import I18N from "@/i18n";
 import useFetch from "@/hooks/useFetch";
 import { DateIntlFormat } from "@/utils/dateUtils";
-import { formatAmount, parseCents, parsePriceInput, priceToInput } from "@/utils/money";
+import {
+  formatAmount,
+  negateAmount,
+  parseCents,
+  parsePriceInput,
+  priceToInput,
+  subtractAmounts,
+} from "@/utils/money";
 import PaymentReceiptsPanel from "./PaymentReceiptsPanel";
 import RefundsPanel from "./RefundsPanel";
 import PaymentsPreview from "./PaymentsPreview";
@@ -27,6 +34,12 @@ const AccountsTable = ({ summary }: { summary: PaymentsSummary }) => {
   const accounts = summary.accounts || [];
   const activeAccounts = accounts.filter((a) => a.active);
   const accountsTotal = accounts.reduce((sum, a) => sum + (parseCents(a.total) ?? 0), 0);
+  // The columns only hold money coming IN. The summary carries the net of all
+  // rows (refunds are negative rows there, so already subtracted) and the
+  // refunds due: incoming = net + refunds. Refunds go out, they are not
+  // assigned to any account, so the final balance only shows in the footer.
+  const refundsDue = summary.refunds.due_total;
+  const incoming = subtractAmounts(summary.totals.net, negateAmount(refundsDue));
   return (
     <div className="mb-3">
       <h4 className="font-medium text-ink mb-1">
@@ -78,6 +91,36 @@ const AccountsTable = ({ summary }: { summary: PaymentsSummary }) => {
                 </tr>
               ))}
             </tbody>
+            <tfoot>
+              <tr className="border-t border-stroke">
+                <td className="py-1 pr-2">
+                  <I18N id="adminPayments.accounts.footerIncoming" />
+                </td>
+                <td className="py-1 px-2" />
+                <td className="py-1 px-2 text-right whitespace-nowrap">{formatAmount(incoming)}</td>
+                <td className="py-1 pl-2" />
+              </tr>
+              <tr>
+                <td className="py-1 pr-2">
+                  <I18N id="adminPayments.accounts.footerRefunds" />
+                </td>
+                <td className="py-1 px-2" />
+                <td className="py-1 px-2 text-right whitespace-nowrap">
+                  {formatAmount(negateAmount(refundsDue))}
+                </td>
+                <td className="py-1 pl-2" />
+              </tr>
+              <tr className="border-t border-stroke font-semibold">
+                <td className="py-1 pr-2">
+                  <I18N id="adminPayments.accounts.footerBalance" />
+                </td>
+                <td className="py-1 px-2" />
+                <td className="py-1 px-2 text-right whitespace-nowrap">
+                  {formatAmount(summary.totals.net)}
+                </td>
+                <td className="py-1 pl-2" />
+              </tr>
+            </tfoot>
           </table>
         </div>
       ) : null}

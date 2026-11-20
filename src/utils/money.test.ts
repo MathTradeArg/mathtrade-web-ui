@@ -72,3 +72,14 @@ test("formatAmount never shows a negative zero", () => {
   }
   assert.match(norm(formatAmount("-5.50")), /^-/);
 });
+
+test("incoming = net of all rows + refunds due (admin accounts table footer)", () => {
+  // net of all rows has the refunds as negative rows: 4000.50 owed - 1000.25 refunded.
+  const net = "3000.25";
+  const refundsDue = "1000.25";
+  const incoming = subtractAmounts(net, negateAmount(refundsDue));
+  assert.equal(incoming, "4000.50");
+  // And the footer balance (net) is incoming minus the refunds.
+  assert.equal(subtractAmounts(incoming, refundsDue), net);
+  assert.equal(formatAmount(negateAmount(refundsDue)), formatAmount("-1000.25"));
+});
