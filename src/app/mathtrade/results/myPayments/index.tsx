@@ -203,21 +203,11 @@ const MyPayments = ({
         </section>
       )}
 
+      {/* Shipping to the referente is not calculated here: only a notice. */}
       {Number(suggested_amount) > 0 && (
-        <section className="bg-gray-50 border border-dashed border-gray-300 rounded-md px-3 py-3">
-          <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">
-            <I18N id="payments.suggested.badge" />
-          </p>
-          <h2 className="font-semibold mb-1">
-            <I18N id="payments.suggested.title" />
-          </h2>
-          <p className="text-sm">
-            <I18N
-              id="payments.suggested.description"
-              values={[formatAmount(suggested_amount)]}
-            />
-          </p>
-        </section>
+        <p className="bg-gray-50 border border-dashed border-gray-300 rounded-md px-3 py-2 text-sm">
+          <I18N id="payments.referenteShipping.notice" />
+        </p>
       )}
     </div>
   );
