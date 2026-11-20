@@ -51,6 +51,11 @@ export type PaymentAccountTotal = {
 export type PaymentsSummary = {
   published_at: string | null;
   price_per_game: string;
+  // Informative deadline (ISO date) shown in the email and in "Mis pagos".
+  payments_due_date: string | null;
+  // Members the first-publish email reaches, and when it started going out.
+  email_recipients: number;
+  emailed_at: string | null;
   // Some computed row used another price than the current one: recompute first.
   stale: boolean;
   members_count: number;

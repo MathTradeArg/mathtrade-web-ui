@@ -6,7 +6,15 @@ import ErrorAlert from "@/components/errorAlert";
 import I18N from "@/i18n";
 import useFetch from "@/hooks/useFetch";
 import { DateIntlFormat } from "@/utils/dateUtils";
-import { formatAmount, parseCents, parsePriceInput, priceToInput } from "@/utils/money";
+import {
+  formatAmount,
+  negateAmount,
+  parseCents,
+  parsePriceInput,
+  priceToInput,
+  subtractAmounts,
+} from "@/utils/money";
+import { publishEmailNotice } from "@/utils/paymentsEmail";
 import PaymentReceiptsPanel from "./PaymentReceiptsPanel";
 import RefundsPanel from "./RefundsPanel";
 import PaymentsPreview from "./PaymentsPreview";
@@ -27,6 +35,12 @@ const AccountsTable = ({ summary }: { summary: PaymentsSummary }) => {
   const accounts = summary.accounts || [];
   const activeAccounts = accounts.filter((a) => a.active);
   const accountsTotal = accounts.reduce((sum, a) => sum + (parseCents(a.total) ?? 0), 0);
+  // The columns only hold money coming IN. The summary carries the net of all
+  // rows (refunds are negative rows there, so already subtracted) and the
+  // refunds due: incoming = net + refunds. Refunds go out, they are not
+  // assigned to any account, so the final balance only shows in the footer.
+  const refundsDue = summary.refunds.due_total;
+  const incoming = subtractAmounts(summary.totals.net, negateAmount(refundsDue));
   return (
     <div className="mb-3">
       <h4 className="font-medium text-ink mb-1">
@@ -78,6 +92,36 @@ const AccountsTable = ({ summary }: { summary: PaymentsSummary }) => {
                 </tr>
               ))}
             </tbody>
+            <tfoot>
+              <tr className="border-t border-stroke">
+                <td className="py-1 pr-2">
+                  <I18N id="adminPayments.accounts.footerIncoming" />
+                </td>
+                <td className="py-1 px-2" />
+                <td className="py-1 px-2 text-right whitespace-nowrap">{formatAmount(incoming)}</td>
+                <td className="py-1 pl-2" />
+              </tr>
+              <tr>
+                <td className="py-1 pr-2">
+                  <I18N id="adminPayments.accounts.footerRefunds" />
+                </td>
+                <td className="py-1 px-2" />
+                <td className="py-1 px-2 text-right whitespace-nowrap">
+                  {formatAmount(negateAmount(refundsDue))}
+                </td>
+                <td className="py-1 pl-2" />
+              </tr>
+              <tr className="border-t border-stroke font-semibold">
+                <td className="py-1 pr-2">
+                  <I18N id="adminPayments.accounts.footerBalance" />
+                </td>
+                <td className="py-1 px-2" />
+                <td className="py-1 px-2 text-right whitespace-nowrap">
+                  {formatAmount(summary.totals.net)}
+                </td>
+                <td className="py-1 pl-2" />
+              </tr>
+            </tfoot>
           </table>
         </div>
       ) : null}
@@ -91,6 +135,8 @@ const PaymentsControl = () => {
   const [confirming, setConfirming] = useState(false);
   const [price, setPrice] = useState("");
   const [invalidPrice, setInvalidPrice] = useState(false);
+  const [dueDate, setDueDate] = useState("");
+  const [testSent, setTestSent] = useState(false);
 
   const [reload, data, loading, errorLoad] = useFetch({
     endpoint: "GET_PAYMENTS_ADMIN",
@@ -115,6 +161,18 @@ const PaymentsControl = () => {
       recompute();
     },
   });
+  // Informative deadline: editable even when published (it changes no amount).
+  const [saveDueDate, , savingDueDate, errorDueDate] = useFetch({
+    endpoint: "PATCH_PAYMENTS_ADMIN",
+    method: "PATCH",
+    afterLoad: refresh,
+  });
+  // Sends the email only to the admin who clicks; works while unpublished.
+  const [sendTest, , sendingTest, errorTest] = useFetch({
+    endpoint: "POST_PAYMENTS_EMAIL_TEST",
+    method: "POST",
+    afterLoad: () => setTestSent(true),
+  });
   const [publish, , publishing, errorPublish] = useFetch({
     endpoint: "POST_PAYMENTS_PUBLISH",
     method: "POST",
@@ -131,8 +189,14 @@ const PaymentsControl = () => {
     if (storedPrice !== undefined) setPrice(priceToInput(storedPrice));
   }, [storedPrice]);
 
+  const storedDueDate = summary?.payments_due_date;
+  useEffect(() => {
+    if (storedDueDate !== undefined) setDueDate(storedDueDate || "");
+  }, [storedDueDate]);
+
   const published = !!summary?.published_at;
   const busy = saving || recomputing || publishing || unpublishing;
+  const emailNotice = publishEmailNotice(summary);
 
   const onSavePrice = () => {
     const value = parsePriceInput(price);
@@ -142,6 +206,16 @@ const PaymentsControl = () => {
     }
     setInvalidPrice(false);
     savePrice({ params: { price_per_game: value } });
+  };
+
+  const onSaveDueDate = () => {
+    saveDueDate({ params: { payments_due_date: dueDate || null } });
+  };
+
+  const onSendTest = () => {
+    if (sendingTest) return;
+    setTestSent(false);
+    sendTest();
   };
 
   return (
@@ -229,6 +303,42 @@ const PaymentsControl = () => {
               <I18N id="adminPayments.invalidPrice" />
             </p>
           ) : null}
+          <div className="flex flex-wrap items-end gap-3 mb-1">
+            <label className="text-xs text-gray-500 flex flex-col gap-1 w-full sm:w-auto">
+              <I18N id="adminPayments.dueDate" />
+              <input
+                type="date"
+                className={inputClass}
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
+              />
+            </label>
+            <Button
+              type="button"
+              sm
+              outline
+              disabled={savingDueDate || dueDate === (storedDueDate || "")}
+              onClick={onSaveDueDate}
+            >
+              <I18N id="adminPayments.saveDueDate" />
+            </Button>
+          </div>
+          <p className="text-xs text-gray-500 mb-3">
+            <I18N id="adminPayments.dueDateHelp" />
+          </p>
+          <div className="flex flex-wrap items-center gap-3 mb-1">
+            <Button type="button" sm outline disabled={sendingTest} onClick={onSendTest}>
+              <I18N id="adminPayments.emailTest" />
+            </Button>
+            {testSent && !sendingTest && !errorTest ? (
+              <span className="text-xs text-green-700">
+                <I18N id="adminPayments.emailTestSent" />
+              </span>
+            ) : null}
+          </div>
+          <p className="text-xs text-gray-500 mb-3">
+            <I18N id="adminPayments.emailTestHelp" />
+          </p>
           <h3 className="font-semibold text-ink mb-1">
             <I18N id="adminPayments.summary" />
           </h3>
@@ -287,7 +397,8 @@ const PaymentsControl = () => {
           {summary.computed_at ? <AccountsTable summary={summary} /> : null}
         </>
       ) : null}
-      <ErrorAlert error={errorSave || errorRecompute || errorUnpublish} />
+      <ErrorAlert error={errorSave || errorRecompute || errorUnpublish || errorDueDate} />
+      <ErrorAlert error={errorTest} />
       <ErrorAlert
         error={errorPublish}
         errorMessage={errorPublish?.status === 400 ? "adminPayments.publishRefused" : ""}
@@ -304,7 +415,20 @@ const PaymentsControl = () => {
         description={`adminPayments.${published ? "unconfirmDescription" : "confirmDescription"}`}
         confirmId={`adminPayments.${published ? "unconfirm" : "confirm"}`}
         variant={published ? "danger" : "primary"}
-      />
+      >
+        {!published && emailNotice.kind !== "none" ? (
+          <p className="text-sm text-gray-700 text-balance mt-3">
+            {emailNotice.kind === "first" ? (
+              <I18N
+                id={emailNotice.recipients === 1 ? "adminPayments.emailFirstOne" : "adminPayments.emailFirst"}
+                values={[emailNotice.recipients]}
+              />
+            ) : (
+              <I18N id="adminPayments.emailAlready" />
+            )}
+          </p>
+        ) : null}
+      </ConfirmModal>
       <PaymentsPreview />
       <PaymentReceiptsPanel onChanged={refresh} />
       <RefundsPanel onChanged={refresh} />

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import I18N from "@/i18n";
 import CopyValue from "@/components/copyValue";
+import { formatDueDate } from "../../../../utils/paymentsEmail.ts";
 import { amountSign, formatAmount, negateAmount } from "@/utils/money";
 import ReceiptSection from "./ReceiptSection";
 import RefundSection from "./RefundSection";
@@ -76,6 +77,11 @@ const MyPayments = ({
               ? formatAmount(refundAmount(net_amount))
               : formatAmount(net_amount)}
           </p>
+          {outcome === "transfer" && formatDueDate(data.payments_due_date) ? (
+            <p className="text-sm font-medium mb-2">
+              <I18N id="payments.dueDate" values={[formatDueDate(data.payments_due_date)]} />
+            </p>
+          ) : null}
           <ul className="text-sm">
             {games_count > 0 && (
               <li className="flex justify-between gap-2">
