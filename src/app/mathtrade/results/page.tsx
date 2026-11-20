@@ -43,7 +43,7 @@ export default function Results() {
   const hasLabels = !!labels?.items?.length;
 
   // "Mis pagos" shows up once the admins published the payments.
-  const { data: payments } = useMyPayments();
+  const { data: payments, reload: reloadPayments } = useMyPayments();
   const hasPayments =
     payments?.published === true &&
     Array.isArray(payments.breakdown) &&
@@ -95,7 +95,7 @@ export default function Results() {
           </Dynamic>
         ) : current === "payments" ? (
           <Dynamic>
-            <MyPayments data={payments} />
+            <MyPayments data={payments} onChanged={reloadPayments} />
           </Dynamic>
         ) : (
           <div className="min-h-96 relative">

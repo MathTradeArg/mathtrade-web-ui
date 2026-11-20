@@ -13,6 +13,15 @@ export type PaymentLine = {
   suggested: string;
 };
 
+export type PaymentReceipt = {
+  id: number | null;
+  status: "missing" | "pending" | "approved" | "rejected";
+  amount: string | null;
+  rejection_reason: string | null;
+  submitted_at: string | null;
+  can_upload: boolean;
+};
+
 export type MyPayments =
   | { published: false }
   | {
@@ -26,6 +35,8 @@ export type MyPayments =
       partial: boolean;
       breakdown: PaymentLine[];
       account: PaymentAccount | null;
+      // null for an admin who is not a member.
+      receipt: PaymentReceipt | null;
     };
 
 export type PublishedPayments = Extract<MyPayments, { published: true }>;

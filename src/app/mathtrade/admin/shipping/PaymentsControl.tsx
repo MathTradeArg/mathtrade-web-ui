@@ -7,6 +7,7 @@ import I18N from "@/i18n";
 import useFetch from "@/hooks/useFetch";
 import { DateIntlFormat } from "@/utils/dateUtils";
 import { formatAmount, parsePriceInput, priceToInput } from "@/utils/money";
+import PaymentReceiptsPanel from "./PaymentReceiptsPanel";
 import type { PaymentsSummary } from "./types";
 
 const inputClass = "border border-line rounded-md p-2 text-sm bg-white w-full sm:w-32";
@@ -167,6 +168,17 @@ const PaymentsControl = () => {
               <li>
                 <I18N id="adminPayments.totalSuggested" values={[formatAmount(summary.totals.suggested)]} />
               </li>
+              <li>
+                <I18N
+                  id="adminPayments.receiptsCount"
+                  values={[
+                    summary.receipts.approved,
+                    summary.receipts.pending,
+                    summary.receipts.rejected,
+                    summary.receipts.missing,
+                  ]}
+                />
+              </li>
               <li className="text-xs text-gray-500">
                 <I18N id="adminPayments.computedAt" values={[DateIntlFormat(summary.computed_at)]} />
               </li>
@@ -196,6 +208,7 @@ const PaymentsControl = () => {
         confirmId={`adminPayments.${published ? "unconfirm" : "confirm"}`}
         variant={published ? "danger" : "primary"}
       />
+      <PaymentReceiptsPanel onChanged={refresh} />
     </div>
   );
 };

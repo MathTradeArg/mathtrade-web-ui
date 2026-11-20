@@ -1,44 +1,10 @@
 "use client";
-import { useCallback, useRef, useState } from "react";
 import clsx from "clsx";
 import I18N from "@/i18n";
-import Button from "@/components/button";
-import ErrorAlert from "@/components/errorAlert";
-import { LoadingBox } from "@/components/loading";
-import useFetch from "@/hooks/useFetch";
 import CopyValue from "@/components/copyValue";
 import { formatAmount } from "@/utils/money";
 import { contributionDeadline } from "@/utils/contributionDeadline";
-import { openAuthenticatedFile } from "@/hooks/useFetch/utils";
-
-const RECEIPT_ACCEPT = "application/pdf,image/png,image/jpeg,image/webp";
-const RECEIPT_MAX_BYTES = 10 * 1024 * 1024;
-const RECEIPT_MIME_OK = new Set([
-  "application/pdf",
-  "image/png",
-  "image/jpeg",
-  "image/webp",
-]);
-
-const receiptClientError = (file) => {
-  if (!file) return "contribution.upload.error.format";
-  if (file.size > RECEIPT_MAX_BYTES) return "contribution.upload.error.size";
-  const name = (file.name || "").toLowerCase();
-  const type = (file.type || "").toLowerCase();
-  if (
-    type === "image/heic" ||
-    type === "image/heif" ||
-    name.endsWith(".heic") ||
-    name.endsWith(".heif")
-  ) {
-    return "contribution.upload.error.heic";
-  }
-  // Empty type is common on some Android picks; the backend sniffs magic bytes.
-  if (type && !RECEIPT_MIME_OK.has(type)) {
-    return "contribution.upload.error.format";
-  }
-  return null;
-};
+import { ReceiptUpload, ViewReceipt, STATUS_STYLE } from "@/components/receiptUpload";
 
 const AccountCard = ({ amount, account }) =>
   account ? (
@@ -58,88 +24,6 @@ const AccountCard = ({ amount, account }) =>
       <I18N id="contribution.noAccount" />
     </p>
   );
-
-const ReceiptUpload = ({ onUploaded }) => {
-  const inputRef = useRef(null);
-  const [file, setFile] = useState(null);
-  const [localError, setLocalError] = useState(null);
-
-  const afterLoad = useCallback(() => {
-    setFile(null);
-    setLocalError(null);
-    if (inputRef.current) inputRef.current.value = "";
-    onUploaded();
-  }, [onUploaded]);
-
-  const [sendReceipt, , sending, error] = useFetch({
-    endpoint: "POST_CONTRIBUTION",
-    method: "POST",
-    afterLoad,
-  });
-
-  return (
-    <div className="relative">
-      <p className="text-sm font-bold mb-1">
-        <I18N id="contribution.upload.label" />
-      </p>
-      <input
-        ref={inputRef}
-        type="file"
-        accept={RECEIPT_ACCEPT}
-        className="text-sm mb-2 block"
-        onChange={(e) => {
-          const next = e.target.files?.[0] || null;
-          setFile(next);
-          setLocalError(next ? receiptClientError(next) : null);
-        }}
-      />
-      <p className="text-xs text-gray-500 mb-3">
-        <I18N id="contribution.upload.help" />
-      </p>
-      <Button
-        sm
-        type="button"
-        disabled={!file || sending || Boolean(localError)}
-        onClick={() => {
-          const clientError = receiptClientError(file);
-          if (clientError) {
-            setLocalError(clientError);
-            return;
-          }
-          const formData = new FormData();
-          formData.append("file", file);
-          sendReceipt({ params: formData });
-        }}
-      >
-        <I18N id="contribution.upload.btn" />
-      </Button>
-      <ErrorAlert error={localError || error} />
-      <LoadingBox loading={sending} transparent min />
-    </div>
-  );
-};
-
-const ViewReceipt = ({ mathtradeId, contributionId }) => (
-  <button
-    type="button"
-    className="text-primary underline text-sm"
-    onClick={() =>
-      openAuthenticatedFile({
-        endpoint: "GET_CONTRIBUTION_RECEIPT",
-        urlParams: [mathtradeId, contributionId],
-      })
-    }
-  >
-    <I18N id="contribution.viewReceipt" />
-  </button>
-);
-
-const STATUS_STYLE = {
-  missing: "border-warning bg-yellow-50",
-  rejected: "border-danger bg-red-50",
-  pending: "border-sky-400 bg-sky-50",
-  approved: "border-green-500 bg-green-50",
-};
 
 const ContributionBox = ({
   isMembership,
@@ -213,11 +97,14 @@ const ContributionBox = ({
             <I18N id="contribution.explanation" />
           </p>
           <AccountCard amount={amount} account={account} />
-          {account ? <ReceiptUpload onUploaded={onChanged} /> : null}
+          {account ? <ReceiptUpload endpoint="POST_CONTRIBUTION" onUploaded={onChanged} /> : null}
         </>
       ) : null}
       {id && !needsReceipt ? (
-        <ViewReceipt mathtradeId={mathtradeId} contributionId={id} />
+        <ViewReceipt
+          endpoint="GET_CONTRIBUTION_RECEIPT"
+          urlParams={[mathtradeId, id]}
+        />
       ) : null}
     </div>
   );

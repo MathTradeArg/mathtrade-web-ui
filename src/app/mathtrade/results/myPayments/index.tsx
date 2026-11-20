@@ -3,12 +3,19 @@ import { useState } from "react";
 import I18N from "@/i18n";
 import CopyValue from "@/components/copyValue";
 import { formatAmount } from "@/utils/money";
+import ReceiptSection from "./ReceiptSection";
 import type { MyPayments as MyPaymentsData } from "./types";
 
 const COLLAPSE_OVER = 10;
 
 // Fetched once by the results page (useMyPayments) and passed down.
-const MyPayments = ({ data = null }: { data?: MyPaymentsData | null }) => {
+const MyPayments = ({
+  data = null,
+  onChanged = () => {},
+}: {
+  data?: MyPaymentsData | null;
+  onChanged?: () => void;
+}) => {
   const [expanded, setExpanded] = useState(false);
 
   if (!data || data.published !== true) return null;
@@ -22,6 +29,7 @@ const MyPayments = ({ data = null }: { data?: MyPaymentsData | null }) => {
     suggested_amount,
     partial,
     account,
+    receipt,
   } = data;
   const breakdown = Array.isArray(data.breakdown) ? data.breakdown : [];
 
@@ -92,6 +100,10 @@ const MyPayments = ({ data = null }: { data?: MyPaymentsData | null }) => {
           </p>
         )}
       </section>
+
+      {account && receipt ? (
+        <ReceiptSection receipt={receipt} onChanged={onChanged} />
+      ) : null}
 
       {breakdown.length > 0 && (
         <section>
