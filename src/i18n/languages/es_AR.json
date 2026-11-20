@@ -1113,7 +1113,6 @@
   "payments.receipt.rejectionReason": "Motivo:",
   "payments.receipt.amount": "Monto del comprobante: $$$",
   "payments.receipt.viewReceipt": "Ver el comprobante enviado",
-  "payments.receipt.noDeadline": "No hay fecha límite para subir el comprobante, pero hacelo apenas transfieras.",
   "results.tab.historial": "Historial",
   "results.screen.grid": "Tabla",
   "results.screen.visual": "Visual",
