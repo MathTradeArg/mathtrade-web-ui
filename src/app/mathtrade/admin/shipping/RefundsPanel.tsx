@@ -10,7 +10,8 @@ import I18N, { getI18Ntext } from "@/i18n";
 import { DateIntlFormat } from "@/utils/dateUtils";
 import { formatAmount } from "@/utils/money";
 import useRefunds, { isMissingRefund, type RefundFilter } from "./useRefunds";
-import type { RefundListRow, RefundRow } from "./types";
+import CollapsibleSection from "./CollapsibleSection";
+import type { PaymentsSummary, RefundListRow, RefundRow } from "./types";
 
 const fullName = (row: { first_name: string; last_name: string }) =>
   `${row.first_name} ${row.last_name}`.trim();
@@ -30,11 +31,17 @@ const excelRows = (rows: RefundListRow[]) =>
     [getI18Ntext("adminPayments.refunds.xls.user")]: row.bgg_user,
     [getI18Ntext("adminPayments.refunds.xls.name")]: fullName(row),
     [getI18Ntext("adminPayments.refunds.xls.amount")]: formatAmount(row.amount),
-    [getI18Ntext("adminPayments.refunds.xls.holder")]: isMissingRefund(row) ? "" : row.holder_name,
-    [getI18Ntext("adminPayments.refunds.xls.alias")]: isMissingRefund(row) ? "" : row.alias,
-    [getI18Ntext("adminPayments.refunds.xls.cbu")]: isMissingRefund(row) ? "" : row.cbu,
+    [getI18Ntext("adminPayments.refunds.xls.holder")]: isMissingRefund(row)
+      ? ""
+      : row.holder_name,
+    [getI18Ntext("adminPayments.refunds.xls.alias")]: isMissingRefund(row)
+      ? ""
+      : row.alias,
+    [getI18Ntext("adminPayments.refunds.xls.cbu")]: isMissingRefund(row)
+      ? ""
+      : row.cbu,
     [getI18Ntext("adminPayments.refunds.xls.status")]: getI18Ntext(
-      `adminPayments.refunds.status.${row.status}`
+      `adminPayments.refunds.status.${row.status}`,
     ),
   }));
 
@@ -53,17 +60,46 @@ const Header = ({ row }: { row: RefundListRow }) => (
 
 // Refunds to participants whose net is negative (registration credit above
 // what they owe), inside the admin Pagos tab.
-const RefundsPanel = ({ onChanged }: { onChanged: () => void }) => {
-  const { status, setStatus, search, setSearch, rows, loading, error, mark, undo } =
-    useRefunds(onChanged);
+const RefundsPanel = ({
+  onChanged,
+  counts,
+}: {
+  onChanged: () => void;
+  counts?: PaymentsSummary["refunds"];
+}) => {
+  const {
+    status,
+    setStatus,
+    search,
+    setSearch,
+    rows,
+    loading,
+    error,
+    mark,
+    undo,
+  } = useRefunds(onChanged);
   const [marking, setMarking] = useState<RefundRow | null>(null);
   const [undoing, setUndoing] = useState<RefundRow | null>(null);
 
   return (
-    <div className="mt-6">
-      <h3 className="font-semibold text-ink mb-1">
-        <I18N id="adminPayments.refunds.title" />
-      </h3>
+    <CollapsibleSection
+      title={<I18N id="adminPayments.refunds.title" />}
+      summary={
+        counts ? (
+          <I18N
+            id="adminPayments.refunds.summary"
+            values={[
+              counts.due_count,
+              counts.with_account,
+              counts.missing,
+              counts.refunded,
+            ]}
+          />
+        ) : null
+      }
+      defaultOpen
+      storageKey="mt_admin_payments_refunds_open"
+    >
       <p className="text-xs text-gray-500 mb-2">
         <I18N id="adminPayments.refunds.help" />
       </p>
@@ -106,58 +142,75 @@ const RefundsPanel = ({ onChanged }: { onChanged: () => void }) => {
         </p>
       ) : null}
 
-      {rows.map((row) =>
-        isMissingRefund(row) ? (
-          <div key={`m-${row.membership_id}`} className="border border-line rounded-card p-4 mb-3">
-            <div className="text-sm min-w-0 max-w-full break-words">
-              <Header row={row} />
-              <p className="font-semibold">{formatAmount(row.amount)}</p>
-              <p className="text-gray-500">
-                <I18N id="adminPayments.refunds.status.missing" />
-              </p>
-            </div>
-          </div>
-        ) : (
-          <div key={row.id} className="border border-line rounded-card p-4 mb-3">
-            <div className="flex flex-wrap items-start justify-between gap-3 min-w-0">
-              <div className="text-sm min-w-0 max-w-full break-words flex-1">
+      <div className="max-h-[60vh] overflow-y-auto overflow-x-hidden pr-1">
+        {rows.map((row) =>
+          isMissingRefund(row) ? (
+            <div
+              key={`m-${row.membership_id}`}
+              className="border border-line rounded-card p-4 mb-3"
+            >
+              <div className="text-sm min-w-0 max-w-full break-words">
                 <Header row={row} />
-                <p className="font-semibold">
-                  {row.status === "refunded" && row.refunded_amount
-                    ? formatAmount(row.refunded_amount)
-                    : formatAmount(row.amount)}
-                </p>
-                <CopyValue label="payments.refund.holder" value={row.holder_name} />
-                <CopyValue label="payments.refund.alias" value={row.alias} />
-                <CopyValue label="payments.refund.cbu" value={row.cbu} />
+                <p className="font-semibold">{formatAmount(row.amount)}</p>
                 <p className="text-gray-500">
-                  <I18N id={`adminPayments.refunds.status.${row.status}`} />
-                  {row.status === "refunded" && row.refunded_at
-                    ? ` · ${DateIntlFormat(row.refunded_at)}`
-                    : ""}
-                  {row.refunded_by ? ` · ${row.refunded_by}` : ""}
+                  <I18N id="adminPayments.refunds.status.missing" />
                 </p>
-                {!row.still_due ? (
-                  <p className="text-xs text-amber-700 mt-1">
-                    <I18N id="adminPayments.refunds.notDue" />
-                  </p>
-                ) : null}
-              </div>
-              <div className="flex flex-wrap items-center gap-2">
-                {row.status === "refunded" ? (
-                  <Button sm outline type="button" color="danger" onClick={() => setUndoing(row)}>
-                    <I18N id="adminPayments.refunds.undo" />
-                  </Button>
-                ) : (
-                  <Button sm type="button" onClick={() => setMarking(row)}>
-                    <I18N id="adminPayments.refunds.mark" />
-                  </Button>
-                )}
               </div>
             </div>
-          </div>
-        )
-      )}
+          ) : (
+            <div
+              key={row.id}
+              className="border border-line rounded-card p-4 mb-3"
+            >
+              <div className="flex flex-wrap items-start justify-between gap-3 min-w-0">
+                <div className="text-sm min-w-0 max-w-full break-words flex-1">
+                  <Header row={row} />
+                  <p className="font-semibold">
+                    {row.status === "refunded" && row.refunded_amount
+                      ? formatAmount(row.refunded_amount)
+                      : formatAmount(row.amount)}
+                  </p>
+                  <CopyValue
+                    label="payments.refund.holder"
+                    value={row.holder_name}
+                  />
+                  <CopyValue label="payments.refund.alias" value={row.alias} />
+                  <CopyValue label="payments.refund.cbu" value={row.cbu} />
+                  <p className="text-gray-500">
+                    <I18N id={`adminPayments.refunds.status.${row.status}`} />
+                    {row.status === "refunded" && row.refunded_at
+                      ? ` · ${DateIntlFormat(row.refunded_at)}`
+                      : ""}
+                    {row.refunded_by ? ` · ${row.refunded_by}` : ""}
+                  </p>
+                  {!row.still_due ? (
+                    <p className="text-xs text-amber-700 mt-1">
+                      <I18N id="adminPayments.refunds.notDue" />
+                    </p>
+                  ) : null}
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  {row.status === "refunded" ? (
+                    <Button
+                      sm
+                      outline
+                      type="button"
+                      color="danger"
+                      onClick={() => setUndoing(row)}
+                    >
+                      <I18N id="adminPayments.refunds.undo" />
+                    </Button>
+                  ) : (
+                    <Button sm type="button" onClick={() => setMarking(row)}>
+                      <I18N id="adminPayments.refunds.mark" />
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </div>
+          ),
+        )}
+      </div>
 
       <ConfirmModal
         isOpen={!!marking}
@@ -184,7 +237,7 @@ const RefundsPanel = ({ onChanged }: { onChanged: () => void }) => {
         description="adminPayments.refunds.undoText"
         descriptionValues={[escapeHtml(undoing ? fullName(undoing) : "")]}
       />
-    </div>
+    </CollapsibleSection>
   );
 };
 

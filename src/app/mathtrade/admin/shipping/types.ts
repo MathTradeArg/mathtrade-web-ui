@@ -110,6 +110,8 @@ export type PaymentReceiptMissingRow = {
   bgg_user: string;
   location: string | null;
   account: ReceiptAccountRef | null;
+  // Net still to transfer (BE adds it to the missing rows).
+  amount: string | null;
   status: "missing";
 };
 
