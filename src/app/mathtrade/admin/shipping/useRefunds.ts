@@ -1,7 +1,13 @@
 "use client";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import useFetch from "@/hooks/useFetch";
 import { useStore } from "@/store";
+import { getI18Ntext } from "@/i18n";
+import {
+  downloadPendingRefundsExcel,
+  dueRefundRows,
+  listRows,
+} from "./pendingRefundsExcel";
 import type { RefundListRow, RefundMissingRow, RefundRow } from "./types";
 
 // By shape, not by the status filter: right after switching the filter the
@@ -44,6 +50,65 @@ const useRefunds = (onChanged: () => void) => {
     reload();
   }, [reload]);
 
+  // Excel of ALL refunds still to make: its own fetches (pending + missing,
+  // no q), so the screen's filter and search never shrink it. The endpoint is
+  // not paginated; a paginated answer with a next page is refused, never
+  // exported as a partial file.
+  const [loadDue] = useFetch({ endpoint: "GET_PAYMENT_REFUNDS", urlParams });
+  const mathtradeName = useStore((state) => state.data?.mathtrade?.name);
+  const [exporting, setExporting] = useState(false);
+  const [exportError, setExportError] = useState(false);
+  const [nothingToExport, setNothingToExport] = useState(false);
+  const exportingRef = useRef(false);
+  const exportDue = useCallback(async () => {
+    if (exportingRef.current) return;
+    exportingRef.current = true;
+    setExporting(true);
+    setExportError(false);
+    setNothingToExport(false);
+    try {
+      const all: unknown[] = [];
+      for (const which of ["pending", "missing"]) {
+        const data = await loadDue({ params: { status: which } });
+        const { rows: part, partial } = listRows(data);
+        if (data === undefined || data === null || partial) {
+          setExportError(true);
+          return;
+        }
+        all.push(...part);
+      }
+      const due = dueRefundRows(all);
+      if (!due.length) {
+        setNothingToExport(true);
+        return;
+      }
+      downloadPendingRefundsExcel(
+        due,
+        {
+          headers: [
+            "name",
+            "user",
+            "email",
+            "city",
+            "amount",
+            "holder",
+            "alias",
+            "cbu",
+            "status",
+          ].map((key) => getI18Ntext(`adminPayments.refunds.dueXls.${key}`)),
+          statusPending: getI18Ntext("adminPayments.refunds.dueXls.pending"),
+          statusMissing: getI18Ntext("adminPayments.refunds.dueXls.missing"),
+        },
+        mathtradeName,
+      );
+    } catch {
+      setExportError(true);
+    } finally {
+      exportingRef.current = false;
+      setExporting(false);
+    }
+  }, [loadDue, mathtradeName]);
+
   const afterAction = useCallback(() => {
     reload();
     onChanged();
@@ -82,6 +147,10 @@ const useRefunds = (onChanged: () => void) => {
     error: errorList || errorMark || errorUndo,
     mark,
     undo,
+    exportDue,
+    exporting,
+    exportError,
+    nothingToExport,
   };
 };
 

@@ -430,8 +430,8 @@ const PaymentsControl = () => {
         ) : null}
       </ConfirmModal>
       <PaymentsPreview />
-      <PaymentReceiptsPanel onChanged={refresh} />
-      <RefundsPanel onChanged={refresh} />
+      <PaymentReceiptsPanel onChanged={refresh} counts={summary?.receipts} />
+      <RefundsPanel onChanged={refresh} counts={summary?.refunds} />
     </div>
   );
 };
