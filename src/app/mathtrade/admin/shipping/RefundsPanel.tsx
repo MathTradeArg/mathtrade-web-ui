@@ -4,6 +4,7 @@ import Button from "@/components/button";
 import ConfirmModal from "@/components/confirmModal";
 import CopyValue from "@/components/copyValue";
 import ErrorAlert from "@/components/errorAlert";
+import Icon from "@/components/icon";
 import XlsButton from "@/components/xlsButton";
 import { AdminUserName } from "@/components/adminUserModal";
 import I18N, { getI18Ntext } from "@/i18n";
@@ -77,9 +78,14 @@ const RefundsPanel = ({
     error,
     mark,
     undo,
+    exportDue,
+    exporting,
+    exportError,
+    nothingToExport,
   } = useRefunds(onChanged);
   const [marking, setMarking] = useState<RefundRow | null>(null);
   const [undoing, setUndoing] = useState<RefundRow | null>(null);
+  const noneDue = !!counts && counts.with_account + counts.missing === 0;
 
   return (
     <CollapsibleSection
@@ -96,6 +102,38 @@ const RefundsPanel = ({
             ]}
           />
         ) : null
+      }
+      actions={
+        <div className="flex flex-col items-stretch sm:items-end gap-1">
+          <button
+            type="button"
+            disabled={exporting || noneDue}
+            title={
+              noneDue
+                ? getI18Ntext("adminPayments.refunds.dueXls.none")
+                : undefined
+            }
+            onClick={exportDue}
+            className="bg-brand text-brand-ink hover:brightness-95 text-sm px-4 py-2 rounded-md flex items-center justify-center gap-1 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Icon type="xls" />
+            {exporting ? (
+              <I18N id="adminPayments.refunds.dueXls.loading" />
+            ) : (
+              <I18N id="adminPayments.refunds.dueXls.btn" />
+            )}
+          </button>
+          {noneDue || nothingToExport ? (
+            <p className="text-xs text-gray-500 sm:text-right">
+              <I18N id="adminPayments.refunds.dueXls.none" />
+            </p>
+          ) : null}
+          {exportError ? (
+            <p role="alert" className="text-xs text-danger sm:text-right">
+              <I18N id="adminPayments.refunds.dueXls.error" />
+            </p>
+          ) : null}
+        </div>
       }
       defaultOpen
       storageKey="mt_admin_payments_refunds_open"
