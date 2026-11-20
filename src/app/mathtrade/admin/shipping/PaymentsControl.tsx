@@ -14,17 +14,19 @@ import type { PaymentsSummary } from "./types";
 
 const inputClass = "border border-line rounded-md p-2 text-sm bg-white w-full sm:w-32";
 
-// Share of the net total that lands on each payment account (the team
-// compares them by eye: no cap, no automatic alert).
-const percent = (part: string, whole: string) => {
-  const total = parseCents(whole) ?? 0;
-  if (total <= 0) return "0%";
-  return `${Math.round(((parseCents(part) ?? 0) / total) * 100)}%`;
+// Share of what lands on the payment accounts that goes to each one (the team
+// compares them by eye: no cap, no automatic alert). The whole is the sum of
+// the accounts, not the net total: that one also subtracts the refunds, so the
+// shares would add up to more than 100%.
+const percent = (part: string, whole: number) => {
+  if (whole <= 0) return "0%";
+  return `${Math.round(((parseCents(part) ?? 0) / whole) * 100)}%`;
 };
 
 const AccountsTable = ({ summary }: { summary: PaymentsSummary }) => {
   const accounts = summary.accounts || [];
   const activeAccounts = accounts.filter((a) => a.active);
+  const accountsTotal = accounts.reduce((sum, a) => sum + (parseCents(a.total) ?? 0), 0);
   return (
     <div className="mb-3">
       <h4 className="font-medium text-ink mb-1">
@@ -72,7 +74,7 @@ const AccountsTable = ({ summary }: { summary: PaymentsSummary }) => {
                   </td>
                   <td className="py-1 px-2 text-right">{a.people}</td>
                   <td className="py-1 px-2 text-right whitespace-nowrap">{formatAmount(a.total)}</td>
-                  <td className="py-1 pl-2 text-right">{percent(a.total, summary.totals.net)}</td>
+                  <td className="py-1 pl-2 text-right">{percent(a.total, accountsTotal)}</td>
                 </tr>
               ))}
             </tbody>

@@ -15,7 +15,10 @@ const SEARCH_DELAY_MS = 300;
 const rowSummary = (row: PaymentsMemberRow): string => {
   const net = row.net_amount ?? row.total_to_transfer;
   const sign = amountSign(net);
-  const games = getI18Ntext("adminPayments.preview.games", [row.games_count]);
+  const games = getI18Ntext(
+    row.games_count === 1 ? "adminPayments.preview.games.one" : "adminPayments.preview.games",
+    [row.games_count],
+  );
   if (sign < 0) {
     return getI18Ntext("adminPayments.preview.rowRefund", [
       games,
