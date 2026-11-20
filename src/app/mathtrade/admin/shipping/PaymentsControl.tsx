@@ -247,9 +247,6 @@ const PaymentsControl = () => {
                 <I18N id="adminPayments.totalShipping" values={[formatAmount(summary.totals.shipping)]} />
               </li>
               <li>
-                <I18N id="adminPayments.totalSuggested" values={[formatAmount(summary.totals.suggested)]} />
-              </li>
-              <li>
                 <I18N id="adminPayments.totalCredit" values={[formatAmount(summary.totals.credit)]} />
               </li>
               <li>

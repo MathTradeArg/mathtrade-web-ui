@@ -32,8 +32,7 @@ const MyPayments = ({
     shipping_amount,
     total_to_transfer,
     credit_amount,
-    suggested_amount,
-    partial,
+    referente_shipping,
     account,
     receipt,
     refund,
@@ -59,12 +58,6 @@ const MyPayments = ({
 
   return (
     <div className="md:px-7 px-3 py-7 flex flex-col gap-6">
-      {partial && (
-        <p className="bg-amber-50 border border-amber-300 rounded-md px-3 py-2 text-sm">
-          <I18N id="payments.partial" />
-        </p>
-      )}
-
       <section>
         <h2 className="text-lg font-semibold mb-2">
           <I18N id={`payments.outcome.${outcome}.title`} />
@@ -203,21 +196,11 @@ const MyPayments = ({
         </section>
       )}
 
-      {Number(suggested_amount) > 0 && (
-        <section className="bg-gray-50 border border-dashed border-gray-300 rounded-md px-3 py-3">
-          <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">
-            <I18N id="payments.suggested.badge" />
-          </p>
-          <h2 className="font-semibold mb-1">
-            <I18N id="payments.suggested.title" />
-          </h2>
-          <p className="text-sm">
-            <I18N
-              id="payments.suggested.description"
-              values={[formatAmount(suggested_amount)]}
-            />
-          </p>
-        </section>
+      {/* Shipping to the referente is not calculated here: only a notice. */}
+      {referente_shipping === true && (
+        <p className="bg-gray-50 border border-dashed border-gray-300 rounded-md px-3 py-2 text-sm">
+          <I18N id="payments.referenteShipping.notice" />
+        </p>
       )}
     </div>
   );
