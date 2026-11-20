@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useMemo, useState } from "react";
 import useFetch from "@/hooks/useFetch";
+import { pickLastError, type AccountCall } from "./accountErrors";
 
 export type ContributionAccount = {
   id: number;
@@ -18,12 +19,15 @@ const useContributionAccounts = (mathtradeId: number) => {
   // Stable reference: useFetch depends on urlParams, and a fresh array on
   // every render makes its autoLoad effect refetch in a loop.
   const urlParams = useMemo(() => [mathtradeId], [mathtradeId]);
+  const [lastCall, setLastCall] = useState<AccountCall>("list");
+  const markCall = useCallback((call: AccountCall) => () => setLastCall(call), []);
 
   const [loadAccounts, accounts, loading, errorList] = useFetch({
     endpoint: "GET_CONTRIBUTION_ACCOUNTS",
     urlParams,
     initialState: [],
     autoLoad: true,
+    beforeLoad: markCall("list"),
   });
 
   const afterSave = useCallback(() => {
@@ -34,6 +38,7 @@ const useContributionAccounts = (mathtradeId: number) => {
   const [createAccount, , creating, errorCreate] = useFetch({
     endpoint: "POST_CONTRIBUTION_ACCOUNT",
     method: "POST",
+    beforeLoad: markCall("create"),
     urlParams,
     afterLoad: afterSave,
   });
@@ -41,6 +46,7 @@ const useContributionAccounts = (mathtradeId: number) => {
   const [updateAccount, , updating, errorUpdate] = useFetch({
     endpoint: "PUT_CONTRIBUTION_ACCOUNT",
     method: "PUT",
+    beforeLoad: markCall("update"),
     urlParams,
     afterLoad: afterSave,
   });
@@ -48,6 +54,7 @@ const useContributionAccounts = (mathtradeId: number) => {
   const [deleteAccount, , deleting, errorDelete] = useFetch({
     endpoint: "DELETE_CONTRIBUTION_ACCOUNT",
     method: "DELETE",
+    beforeLoad: markCall("delete"),
     urlParams,
     afterLoad: afterSave,
   });
@@ -98,7 +105,14 @@ const useContributionAccounts = (mathtradeId: number) => {
     toggleActive,
     removeAccount,
     busy: loading || creating || updating || deleting,
-    error: errorList || errorCreate || errorUpdate || errorDelete,
+    // The BE 400s (account with receipts/payments, deactivation refused) carry
+    // the explanation: ErrorAlert shows it as is.
+    error: pickLastError(lastCall, {
+      list: errorList,
+      create: errorCreate,
+      update: errorUpdate,
+      delete: errorDelete,
+    }),
   };
 };
 

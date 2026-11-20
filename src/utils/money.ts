@@ -31,7 +31,8 @@ export const parseCents = (amount: unknown): number | null => {
 export const formatAmount = (amount: any): any => {
   const cents = parseCents(amount);
   if (cents === null) return amount;
-  return (cents / 100).toLocaleString("es-AR", {
+  // `|| 0` turns -0 (from "-0.00") into 0: no "-$ 0".
+  return (cents / 100 || 0).toLocaleString("es-AR", {
     style: "currency",
     currency: "ARS",
     minimumFractionDigits: cents % 100 === 0 ? 0 : 2,

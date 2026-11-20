@@ -1505,7 +1505,7 @@
   "adminPayments.refunds.searchPlaceholder": "Buscar por usuario, nombre o email",
   "adminPayments.refunds.count": "$$$ resultados",
   "adminPayments.refunds.empty": "No hay devoluciones para mostrar.",
-  "adminPayments.refunds.status.submitted": "Pendiente de devolver",
+  "adminPayments.refunds.status.pending": "Pendiente de devolver",
   "adminPayments.refunds.status.refunded": "Devuelto",
   "adminPayments.refunds.status.missing": "Sin datos de cuenta",
   "adminPayments.refunds.notDue": "Ya no corresponde devolver (el cálculo cambió). Los datos quedan guardados.",

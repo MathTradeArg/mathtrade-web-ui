@@ -124,6 +124,12 @@ export type PaymentsMemberRow = {
   receipt_status: "missing" | "pending" | "approved" | "rejected" | null;
 };
 
+// Row statuses of BE payments/refunds/ (the participant-side 'submitted' of
+// my-payments / refund_status is a different contract). Every one needs the
+// i18n key `adminPayments.refunds.status.<status>`.
+export const REFUND_ROW_STATUSES = ["pending", "refunded", "missing"] as const;
+export type RefundRowStatus = (typeof REFUND_ROW_STATUSES)[number];
+
 // BE payments/refunds/: pending and refunded rows.
 export type RefundRow = {
   id: number;
@@ -138,7 +144,7 @@ export type RefundRow = {
   alias: string;
   cbu: string;
   amount: string;
-  status: "submitted" | "refunded";
+  status: Exclude<RefundRowStatus, "missing">;
   // False when a recompute left nothing to refund: the data stays but no
   // longer corresponds.
   still_due: boolean;

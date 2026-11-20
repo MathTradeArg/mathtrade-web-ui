@@ -64,3 +64,11 @@ test("formatAmount keeps the sign of negative amounts", () => {
   assert.match(formatAmount("-2649.50"), /2\.649,50/);
   assert.match(formatAmount("-2649.50"), /^-/);
 });
+
+test("formatAmount never shows a negative zero", () => {
+  for (const zero of ["-0.00", "-0", "-0.0", 0, -0]) {
+    assert.equal(norm(formatAmount(zero)), norm(formatAmount("0.00")));
+    assert.ok(!String(formatAmount(zero)).includes("-"));
+  }
+  assert.match(norm(formatAmount("-5.50")), /^-/);
+});
