@@ -2,7 +2,7 @@
 
 /** The word the participant types to confirm. The BE accepts it trimmed and
  *  in any case (my-refund-donation/), so the button follows the same rule. */
-export const DONATION_WORD = "DONAR";
+export const DONATION_WORD = "APORTAR";
 
 export const donationWordMatches = (typed: unknown): boolean =>
   typeof typed === "string" && typed.trim().toUpperCase() === DONATION_WORD;

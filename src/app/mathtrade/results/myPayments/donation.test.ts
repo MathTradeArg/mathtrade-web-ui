@@ -13,13 +13,13 @@ const es: Record<string, string> = JSON.parse(
 );
 
 test("the confirmation word matches like the server: trimmed, any case", () => {
-  for (const typed of ["DONAR", "donar", "Donar", "  DONAR  ", "\tdonar\n"]) {
+  for (const typed of ["APORTAR", "aportar", "Aportar", "  APORTAR  ", "\taportar\n"]) {
     assert.equal(donationWordMatches(typed), true, JSON.stringify(typed));
   }
 });
 
 test("anything else does not enable the button", () => {
-  for (const typed of ["", " ", "DONA", "DONARR", "DON AR", "donar!", "si", null, undefined, 5]) {
+  for (const typed of ["", " ", "APORT", "APORTARR", "APOR TAR", "aportar!", "DONAR", "si", null, undefined, 5]) {
     assert.equal(donationWordMatches(typed), false, JSON.stringify(typed));
   }
 });
@@ -29,8 +29,8 @@ test("the payload always sends the canonical word", () => {
 });
 
 test("BE error shapes become plain text", () => {
-  assert.equal(donationErrorText({ status: 400, data: { confirmation: ["Escribí DONAR"] } }), "Escribí DONAR");
-  assert.equal(donationErrorText({ status: 400, data: ["Ya donaste tu devolución."] }), "Ya donaste tu devolución.");
+  assert.equal(donationErrorText({ status: 400, data: { confirmation: ["Escribí APORTAR"] } }), "Escribí APORTAR");
+  assert.equal(donationErrorText({ status: 400, data: ["Ya dejaste tu devolución para el Math Trade."] }), "Ya dejaste tu devolución para el Math Trade.");
   assert.equal(donationErrorText({ status: 400, data: { detail: "No." } }), "No.");
   assert.equal(donationErrorText({ status: 500, data: ["boom"] }), undefined);
   assert.equal(donationErrorText({ status: 0, data: null }), undefined);
