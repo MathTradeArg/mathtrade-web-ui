@@ -36,11 +36,6 @@ const ReceiptSection = ({
           <I18N id="payments.receipt.rejectionReason" /> {rejection_reason}
         </p>
       ) : null}
-      {status === "missing" || status === "rejected" ? (
-        <p className="text-sm text-gray-600 mb-3">
-          <I18N id="payments.receipt.noDeadline" />
-        </p>
-      ) : null}
       {id && amount && status !== "missing" ? (
         <p className="text-sm mb-2">
           <I18N id="payments.receipt.amount" values={[formatAmount(amount)]} />
