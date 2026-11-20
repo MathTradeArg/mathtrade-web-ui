@@ -1,6 +1,15 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { formatAmount, parseCents, parsePriceInput, priceToInput } from "./money.ts";
+import {
+  absAmount,
+  amountSign,
+  formatAmount,
+  negateAmount,
+  parseCents,
+  parsePriceInput,
+  priceToInput,
+  subtractAmounts,
+} from "./money.ts";
 
 const norm = (s: string) => s.replace(/\s/g, " ");
 
@@ -30,4 +39,28 @@ test("parsePriceInput is strict", () => {
 test("priceToInput trims empty cents", () => {
   assert.equal(priceToInput("1500.00"), "1500");
   assert.equal(priceToInput("1500.50"), "1500.50");
+});
+
+test("subtractAmounts works in cents and can go negative", () => {
+  assert.equal(subtractAmounts("2350.50", "5000.00"), "-2649.50");
+  assert.equal(subtractAmounts("5142.86", "5000"), "142.86");
+  assert.equal(subtractAmounts("0.30", "0.10"), "0.20");
+  assert.equal(subtractAmounts("5000.00", "5000.00"), "0.00");
+});
+
+test("negateAmount, absAmount and amountSign", () => {
+  assert.equal(negateAmount("5000.00"), "-5000.00");
+  assert.equal(negateAmount("-5000.00"), "5000.00");
+  assert.equal(negateAmount("0.00"), "0.00");
+  assert.equal(absAmount("-2649.50"), "2649.50");
+  assert.equal(amountSign("-0.01"), -1);
+  assert.equal(amountSign("0.00"), 0);
+  assert.equal(amountSign("12"), 1);
+  assert.equal(amountSign("nope"), 0);
+});
+
+test("formatAmount keeps the sign of negative amounts", () => {
+  assert.match(norm(formatAmount("-5000.00")), /^-\s?\$\s?5\.000$/);
+  assert.match(formatAmount("-2649.50"), /2\.649,50/);
+  assert.match(formatAmount("-2649.50"), /^-/);
 });

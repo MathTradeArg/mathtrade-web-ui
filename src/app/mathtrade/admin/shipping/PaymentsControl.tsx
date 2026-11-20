@@ -6,12 +6,82 @@ import ErrorAlert from "@/components/errorAlert";
 import I18N from "@/i18n";
 import useFetch from "@/hooks/useFetch";
 import { DateIntlFormat } from "@/utils/dateUtils";
-import { formatAmount, parsePriceInput, priceToInput } from "@/utils/money";
+import { formatAmount, parseCents, parsePriceInput, priceToInput } from "@/utils/money";
 import PaymentReceiptsPanel from "./PaymentReceiptsPanel";
+import RefundsPanel from "./RefundsPanel";
 import PaymentsPreview from "./PaymentsPreview";
 import type { PaymentsSummary } from "./types";
 
 const inputClass = "border border-line rounded-md p-2 text-sm bg-white w-full sm:w-32";
+
+// Share of the net total that lands on each payment account (the team
+// compares them by eye: no cap, no automatic alert).
+const percent = (part: string, whole: string) => {
+  const total = parseCents(whole) ?? 0;
+  if (total <= 0) return "0%";
+  return `${Math.round(((parseCents(part) ?? 0) / total) * 100)}%`;
+};
+
+const AccountsTable = ({ summary }: { summary: PaymentsSummary }) => {
+  const accounts = summary.accounts || [];
+  const activeAccounts = accounts.filter((a) => a.active);
+  return (
+    <div className="mb-3">
+      <h4 className="font-medium text-ink mb-1">
+        <I18N id="adminPayments.accounts.title" />
+      </h4>
+      {activeAccounts.length === 0 ? (
+        <p className="text-xs text-red-600 mb-2">
+          <I18N id="adminPayments.accounts.noActive" />
+        </p>
+      ) : null}
+      {summary.unassigned > 0 ? (
+        <p className="text-xs text-red-600 mb-2">
+          <I18N id="adminPayments.accounts.unassigned" values={[summary.unassigned]} />
+        </p>
+      ) : null}
+      {accounts.length > 0 ? (
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-left text-gray-500">
+                <th className="py-1 pr-2 font-normal">
+                  <I18N id="adminPayments.accounts.holder" />
+                </th>
+                <th className="py-1 px-2 font-normal text-right">
+                  <I18N id="adminPayments.accounts.people" />
+                </th>
+                <th className="py-1 px-2 font-normal text-right">
+                  <I18N id="adminPayments.accounts.total" />
+                </th>
+                <th className="py-1 pl-2 font-normal text-right">
+                  <I18N id="adminPayments.accounts.share" />
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {accounts.map((a) => (
+                <tr key={a.id} className="border-t border-stroke align-top">
+                  <td className="py-1 pr-2 break-words">
+                    {a.holder_name} <span className="text-gray-500">({a.alias})</span>
+                    {!a.active ? (
+                      <span className="block text-xs text-gray-500">
+                        <I18N id="adminPayments.accounts.inactive" />
+                      </span>
+                    ) : null}
+                  </td>
+                  <td className="py-1 px-2 text-right">{a.people}</td>
+                  <td className="py-1 px-2 text-right whitespace-nowrap">{formatAmount(a.total)}</td>
+                  <td className="py-1 pl-2 text-right">{percent(a.total, summary.totals.net)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : null}
+    </div>
+  );
+};
 
 // Admin "Pagos" tab: price per game, recompute, summary and publishing of
 // "Mis pagos". Once published everything is frozen (BE answers 400/409).
@@ -110,6 +180,14 @@ const PaymentsControl = () => {
               <I18N id="adminPayments.stale" />
             </p>
           ) : null}
+          {summary.stale_credit_count > 0 ? (
+            <p className="text-xs text-red-600 mb-3">
+              <I18N
+                id={published ? "adminPayments.staleAfterPublish" : "adminPayments.staleCredit"}
+                values={[summary.stale_credit_count]}
+              />
+            </p>
+          ) : null}
           {published ? (
             <p className="text-xs text-gray-500 mb-3">
               <I18N id="adminPayments.frozen" />
@@ -170,6 +248,24 @@ const PaymentsControl = () => {
                 <I18N id="adminPayments.totalSuggested" values={[formatAmount(summary.totals.suggested)]} />
               </li>
               <li>
+                <I18N id="adminPayments.totalCredit" values={[formatAmount(summary.totals.credit)]} />
+              </li>
+              <li>
+                <I18N id="adminPayments.totalNet" values={[formatAmount(summary.totals.net)]} />
+              </li>
+              <li>
+                <I18N
+                  id="adminPayments.refundsCount"
+                  values={[
+                    summary.refunds.due_count,
+                    formatAmount(summary.refunds.due_total),
+                    summary.refunds.with_account,
+                    summary.refunds.missing,
+                    summary.refunds.refunded,
+                  ]}
+                />
+              </li>
+              <li>
                 <I18N
                   id="adminPayments.receiptsCount"
                   values={[
@@ -189,6 +285,7 @@ const PaymentsControl = () => {
               <I18N id="adminPayments.neverComputed" />
             </p>
           )}
+          {summary.computed_at ? <AccountsTable summary={summary} /> : null}
         </>
       ) : null}
       <ErrorAlert error={errorSave || errorRecompute || errorUnpublish} />
@@ -211,6 +308,7 @@ const PaymentsControl = () => {
       />
       <PaymentsPreview />
       <PaymentReceiptsPanel onChanged={refresh} />
+      <RefundsPanel onChanged={refresh} />
     </div>
   );
 };

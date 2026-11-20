@@ -10,6 +10,7 @@ import SectionCommon from "@/components/sections/common";
 import { useRedirectIfNavLocked } from "@/components/sidebar/useSidebarNav";
 import useFetch from "@/hooks/useFetch";
 import useMyPayments from "./myPayments/useMyPayments";
+import { hasPaymentsTab } from "./myPayments/paymentOutcome";
 import type { MyShippingLabelsData } from "@/components/results/myShippingLabels";
 
 const ResultsUI = lazy(() => import("./ui"));
@@ -44,10 +45,8 @@ export default function Results() {
 
   // "Mis pagos" shows up once the admins published the payments.
   const { data: payments, reload: reloadPayments } = useMyPayments();
-  const hasPayments =
-    payments?.published === true &&
-    Array.isArray(payments.breakdown) &&
-    payments.games_count > 0;
+  // With games to pay, or with registration credit (a refund may be due).
+  const hasPayments = hasPaymentsTab(payments);
 
   const tabKeys: TabKey[] = [
     "results",

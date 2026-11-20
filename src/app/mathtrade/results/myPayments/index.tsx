@@ -2,8 +2,10 @@
 import { useState } from "react";
 import I18N from "@/i18n";
 import CopyValue from "@/components/copyValue";
-import { formatAmount } from "@/utils/money";
+import { amountSign, formatAmount, negateAmount } from "@/utils/money";
 import ReceiptSection from "./ReceiptSection";
+import RefundSection from "./RefundSection";
+import { paymentOutcome, refundAmount } from "./paymentOutcome";
 import type { MyPayments as MyPaymentsData } from "./types";
 
 const COLLAPSE_OVER = 10;
@@ -16,7 +18,7 @@ const MyPayments = ({
 }: {
   data?: MyPaymentsData | null;
   onChanged?: () => void;
-  // Admin preview (Envíos > Pagos): same view, no receipt upload.
+  // Admin preview (Envíos > Pagos): same view, no receipt upload or refund form.
   readOnly?: boolean;
 }) => {
   const [expanded, setExpanded] = useState(false);
@@ -29,14 +31,19 @@ const MyPayments = ({
     base_amount,
     shipping_amount,
     total_to_transfer,
+    credit_amount,
     suggested_amount,
     partial,
     account,
     receipt,
+    refund,
   } = data;
   const breakdown = Array.isArray(data.breakdown) ? data.breakdown : [];
+  // Older bodies have no net: the gross is what is due.
+  const net_amount = data.net_amount ?? total_to_transfer;
+  const hasCredit = amountSign(credit_amount) > 0;
 
-  if (games_count === 0) {
+  if (games_count === 0 && !hasCredit) {
     return (
       <div className="md:px-7 px-3 py-7">
         <p>
@@ -46,6 +53,7 @@ const MyPayments = ({
     );
   }
 
+  const outcome = paymentOutcome(net_amount);
   const hasShipping = Number(shipping_amount) > 0;
   const collapsible = breakdown.length > COLLAPSE_OVER;
 
@@ -59,23 +67,34 @@ const MyPayments = ({
 
       <section>
         <h2 className="text-lg font-semibold mb-2">
-          <I18N id="payments.toTransfer.title" />
+          <I18N id={`payments.outcome.${outcome}.title`} />
         </h2>
+        {games_count === 0 ? (
+          <p className="text-sm mb-2">
+            <I18N id="payments.noGamesRefund" />
+          </p>
+        ) : null}
         <div className="bg-white border border-stroke rounded-md px-3 py-3 mb-4">
           <p className="text-gray-500 text-sm">
-            <I18N id="payments.toTransfer.total" />
+            <I18N id={`payments.outcome.${outcome}.label`} />
           </p>
-          <p className="text-2xl font-bold mb-2">{formatAmount(total_to_transfer)}</p>
+          <p className="text-2xl font-bold mb-2">
+            {outcome === "refund"
+              ? formatAmount(refundAmount(net_amount))
+              : formatAmount(net_amount)}
+          </p>
           <ul className="text-sm">
-            <li className="flex justify-between gap-2">
-              <span>
-                <I18N
-                  id="payments.toTransfer.base"
-                  values={[games_count, formatAmount(price_per_game)]}
-                />
-              </span>
-              <span>{formatAmount(base_amount)}</span>
-            </li>
+            {games_count > 0 && (
+              <li className="flex justify-between gap-2">
+                <span>
+                  <I18N
+                    id="payments.toTransfer.base"
+                    values={[games_count, formatAmount(price_per_game)]}
+                  />
+                </span>
+                <span>{formatAmount(base_amount)}</span>
+              </li>
+            )}
             {hasShipping && (
               <li className="flex justify-between gap-2">
                 <span>
@@ -84,27 +103,54 @@ const MyPayments = ({
                 <span>{formatAmount(shipping_amount)}</span>
               </li>
             )}
+            {hasCredit && (
+              <li className="flex justify-between gap-2">
+                <span>
+                  <I18N id="payments.toTransfer.credit" />
+                </span>
+                <span>{formatAmount(negateAmount(credit_amount))}</span>
+              </li>
+            )}
           </ul>
         </div>
 
-        <h3 className="font-medium mb-1">
-          <I18N id="payments.account.title" />
-        </h3>
-        {account ? (
-          <div className="bg-white border border-stroke rounded-md px-3 py-2">
-            <CopyValue label="payments.account.holder" value={account.holder_name} />
-            <CopyValue label="payments.account.alias" value={account.alias} />
-            <CopyValue label="payments.account.cbu" value={account.cbu} />
-            <CopyValue label="payments.account.bank" value={account.bank} />
-          </div>
-        ) : (
+        {outcome === "zero" ? (
           <p className="text-sm">
-            <I18N id="payments.noAccount" />
+            <I18N id="payments.outcome.zero.note" />
           </p>
-        )}
+        ) : null}
+
+        {outcome === "transfer" ? (
+          <>
+            <h3 className="font-medium mb-1">
+              <I18N id="payments.account.title" />
+            </h3>
+            {account ? (
+              <div className="bg-white border border-stroke rounded-md px-3 py-2">
+                <CopyValue label="payments.account.holder" value={account.holder_name} />
+                <CopyValue label="payments.account.alias" value={account.alias} />
+                <CopyValue label="payments.account.cbu" value={account.cbu} />
+                <CopyValue label="payments.account.bank" value={account.bank} />
+              </div>
+            ) : (
+              <p className="text-sm">
+                <I18N id="payments.noAccount" />
+              </p>
+            )}
+          </>
+        ) : null}
       </section>
 
-      {account && receipt ? (
+      {outcome === "refund" && refund ? (
+        <RefundSection
+          refund={refund}
+          amount={refundAmount(net_amount)}
+          onChanged={onChanged}
+          readOnly={readOnly}
+        />
+      ) : null}
+
+      {outcome === "transfer" && account && receipt ? (
         <ReceiptSection receipt={receipt} onChanged={onChanged} readOnly={readOnly} />
       ) : null}
 

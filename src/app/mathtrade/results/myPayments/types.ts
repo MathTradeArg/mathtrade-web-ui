@@ -22,6 +22,18 @@ export type PaymentReceipt = {
   can_upload: boolean;
 };
 
+export type RefundState = {
+  status: "missing" | "submitted" | "refunded";
+  holder_name: string;
+  alias: string;
+  cbu: string;
+  // False in the admin preview, once refunded, or when nothing is due anymore.
+  can_edit: boolean;
+  submitted_at: string | null;
+  refunded_at: string | null;
+  amount: string | null;
+};
+
 export type MyPayments =
   | { published: false }
   | {
@@ -30,7 +42,15 @@ export type MyPayments =
       games_count: number;
       base_amount: string;
       shipping_amount: string;
+      // Gross: base + shipping. What is actually due is `net_amount`.
       total_to_transfer: string;
+      // Registration contribution already paid, subtracted from the gross.
+      credit_amount: string;
+      // Signed: negative means the organization owes the participant.
+      net_amount: string;
+      refund_due: boolean;
+      // null when no refund is due and no data was ever loaded.
+      refund: RefundState | null;
       suggested_amount: string;
       partial: boolean;
       breakdown: PaymentLine[];

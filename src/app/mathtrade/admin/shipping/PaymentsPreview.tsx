@@ -4,12 +4,34 @@ import Button from "@/components/button";
 import ErrorAlert from "@/components/errorAlert";
 import I18N, { getI18Ntext } from "@/i18n";
 import useFetch from "@/hooks/useFetch";
-import { formatAmount } from "@/utils/money";
+import { absAmount, amountSign, formatAmount } from "@/utils/money";
 import MyPayments from "@/app/mathtrade/results/myPayments";
 import type { MyPayments as MyPaymentsData } from "@/app/mathtrade/results/myPayments/types";
 import type { PaymentsMemberRow } from "./types";
 
 const SEARCH_DELAY_MS = 300;
+
+// One line per participant: games and net, then receipt or refund state.
+const rowSummary = (row: PaymentsMemberRow): string => {
+  const net = row.net_amount ?? row.total_to_transfer;
+  const sign = amountSign(net);
+  const games = getI18Ntext("adminPayments.preview.games", [row.games_count]);
+  if (sign < 0) {
+    return getI18Ntext("adminPayments.preview.rowRefund", [
+      games,
+      formatAmount(absAmount(net)),
+      getI18Ntext(`adminPayments.preview.refund.${row.refund_status || "missing"}`),
+    ]);
+  }
+  if (sign === 0) {
+    return getI18Ntext("adminPayments.preview.rowZero", [games]);
+  }
+  return getI18Ntext("adminPayments.preview.row", [
+    games,
+    formatAmount(net),
+    getI18Ntext(`adminPayments.preview.receipt.${row.receipt_status || "missing"}`),
+  ]);
+};
 
 // Admin: what each participant would see in "Mis pagos", before publishing.
 // Renders the participant's own component, read-only, with the BE preview body.
@@ -80,15 +102,7 @@ const PaymentsPreview = () => {
                 <span className="font-medium">{row.full_name}</span>{" "}
                 <span className="text-gray-500">@{row.username}</span>
                 <span className="block text-xs text-gray-500">
-                  {row.games_count > 0
-                    ? getI18Ntext("adminPayments.preview.row", [
-                        row.games_count,
-                        formatAmount(row.total_to_transfer),
-                        getI18Ntext(
-                          `adminPayments.preview.receipt.${row.receipt_status || "missing"}`
-                        ),
-                      ])
-                    : getI18Ntext("adminPayments.preview.noGames")}
+                  {rowSummary(row)}
                   {row.location ? ` · ${row.location}` : ""}
                 </span>
               </button>

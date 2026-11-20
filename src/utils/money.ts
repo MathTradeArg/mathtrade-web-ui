@@ -55,3 +55,28 @@ export const priceToInput = (amount: unknown): string => {
   const rest = Math.abs(cents % 100);
   return rest === 0 ? String(whole) : `${whole}.${String(rest).padStart(2, "0")}`;
 };
+
+/** Integer cents back to an API-style decimal string: 33334 -> "333.34". */
+export const centsToAmount = (cents: number): string => {
+  const sign = cents < 0 ? "-" : "";
+  const abs = Math.abs(cents);
+  return `${sign}${Math.floor(abs / 100)}.${String(abs % 100).padStart(2, "0")}`;
+};
+
+/** a - b in cents, as a decimal string. Unparseable input counts as 0. */
+export const subtractAmounts = (a: unknown, b: unknown): string =>
+  centsToAmount((parseCents(a) ?? 0) - (parseCents(b) ?? 0));
+
+/** Same amount with the opposite sign ("5000.00" -> "-5000.00", "-0" stays 0). */
+export const negateAmount = (amount: unknown): string =>
+  centsToAmount(-(parseCents(amount) ?? 0));
+
+/** Absolute value: "-2649.50" -> "2649.50". */
+export const absAmount = (amount: unknown): string =>
+  centsToAmount(Math.abs(parseCents(amount) ?? 0));
+
+/** Sign of an amount: -1, 0 or 1 (unparseable is 0). */
+export const amountSign = (amount: unknown): -1 | 0 | 1 => {
+  const cents = parseCents(amount) ?? 0;
+  return cents < 0 ? -1 : cents > 0 ? 1 : 0;
+};
