@@ -791,6 +791,7 @@
   "menu.locked.opensOn": "Se habilita el $$$",
   "menu.locked.signupClosedOn": "La inscripción cerró el $$$",
   "menu.locked.signupOpensOn": "La inscripción abre el $$$",
+  "menu.locked.eventMode": "Se habilita después del evento",
   "menu.myData.signup": "Inscripción",
   "sidebar.adminPill": "Admin",
   "sidebar.adminPill.tooltip": "Como sos admin podés entrar a las secciones con candado (solo lectura)",
