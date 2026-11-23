@@ -21,6 +21,8 @@ const MIN_REFRESH_INTERVAL_MS = 60 * 1000;
 const MEMBERSHIP_FRESH_MS = 10 * 1000;
 
 export const PageContext = createContext({
+  // Backend EVENT_MODE for this user, from current/: null until it loads.
+  eventMode: null as boolean | null,
   updateMathtrade: (_value?: any) => {},
   pageType: null,
   setPageType: (_value?: any) => {},
@@ -173,6 +175,9 @@ const PageContextProvider = ({ children = null }) => {
   }, []);
 
   const [mathtradeUpdated, updateMathtrade] = useState<any>({});
+  // Not persisted: every current/ (load and focus refresh) sets it, which is
+  // how the web follows the backend flag being turned on and off.
+  const [eventMode, setEventMode] = useState<boolean | null>(null);
 
   const isReferrer = useMemo(() => {
     // Admins can browse the referrals-area read-only, same as other
@@ -196,6 +201,8 @@ const PageContextProvider = ({ children = null }) => {
   const afterLoadCurrent = useCallback(
     (current: any) => {
       if (!current) return;
+      // An older backend without the field means no event mode.
+      setEventMode(current.event_mode === true);
       const fresh = current.mathtrade || null;
       if ((fresh?.id ?? null) !== (mathtradeStored?.id ?? null)) {
         // Another edition is active now (or none): store it and start over,
@@ -504,6 +511,7 @@ const PageContextProvider = ({ children = null }) => {
   return (
     <PageContext.Provider
       value={{
+        eventMode,
         updateMathtrade,
         pageType,
         setPageType,

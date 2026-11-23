@@ -6,6 +6,7 @@ import { HOME_ENTRY, PRIMARY_NAV, type NavEntry } from "@/config/nav";
 import { PRIVATE_ROUTES } from "@/config/routes";
 import { formatDateString } from "@/utils/dateUtils";
 import { hasProvisional, nextProvisional } from "@/utils/provisionalDates";
+import { withEventLocks } from "@/config/eventMode";
 
 export const COLLAPSE_KEY = "sidebar_mainNav_collapsed";
 const DEFAULT_KEYS = ["MY_COLLECTION", "FAVORITES", "STATS"];
@@ -65,7 +66,7 @@ const captionIdFor = (
 };
 
 const useSidebarNav = () => {
-  const { canI } = useContext(PageContext);
+  const { canI, eventMode } = useContext(PageContext);
   const { membership, mathtrade, mathtrade_history, user } = useStore(
     (state) => state.data
   );
@@ -105,7 +106,7 @@ const useSidebarNav = () => {
     return withHome(base);
   }, [mathtrade, membership, mathtrade_history]);
 
-  const lockedInfo: Record<string, LockedInfo> = useMemo(() => {
+  const baseLockedInfo: Record<string, LockedInfo> = useMemo(() => {
     const locked: Record<string, LockedInfo> = {};
 
     if (mathtrade && !membership) {
@@ -194,6 +195,20 @@ const useSidebarNav = () => {
     canI.provisionalResults,
     canI.results,
   ]);
+
+  // Event mode (backend flag via current/): everything but Home, Results,
+  // Results history and My reports gets the lock. Admins see it too but
+  // navigate as usual (NavRows only blocks non-admins).
+  const lockedInfo: Record<string, LockedInfo> = useMemo(
+    () =>
+      eventMode === true
+        ? withEventLocks(
+            items.map((entry) => entry.key),
+            baseLockedInfo
+          )
+        : baseLockedInfo,
+    [eventMode, items, baseLockedInfo]
+  );
 
   const groups: NavGroup[] = useMemo(() => {
     const eventItems = items
