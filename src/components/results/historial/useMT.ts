@@ -2,6 +2,7 @@ import { useContext, useCallback, useState, useEffect } from "react";
 import { ResultsContext } from "@/context/results";
 import { PageContext } from "@/context/page";
 import useFetch from "@/hooks/useFetch";
+import useEventMode from "@/components/eventModeGate/useEventMode";
 
 const defaultScreenViewResults = 0;
 
@@ -37,9 +38,13 @@ const useMT = (mtId: number) => {
     afterLoad: afterLoadUsers,
   });
 
+  // Event mode (or not known yet): users/ is closed. The results below only
+  // need the member's own id, so the user selector just stays empty.
+  const { restricted } = useEventMode();
   useEffect(() => {
+    if (restricted) return;
     getUsers({ mathtradeId: mtId });
-  }, [getUsers, mtId]);
+  }, [getUsers, mtId, restricted]);
 
   const afterLoad = useCallback(
     ({ results }) => {

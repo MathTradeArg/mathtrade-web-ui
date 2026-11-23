@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { ItemContext } from "@/context/item";
 import { PageContext } from "@/context/page";
 import clsx from "clsx";
+import useEventMode from "@/components/eventModeGate/useEventMode";
 
 const Previewer = ({
   itemId = null,
@@ -15,6 +16,12 @@ const Previewer = ({
   const { item } = useContext(ItemContext);
   const { setItemPreviewId, setShowModalPreview, setCustomMathtradeId } =
     useContext(PageContext);
+  const { restricted } = useEventMode();
+
+  // Event mode: the preview modal is not mounted (layout), so no button.
+  if (restricted) {
+    return null;
+  }
 
   return (
     <>

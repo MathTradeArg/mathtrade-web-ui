@@ -18,6 +18,8 @@ import PrivateEnvironmentNoSSR from "@/environments/private/no-ssr";
 import EarlyPayPopup from "@/components/earlyPayPopup";
 import { AdminUserModalProvider } from "@/components/adminUserModal";
 import ToastProvider from "@/components/toast/ToastProvider";
+import EventModeGuard from "@/components/eventModeGate/EventModeGuard";
+import HiddenInEventMode from "@/components/eventModeGate/HiddenInEventMode";
 import type { ReactNode } from "react";
 
 export default function MathTradeLayout({ children }: { children: ReactNode }) {
@@ -40,22 +42,30 @@ export default function MathTradeLayout({ children }: { children: ReactNode }) {
               className="relative w-full max-w-full min-w-0 max-lg:flex-1 max-lg:min-h-0 max-lg:overflow-y-auto max-lg:overscroll-y-contain lg:min-h-screen lg:pb-20 lg:flex-1"
             >
               <a id="a-top" />
-              <AdvSolidario />
-              <AdvContribution />
-              <AdvContact />
-              <AdvReportedItems />
-              <AdvUnreadyItems />
-              <AdvDuplicateWants />
-              <AdvCompromise />
-              <AdvSelfExcluded />
-              <main className="relative py-main">{children}</main>
+              {/* Event mode: no banners (several ask closed endpoints on mount). */}
+              <HiddenInEventMode>
+                <AdvSolidario />
+                <AdvContribution />
+                <AdvContact />
+                <AdvReportedItems />
+                <AdvUnreadyItems />
+                <AdvDuplicateWants />
+                <AdvCompromise />
+                <AdvSelfExcluded />
+              </HiddenInEventMode>
+              <main className="relative py-main">
+                <EventModeGuard>{children}</EventModeGuard>
+              </main>
               <Footer />
             </div>
           </div>
-          <ModalPreviewerWantGroup />
-          <ModalPreviewer />
+          <HiddenInEventMode>
+            <ModalPreviewerWantGroup />
+            <ModalPreviewer />
+            <EarlyPayPopup />
+          </HiddenInEventMode>
+          {/* Not hidden: My reports opens item reports with it (reports/<id>/view/). */}
           <ReportModal />
-          <EarlyPayPopup />
         </TourContextProvider>
         </AdminUserModalProvider>
         </ToastProvider>

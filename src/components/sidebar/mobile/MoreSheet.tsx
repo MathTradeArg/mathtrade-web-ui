@@ -12,6 +12,7 @@ import AccountMenuButton from "@/components/header/account";
 import type { NavEntry } from "@/config/nav";
 import type { LockedInfo } from "../useSidebarNav";
 import NavItem from "../NavItem";
+import HiddenInEventMode from "@/components/eventModeGate/HiddenInEventMode";
 
 type MoreSheetProps = {
   open: boolean;
@@ -107,15 +108,18 @@ const MoreSheet = ({
             <TimelineButton variant="row" tone="light" />
           </SheetRow>
         ) : null}
-        <SheetRow>
-          <NotificationsButton variant="row" tone="light" />
-        </SheetRow>
-        <SheetRow>
-          <HelpButton variant="row" tone="light" onAction={onClose} />
-        </SheetRow>
-        <SheetRow>
-          <BugReportButton variant="row" tone="light" onAction={onClose} />
-        </SheetRow>
+        {/* Event mode: notifications/ is closed; no tutorials or bug reports. */}
+        <HiddenInEventMode>
+          <SheetRow>
+            <NotificationsButton variant="row" tone="light" />
+          </SheetRow>
+          <SheetRow>
+            <HelpButton variant="row" tone="light" onAction={onClose} />
+          </SheetRow>
+          <SheetRow>
+            <BugReportButton variant="row" tone="light" onAction={onClose} />
+          </SheetRow>
+        </HiddenInEventMode>
         <SheetRow>
           <AccountMenuButton variant="row" tone="light" />
         </SheetRow>

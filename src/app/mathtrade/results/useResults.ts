@@ -9,6 +9,8 @@ import {
   type ResultsSummary,
 } from "@/utils/resultsSummary";
 import { DELIVERY_REPORT_PARAM } from "@/utils/deliveryReports";
+import { useStore } from "@/store";
+import useEventMode from "@/components/eventModeGate/useEventMode";
 
 const defaultScreenViewResults = 0;
 
@@ -23,8 +25,12 @@ const useResults = () => {
   /* end SCREEN OPTIONS **********************************************/
 
   /* PAGE CONTEXT *****************************************/
-  const { updateMathtrade } = useContext(PageContext);
+  const { updateMathtrade, userId } = useContext(PageContext);
   /* end PAGE CONTEXT *****************************************/
+
+  // Event mode (or not known yet): only the member's own results, from
+  // results-summary. users/ and stats are closed; no delivery overlay.
+  const { restricted } = useEventMode();
 
   /* RESULTS CONTEXT *****************************************/
   const {
@@ -56,7 +62,7 @@ const useResults = () => {
   );
   const [, , loadingUsers] = useFetch({
     endpoint: "GET_MATHTRADE_USERS",
-    autoLoad: true,
+    autoLoad: !restricted,
     initialState: [],
     afterLoad,
   });
@@ -78,8 +84,8 @@ const useResults = () => {
     [updateMathtrade]
   );
   const params = useMemo(() => {
-    return { stats: true };
-  }, []);
+    return restricted ? {} : { stats: true };
+  }, [restricted]);
   const [, , loadingMathTradeData] = useFetch({
     endpoint: "GET_MATHTRADE",
     params,
@@ -121,12 +127,36 @@ const useResults = () => {
 
   const hasResults = Boolean(currentUser?.trades && currentUser?.commitment);
 
+  // Event mode: the member's own entry for the list, built from the summary.
+  // Only once the summary is in (before that it would say "no trades" for a
+  // moment), and keyed on values: the store replaces its objects on every
+  // refresh, and a new entry resets the selected view.
+  const ownFirstName = useStore((state: any) => state.data?.user?.first_name);
+  const ownLastName = useStore((state: any) => state.data?.user?.last_name);
+  const ownCommitted = useStore((state: any) => Boolean(state.data?.membership?.is_committed));
+  const ownTrades = useMemo(
+    () => (restricted && userId && summary ? toTradeRows(summary, userId).length : null),
+    [restricted, userId, summary]
+  );
+  useEffect(() => {
+    if (ownTrades === null) return;
+    setUserList([
+      {
+        id: userId,
+        first_name: ownFirstName,
+        last_name: ownLastName,
+        trades: ownTrades,
+        commitment: ownCommitted || ownTrades > 0,
+      },
+    ]);
+  }, [ownTrades, userId, ownFirstName, ownLastName, ownCommitted, setUserList]);
+
   useEffect(() => {
     setDeliveryStatus(null);
-    if (meetingStarted && hasResults) {
+    if (meetingStarted && hasResults && !restricted) {
       getDelivery({ params: { user: currentUserId, page_size: 200 } });
     }
-  }, [getDelivery, meetingStarted, hasResults, currentUserId]);
+  }, [getDelivery, meetingStarted, hasResults, currentUserId, restricted]);
   /* end DELIVERY OVERLAY *************************************************/
 
   useEffect(() => {

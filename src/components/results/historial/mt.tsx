@@ -10,6 +10,7 @@ import I18N from "@/i18n";
 import UserSelector from "@/components/results/userSelector";
 import ListToolbar from "@/components/list-toolbar";
 import { SegmentButton, SegmentedGroup } from "@/components/segmented";
+import useEventMode from "@/components/eventModeGate/useEventMode";
 
 const ResultsVisual = lazy(() => import("@/components/results/visual"));
 const ResultsTable = lazy(() => import("@/components/results/table"));
@@ -36,6 +37,8 @@ const MtResultUI = ({ mt }: { mt: { id: number } }) => {
     error,
     MathTradeResults,
   } = useMT(mt.id);
+  // Event mode: no user list to choose from (users/ is closed).
+  const { restricted } = useEventMode();
 
   const tradeCount = MathTradeResults?.length || 0;
 
@@ -43,7 +46,7 @@ const MtResultUI = ({ mt }: { mt: { id: number } }) => {
     <div className="relative">
       <ListToolbar
         align="end"
-        leading={<UserSelector compact />}
+        leading={restricted ? null : <UserSelector compact />}
         count={
           tradeCount ? (
             <>
