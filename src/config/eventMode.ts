@@ -64,3 +64,23 @@ export const routeGate = ({
   if (isEventOpenPath(pathname)) return "allow";
   return eventMode === null ? "loading" : "blocked";
 };
+
+/**
+ * Hide whatever would ask a closed endpoint: with the flag on, and also while
+ * it is unknown (current/ not loaded yet), so nothing fires a 403 first.
+ * Admins are never restricted.
+ */
+export const isEventRestricted = ({
+  eventMode,
+  isAdmin,
+}: {
+  eventMode: boolean | null;
+  isAdmin: boolean;
+}): boolean => !isAdmin && eventMode !== false;
+
+/**
+ * The menu lock set by event mode (not a date/membership one). The route
+ * guard shows the locked screen for it, so pages must not redirect on it.
+ */
+export const isEventLock = (lock: EventLock | null | undefined): boolean =>
+  Boolean(lock) && lock!.captionId === EVENT_LOCK_CAPTION;

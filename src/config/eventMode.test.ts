@@ -2,6 +2,8 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   EVENT_LOCK_CAPTION,
+  isEventLock,
+  isEventRestricted,
   isEventOpenPath,
   routeGate,
   withEventLocks,
@@ -109,4 +111,44 @@ test("routeGate: unknown state waits on closed routes only", () => {
     routeGate({ eventMode: null, isAdmin: false, pathname: "/mathtrade/results" }),
     "allow"
   );
+});
+
+test("routeGate: open sections' subroutes pass, closed subroutes are blocked", () => {
+  for (const pathname of [
+    "/mathtrade/results/123",
+    "/mathtrade/results-historial/7",
+    "/mathtrade/my-reports/45",
+  ]) {
+    assert.equal(routeGate({ eventMode: true, isAdmin: false, pathname }), "allow", pathname);
+  }
+  for (const pathname of [
+    "/mathtrade/my-wants/12",
+    "/mathtrade/results-old",
+    "/mathtrade/provisional-results",
+    "/mathtrade/my-data",
+  ]) {
+    assert.equal(routeGate({ eventMode: true, isAdmin: false, pathname }), "blocked", pathname);
+  }
+});
+
+test("routeGate: admin with the flag off passes everywhere", () => {
+  for (const pathname of ["/mathtrade", "/mathtrade/my-wants", "/mathtrade/admin", null]) {
+    assert.equal(routeGate({ eventMode: false, isAdmin: true, pathname }), "allow", String(pathname));
+  }
+});
+
+test("isEventRestricted: hidden until current/ says the flag is off", () => {
+  assert.equal(isEventRestricted({ eventMode: null, isAdmin: false }), true);
+  assert.equal(isEventRestricted({ eventMode: true, isAdmin: false }), true);
+  assert.equal(isEventRestricted({ eventMode: false, isAdmin: false }), false);
+  assert.equal(isEventRestricted({ eventMode: true, isAdmin: true }), false);
+  assert.equal(isEventRestricted({ eventMode: null, isAdmin: true }), false);
+});
+
+test("isEventLock: only the event-mode lock, not the date ones", () => {
+  assert.equal(isEventLock({ daysLeft: 0, captionId: EVENT_LOCK_CAPTION }), true);
+  assert.equal(isEventLock(withEventLocks(["WANTS"], {}).WANTS), true);
+  assert.equal(isEventLock({ daysLeft: 3, captionId: "menu.locked.results.days" }), false);
+  assert.equal(isEventLock(undefined), false);
+  assert.equal(isEventLock(null), false);
 });

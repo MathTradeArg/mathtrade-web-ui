@@ -6,7 +6,7 @@ import { HOME_ENTRY, PRIMARY_NAV, type NavEntry } from "@/config/nav";
 import { PRIVATE_ROUTES } from "@/config/routes";
 import { formatDateString } from "@/utils/dateUtils";
 import { hasProvisional, nextProvisional } from "@/utils/provisionalDates";
-import { withEventLocks } from "@/config/eventMode";
+import { isEventLock, withEventLocks } from "@/config/eventMode";
 
 export const COLLAPSE_KEY = "sidebar_mainNav_collapsed";
 const DEFAULT_KEYS = ["MY_COLLECTION", "FAVORITES", "STATS"];
@@ -261,7 +261,10 @@ const useSidebarNav = () => {
 export const useRedirectIfNavLocked = (key: string) => {
   const { lockedInfo, isAdmin } = useSidebarNav();
   const router = useRouter();
-  const locked = Boolean(lockedInfo[key]) && !isAdmin;
+  // The event-mode lock is not a redirect: the layout's route guard shows the
+  // locked screen for it (sending the user to Home would hide why).
+  const lock = lockedInfo[key];
+  const locked = Boolean(lock) && !isEventLock(lock) && !isAdmin;
 
   useEffect(() => {
     if (locked) {

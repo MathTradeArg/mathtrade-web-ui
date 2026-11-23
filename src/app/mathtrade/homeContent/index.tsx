@@ -9,6 +9,9 @@ import Referral from "@/components/referral";
 import ReferralInvite from "./referralInvite";
 import UserQR from "@/components/userQr";
 import useTour from "@/tours/useTour";
+import Link from "next/link";
+import { PRIVATE_ROUTES } from "@/config/routes";
+import useEventMode from "@/components/eventModeGate/useEventMode";
 
 const HomeContent = () => {
   /* PAGE CONTEXT **********************************************/
@@ -16,7 +19,33 @@ const HomeContent = () => {
   /* end PAGE CONTEXT */
 
   const hasEdition = mathtrade && Object.keys(mathtrade).length > 0;
+  // In event mode useTour itself stays off (no POST users/tours/).
   useTour("home", { ready: true });
+  const { eventMode, isAdmin } = useEventMode();
+
+  // Event mode: the QR and the way to the results only. Only once current/
+  // confirmed it (none of the rest asks the API, so there's no 403 to avoid
+  // meanwhile, and the regular Home doesn't flash the reduced one on load).
+  if (eventMode === true && !isAdmin) {
+    return (
+      <div className="md:px-8 px-3 pt-8 pb-5">
+        {hasEdition ? (
+          <>
+            <EditionCard />
+            <UserQR />
+          </>
+        ) : null}
+        <div className="flex justify-center mb-8">
+          <Link
+            href={PRIVATE_ROUTES.RESULTS.path}
+            className="inline-flex items-center gap-1.5 font-bold text-brand-ink bg-brand px-6 py-3 rounded-full hover:brightness-95 transition-opacity"
+          >
+            <I18N id="home.edition.next.results" />
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="md:px-8 px-3 pt-8 pb-5">

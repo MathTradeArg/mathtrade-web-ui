@@ -10,6 +10,7 @@ import ListToolbar from "@/components/list-toolbar";
 import I18N from "@/i18n";
 import { SegmentButton, SegmentedGroup } from "@/components/segmented";
 import useTour from "@/tours/useTour";
+import useEventMode from "@/components/eventModeGate/useEventMode";
 
 const ResultsVisual = lazy(() => import("@/components/results/visual"));
 const ResultsTable = lazy(() => import("@/components/results/table"));
@@ -32,6 +33,8 @@ const ViewPill = ({
 export default function ResultsUI() {
   const { screenViewResults, setScreenViewResults, loading, MathTradeResults } =
     useResults();
+  // Event mode: no user list (users/), Downloads (stats/) or wants offered.
+  const { restricted } = useEventMode();
   const tradeCount = MathTradeResults?.length || 0;
   useTour("results", { ready: !loading && tradeCount > 0 });
 
@@ -39,7 +42,7 @@ export default function ResultsUI() {
     <div className="relative">
       <ListToolbar
         align="end"
-        leading={<UserSelector compact tourAnchor="results.user" />}
+        leading={restricted ? null : <UserSelector compact tourAnchor="results.user" />}
         count={
           tradeCount ? (
             <>
@@ -90,10 +93,14 @@ export default function ResultsUI() {
       </div>
 
       <div className="max-w-[1100px] mx-auto px-3 pb-8 flex flex-col gap-4">
-        <Downloads accordion />
-        <div data-tour="results.wants">
-          <WantsResults />
-        </div>
+        {restricted ? null : (
+          <>
+            <Downloads accordion />
+            <div data-tour="results.wants">
+              <WantsResults />
+            </div>
+          </>
+        )}
       </div>
       <LoadingBox loading={loading} transparent />
     </div>

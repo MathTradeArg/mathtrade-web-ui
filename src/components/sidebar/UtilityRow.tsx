@@ -5,6 +5,7 @@ import TimelineButton from "@/components/header/timeline";
 import NotificationsButton from "@/components/header/notifications";
 import HelpButton from "@/components/header/helpButton";
 import BugReportButton from "@/components/header/bugReportButton";
+import HiddenInEventMode from "@/components/eventModeGate/HiddenInEventMode";
 
 const UtilityRow = ({ collapsed }: { collapsed: boolean }) => {
   const { mathtrade } = useContext(PageContext);
@@ -15,11 +16,14 @@ const UtilityRow = ({ collapsed }: { collapsed: boolean }) => {
       {hasMathtrade ? (
         <TimelineButton variant="row" collapsed={collapsed} placement="right" />
       ) : null}
-      <NotificationsButton variant="row" collapsed={collapsed} placement="right" />
-      <div data-tour="home.help">
-        <HelpButton variant="row" collapsed={collapsed} placement="right" />
-      </div>
-      <BugReportButton variant="row" collapsed={collapsed} />
+      {/* Event mode: notifications/ is closed; no tutorials or bug reports. */}
+      <HiddenInEventMode>
+        <NotificationsButton variant="row" collapsed={collapsed} placement="right" />
+        <div data-tour="home.help">
+          <HelpButton variant="row" collapsed={collapsed} placement="right" />
+        </div>
+        <BugReportButton variant="row" collapsed={collapsed} />
+      </HiddenInEventMode>
     </div>
   );
 };

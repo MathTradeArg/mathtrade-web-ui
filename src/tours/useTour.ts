@@ -8,6 +8,7 @@ import useFetch from "@/hooks/useFetch";
 import { getI18Ntext } from "@/i18n";
 import { TOURS } from ".";
 import { TourContext } from "./context";
+import useEventMode from "@/components/eventModeGate/useEventMode";
 
 const isVisible = (el: Element | null) => !!el && el.getClientRects().length > 0;
 
@@ -40,7 +41,10 @@ const revealInScrollBox = (el?: Element) => {
  * It can always be reopened from Ayuda.
  */
 const useTour = (name: string, { ready }: { ready: boolean }) => {
-  const tour = TOURS[name];
+  // Event mode (or not known yet): no tour, it would POST users/tours/<key>/
+  // (closed) when it ends.
+  const { restricted } = useEventMode();
+  const tour = restricted ? undefined : TOURS[name];
   const { canI } = useContext(PageContext) as any;
   const { setStartCurrentTour, setDemo } = useContext(TourContext);
   const user = useStore((state: any) => state.data?.user);
