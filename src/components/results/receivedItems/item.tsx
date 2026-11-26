@@ -19,12 +19,14 @@ import type { DeliveryReportTarget } from "@/components/deliveryReport/DeliveryR
 
 const ItemUI = ({
   received = false,
+  eventAttendance = false,
   onOpenReceived = (_value?: any) => {},
   idResult = null,
   deliveryReport = null,
   onOpenReport = (_target: DeliveryReportTarget) => {},
 }: {
   received?: boolean;
+  eventAttendance?: boolean;
   onOpenReceived?: (value?: any) => void;
   idResult?: any;
   deliveryReport?: DeliveryReportRow | null;
@@ -55,6 +57,20 @@ const ItemUI = ({
             <div className="flex gap-1 items-center py-1 px-3 rounded-md text-green-700 border border-green-500 bg-green-500/10">
               <Icon type="check" />
               <I18N id="received.already" />
+            </div>
+          ) : eventAttendance ? (
+            <div className="flex flex-col items-end gap-1 sm:text-right">
+              <button
+                type="button"
+                disabled
+                className="flex gap-1 items-center py-1 px-3 rounded-md bg-gray-200 text-gray-500 cursor-not-allowed"
+              >
+                <Icon type="check" />
+                <I18N id="received.btn" />
+              </button>
+              <p className="text-xs font-normal text-gray-600">
+                <I18N id="received.blocked" />
+              </p>
             </div>
           ) : (
             <button
@@ -101,6 +117,7 @@ const ItemUI = ({
 const Item = ({
   itemRaw = null,
   received = false,
+  eventAttendance = false,
   onOpenReceived = (_value?: any) => {},
   idResult = null,
   deliveryReport = null,
@@ -108,6 +125,7 @@ const Item = ({
 }: {
   itemRaw?: any;
   received?: boolean;
+  eventAttendance?: boolean;
   onOpenReceived?: (value?: any) => void;
   idResult?: any;
   deliveryReport?: DeliveryReportRow | null;
@@ -117,6 +135,7 @@ const Item = ({
     <ItemContextProvider itemRaw={itemRaw}>
       <ItemUI
         received={received}
+        eventAttendance={eventAttendance}
         onOpenReceived={onOpenReceived}
         idResult={idResult}
         deliveryReport={deliveryReport}

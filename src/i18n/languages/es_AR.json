@@ -2288,6 +2288,7 @@
   "received.p.2": "De esta manera, la organización podrá tener <strong>trazabilidad</strong> sobre todos los intercambios realizados.",
   "received.btn": "Marcar como RECIBIDO",
   "received.already": "Recibido",
+  "received.blocked": "Los juegos se reciben en el evento, a través de los voluntarios",
   "delivered.already": "Entregado",
   "received.btn.yes": "Sí, marcar como RECIBIDO",
   "received.modal.title": "¿Marcar \"$$$\" como RECIBIDO?",

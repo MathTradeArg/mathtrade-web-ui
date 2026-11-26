@@ -11,6 +11,7 @@ import { maskReceivedItem } from "@/config/jokeGame";
 const ReceivedItems = () => {
   const {
     results,
+    eventAttendance,
     loading,
     error,
     modalOpen,
@@ -42,6 +43,7 @@ const ReceivedItems = () => {
                 itemRaw={maskReceivedItem(item_from)}
                 idResult={idResult}
                 received={received}
+                eventAttendance={eventAttendance}
                 onOpenReceived={onOpenReceived}
                 deliveryReport={deliveryReport}
                 onOpenReport={openReport}

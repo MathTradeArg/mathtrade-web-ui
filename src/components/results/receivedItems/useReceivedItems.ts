@@ -101,8 +101,11 @@ const useReceivedItems = () => {
   }, []);
   /* end REPORT MODAL *******************************************/
 
+  const eventAttendance = !!membership?.event_attendance;
+
   return {
     results,
+    eventAttendance,
     loading,
     error,
     modalOpen,

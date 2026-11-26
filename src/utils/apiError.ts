@@ -30,6 +30,8 @@ const DETAIL_RULES: DetailRule[] = [
   // DRF get_object_or_404 on any model (MathElement, MathItem, Element…).
   { test: (d) => /^No \w+ matches the given query\.$/.test(d), key: "error.mathElement.notFound" },
   { test: (d) => d === "You do not have permission to perform this action.", key: "error.mathtrade.geekListClosed" },
+  // BE results/serializers.py TradeSerializer.update: attendees receive at the event.
+  { test: (d) => d === "Los juegos se reciben en el evento, a través de los voluntarios", key: "received.blocked" },
   // Box delete (BE logistics/views/referrers.py ItemBoxViewSet.destroy).
   { test: (d) => d === "Cannot delete a closed box.", key: "error.box.closedDelete" },
   { test: (d) => d === "Cannot delete a box that has items.", key: "error.box.hasItems" },
