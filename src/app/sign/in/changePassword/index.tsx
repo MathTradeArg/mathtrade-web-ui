@@ -1,7 +1,7 @@
 import { Form, InputContainer, Label, Input } from "@/components/form";
 import I18N from "@/i18n";
 import ErrorAlert from "@/components/errorAlert";
-import { LoadingBox } from "@/components/loading";
+import { PageLoading } from "@/components/loading";
 import useChangePassword from "./useChangePassword";
 import Button from "@/components/button";
 
@@ -63,7 +63,7 @@ const ChangePassword = ({
           </Button>
         </div>
       </Form>
-      <LoadingBox loading={loading} />
+      <PageLoading loading={loading} />
     </>
   ) : (
     <div className="text-center mb-4">

@@ -1,5 +1,6 @@
-$top-diff: 30px;
-$left-diff: $top-diff;
+$dice-sun: #ffc700;
+$dice-ink: #2e294e;
+$dice-edge: color-mix(in srgb, #{$dice-sun} 45%, #{$dice-ink});
 
 .loading-box {
   position: absolute;
@@ -22,8 +23,9 @@ $left-diff: $top-diff;
     backdrop-filter: none;
   }
 
-  // Page loading: blurs the whole content area (the viewport right of the
-  // sidebar, top to bottom), not just the section's box — including the
+  // Page loading: blurs the whole viewport, or the content area right of the
+  // sidebar on screens that have one (.with-sidebar), top to bottom, not just
+  // the section's box — including the
   // lists' sticky filter bar. Below the sidebar, the mobile tab bar and the
   // panels, which stay usable (see src/config/zIndex.js).
   &.page {
@@ -35,9 +37,16 @@ $left-diff: $top-diff;
     background-color: rgba(255, 255, 255, 0.35);
     backdrop-filter: blur(3px);
 
+    .dice-loader {
+      position: relative;
+      top: auto;
+    }
+
     // Same breakpoint as the sidebar (Tailwind lg); widths set inline.
-    @media (min-width: 1024px) {
-      left: var(--sidebar-w, 260px);
+    &.with-sidebar {
+      @media (min-width: 1024px) {
+        left: var(--sidebar-w, 260px);
+      }
     }
   }
 
@@ -45,215 +54,105 @@ $left-diff: $top-diff;
     padding-top: 15px;
   }
 }
-.loading-graph {
-  width: 100px + (2 * $top-diff);
-  height: 100px + (2 * $top-diff);
+.dice-loader {
+  --die-size: 40px;
   position: sticky;
   top: 140px;
-  background-color: rgba(255, 255, 255, 1);
-  padding: $top-diff;
-  border-radius: 50%;
-  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1);
-
-  &.min {
-    // position: relative;
-    top: 110px;
-    transform-origin: top center;
-    transform: scale(0.5);
-  }
+  width: calc(var(--die-size) * 1.1);
+  height: calc(var(--die-size) * 1.95);
+  perspective: calc(var(--die-size) * 6.5);
+  display: grid;
+  place-items: start center;
+}
+.loading-box.min .dice-loader {
+  top: 110px;
 }
 .loading-box.center {
-  .loading-graph {
-    top: 50%;
-    margin-top: (-0.5 * (100px + (2 * $top-diff)));
+  padding-top: 0;
+  place-content: center;
+
+  .dice-loader {
+    position: relative;
+    top: auto;
   }
 }
-.loading-graph .loading-graph_inner {
-  width: 100px;
-  height: 100px;
-  transform: rotate(45deg);
+.dice-hop {
   position: relative;
+  z-index: 1;
+  transform: translateY(calc(var(--die-size) * 0.45));
 }
-.loading-graph svg path {
-  fill: #3f3f3f;
+.dice {
+  width: var(--die-size);
+  height: var(--die-size);
+  position: relative;
+  transform-style: preserve-3d;
 }
-.loading-graph .loading-g {
+.dice-face {
   position: absolute;
-  top: 50px;
-  left: 50px;
+  inset: -2px;
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  padding: calc(var(--die-size) * 0.125);
+  background: $dice-sun;
+  border: 2.5px solid $dice-edge;
+  border-radius: 3px;
+  backface-visibility: hidden;
+
+  i {
+    display: block;
+    place-self: center;
+    width: calc(var(--die-size) * 0.175);
+    height: calc(var(--die-size) * 0.175);
+    border-radius: 50%;
+    background: $dice-ink;
+  }
 }
-.loading-graph .loading-g .loading-g-in {
+.dice-face-1 {
+  transform: translateZ(calc(var(--die-size) / 2));
+  filter: brightness(1.04);
+}
+.dice-face-2 {
+  transform: rotateY(90deg) translateZ(calc(var(--die-size) / 2));
+  filter: brightness(0.9);
+}
+.dice-face-3 {
+  transform: rotateY(180deg) translateZ(calc(var(--die-size) / 2));
+  filter: brightness(0.8);
+}
+.dice-face-4 {
+  transform: rotateY(-90deg) translateZ(calc(var(--die-size) / 2));
+  filter: brightness(0.94);
+}
+.dice-face-5 {
+  transform: rotateX(90deg) translateZ(calc(var(--die-size) / 2));
+  filter: brightness(1.1);
+}
+.dice-face-6 {
+  transform: rotateX(-90deg) translateZ(calc(var(--die-size) / 2));
+  filter: brightness(0.74);
+}
+.dice-shadow {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 2px;
-  height: 2px;
+  z-index: 0;
+  bottom: 1px;
+  left: 50%;
+  width: calc(var(--die-size) * 0.85);
+  height: calc(var(--die-size) * 0.2);
+  margin-left: calc(var(--die-size) * -0.425);
+  border-radius: 50%;
+  background: rgba($dice-ink, 0.18);
 }
-.loading-graph .loading-g .ball {
-  width: 26px;
-  height: 26px;
-  animation: loading-rotation 4.2s infinite;
-  position: absolute;
-  top: -13px;
-  left: 24px;
-}
-.loading-graph .loading-g .ball .ball-inner {
-  width: 100%;
-  height: 100%;
-  border-radius: 4px;
-  background-color: #d00;
-  transform: rotate(45deg);
-}
-.loading-graph .loading-g.loading-g-1 {
-  animation: loading-rotation 4.2s infinite;
-}
-.loading-graph .loading-g.loading-g-1 .ball .ball-inner {
-  background-color: #2a9d8f;
-  width: 28.6px;
-  height: 23.4px;
-}
-.loading-graph .loading-g.loading-g-2 {
-  animation: loading-rotation 4.2s infinite;
-  animation-delay: 0.1s;
-}
-.loading-graph .loading-g.loading-g-2 .ball .ball-inner {
-  background-color: #e9c46a;
-}
-.loading-graph .loading-g.loading-g-2 .loading-g-in {
-  transform: rotate(90deg);
-}
-.loading-graph .loading-g.loading-g-3 {
-  animation: loading-rotation 4.2s infinite;
-  animation-delay: 0.2s;
-}
-.loading-graph .loading-g.loading-g-3 .ball .ball-inner {
-  background-color: #f4a261;
-  width: 31.2px;
-}
-.loading-graph .loading-g.loading-g-3 .loading-g-in {
-  transform: rotate(180deg);
-}
-.loading-graph .loading-g.loading-g-4 {
-  animation: loading-rotation 4.2s infinite;
-  animation-delay: 0.3s;
-}
-.loading-graph .loading-g.loading-g-4 .ball .ball-inner {
-  background-color: #e76f51;
-}
-.loading-graph .loading-g.loading-g-4 .loading-g-in {
-  transform: rotate(270deg);
-}
-.loading-graph .hand {
-  width: 36.4px;
-  position: absolute;
-}
-.loading-graph .hand svg path {
-  border: 1px solid rgba(0, 0, 0, 1);
-}
-.loading-graph .hand.hand-1 {
-  top: $top-diff + 26px;
-  left: $left-diff - 1px;
-}
-.loading-graph .hand.hand-1 svg {
-  animation: hand-rotation 4.2s infinite;
-  transform-origin: left top;
-}
-.loading-graph .hand.hand-2 {
-  top: $top-diff + 26px;
-  left: $left-diff + 64.6px;
-  transform: scale(-1, 1);
-}
-.loading-graph .hand.hand-2 svg {
-  animation: hand-rotation 4.2s infinite;
-  animation-delay: 0.1s;
-  transform-origin: left top;
-}
-.loading-graph .hand.hand-3 {
-  top: $top-diff + 77px;
-  left: $left-diff - 1px;
-}
-.loading-graph .hand.hand-3 svg {
-  animation: hand-rotation 4.2s infinite;
-  animation-delay: 0.2s;
-  transform-origin: left top;
-}
-.loading-graph .hand.hand-4 {
-  top: $top-diff + 77px;
-  left: $left-diff + 64.6px;
-  transform: scale(-1, 1);
-}
-.loading-graph .hand.hand-4 svg {
-  animation: hand-rotation 4.2s infinite;
-  animation-delay: 0.3s;
-  transform-origin: left top;
-}
-@keyframes loading-rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  15% {
-    transform: rotate(90deg);
-  }
-  25% {
-    transform: rotate(90deg);
-  }
-  35% {
-    transform: rotate(180deg);
-  }
-  50% {
-    transform: rotate(180deg);
-  }
-  65% {
-    transform: rotate(270deg);
-  }
-  75% {
-    transform: rotate(270deg);
-  }
-  90% {
-    transform: rotate(360deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-@keyframes hand-rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  7% {
-    transform: rotate(25deg);
-  }
-  15% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(0deg);
-  }
-  30% {
-    transform: rotate(25deg);
-  }
-  35% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(0deg);
-  }
-  57% {
-    transform: rotate(25deg);
-  }
-  65% {
-    transform: rotate(0deg);
-  }
-  75% {
-    transform: rotate(0deg);
-  }
-  82% {
-    transform: rotate(25deg);
-  }
-  90% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(0deg);
+.dice-fallback {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: min(
+    calc((var(--min-h, 200px) - var(--die-h, 78px)) / 2),
+    clamp(24px, 12vh, 120px)
+  );
+
+  .dice-loader {
+    position: relative;
+    top: auto;
   }
 }
