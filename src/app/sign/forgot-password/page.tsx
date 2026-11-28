@@ -3,7 +3,7 @@ import { Form, InputContainer, Label, Input } from "@/components/form";
 import I18N from "@/i18n";
 import useForgotPassword from "./useForgotPassword";
 import ErrorAlert from "@/components/errorAlert";
-import { LoadingBox } from "@/components/loading";
+import { PageLoading } from "@/components/loading";
 import Question from "@/components/question";
 import { PUBLIC_ROUTES } from "@/config";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
@@ -61,7 +61,7 @@ const ForgotPasswordPage = () => {
               <I18N id="btn.Cancel" />
             </Button>
           </div>
-          <LoadingBox loading={loading} center />
+          <PageLoading loading={loading} />
         </>
       ) : (
         <div className="text-center">

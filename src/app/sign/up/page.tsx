@@ -12,7 +12,7 @@ import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { GOOGLE_RECAPTCHA_CLIENT_KEY } from "@/config";
 import { PUBLIC_ROUTES } from "@/config";
 import ErrorAlert from "@/components/errorAlert";
-import { LoadingBox } from "@/components/loading";
+import { PageLoading } from "@/components/loading";
 import Button from "@/components/button";
 import HelpContext from "@/components/help-context";
 import { rulebookPDFurl } from "@/config/rulebook";
@@ -237,7 +237,7 @@ const SignUpPage = () => {
           </div>
         </>
       )}
-      <LoadingBox loading={loading} center />
+      <PageLoading loading={loading} />
     </div>
   );
 };

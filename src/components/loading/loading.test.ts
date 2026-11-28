@@ -75,3 +75,18 @@ test("PageLoading with a sidebar is offset by the sidebar width", () => {
 test("PageLoading renders nothing while not loading, with or without a sidebar", () => {
   assert.equal(html(createElement(PageLoading, { loading: false, withSidebar: true })), "");
 });
+
+test("access screens use the full-viewport PageLoading, not the in-card LoadingBox", async () => {
+  const { readFileSync } = await import("node:fs");
+  const files = [
+    "src/app/sign/in/page.tsx",
+    "src/app/sign/forgot-password/page.tsx",
+    "src/app/sign/in/changePassword/index.tsx",
+    "src/app/sign/up/page.tsx",
+  ];
+  for (const file of files) {
+    const source = readFileSync(file, "utf8");
+    assert.match(source, /<PageLoading loading=\{loading\} \/>/, file);
+    assert.doesNotMatch(source, /LoadingBox/, file);
+  }
+});

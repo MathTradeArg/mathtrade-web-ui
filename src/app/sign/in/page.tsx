@@ -6,7 +6,7 @@ import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { GOOGLE_RECAPTCHA_CLIENT_KEY } from "@/config";
 import { PUBLIC_ROUTES } from "@/config";
 import ErrorAlert from "@/components/errorAlert";
-import { LoadingBox } from "@/components/loading";
+import { PageLoading } from "@/components/loading";
 import ChangePassword from "./changePassword";
 import Button from "@/components/button";
 import Alink from "@/components/link";
@@ -113,7 +113,7 @@ const SignInContent = () => {
               </Button>
             </div>
           ) : null}
-          <LoadingBox loading={loading} center />
+          <PageLoading loading={loading} />
         </>
       )}
     </div>
