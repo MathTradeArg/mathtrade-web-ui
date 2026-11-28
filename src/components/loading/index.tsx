@@ -4,14 +4,22 @@ import DiceLoader from "./DiceLoader";
 import { useOptions } from "@/store";
 import { COLLAPSE_KEY } from "@/components/sidebar/useSidebarNav";
 
-// Page-level loading: fixed over the content area, starting where the
-// sidebar ends (desktop; on mobile the sidebar is a bottom tab bar).
-export const PageLoading = ({ loading }: { loading?: boolean }) => {
+export const PageLoading = ({
+  loading,
+  withSidebar = false,
+}: {
+  loading?: boolean;
+  withSidebar?: boolean;
+}) => {
   const collapsed = useOptions((state) => Boolean(state.options?.[COLLAPSE_KEY]));
   return loading ? (
     <div
-      className="loading-box page"
-      style={{ "--sidebar-w": collapsed ? "76px" : "260px" } as CSSProperties}
+      className={clsx("loading-box page", { "with-sidebar": withSidebar })}
+      style={
+        withSidebar
+          ? ({ "--sidebar-w": collapsed ? "76px" : "260px" } as CSSProperties)
+          : undefined
+      }
     >
       <DiceLoader />
     </div>

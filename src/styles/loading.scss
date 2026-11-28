@@ -23,8 +23,9 @@ $dice-edge: color-mix(in srgb, #{$dice-sun} 45%, #{$dice-ink});
     backdrop-filter: none;
   }
 
-  // Page loading: blurs the whole content area (the viewport right of the
-  // sidebar, top to bottom), not just the section's box — including the
+  // Page loading: blurs the whole viewport, or the content area right of the
+  // sidebar on screens that have one (.with-sidebar), top to bottom, not just
+  // the section's box — including the
   // lists' sticky filter bar. Below the sidebar, the mobile tab bar and the
   // panels, which stay usable (see src/config/zIndex.js).
   &.page {
@@ -36,9 +37,16 @@ $dice-edge: color-mix(in srgb, #{$dice-sun} 45%, #{$dice-ink});
     background-color: rgba(255, 255, 255, 0.35);
     backdrop-filter: blur(3px);
 
+    .dice-loader {
+      position: relative;
+      top: auto;
+    }
+
     // Same breakpoint as the sidebar (Tailwind lg); widths set inline.
-    @media (min-width: 1024px) {
-      left: var(--sidebar-w, 260px);
+    &.with-sidebar {
+      @media (min-width: 1024px) {
+        left: var(--sidebar-w, 260px);
+      }
     }
   }
 

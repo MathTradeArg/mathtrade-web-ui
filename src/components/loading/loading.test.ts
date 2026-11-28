@@ -52,9 +52,21 @@ test("LoadingBox applies className, transparent, min, center and zIndex", () => 
   assert.match(markup, /--die-size:28px/);
 });
 
-test("PageLoading is the fixed page overlay offset by the sidebar width", () => {
+test("PageLoading without a sidebar covers the whole viewport", () => {
   const markup = html(createElement(PageLoading, { loading: true }));
   assert.match(markup, /class="loading-box page"/);
+  assert.doesNotMatch(markup, /with-sidebar/);
+  assert.doesNotMatch(markup, /--sidebar-w/);
+  assert.match(markup, /--die-size:40px/);
+});
+
+test("PageLoading with a sidebar is offset by the sidebar width", () => {
+  const markup = html(createElement(PageLoading, { loading: true, withSidebar: true }));
+  assert.match(markup, /class="loading-box page with-sidebar"/);
   assert.match(markup, /--sidebar-w:260px/);
   assert.match(markup, /--die-size:40px/);
+});
+
+test("PageLoading renders nothing while not loading, with or without a sidebar", () => {
+  assert.equal(html(createElement(PageLoading, { loading: false, withSidebar: true })), "");
 });

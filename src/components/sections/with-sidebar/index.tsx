@@ -122,7 +122,7 @@ const SectionWithSidebar = ({
           )}
         >
           {children}
-          <PageLoading loading={loading} />
+          <PageLoading loading={loading} withSidebar />
         </section>
       </Wrapper>
     </SidebarContextProvider>

@@ -8,12 +8,13 @@ const SectionCommon = ({
   size = "",
   title = "",
   description = null,
+  withSidebar = true,
 }) => {
   return (
     <Wrapper>
       <section className="relative overflow-clip border border-line rounded-main">
         {children}
-        <PageLoading loading={loading} />
+        <PageLoading loading={loading} withSidebar={withSidebar} />
       </section>
     </Wrapper>
   );

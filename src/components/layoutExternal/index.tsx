@@ -3,17 +3,26 @@ import "@/app/globals.css";
 import "@/styles/index.scss";
 import I18N from "@/i18n";
 import SectionCommon from "@/components/sections/common";
+import type { ReactNode } from "react";
 import PageHeader from "@/components/pageHeader";
 
 import Footer from "@/components/footer";
 
-const LayoutExternal = ({ title, subtitle, children }) => {
+const LayoutExternal = ({
+  title = "",
+  subtitle = "",
+  children = null,
+}: {
+  title?: string;
+  subtitle?: string;
+  children?: ReactNode;
+}) => {
   return (
     <div className="relative w-full min-h-screen pb-20">
       <a id="a-top" />
       <main className="relative py-main">
         <PageHeader title={title} subtitle={subtitle} variant="minimal" />
-        <SectionCommon>
+        <SectionCommon withSidebar={false}>
           <article className="p-9">{children}</article>
         </SectionCommon>
       </main>
