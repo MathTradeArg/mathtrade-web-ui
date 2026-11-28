@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import type { CSSProperties } from "react";
-import { PIPS, poseTransform, startDiceRoll } from "./dice";
+import { FACE_VALUES, PIPS, poseTransform, startDiceRoll } from "./dice";
 
 const FACES = [1, 2, 3, 4, 5, 6];
 const CELLS = [0, 1, 2, 3, 4, 5, 6, 7, 8];
@@ -38,7 +38,7 @@ const DiceLoader = ({ size = 40 }: { size?: number }) => {
           {FACES.map((face) => (
             <div className={`dice-face dice-face-${face}`} key={face}>
               {CELLS.map((cell) =>
-                PIPS[face].includes(cell) ? <i key={cell} /> : <span key={cell} />
+                PIPS[FACE_VALUES[face - 1]].includes(cell) ? <i key={cell} /> : <span key={cell} />
               )}
             </div>
           ))}

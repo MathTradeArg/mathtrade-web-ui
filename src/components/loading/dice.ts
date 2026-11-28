@@ -16,6 +16,8 @@ export const PIPS: Record<number, number[]> = {
   6: [0, 2, 3, 5, 6, 8],
 };
 
+export const FACE_VALUES: ReadonlyArray<number> = [2, 3, 5, 4, 1, 6];
+
 const ROLL_MS = 1100;
 const PAUSE_MS = 450;
 const EASING = "cubic-bezier(.3,.1,.3,1)";

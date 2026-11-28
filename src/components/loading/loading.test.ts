@@ -8,15 +8,36 @@ import DiceLoader from "./DiceLoader.tsx";
 const html = (node: any) => renderToStaticMarkup(node);
 const count = (source: string, pattern: RegExp) => (source.match(pattern) || []).length;
 
-test("DiceLoader renders six faces with 1 to 6 pips and is aria-hidden", () => {
+const POSITIONS = { front: 1, right: 2, back: 3, left: 4, top: 5, bottom: 6 };
+
+const pipsByPosition = () => {
+  const markup = html(createElement(DiceLoader));
+  const pips: Record<string, number> = {};
+  for (const [name, position] of Object.entries(POSITIONS)) {
+    const face = markup.match(
+      new RegExp(`<div class="dice-face dice-face-${position}">(.*?)</div>`)
+    );
+    assert.ok(face, `position ${name}`);
+    pips[name] = count(face[1], /<i><\/i>/g);
+  }
+  return pips;
+};
+
+test("DiceLoader renders six faces and is aria-hidden", () => {
   const markup = html(createElement(DiceLoader));
   assert.match(markup, /^<div[^>]*aria-hidden="true"/);
   assert.equal(count(markup, /class="[^"]*\bdice-face\b/g), 6);
-  for (let n = 1; n <= 6; n++) {
-    const face = markup.match(new RegExp(`<div class="dice-face dice-face-${n}">(.*?)</div>`));
-    assert.ok(face, `face ${n}`);
-    assert.equal(count(face[1], /<i><\/i>/g), n);
-  }
+  assert.deepEqual(Object.values(pipsByPosition()).sort(), [1, 2, 3, 4, 5, 6]);
+});
+
+test("DiceLoader opposite faces add up to 7 and the corner reads 1-2-3 counterclockwise", () => {
+  const pips = pipsByPosition();
+  assert.equal(pips.front + pips.back, 7);
+  assert.equal(pips.right + pips.left, 7);
+  assert.equal(pips.top + pips.bottom, 7);
+  assert.equal(pips.top, 1);
+  assert.equal(pips.front, 2);
+  assert.equal(pips.right, 3);
 });
 
 test("DiceLoader exposes the size as a CSS variable", () => {
