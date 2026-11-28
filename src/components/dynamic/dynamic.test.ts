@@ -27,3 +27,22 @@ test("InlineLoading renders the dice centered with the given minimum height", ()
   assert.match(markup, /min-height:200px/);
   assert.match(markup, /dice-fallback/);
 });
+
+test("InlineLoading exposes the minimum height and die height as CSS variables", () => {
+  const markup = html(createElement(InlineLoading, { minHeight: 200, size: 40 }));
+  assert.match(markup, /min-height:200px/);
+  assert.match(markup, /--min-h:200px/);
+  assert.match(markup, /--die-h:78px/);
+});
+
+test("Dynamic fallback passes its height to the CSS variable and keeps min-height", () => {
+  const markup = html(createElement(FallbackLoading, { h: 800 }));
+  assert.match(markup, /min-height:800px/);
+  assert.match(markup, /--min-h:800px/);
+});
+
+test("InlineLoading accepts string heights", () => {
+  const markup = html(createElement(InlineLoading, { minHeight: "50vh" }));
+  assert.match(markup, /min-height:50vh/);
+  assert.match(markup, /--min-h:50vh/);
+});

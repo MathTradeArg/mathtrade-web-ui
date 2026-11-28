@@ -60,7 +60,16 @@ export const InlineLoading = ({
   minHeight?: number | string;
   size?: number;
 }) => (
-  <div className="dice-fallback" style={{ minHeight }}>
+  <div
+    className="dice-fallback"
+    style={
+      {
+        minHeight,
+        "--min-h": typeof minHeight === "number" ? `${minHeight}px` : minHeight,
+        "--die-h": `${size * 1.95}px`,
+      } as CSSProperties
+    }
+  >
     <DiceLoader size={size} />
   </div>
 );
