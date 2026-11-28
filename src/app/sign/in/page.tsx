@@ -113,7 +113,7 @@ const SignInContent = () => {
               </Button>
             </div>
           ) : null}
-          <LoadingBox loading={loading} />
+          <LoadingBox loading={loading} center />
         </>
       )}
     </div>

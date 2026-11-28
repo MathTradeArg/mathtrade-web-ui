@@ -52,6 +52,11 @@ test("LoadingBox applies className, transparent, min, center and zIndex", () => 
   assert.match(markup, /--die-size:28px/);
 });
 
+test("LoadingBox adds the center class only when center is set", () => {
+  assert.match(html(createElement(LoadingBox, { loading: true, center: true })), /class="loading-box center"/);
+  assert.doesNotMatch(html(createElement(LoadingBox, { loading: true })), /center/);
+});
+
 test("PageLoading without a sidebar covers the whole viewport", () => {
   const markup = html(createElement(PageLoading, { loading: true }));
   assert.match(markup, /class="loading-box page"/);

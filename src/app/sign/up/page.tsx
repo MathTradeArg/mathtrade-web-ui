@@ -237,7 +237,7 @@ const SignUpPage = () => {
           </div>
         </>
       )}
-      <LoadingBox loading={loading} />
+      <LoadingBox loading={loading} center />
     </div>
   );
 };

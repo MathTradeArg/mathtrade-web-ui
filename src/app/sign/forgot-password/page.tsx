@@ -61,7 +61,7 @@ const ForgotPasswordPage = () => {
               <I18N id="btn.Cancel" />
             </Button>
           </div>
-          <LoadingBox loading={loading} />
+          <LoadingBox loading={loading} center />
         </>
       ) : (
         <div className="text-center">

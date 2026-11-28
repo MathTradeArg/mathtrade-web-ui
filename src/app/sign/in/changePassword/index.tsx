@@ -63,7 +63,7 @@ const ChangePassword = ({
           </Button>
         </div>
       </Form>
-      <LoadingBox loading={loading} />
+      <LoadingBox loading={loading} center />
     </>
   ) : (
     <div className="text-center mb-4">

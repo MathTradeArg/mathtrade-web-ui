@@ -67,9 +67,14 @@ $dice-edge: color-mix(in srgb, #{$dice-sun} 45%, #{$dice-ink});
 .loading-box.min .dice-loader {
   top: 110px;
 }
-.loading-box.center .dice-loader {
-  top: 50%;
-  margin-top: calc(var(--die-size) * -0.975);
+.loading-box.center {
+  padding-top: 0;
+  place-content: center;
+
+  .dice-loader {
+    position: relative;
+    top: auto;
+  }
 }
 .dice-hop {
   position: relative;
