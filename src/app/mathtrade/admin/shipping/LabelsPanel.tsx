@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import Button from "@/components/button";
 import I18N from "@/i18n";
+import { InlineLoading } from "@/components/loading";
 import { shippingItemToTag } from "@/components/results/printTags/shippingTags";
 import type { Tag } from "@/components/results/printTags/types";
 import type { ShippingItem } from "./types";
@@ -11,6 +12,7 @@ import type { ShippingItem } from "./types";
 // keeps it out of the page bundle until the labels are opened.
 const PrintTags = dynamic(() => import("@/components/results/printTags"), {
   ssr: false,
+  loading: () => <InlineLoading minHeight={120} />,
 });
 
 // Shipping labels (PDF) for the items of one origin or one sender (what that

@@ -142,3 +142,14 @@ $dice-edge: color-mix(in srgb, #{$dice-sun} 45%, #{$dice-ink});
   border-radius: 50%;
   background: rgba($dice-ink, 0.18);
 }
+.dice-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0;
+
+  .dice-loader {
+    position: relative;
+    top: auto;
+  }
+}

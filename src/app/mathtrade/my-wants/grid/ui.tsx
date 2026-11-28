@@ -7,6 +7,7 @@ import Cell from "@/components/want-components/grid/cell";
 import EmptyList from "@/components/emptyList";
 import I18N from "@/i18n";
 import Wrapper from "@/components/wrapper";
+import { InlineLoading } from "@/components/loading";
 import { PRIVATE_ROUTES } from "@/config/routes";
 
 const GridUI = () => {
@@ -145,7 +146,7 @@ const GridUI = () => {
               </tbody>
             </table>
           ) : (
-            <div className="text-center pt-5">Cargando...</div>
+            <InlineLoading minHeight={200} />
           )}
         </div>
       </div>

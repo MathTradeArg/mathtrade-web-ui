@@ -2,6 +2,7 @@
 import { useMemo } from "react";
 import dynamic from "next/dynamic";
 import I18N from "@/i18n";
+import { InlineLoading } from "@/components/loading";
 import { shippingItemToTag } from "@/components/results/printTags/shippingTags";
 import type { ShippingItem, ShippingLoc } from "@/app/mathtrade/admin/shipping/types";
 
@@ -9,6 +10,7 @@ import type { ShippingItem, ShippingLoc } from "@/app/mathtrade/admin/shipping/t
 // keeps it out of the results bundle for members without labels.
 const PrintTags = dynamic(() => import("@/components/results/printTags"), {
   ssr: false,
+  loading: () => <InlineLoading minHeight={120} />,
 });
 
 export type MyShippingLabelsData = {

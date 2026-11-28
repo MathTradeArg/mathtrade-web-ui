@@ -52,3 +52,15 @@ export const LoadingBox = ({
     </div>
   ) : null;
 };
+
+export const InlineLoading = ({
+  minHeight = 200,
+  size = 40,
+}: {
+  minHeight?: number | string;
+  size?: number;
+}) => (
+  <div className="dice-fallback" style={{ minHeight }}>
+    <DiceLoader size={size} />
+  </div>
+);
